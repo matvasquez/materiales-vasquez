@@ -25,7 +25,12 @@ const formatter = new Intl.NumberFormat("en-US", {
 const PreviewItem = ({ row_id, articulo_id, image_url, name, price }) => {
   return (
     <ArticleStyled>
-      <Link href={`/detalles/${articulo_id.replace(/ /gi, "space")}`} passHref>
+      <Link
+        href={`/detalles/${articulo_id
+          .replace(/ /gi, "space")
+          .replace(/\//gi, "slash")}`}
+        passHref
+      >
         <AnchorStyled aria-label={`Ver detalles de ${name}`}>
           <img
             src={`data:image/jpg;base64,${image_url}`}

@@ -53,11 +53,11 @@ export const getStaticPaths = async () => {
 
   const paths = data.map(({ articulo_id }) => ({
     params: {
-      id: articulo_id.replace(/ /gi, "space"),
+      id: articulo_id.replace(/ /gi, "space").replace(/\//gi, "slash"),
     },
   }));
 
-  console.log("paths: ", paths);
+  // console.log("paths: ", paths);
 
   return {
     paths,
@@ -97,7 +97,7 @@ const ProductPage = ({
 }) => {
   const [yesItIsMineLike] = useMyItems(product.articulo_id, itemsIliked);
   const [yesItIsMineCart] = useMyItems(product.articulo_id, myCart);
-  const [stock, setStock] = useState(0);
+  const [stock, setStock] = useState("");
 
   useEffect(async () => {
     window
@@ -217,9 +217,9 @@ const ProductPage = ({
                 `${stock} disponibles`
               ) : (
                 <>
-                  {stock === 0
-                    ? "Sin existencias"
-                    : `Solo quedan ${stock} disponibles`}
+                  {stock
+                    ? `Solo quedan ${stock} disponibles`
+                    : "Sin existencias"}
                 </>
               )}
             </Paragraph>
