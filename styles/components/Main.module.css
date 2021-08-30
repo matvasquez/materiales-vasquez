@@ -1,0 +1,21 @@
+.MainStyle {
+  width: 100%;
+  padding: 1rem;
+  margin-top: 4.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+@media (min-width: 750px) {
+  .MainStyle {
+    margin-top: 8rem;
+  }
+}
+@media (min-width: 1200px) {
+  .MainStyle {
+    padding: 2rem 1rem;
+    margin-top: 19rem;
+  }
+}

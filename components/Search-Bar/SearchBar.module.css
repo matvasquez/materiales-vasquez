@@ -1,0 +1,61 @@
+.InputSearch {
+  grid-column: 5 / span 1;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: grid;
+  grid-template-columns: 5fr 1fr;
+  justify-items: center;
+  align-items: center;
+  transition: 0.1s ease-in-out all;
+  position: relative;
+}
+
+.StartSearching {
+  grid-column: 2 / span 4;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 5fr 1fr;
+  justify-items: center;
+  align-items: center;
+  border-radius: 1rem;
+  border: 0.1rem solid var(--blue);
+  transition: 0.1s ease-in-out all;
+}
+
+.InputHidden {
+  visibility: hidden;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+.InputHidden::placeholder {
+  visibility: hidden;
+}
+
+.InputStyled {
+  visibility: visible;
+  width: 100%;
+  padding: 0.2rem;
+  padding-left: 0.5rem;
+  font-size: 1.4rem;
+  color: var(--text);
+  background: none;
+  border: none;
+  outline: none;
+  transition: 0.3s ease-in-out all;
+}
+.InputStyled::placeholder {
+  color: var(--text);
+  font-size: 1.4rem;
+}
+.InputStyledinput:focus {
+  background-color: red;
+}
+
+.IconContainer {
+  width: 1.7rem;
+  height: 1.7rem;
+  margin: 0;
+}
