@@ -92,9 +92,9 @@ export const LoadMoreButton = styled.button`
     background-color: var(--blue);
     color: var(--yellow);
   }
-  @media (min-width: 1200px) {
-    width: fit-content;
-    padding: 0.5rem 2rem;
+  @media (min-width: 750px) {
+    width: 50%;
+    margin: 5rem auto 2rem;
   }
 `;
 

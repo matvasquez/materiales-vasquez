@@ -40,7 +40,7 @@ const MainMenu = ({ isOpen, handleOpen }) => {
       ></CloseButton>
       <UlStyled rows={apartments.length + 2}>
         <LiStyled onClick={() => handleOpen()}>
-          <Link href={`/todos/tienda`} passHref>
+          <Link href={`/tienda`} passHref>
             <AnchorStyled>Todos los productos</AnchorStyled>
           </Link>
           <LineLink />

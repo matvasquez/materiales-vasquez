@@ -31,7 +31,14 @@ const ArticlesSection = ({ title, products, route }) => {
           Cargar mas
         </LoadMoreButton>
       ) : (
-        <Link href={`/todos/${title.replace(/ /gi, "-")}`} passHref>
+        <Link
+          href={
+            title === "Productos Nuevos"
+              ? "tienda"
+              : `/todos-los/${title.replace(/ /gi, "-")}`
+          }
+          passHref
+        >
           <ButtonMore>Ver todos</ButtonMore>
         </Link>
       )}

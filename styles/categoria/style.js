@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 // -------SectionEmpty
 
-export const SectionEmpty = styled.main`
+export const SectionEmpty = styled.section`
   width: 100%;
   min-height: 50vh;
   padding: 2rem;
@@ -11,10 +11,19 @@ export const SectionEmpty = styled.main`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  @media (min-width: 750px) and (orientation: portrait) {
+    min-height: 55vh;
+  }
+  @media (min-width: 1000px) and (orientation: portrait) {
+    min-height: 65vh;
+  }
+  @media (min-width: 1200px) and (orientation: landscape) {
+    min-height: 35vh;
+  }
 `;
 
 export const TitleSection = styled.h1`
-  font-size: 2.2rem;
+  font-size: 2rem;
   margin: 2rem auto;
 `;
 

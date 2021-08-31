@@ -37,13 +37,12 @@ export const Item = styled.div`
   }
   @media (min-width: 750px) {
     height: 35rem;
+    img {
+      object-fit: cover;
+    }
   }
   @media (min-width: 1200px) {
     border-radius: 2rem;
-    img {
-      width: 100%;
-      object-fit: cover;
-    }
   }
 `;
 
@@ -72,18 +71,25 @@ export const Text = styled.p`
   color: var(--background);
   border: 0.1rem solid #fff;
   border-radius: 0.5rem;
+  background: linear-gradient(
+    90deg,
+    rgba(18, 89, 230, 0) 0.2%,
+    var(--blue) 78%
+  );
   z-index: 4;
   span {
     font-weight: 700;
     color: var(--yellow);
   }
   @media (min-width: 750px) {
-    font-size: 3rem;
+    font-size: 4rem;
   }
   @media (min-width: 1200px) {
-    width: 35%;
-    font-size: 5rem;
+    width: 45%;
+    padding: 1rem;
+    font-size: 6rem;
     font-weight: 700;
-    top: calc(50% - 5.5rem);
+    margin-right: 5rem;
+    border-radius: 1rem;
   }
 `;

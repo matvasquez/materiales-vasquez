@@ -61,12 +61,6 @@ export const GlobalStyles = createGlobalStyle`
           display: none;
         }
     }
-
-    #__next{
-      min-height: 100vh;
-      display: grid;
-      grid-template-rows: auto 1fr auto;
-    }
 `;
 
 export const theme = {
