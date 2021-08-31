@@ -9,7 +9,7 @@ export const MainInfo = styled.section`
   justify-content: space-between;
   align-items: center;
   background-color: var(--white);
-  border-radius: 2rem 2rem 0 0;
+  border-radius: 2rem;
   position: relative;
   overflow: hidden;
   @media (min-width: 750px) {
@@ -40,7 +40,7 @@ export const ImageContainer = styled.div`
   img {
     width: 100%;
     height: 100%;
-    object-fit: fill;
+    object-fit: contain;
   }
   @media (min-width: 375px) {
     margin-top: 10%;
@@ -254,7 +254,8 @@ export const PreviewItemContainer = styled.div`
   width: 100%;
   display: grid;
   grid-template-columns: repeat(6, 50%);
-  grid-column-gap: 2rem;
+  grid-auto-rows: 27rem;
+  grid-gap: 1rem;
   justify-items: center;
   align-content: center;
 
@@ -269,17 +270,16 @@ export const PreviewItemContainer = styled.div`
   @media (min-width: 750px) {
     width: 95%;
     margin: 0 auto;
-    grid-template-columns: repeat(4, 1fr);
-    grid-gap: 1rem;
+    grid-template-columns: repeat(6, 27%);
+    grid-auto-rows: 30rem;
+  }
+  @media (min-width: 1000px) {
+    grid-template-columns: repeat(6, 25%);
+    grid-auto-rows: 33rem;
   }
   @media (min-width: 1200px) {
     width: 100%;
-    grid-gap: 2rem;
+    grid-template-columns: repeat(6, 22%);
+    grid-auto-rows: 35rem;
   }
 `;
-
-//---------- MainEmpty
-
-// export const MainEmpty = styled(MainStyled)`
-//   justify-content: center;
-// `;

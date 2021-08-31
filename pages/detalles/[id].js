@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import Link from "next/link";
 import { connect } from "react-redux";
 import Head from "next/head";
@@ -18,6 +17,7 @@ import {
 //Components
 import { HeartEmpty } from "../../components/IconsSVG/HeartEmpty";
 import { HeartFull } from "../../components/IconsSVG/HeartFull";
+import PreviewItem from "../../components/Preview-Item/PreviewItem";
 
 // Styles
 import styles from "../../styles/components/Main.module.css";
@@ -42,7 +42,6 @@ import {
   RelatedArticles,
   RelatedTitle,
   PreviewItemContainer,
-  MainEmpty,
 } from "../../styles/detalles/style";
 
 export const getStaticPaths = async () => {
@@ -57,8 +56,6 @@ export const getStaticPaths = async () => {
     },
   }));
 
-  // console.log("paths: ", paths);
-
   return {
     paths,
     fallback: false,
@@ -66,39 +63,65 @@ export const getStaticPaths = async () => {
 };
 
 export const getStaticProps = async ({ params }) => {
-  console.log("params id:", params.id);
-  const response = await fetch(
+  // Solicita los datos del articulo principal
+  const responseDetails = await fetch(
     `https://api-vasquez.herokuapp.com/api/detalles/${params.id}`
-    // `http://localhost:3015/api/detalles/${params.id}`
   );
-  const { data } = await response.json();
+  const { data: product } = await responseDetails.json();
+
+  // Solicita articulos relacionados por nombre
+  const responseRelatedByName = await fetch(
+    `https://api-vasquez.herokuapp.com/api/related-by-name/${
+      product[0].name.split(" ")[0]
+    }?first=1&last=6`
+  );
+  const { data: related } = await responseRelatedByName.json();
+
+  // Solicita articulos relacionados por categoria
+  const responseRelatedByCategory = await fetch(
+    `https://api-vasquez.herokuapp.com/api/related-by-category/${product[0].category.replace(
+      / /gi,
+      "-"
+    )}?first=1&last=6`
+  );
+  const { productsByCategory: relatedCategory } =
+    await responseRelatedByCategory.json();
 
   return {
     props: {
-      product: data[0],
+      product: product[0],
+      related: related,
+      relatedCategory: relatedCategory,
     },
   };
 };
 
-const ProductPage = ({
-  product,
+const ProductPage = (props) => {
+  const {
+    product,
+    related,
+    relatedCategory,
 
-  myCart,
-  articles,
-  itemsIliked,
-  carIsEmpty,
-  carIsOpen,
+    myCart,
+    itemsIliked,
+    carIsEmpty,
+    carIsOpen,
 
-  setMyCart,
-  setPricesToCart,
-  setIitemsIliked,
-  setDeleteFavorite,
-  setCloseCart,
-}) => {
+    setMyCart,
+    setPricesToCart,
+    setIitemsIliked,
+    setDeleteFavorite,
+    setCloseCart,
+  } = props;
+
+  // Hook que verifica si el producto esta entre los favoritos
   const [yesItIsMineLike] = useMyItems(product.articulo_id, itemsIliked);
+  // Hook que verifica si el producto esta en el carrito
   const [yesItIsMineCart] = useMyItems(product.articulo_id, myCart);
+  // Almacena el stock
   const [stock, setStock] = useState("");
 
+  // Solicita el Stock
   useEffect(async () => {
     window
       .fetch(
@@ -129,10 +152,12 @@ const ProductPage = ({
     setDeleteFavorite(product.articulo_id);
   };
 
+  // Formatea el precio
   const formatter = new Intl.NumberFormat("en-US", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
+
   return (
     <>
       <Head>
@@ -212,8 +237,8 @@ const ProductPage = ({
                 ? product.description.slice(0, 99).concat("...").toLowerCase()
                 : product.description.toLowerCase()}
             </Paragraph>
-            <Paragraph lowStock={stock < 10 && true}>
-              {stock > 10 ? (
+            <Paragraph lowStock={stock <= 10 && true}>
+              {/* {stock > 10 ? (
                 `${stock} disponibles`
               ) : (
                 <>
@@ -221,6 +246,15 @@ const ProductPage = ({
                     ? `Solo quedan ${stock} disponibles`
                     : "Sin existencias"}
                 </>
+              )} */}
+              {stock ? (
+                <>
+                  {stock > 10
+                    ? `${stock} disponibles`
+                    : `Solo quedan ${stock} disponibles`}
+                </>
+              ) : (
+                <>{stock === 0 ? "Sin existencias" : "Consultando..."}</>
               )}
             </Paragraph>
             <Categories>
@@ -249,6 +283,44 @@ const ProductPage = ({
             )}
           </Info>
         </MainInfo>
+        {related.length > 0 && (
+          <RelatedArticles>
+            <RelatedTitle>
+              Relacionados
+              {/* Más sobre<span>{product.name.toLowerCase()}</span> */}
+            </RelatedTitle>
+            <PreviewItemContainer>
+              <>
+                {related.map((article) => (
+                  <PreviewItem
+                    key={article.articulo_id}
+                    {...article}
+                    isRelated={true}
+                  />
+                ))}
+              </>
+            </PreviewItemContainer>
+          </RelatedArticles>
+        )}
+        {relatedCategory.length > 0 && (
+          <RelatedArticles>
+            <RelatedTitle>
+              Puede que te interese{" "}
+              {/* <span>{product.category.toLowerCase()}</span> */}
+            </RelatedTitle>
+            <PreviewItemContainer>
+              <>
+                {relatedCategory.map((article) => (
+                  <PreviewItem
+                    key={article.articulo_id}
+                    {...article}
+                    isRelated={true}
+                  />
+                ))}
+              </>
+            </PreviewItemContainer>
+          </RelatedArticles>
+        )}
       </main>
     </>
   );

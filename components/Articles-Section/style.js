@@ -38,15 +38,14 @@ export const ItemsContainer = styled.section`
   grid-gap: 1rem;
   align-items: stretch;
 
-  /* @media (min-width: 750px) {
-    display: grid;
+  @media (min-width: 750px) {
     grid-template-columns: repeat(auto-fill, 32%);
-    grid-gap: 1rem;
-    justify-content: center;
+    grid-auto-rows: 30rem;
   }
   @media (min-width: 1200px) {
     grid-template-columns: repeat(5, 1fr);
-  } */
+    grid-auto-rows: 35rem;
+  }
 `;
 
 export const ButtonMore = styled.a`

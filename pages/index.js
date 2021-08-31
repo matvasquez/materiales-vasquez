@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import fetch from "isomorphic-unfetch";
+import { connect } from "react-redux";
 
 // Components
 import Slider from "../components/Slider/Slider";
+import ArticlesLiked from "../components/Articles-Liked/ArticlesLiked";
 import ArticlesSection from "../components/Articles-Section/index";
 
 // Styles
@@ -44,7 +46,7 @@ export async function getStaticProps() {
   };
 }
 
-const index = (props) => {
+const HomePage = (props) => {
   const {
     newProducts,
     productsByName,
@@ -53,6 +55,7 @@ const index = (props) => {
     description,
     image,
     ogurl,
+    itemsIliked,
   } = props;
   return (
     <>
@@ -122,6 +125,13 @@ const index = (props) => {
 
       <main className={styles.MainStyle}>
         <Slider />
+        {itemsIliked.length > 0 && (
+          <ArticlesLiked
+            key={"Productos que te gustan"}
+            title="Productos que te gustan"
+            articles={itemsIliked}
+          />
+        )}
         {newProducts && (
           <ArticlesSection title="Productos Nuevos" products={newProducts} />
         )}
@@ -139,4 +149,10 @@ const index = (props) => {
   );
 };
 
-export default index;
+const mapStateToProps = (state) => {
+  return {
+    itemsIliked: state.itemsIliked,
+  };
+};
+
+export default connect(mapStateToProps, null)(HomePage);
