@@ -39,7 +39,7 @@ const MainMenu = ({ isOpen, handleOpen }) => {
         aria-label="Botón cerrar menú"
       ></CloseButton>
       <UlStyled rows={apartments.length + 2}>
-        <LiStyled onClick={() => handleClick()}>
+        <LiStyled onClick={() => handleOpen()}>
           <Link href={`/todos/tienda`} passHref>
             <AnchorStyled>Todos los productos</AnchorStyled>
           </Link>
@@ -47,9 +47,9 @@ const MainMenu = ({ isOpen, handleOpen }) => {
         </LiStyled>
         {apartments &&
           apartments.map((menuItem) => (
-            <LiStyled key={menuItem.row_id} onClick={() => handleClick()}>
+            <LiStyled key={menuItem.row_id} onClick={() => handleOpen()}>
               <Link
-                href={`/todos/${menuItem.category.replace(/ /gi, "-")}`}
+                href={`/categoria/${menuItem.category.replace(/ /gi, "-")}`}
                 passHref
               >
                 <AnchorStyled>{menuItem.category}</AnchorStyled>

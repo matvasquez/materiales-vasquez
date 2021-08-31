@@ -44,6 +44,7 @@ import {
   PreviewItemContainer,
 } from "../../styles/detalles/style";
 
+// Genera las rutas de el detalle de todos los productos
 export const getStaticPaths = async () => {
   const response = await fetch(
     "https://api-vasquez.herokuapp.com/api/products-list"

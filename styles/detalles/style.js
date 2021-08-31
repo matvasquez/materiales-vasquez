@@ -21,7 +21,6 @@ export const MainInfo = styled.section`
     height: fit-content;
     margin: 2rem auto;
     padding: 1rem;
-    position: initial;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;

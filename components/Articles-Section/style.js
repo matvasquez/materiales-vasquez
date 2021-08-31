@@ -76,6 +76,28 @@ export const ButtonMore = styled.a`
   }
 `;
 
+export const LoadMoreButton = styled.button`
+  width: 80%;
+  padding: 0.5rem;
+  margin: 2rem auto;
+  font-size: 1.6rem;
+  font-weight: 600;
+  background: var(--yellow);
+  border: none;
+  border-radius: 1rem;
+  outline: none;
+  cursor: pointer;
+  transition: 0.3s ease-in-out all;
+  &:hover {
+    background-color: var(--blue);
+    color: var(--yellow);
+  }
+  @media (min-width: 1200px) {
+    width: fit-content;
+    padding: 0.5rem 2rem;
+  }
+`;
+
 // -------SectionEmpty
 
 export const SectionEmpty = styled.section`

@@ -1,8 +1,9 @@
 import styled from "styled-components";
 
 export const AnchorStyled = styled.a`
+  /* grid-row: 1 / span 1; */
   width: 100%;
-  height: 100%;
+  height: 60%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -106,12 +107,18 @@ export const ArticleStyled = styled.article`
   height: 100%;
   padding: 0.5rem;
   background-color: var(--white);
-  display: grid;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  /* display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 7fr 1fr 1fr 1fr;
   grid-gap: 0.5rem;
   justify-items: center;
-  align-items: center;
+  align-items: center; */
 
   border-radius: 1.5rem;
   cursor: pointer;

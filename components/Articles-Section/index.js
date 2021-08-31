@@ -10,10 +10,10 @@ import {
   TitleSection,
   ItemsContainer,
   ButtonMore,
-  SectionEmpty,
+  LoadMoreButton,
 } from "./style";
 
-const ArticlesSection = ({ title, products }) => {
+const ArticlesSection = ({ title, products, route }) => {
   return (
     <SectionStyled>
       <TitleSection>{title}</TitleSection>
@@ -23,9 +23,18 @@ const ArticlesSection = ({ title, products }) => {
             <PreviewItem key={product.articulo_id} {...product} index={i} />
           ))}
       </ItemsContainer>
-      <Link href={`/todos/${title.replace(/ /gi, "-")}`} passHref>
-        <ButtonMore>Ver todos</ButtonMore>
-      </Link>
+      {route ? (
+        <LoadMoreButton
+          type="button"
+          onClick={() => console.log("Cargar mas...")}
+        >
+          Cargar mas
+        </LoadMoreButton>
+      ) : (
+        <Link href={`/todos/${title.replace(/ /gi, "-")}`} passHref>
+          <ButtonMore>Ver todos</ButtonMore>
+        </Link>
+      )}
     </SectionStyled>
   );
 };

@@ -21,7 +21,6 @@ const Header = ({ itemsIliked, myCart }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOpen = () => {
-    console.log("Click");
     window.innerWidth < 1100 && setIsOpen(!isOpen);
   };
 
