@@ -63,6 +63,7 @@ export const getStaticPaths = async () => {
 };
 
 export const getStaticProps = async ({ params }) => {
+  console.log("params: ", params);
   // Solicita los datos del articulo principal
   const responseDetails = await fetch(
     `https://api-vasquez.herokuapp.com/api/detalles/${params.id}`
@@ -99,8 +100,8 @@ export const getStaticProps = async ({ params }) => {
 const ProductPage = (props) => {
   const {
     product,
-    related,
-    relatedCategory,
+    related = [],
+    relatedCategory = [],
 
     myCart,
     itemsIliked,
@@ -228,25 +229,25 @@ const ProductPage = (props) => {
           </ImageContainer>
           <Info>
             <NameAndPrice>
-              <Name>{product.name}</Name>
-              <Price>${formatter.format(product.price)}</Price>
+              {product.name && <Name>{product.name}</Name>}
+              {product.price && (
+                <Price>${formatter.format(product.price)}</Price>
+              )}
             </NameAndPrice>
-            <DescriptionH3>Descripción</DescriptionH3>
-            <Paragraph>
-              {product.description.length > 99
-                ? product.description.slice(0, 99).concat("...").toLowerCase()
-                : product.description.toLowerCase()}
-            </Paragraph>
+            {product.description && (
+              <>
+                <DescriptionH3>Descripción</DescriptionH3>
+                <Paragraph>
+                  {product.description.length > 99
+                    ? product.description
+                        .slice(0, 99)
+                        .concat("...")
+                        .toLowerCase()
+                    : product.description.toLowerCase()}
+                </Paragraph>
+              </>
+            )}
             <Paragraph lowStock={stock <= 10 && true}>
-              {/* {stock > 10 ? (
-                `${stock} disponibles`
-              ) : (
-                <>
-                  {stock
-                    ? `Solo quedan ${stock} disponibles`
-                    : "Sin existencias"}
-                </>
-              )} */}
               {stock ? (
                 <>
                   {stock > 10

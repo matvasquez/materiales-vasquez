@@ -35,13 +35,13 @@ const Header = ({ itemsIliked, myCart }) => {
     // input.current.select();
   };
 
-  useEffect(() => {
-    console.log("Header itemsIliked: ", itemsIliked);
-  }, [itemsIliked]);
+  // useEffect(() => {
+  //   console.log("Header itemsIliked: ", itemsIliked);
+  // }, [itemsIliked]);
 
-  useEffect(() => {
-    console.log("Header myCart: ", myCart);
-  }, [myCart]);
+  // useEffect(() => {
+  //   console.log("Header myCart: ", myCart);
+  // }, [myCart]);
 
   return (
     <HeaderStyled>
