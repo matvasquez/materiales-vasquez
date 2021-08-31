@@ -63,7 +63,6 @@ export const getStaticPaths = async () => {
 };
 
 export const getStaticProps = async ({ params }) => {
-  console.log("params: ", params);
   // Solicita los datos del articulo principal
   const responseDetails = await fetch(
     `https://api-vasquez.herokuapp.com/api/detalles/${params.id}`
@@ -124,9 +123,14 @@ const ProductPage = (props) => {
 
   // Solicita el Stock
   useEffect(async () => {
+    // .fetch(
+    //   `https://pruebas-next-sql.vercel.app/api/stock/${product.articulo_id}`
+    // )
     window
       .fetch(
-        `https://pruebas-next-sql.vercel.app/api/stock/${product.articulo_id}`
+        `https://api-vasquez.herokuapp.com/api/stock/${product.articulo_id
+          .replace(/ /gi, "space")
+          .replace(/\//gi, "slash")}`
       )
       .then((response) => response.json())
       .then(({ data }) => {
