@@ -71,9 +71,9 @@ export const getStaticProps = async ({ params }) => {
 
   // Solicita articulos relacionados por nombre
   const responseRelatedByName = await fetch(
-    `https://api-vasquez.herokuapp.com/api/related-by-name/${
-      product[0].name.split(" ")[0]
-    }?first=1&last=6`
+    `https://api-vasquez.herokuapp.com/api/related-by-name/${product[0].name
+      .split(" ")[0]
+      .replace(/\//gi, "slash")}?first=1&last=6`
   );
   const { data: related } = await responseRelatedByName.json();
 

@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import Slider from "../components/Slider/Slider";
 import ArticlesLiked from "../components/Articles-Liked/ArticlesLiked";
 import ArticlesSection from "../components/Articles-Section/index";
+import Brands from "../components/Brands/Brands";
 
 // Styles
 import styles from "../styles/components/Main.module.css";
@@ -144,6 +145,7 @@ const HomePage = (props) => {
             products={productsByPrice}
           />
         )}
+        <Brands />
       </main>
     </>
   );
