@@ -16,6 +16,14 @@ export const UserInfo = styled.section`
     grid-template-columns: 2fr 1fr;
     grid-template-rows: repeat(2, 5rem);
   }
+
+  @media (min-width: 1000px) {
+    width: 80%;
+  }
+  @media (min-width: 1000px) and (orientation: portrait) {
+  }
+  @media (min-width: 1000px) and (orientation: landscape) {
+  }
 `;
 
 export const ImageContainer = styled.div`
@@ -64,7 +72,7 @@ export const ButtonLogOut = styled.button`
   transition: 0.3s ease-in-out all;
   &:hover {
     color: var(--background);
-    background-color: var(--red);
+    background-color: #ff131d;
   }
 `;
 
@@ -78,4 +86,13 @@ export const SectionIliked = styled.section`
   align-items: center;
   background-color: var(--white);
   border-radius: 2rem;
+  @media (min-width: 1000px) {
+    width: 80%;
+  }
+  @media (min-width: 1000px) and (orientation: portrait) {
+    min-height: 50vh;
+    margin: 3rem auto;
+  }
+  @media (min-width: 1000px) and (orientation: landscape) {
+  }
 `;

@@ -36,10 +36,13 @@ const formatter = new Intl.NumberFormat("en-US", {
 const PreviewItem = (props) => {
   const {
     articulo_id,
-    image_url,
     name,
+    description,
     price,
+    image_url,
+
     index,
+
     itemsIliked,
     myCart,
     setIitemsIliked,
@@ -56,13 +59,20 @@ const PreviewItem = (props) => {
 
   // Envia al Carrito y a la lista de precios
   const handleSetCart = () => {
-    setMyCart({ articulo_id, image_url, name, price, initialQuantity: 1 });
+    setMyCart({
+      articulo_id,
+      name,
+      description,
+      image_url,
+      price,
+      initialQuantity: 1,
+    });
     setPricesToCart(price);
   };
 
   // Envia a favoritos
   const handleLike = () => {
-    setIitemsIliked({ articulo_id, image_url, name, price });
+    setIitemsIliked({ articulo_id, name, description, image_url, price });
   };
 
   // Elimina de favoritos

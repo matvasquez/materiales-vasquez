@@ -2,13 +2,7 @@ import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import fetch from "isomorphic-unfetch";
 import { connect } from "react-redux";
-import {
-  signIn,
-  signOut,
-  useSession,
-  getProviders,
-  getSession,
-} from "next-auth/client";
+import { signIn, getProviders, getSession } from "next-auth/client";
 
 // Components
 import Slider from "../components/Slider/Slider";
@@ -147,7 +141,7 @@ const HomePage = (props) => {
       <main className={styles.MainStyle}>
         <h1>Registro de usuario</h1>
         <SectionStyled>
-          <Container style={{ margin: "0 0 20% 0" }}>
+          <Container>
             <Text>Aún no está registrado</Text>
             <Text>Regístrese en menos de dos minutos</Text>
           </Container>

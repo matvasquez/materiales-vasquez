@@ -2,7 +2,8 @@
 
 async function main(body) {
   window
-    .fetch("/api/send-email", {
+    //.fetch("https://api-vasquez.herokuapp.com/api/send-email", {
+    .fetch("http://localhost:3015/api/send-email", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),

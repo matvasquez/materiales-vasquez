@@ -1,10 +1,5 @@
 import styled from "styled-components";
 
-export const MainTitle = styled.h1`
-  width: 100%;
-  font-size: 2rem;
-`;
-
 export const SectionStyled = styled.section`
   width: 100%;
   padding: 1rem;
@@ -16,7 +11,18 @@ export const SectionStyled = styled.section`
   background-color: var(--white);
   border-radius: 1rem;
   @media (min-width: 750px) {
-    width: 90%;
+    width: 80%;
+  }
+  @media (min-width: 750px) and (orientation: portrait) {
+    min-height: 50vh;
+    padding: 15% 1rem;
+  }
+  @media (min-width: 1000px) and (orientation: portrait) {
+    min-height: 60vh;
+    padding: 20% 1rem;
+  }
+  @media (min-width: 1000px) and (orientation: landscape) {
+    width: 50%;
   }
 `;
 
@@ -29,7 +35,11 @@ export const Text = styled.p`
 
 export const Container = styled.div`
   width: 100%;
+  margin: 0 0 20% 0;
   text-align: center;
+  @media (min-width: 1000px) and (orientation: landscape) {
+    margin: 0 0 5% 0;
+  }
 `;
 
 export const ButtonLogIn = styled.button`
@@ -44,8 +54,15 @@ export const ButtonLogIn = styled.button`
   border-radius: 0.5rem;
   outline: none;
   cursor: pointer;
+  transition: 0.3s ease-in-out all;
   box-shadow: 5px 5px 8px -1px rgba(102, 102, 102, 0.6);
-  @media (min-width: 1200px) {
+  &:hover {
+    box-shadow: 5px 5px 10px -1px rgba(102, 102, 102, 0.9);
+  }
+  @media (min-width: 750px) {
+    width: 70%;
+  }
+  @media (min-width: 1000px) {
     width: 50%;
   }
 `;

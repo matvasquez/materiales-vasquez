@@ -14,7 +14,6 @@ export const Item = styled.div`
     justify-content: right;
     align-items: center;
     position: relative;
-    border: 0.1rem solid #fff;
     border-radius: 1.5rem;
     overflow: hidden;
   }

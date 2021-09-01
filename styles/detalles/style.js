@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 export const MainInfo = styled.section`
   width: 100%;
-  /* height: ${(props) => props.top && `calc(96vh - ${props.top}px)`}; */
   height: calc(100vh - 4.5rem);
   display: flex;
   flex-direction: column;
@@ -13,7 +12,6 @@ export const MainInfo = styled.section`
   position: relative;
   overflow: hidden;
   @media (min-width: 750px) {
-    /* height: ${(props) => props.top && `calc(98vh - ${props.top}px)`}; */
     height: calc(100vh - 8rem);
   }
   @media (min-width: 1200px) {
