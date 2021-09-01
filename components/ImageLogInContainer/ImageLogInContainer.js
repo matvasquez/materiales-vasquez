@@ -11,19 +11,24 @@ import {
   NumberItemsIliked,
 } from "./style";
 
-const ImageLogInContainer = () => {
-  let itemsIliked = [];
-
+const ImageLogInContainer = ({ session, itemsIliked }) => {
   return (
     <>
       <Link href="/registro-de-usuario" passHref>
-        <LogInContainer aria-label={`Icno de registro de usuario`}>
+        <LogInContainer aria-label={`Icono de registro de usuario`}>
           {itemsIliked.length > 0 && (
             <ItemsIlikedContainer>
               <NumberItemsIliked>{itemsIliked.length}</NumberItemsIliked>
             </ItemsIlikedContainer>
           )}
-          <User />
+          {session ? (
+            <img
+              src={session.user.image}
+              alt={`Fotografia de perfil de ${session.user.name}`}
+            />
+          ) : (
+            <User />
+          )}
         </LogInContainer>
       </Link>
     </>

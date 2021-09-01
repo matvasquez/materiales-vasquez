@@ -20,7 +20,11 @@ const ArticlesSection = ({ title, products, route }) => {
       <ItemsContainer>
         {products &&
           products.map((product, i) => (
-            <PreviewItem key={product.articulo_id} {...product} index={i} />
+            <PreviewItem
+              key={product.articulo_id + product.price}
+              {...product}
+              index={i}
+            />
           ))}
       </ItemsContainer>
       {route ? (

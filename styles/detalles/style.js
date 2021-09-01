@@ -206,11 +206,8 @@ export const ButtonStyled = styled.button`
       border: 0.1rem solid var(--blue);
       font-weight: 700;
       &:hover {
-      color: var(--blue);
-      &:hover {
         background-color: var(--blue);
       }
-    }
   `}
 `;
 

@@ -61,6 +61,11 @@ const reducer = (state, action) => {
           (item) => item.articulo_id !== action.payload
         ),
       };
+    case "ITEMS_LOADED":
+      return {
+        ...state,
+        itemsLoaded: [...state.itemsLoaded, action.payload],
+      };
     default:
       return state;
   }

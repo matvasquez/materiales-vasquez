@@ -20,7 +20,10 @@ const ArticlesLiked = ({ title, articles }) => {
           <ItemsScroll rows={articles.length > 3 ? articles.length : 3}>
             {articles &&
               articles.map((article) => (
-                <PreviewItem key={article.articulo_id} {...article} />
+                <PreviewItem
+                  key={article.articulo_id + article.price}
+                  {...article}
+                />
               ))}
           </ItemsScroll>
         </ItemsContainer>

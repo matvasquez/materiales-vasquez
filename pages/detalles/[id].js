@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import Head from "next/head";
 import fetch from "isomorphic-unfetch";
 import { useMyItems } from "../../hooks/useMyItems";
+import { useGetStock } from "../../hooks/useGetStock";
 
 //Actions
 import {
@@ -119,28 +120,8 @@ const ProductPage = (props) => {
   const [yesItIsMineLike] = useMyItems(product.articulo_id, itemsIliked);
   // Hook que verifica si el producto esta en el carrito
   const [yesItIsMineCart] = useMyItems(product.articulo_id, myCart);
-  // Almacena el stock
-  const [stock, setStock] = useState("");
-
-  // Solicita el Stock
-  useEffect(async () => {
-    // .fetch(
-    //   `https://pruebas-next-sql.vercel.app/api/stock/${product.articulo_id}`
-    // )
-    window
-      .fetch(
-        `https://api-vasquez.herokuapp.com/api/stock/${product.articulo_id
-          .replace(/ /gi, "space")
-          .replace(/\//gi, "slash")}`
-      )
-      .then((response) => response.json())
-      .then(({ data }) => {
-        setStock(data[0].stock);
-      })
-      .catch((error) => {
-        console.log("Error: ", error);
-      });
-  }, []);
+  // Hook que solicita el Stock
+  const [stock] = useGetStock(product.articulo_id);
 
   // Envia al Carrito y a la lista de precios
   const handleSetCart = () => {
@@ -291,15 +272,12 @@ const ProductPage = (props) => {
         </MainInfo>
         {related.length > 0 && (
           <RelatedArticles>
-            <RelatedTitle>
-              Relacionados
-              {/* Más sobre<span>{product.name.toLowerCase()}</span> */}
-            </RelatedTitle>
+            <RelatedTitle>Relacionados</RelatedTitle>
             <PreviewItemContainer>
               <>
                 {related.map((article) => (
                   <PreviewItem
-                    key={article.articulo_id}
+                    key={article.articulo_id + article.price}
                     {...article}
                     isRelated={true}
                   />

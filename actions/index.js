@@ -52,3 +52,8 @@ export const setDeleteFavorite = (payload) => ({
   type: "DELETE_FAVORITE",
   payload,
 });
+
+export const setItemsLoaded = (payload) => ({
+  type: "ITEMS_LOADED",
+  payload,
+});

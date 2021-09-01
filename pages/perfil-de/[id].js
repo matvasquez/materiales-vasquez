@@ -1,63 +1,59 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import fetch from "isomorphic-unfetch";
 import { connect } from "react-redux";
 
+import {
+  signIn,
+  signOut,
+  useSession,
+  getProviders,
+  getSession,
+} from "next-auth/client";
+
 // Components
-import Slider from "../components/Slider/Slider";
-import ArticlesLiked from "../components/Articles-Liked/ArticlesLiked";
-import ArticlesSection from "../components/Articles-Section/index";
-import Brands from "../components/Brands/Brands";
+import FavoritesList from "../../components/FavoritesList/FavoritesList";
 
 // Styles
-import styles from "../styles/components/Main.module.css";
+import styles from "../../styles/components/Main.module.css";
 
-// Globales
-const first_section = "LAMPARA";
-const second_section = "200";
+// Styled-Components
+import {
+  UserInfo,
+  ImageContainer,
+  UserName,
+  ButtonLogOut,
+  SectionIliked,
+} from "../../styles/perfil/style";
 
-export async function getStaticProps() {
-  const response = await fetch(
-    `https://api-vasquez.herokuapp.com/api/new-products`
-  );
-  const { newProducts } = await response.json();
+export const getServerSideProps = async (context) => {
+  const session = await getSession(context);
 
-  const responseSection = await fetch(
-    `https://api-vasquez.herokuapp.com/api/products-by-name/${first_section}?first=1&last=8`
-  );
-  const { productsByName } = await responseSection.json();
-
-  const responseSectionPrice = await fetch(
-    `https://api-vasquez.herokuapp.com/api/products-by-price/${second_section}?first=1&last=8`
-  );
-  const { productsByPrice } = await responseSectionPrice.json();
+  if (session === null) {
+    return {
+      redirect: {
+        destination: "/registro-de-usuario",
+        permanent: false,
+      },
+    };
+  }
 
   return {
     props: {
-      newProducts,
-      productsByName,
-      productsByPrice,
-      title: "Home Center | Materiales Vasquez Hermanos",
+      session,
+      title: `${session.user.name.toUpperCase()} | Materiales Vasquez Hermanos`,
       description:
         "Amplia gama de productos para obra negra, ferretería, muebles, y artículos para el hogar.",
       image:
         "https://res.cloudinary.com/duibtuerj/image/upload/v1630083340/brand/meta-image_rcclee.jpg",
       ogurl: "https://www.materialesvasquezhnos.com.mx",
-    }, // se pasarán al componente de la página como props
+    },
   };
-}
+};
 
 const HomePage = (props) => {
-  const {
-    newProducts,
-    productsByName,
-    productsByPrice,
-    title,
-    description,
-    image,
-    ogurl,
-    itemsIliked,
-  } = props;
+  //   const [session, loading] = useSession();
+  const { session, title, itemsIliked } = props;
 
   return (
     <>
@@ -67,14 +63,22 @@ const HomePage = (props) => {
           content="initial-scale=1.0, width=device-width user-scalable=no"
         />
 
-        <meta name="description" content={description} key="descriptionIndex" />
+        <meta
+          name="description"
+          content="Amplia gama de productos para obra negra, ferretería, muebles, y artículos para el hogar."
+          key="descriptionIndex"
+        />
 
         {/* Facebook */}
         <meta property="og:type" content="website" />
-        <meta property="og:title" content={title} key="og:titleIndex" />
+        <meta
+          property="og:title"
+          content="Registro de usuario | Materiales Vasquez Hermanos"
+          key="og:titleIndex"
+        />
         <meta
           property="og:description"
-          content={description}
+          content="Amplia gama de productos para obra negra, ferretería, muebles, y artículos para el hogar."
           key="og:descriptionIndex"
         />
         <meta
@@ -82,14 +86,22 @@ const HomePage = (props) => {
           content="https://res.cloudinary.com/duibtuerj/image/upload/v1630083340/brand/meta-image_rcclee.jpg"
           key="og:imageIndex"
         />
-        <meta property="og:url" content={ogurl} key="og:urlIndex" />
+        <meta
+          property="og:url"
+          content="https://www.materialesvasquezhnos.com.mx/registro-de-usuario"
+          key="og:urlIndex"
+        />
 
         {/* twitter */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={title} key="twitter:titleIndex" />
+        <meta
+          name="twitter:title"
+          content="Registro de usuario | Materiales Vasquez Hermanos"
+          key="twitter:titleIndex"
+        />
         <meta
           name="twitter:description"
-          content={description}
+          content="Amplia gama de productos para obra negra, ferretería, muebles, y artículos para el hogar."
           key="twitter:descriptionIndex"
         />
         <meta
@@ -134,27 +146,30 @@ const HomePage = (props) => {
       </Head>
 
       <main className={styles.MainStyle}>
-        <Slider />
-        {itemsIliked.length > 0 && (
-          <ArticlesLiked
-            key={"Productos que te gustan"}
-            title="Productos que te gustan"
-            articles={itemsIliked}
-          />
-        )}
-        {newProducts && (
-          <ArticlesSection title="Productos Nuevos" products={newProducts} />
-        )}
-        {productsByName && (
-          <ArticlesSection title={`lámparas`} products={productsByName} />
-        )}
-        {productsByPrice && (
-          <ArticlesSection
-            title={`Menos de ${second_section.toLowerCase()}`}
-            products={productsByPrice}
-          />
-        )}
-        <Brands />
+        <>
+          <UserInfo>
+            <ImageContainer>
+              <img
+                src={session.user.image}
+                width={300}
+                height={300}
+                alt={`Fotografía de perfil de ${session.user.name}`}
+              />
+            </ImageContainer>
+            <UserName>{session.user.name}</UserName>
+            <p>{session.user.email}</p>
+            <ButtonLogOut type="button" onClick={() => signOut()}>
+              Cerrar sesión
+            </ButtonLogOut>
+          </UserInfo>
+          <SectionIliked>
+            {itemsIliked.length === 0 ? (
+              <p>Su lista de favoritos está vacía</p>
+            ) : (
+              <FavoritesList itemsIliked={itemsIliked} />
+            )}
+          </SectionIliked>
+        </>
       </main>
     </>
   );
@@ -163,7 +178,6 @@ const HomePage = (props) => {
 const mapStateToProps = (state) => {
   return {
     itemsIliked: state.itemsIliked,
-    itemsLoaded: state.itemsLoaded,
   };
 };
 

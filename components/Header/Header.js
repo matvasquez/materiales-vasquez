@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { connect } from "react-redux";
+import { useSession } from "next-auth/client";
 
 //Actions
 import { setIitemsIliked } from "../../actions";
@@ -15,10 +16,11 @@ import ImageLogInContainer from "../ImageLogInContainer/ImageLogInContainer";
 // Stiled-Components
 import { HeaderStyled, LogoContainer } from "./style";
 
-const Header = ({ itemsIliked, myCart }) => {
+const Header = ({ carIsOpen, itemsIliked }) => {
   const [hidden, setHidden] = useState(true);
   const input = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [session, loading] = useSession();
 
   const handleOpen = () => {
     window.innerWidth < 1100 && setIsOpen(!isOpen);
@@ -34,16 +36,8 @@ const Header = ({ itemsIliked, myCart }) => {
     // input.current.select();
   };
 
-  // useEffect(() => {
-  //   console.log("Header itemsIliked: ", itemsIliked);
-  // }, [itemsIliked]);
-
-  // useEffect(() => {
-  //   console.log("Header myCart: ", myCart);
-  // }, [myCart]);
-
   return (
-    <HeaderStyled>
+    <HeaderStyled zindex={carIsOpen}>
       <MainMenu isOpen={isOpen} handleOpen={handleOpen} />
       <ButtonMenu handleClick={handleOpen} />
       <Link href="/" passHref>
@@ -61,7 +55,9 @@ const Header = ({ itemsIliked, myCart }) => {
         input={input}
         handleClick={handleClick}
       />
-      <ImageLogInContainer />
+      {loading ? null : (
+        <ImageLogInContainer session={session} itemsIliked={itemsIliked} />
+      )}
     </HeaderStyled>
   );
 };

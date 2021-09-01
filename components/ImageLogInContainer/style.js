@@ -9,6 +9,13 @@ export const LogInContainer = styled.a`
   cursor: pointer;
   position: relative;
 
+  img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
   @media (min-width: 750px) {
     width: 3rem;
     height: 3rem;
