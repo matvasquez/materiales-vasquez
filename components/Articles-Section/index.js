@@ -34,7 +34,7 @@ const ArticlesSection = ({ title, products, route }) => {
         <Link
           href={
             title === "Productos Nuevos"
-              ? "tienda"
+              ? "/tienda"
               : `/todos-los/${title.replace(/ /gi, "-")}`
           }
           passHref

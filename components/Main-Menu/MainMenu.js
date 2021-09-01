@@ -47,12 +47,12 @@ const MainMenu = ({ isOpen, handleOpen }) => {
         </LiStyled>
         {apartments &&
           apartments.map((menuItem) => (
-            <LiStyled key={menuItem.row_id} onClick={() => handleOpen()}>
+            <LiStyled key={menuItem.name} onClick={() => handleOpen()}>
               <Link
-                href={`/categoria/${menuItem.category.replace(/ /gi, "-")}`}
+                href={`/categoria/${menuItem.name.replace(/ /gi, "-")}`}
                 passHref
               >
-                <AnchorStyled>{menuItem.category}</AnchorStyled>
+                <AnchorStyled>{menuItem.name}</AnchorStyled>
               </Link>
               <LineLink />
             </LiStyled>
