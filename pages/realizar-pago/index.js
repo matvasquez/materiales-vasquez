@@ -162,17 +162,19 @@ const MakePayment = (props) => {
 
   // Solicita articulos relacionados por nombre
   useEffect(async () => {
-    const responseRelatedByName = await fetch(
-      `https://api-vasquez.herokuapp.com/api/related-by-name/${myCart[
-        myCart.length - 1
-      ].name
-        .split(" ")[0]
-        .split(" ")[0]
-        .replace(/\//gi, "slash")}?first=1&last=4`
-    );
-    const { data: related } = await responseRelatedByName.json();
-    setRelated(related);
-  }, []);
+    if (myCart.length > 0) {
+      const responseRelatedByName = await fetch(
+        `https://api-vasquez.herokuapp.com/api/related-by-name/${myCart[
+          myCart.length - 1
+        ].name
+          .split(" ")[0]
+          .split(" ")[0]
+          .replace(/\//gi, "slash")}?first=1&last=4`
+      );
+      const { data: related } = await responseRelatedByName.json();
+      setRelated(related);
+    }
+  }, [myCart]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -191,7 +193,7 @@ const MakePayment = (props) => {
         ? "Es el mismo nombre de la tarjeta" + " " + newOrder.get("card-name")
         : newOrder.get("shippingName"),
       shippingLastName: sameName
-        ? "Es el mismo nombre de la tarjeta" + " " + newOrder.get("card-name")
+        ? "Es el mismo nombre de la tarjeta"
         : newOrder.get("shippingLastName"),
       phoneNumber: newOrder.get("phoneNumber"),
       shippingEmail: newOrder.get("shippingEmail"),
@@ -206,7 +208,7 @@ const MakePayment = (props) => {
       requiredInvoice: invoiceRequired
         ? "Requiere Factura"
         : "No requiere Factura",
-      invoiceRFC: newOrder.get("invoiceRFC"),
+      invoiceRFC: invoiceRequired ? newOrder.get("invoiceRFC") : "",
       invoiceCompanyName: invoiceRequired
         ? newOrder.get("invoiceCompanyName")
         : "",
@@ -225,7 +227,7 @@ const MakePayment = (props) => {
       products: myCart,
     };
 
-    // console.log(order);
+    //console.log("order: ", order);
     sendEmail(order);
   };
 
@@ -518,7 +520,7 @@ const MakePayment = (props) => {
           </FormStyled>
         </BuyersData>
 
-        {related && (
+        {related.length > 0 && (
           <RelatedArticles>
             <RelatedTitle>Puede que te interese</RelatedTitle>
             <PreviewItemContainer>

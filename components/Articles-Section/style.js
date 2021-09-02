@@ -89,9 +89,24 @@ export const LoadMoreButton = styled.button`
   cursor: pointer;
   transition: 0.3s ease-in-out all;
   &:hover {
-    background-color: var(--blue);
-    color: var(--yellow);
+    background-color: #ffb910;
   }
+  @media (min-width: 750px) {
+    width: 50%;
+    margin: 5rem auto 2rem;
+  }
+`;
+
+export const NoMoreText = styled.p`
+  width: 80%;
+  padding: 0.5rem;
+  margin: 2rem auto;
+  font-size: 1.8rem;
+  font-weight: 600;
+  text-align: center;
+  border: 0.1rem solid var(--blue);
+  border-radius: 1rem;
+  transition: 0.3s ease-in-out all;
   @media (min-width: 750px) {
     width: 50%;
     margin: 5rem auto 2rem;

@@ -226,7 +226,7 @@ const ShoppingCart = (props) => {
                   ))}
               </ContainerScroll>
             </ItemsContainer>
-            <CarItemCounter>
+            <CarItemCounter carIsEmpty={carIsEmpty}>
               <Counter>{myCart.length}</Counter>
             </CarItemCounter>
           </CartPreview>

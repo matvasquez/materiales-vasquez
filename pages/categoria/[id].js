@@ -3,6 +3,9 @@ import Head from "next/head";
 import fetch from "isomorphic-unfetch";
 import { connect } from "react-redux";
 
+//Actions
+import { setItemsLoaded } from "../../actions";
+
 // Components
 import ArticlesSection from "../../components/Articles-Section/index";
 
@@ -36,9 +39,8 @@ export const getStaticPaths = async () => {
 };
 
 export async function getStaticProps({ params }) {
-  console.log("params: ", params.id);
   const response = await fetch(
-    `https://api-vasquez.herokuapp.com/api/related-by-category/${params.id}?first=1&last=30`
+    `https://api-vasquez.herokuapp.com/api/related-by-category/${params.id}?first=1&last=20`
   );
   const { productsByCategory: products } = await response.json();
 
@@ -64,7 +66,15 @@ const Tienda = (props) => {
     description,
     image,
     ogurl,
+
+    itemsLoaded,
+    setItemsLoaded,
   } = props;
+
+  useEffect(() => {
+    setItemsLoaded(products);
+  }, [products]);
+
   return (
     <>
       <Head>
@@ -140,8 +150,8 @@ const Tienda = (props) => {
       </Head>
 
       <main className={styles.MainStyle}>
-        {products.length > 0 ? (
-          <ArticlesSection title={title} products={products} route={true} />
+        {itemsLoaded.length > 0 ? (
+          <ArticlesSection title={title} products={itemsLoaded} route={true} />
         ) : (
           <SectionEmpty>
             <TitleSection>{title}</TitleSection>
@@ -158,7 +168,12 @@ const Tienda = (props) => {
 const mapStateToProps = (state) => {
   return {
     itemsIliked: state.itemsIliked,
+    itemsLoaded: state.itemsLoaded,
   };
 };
 
-export default connect(mapStateToProps, null)(Tienda);
+const mapDispatchToProps = {
+  setItemsLoaded,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Tienda);

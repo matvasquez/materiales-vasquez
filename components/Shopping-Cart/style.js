@@ -79,7 +79,7 @@ export const CornerLeftContainer = styled.div`
   width: 3.6rem;
   height: 3.6rem;
   position: absolute;
-  bottom: 100%;
+  bottom: 99%;
   left: 0;
   @media (min-width: 750px) {
     display: none;
@@ -98,7 +98,7 @@ export const CartPreview = styled.section`
   grid-column-gap: 1rem;
   justify-items: start;
   align-content: center;
-  overflow: hidden;
+  /* overflow: hidden; */
 `;
 
 export const OpenCloseButton = styled.button`
@@ -343,6 +343,7 @@ export const CarItemCounter = styled.div`
   background-color: var(--yellow);
   border-radius: 50%;
   transition: 0.5s ease-in-out all;
+
   @media (min-width: 750px) {
     margin-left: auto;
     margin-right: 1rem;

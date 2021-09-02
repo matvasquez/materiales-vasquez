@@ -16,7 +16,7 @@ import styles from "../styles/components/Main.module.css";
 const first_section = "LAMPARA";
 const second_section = "200";
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const response = await fetch(
     `https://api-vasquez.herokuapp.com/api/new-products`
   );

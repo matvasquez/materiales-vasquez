@@ -1,12 +1,13 @@
 //const nodemailer = require("nodemailer");
 
 async function main(body) {
+  console.log("Ejecución de main");
   window
-    //.fetch("https://api-vasquez.herokuapp.com/api/send-email", {
-    .fetch("http://localhost:3015/api/send-email", {
+    .fetch("https://api-vasquez.herokuapp.com/api/send-email", {
+      // .fetch("http://localhost:3015/api/send-email", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
+      body: body,
     })
     .then((response) => response.json())
     .then(({ name }) => {
@@ -18,5 +19,7 @@ async function main(body) {
 }
 
 export function sendEmail(body) {
-  main(JSON.stringify(body)).catch(console.error);
+  main(JSON.stringify(body)).catch((error) =>
+    console.log("sendEmail error: ", error)
+  );
 }

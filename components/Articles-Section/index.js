@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
+import { uploadMoreItems } from "../../utils/uploadMoreItems";
+import { connect } from "react-redux";
+
+//Actions
+import { setItemsLoaded } from "../../actions";
 
 // Components
 import PreviewItem from "../Preview-Item/PreviewItem";
+import { SuspensoryPoints } from "../Loaders/SuspensoryPoints";
 
 // Styled-Components
 import {
@@ -11,9 +17,20 @@ import {
   ItemsContainer,
   ButtonMore,
   LoadMoreButton,
+  NoMoreText,
 } from "./style";
 
-const ArticlesSection = ({ title, products, route }) => {
+const ArticlesSection = ({ title, products, route, setItemsLoaded }) => {
+  const [load, setLoad] = useState(false);
+  const [noMore, setNoMore] = useState(false);
+
+  const handleClick = () => {
+    setLoad(true);
+    let time = setTimeout(() => {
+      setLoad(false);
+    }, 1500);
+  };
+
   return (
     <SectionStyled>
       <TitleSection>{title}</TitleSection>
@@ -28,12 +45,27 @@ const ArticlesSection = ({ title, products, route }) => {
           ))}
       </ItemsContainer>
       {route ? (
-        <LoadMoreButton
-          type="button"
-          onClick={() => console.log("Cargar mas...")}
-        >
-          Cargar mas
-        </LoadMoreButton>
+        <>
+          {noMore ? (
+            <NoMoreText>Son todos los productos</NoMoreText>
+          ) : (
+            <LoadMoreButton
+              type="button"
+              onClick={() => {
+                uploadMoreItems(
+                  title.replace(/ /gi, "-"),
+                  products.length + 1,
+                  products.length + 20,
+                  setItemsLoaded,
+                  setNoMore
+                );
+                handleClick();
+              }}
+            >
+              {load ? <SuspensoryPoints /> : "Cargar mas"}
+            </LoadMoreButton>
+          )}
+        </>
       ) : (
         <Link
           href={
@@ -50,4 +82,8 @@ const ArticlesSection = ({ title, products, route }) => {
   );
 };
 
-export default ArticlesSection;
+const mapDispatchToProps = {
+  setItemsLoaded,
+};
+
+export default connect(null, mapDispatchToProps)(ArticlesSection);
