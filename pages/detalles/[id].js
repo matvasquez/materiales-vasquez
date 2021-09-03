@@ -47,25 +47,25 @@ import {
 } from "../../styles/detalles/style";
 
 // Genera las rutas de el detalle de todos los productos
-// export const getStaticPaths = async () => {
-//   const response = await fetch(
-//     "https://api-vasquez.herokuapp.com/api/products-list"
-//   );
-//   const { data } = await response.json();
+export const getStaticPaths = async () => {
+  const response = await fetch(
+    "https://api-vasquez.herokuapp.com/api/products-list"
+  );
+  const { data } = await response.json();
 
-//   const paths = data.map(({ articulo_id }) => ({
-//     params: {
-//       id: articulo_id.replace(/ /gi, "space").replace(/\//gi, "slash"),
-//     },
-//   }));
+  const paths = data.map(({ articulo_id }) => ({
+    params: {
+      id: articulo_id.replace(/ /gi, "space").replace(/\//gi, "slash"),
+    },
+  }));
 
-//   return {
-//     paths,
-//     fallback: false,
-//   };
-// };
+  return {
+    paths,
+    fallback: false,
+  };
+};
 
-export const getServerSideProps = async ({ params }) => {
+export const getStaticProps = async ({ params }) => {
   // Solicita los datos del articulo principal
   const responseDetails = await fetch(
     `https://api-vasquez.herokuapp.com/api/detalles/${params.id}`
@@ -145,6 +145,28 @@ const ProductPage = (props) => {
 
   return (
     <>
+      <Head>
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"
+          rel="stylesheet"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Archivo+Narrow&display=swap"
+          rel="stylesheet"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap"
+          rel="stylesheet"
+        />
+        <link
+          rel="icon"
+          href="https://res.cloudinary.com/duibtuerj/image/upload/v1630083407/brand/favicon_aowz1n.png"
+          type="image/x-icon"
+        ></link>
+      </Head>
       <NextSeo
         title={`${product.name} | Materiales Vasquez Hermanos`}
         description={product.description}

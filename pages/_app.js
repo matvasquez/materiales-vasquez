@@ -34,7 +34,7 @@ const MyApp = ({ Component, pageProps }) => {
           <PersistGate loading={null} persistor={persistor}>
             <GlobalStyles />
             <ThemeProvider theme={theme}>
-              {/* <DefaultSeo
+              <DefaultSeo
                 title="Home Center | Materiales Vasquez Hermanos"
                 description="Amplia gama de productos para obra negra, ferretería, muebles, y artículos para el hogar"
                 canonical="https://www.materialesvasquezhnos.com.mx/"
@@ -58,7 +58,7 @@ const MyApp = ({ Component, pageProps }) => {
                   site: "@MaterialesVH",
                   cardType: "summary",
                 }}
-              /> */}
+              />
               <Layout>
                 <Component {...pageProps} />
               </Layout>

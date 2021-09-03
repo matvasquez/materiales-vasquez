@@ -132,14 +132,6 @@ const Footer = ({ carIsEmpty }) => {
             height={57}
             alt="Imagen de Métodos de pago"
           />
-          {/* <Image
-            loader={loaderImage}
-            src="https://www.jucri.com.mx/wp-content/uploads/2020/12/fda.png"
-            width={249}
-            height={57}
-            alt="Imagen de Métodos de pago"
-            layout="responsive"
-          /> */}
         </PaymentMethodsImageContainer>
       </PaymentMethods>
       <AllRightsReserved>

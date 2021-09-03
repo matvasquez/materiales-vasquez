@@ -18,6 +18,7 @@ export const Conatiner = styled.div`
   grid-gap: 0.5rem;
   justify-items: center;
   align-items: end;
+  cursor: progress;
 `;
 
 export const Point = styled.div`

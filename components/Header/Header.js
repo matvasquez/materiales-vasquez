@@ -114,11 +114,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  // setMyCart,
-  // setPricesToCart,
   setIitemsIliked,
-  // setDeleteFavorite,
-  // setCloseCart,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

@@ -67,98 +67,26 @@ const HomePage = (props) => {
   return (
     <>
       <Head>
-        <meta
-          name="viewport"
-          content="initial-scale=1.0, width=device-width user-scalable=no"
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"
+          rel="stylesheet"
         />
-
-        <meta
-          name="description"
-          content={
-            description ||
-            "Amplia gama de productos para obra negra, ferretería, muebles, y artículos para el hogar"
-          }
-          key="descriptionIndex"
+        <link
+          href="https://fonts.googleapis.com/css2?family=Archivo+Narrow&display=swap"
+          rel="stylesheet"
         />
-
-        {/* Facebook */}
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:title"
-          content={title || "Productos nuevos | Materiales Vasquez Hermanos"}
-          key="og:titleIndex"
+        <link
+          href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap"
+          rel="stylesheet"
         />
-        <meta
-          property="og:description"
-          content={
-            description ||
-            "Amplia gama de productos para obra negra, ferretería, muebles, y artículos para el hogar"
-          }
-          key="og:descriptionIndex"
-        />
-        <meta
-          property="og:image"
-          content="https://res.cloudinary.com/duibtuerj/image/upload/v1630083340/brand/meta-image_rcclee.jpg"
-          key="og:imageIndex"
-        />
-        <meta
-          property="og:url"
-          content="https://www.materialesvasquezhnos.com.mx"
-          key="og:urlIndex"
-        />
-
-        {/* twitter */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content={title || "Productos nuevos | Materiales Vasquez Hermanos"}
-          key="twitter:titleIndex"
-        />
-        <meta
-          name="twitter:description"
-          content={
-            description ||
-            "Amplia gama de productos para obra negra, ferretería, muebles, y artículos para el hogar"
-          }
-          key="twitter:descriptionIndex"
-        />
-        <meta
-          name="twitter:image"
-          content="https://res.cloudinary.com/duibtuerj/image/upload/v1630083340/brand/meta-image_rcclee.jpg"
-          index="twitter:imageIndex"
-        />
-
-        {/* <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "HomeGoodsStore",
-              address: {
-                "@type": "PostalAddress",
-                addressLocality: "Xalapa, Veracruz, México",
-                addressRegion: "MEX",
-                postalCode: "91180",
-                streetAddress: "Lázaro Cárdenas 274",
-              },
-              aggregateRating: {
-                "@type": "AggregateRating",
-                ratingValue: "4",
-                reviewCount: "250",
-              },
-              name: "Materiales Vasquez Hermanos",
-              description:
-                "Amplia gama de productos para obra negra, ferretería, muebles, y artículos para el hogar.",
-              openingHours: ["Mo-Sa 08:00-19:30", "Sa 08:00-15:00"],
-              priceRange: "$1, $15000",
-              currenciesAccepted: "MXN",
-              paymentAccepted: "Cash, Credit Card",
-              telephone: "(228) 840-1919",
-              email: "mailto:ventas.sucursal@grupovasquez.com.mx",
-              url: "https://www.materialesvasquezhnos.com.mx/",
-            }),
-          }}
-        /> */}
+        <link
+          rel="icon"
+          href="https://res.cloudinary.com/duibtuerj/image/upload/v1630083407/brand/favicon_aowz1n.png"
+          type="image/x-icon"
+        ></link>
 
         <title>{`${title} | Materiales Vasquez Hermanos`}</title>
       </Head>
