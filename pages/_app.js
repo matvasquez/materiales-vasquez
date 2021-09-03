@@ -1,4 +1,5 @@
 // import App from 'next/app'
+import { DefaultSeo } from "next-seo";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 import { persistStore, persistReducer } from "redux-persist";
@@ -33,6 +34,31 @@ const MyApp = ({ Component, pageProps }) => {
           <PersistGate loading={null} persistor={persistor}>
             <GlobalStyles />
             <ThemeProvider theme={theme}>
+              {/* <DefaultSeo
+                title="Home Center | Materiales Vasquez Hermanos"
+                description="Amplia gama de productos para obra negra, ferretería, muebles, y artículos para el hogar"
+                canonical="https://www.materialesvasquezhnos.com.mx/"
+                openGraph={{
+                  url: "https://www.materialesvasquezhnos.com.mx/",
+                  title: "Home Center | Materiales Vasquez Hermanos",
+                  description:
+                    "Amplia gama de productos para obra negra, ferretería, muebles, y artículos para el hogar",
+                  images: [
+                    {
+                      url: "https://res.cloudinary.com/duibtuerj/image/upload/v1630083340/brand/meta-image_rcclee.jpg",
+                      width: 200,
+                      height: 200,
+                      alt: "Logotipo de Materiales Vasquez Hermanos",
+                    },
+                  ],
+                  site_name: "Materiales Vasquez Hermanos",
+                }}
+                twitter={{
+                  handle: "@MaterialesVH",
+                  site: "@MaterialesVH",
+                  cardType: "summary",
+                }}
+              /> */}
               <Layout>
                 <Component {...pageProps} />
               </Layout>

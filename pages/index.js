@@ -1,5 +1,6 @@
 import React from "react";
 import Head from "next/head";
+import { NextSeo, LocalBusinessJsonLd } from "next-seo";
 import fetch from "isomorphic-unfetch";
 import { connect } from "react-redux";
 
@@ -16,7 +17,7 @@ import styles from "../styles/components/Main.module.css";
 const first_section = "LAMPARA";
 const second_section = "200";
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const response = await fetch(
     `https://api-vasquez.herokuapp.com/api/new-products`
   );
@@ -52,61 +53,51 @@ const HomePage = (props) => {
 
   return (
     <>
-      <Head>
+      <NextSeo
+        title="Home Center | Materiales Vasquez Hermanos"
+        description="Amplia gama de productos para obra negra, ferretería, muebles, y artículos para el hogar"
+        canonical="https://www.materialesvasquezhnos.com.mx/"
+        openGraph={{
+          url: "https://www.materialesvasquezhnos.com.mx/",
+          title: "Home Center | Materiales Vasquez Hermanos",
+          description:
+            "Amplia gama de productos para obra negra, ferretería, muebles, y artículos para el hogar",
+          images: [
+            {
+              url: "https://res.cloudinary.com/duibtuerj/image/upload/v1630083340/brand/meta-image_rcclee.jpg",
+              width: 200,
+              height: 200,
+              alt: "Logotipo de Materiales Vasquez Hermanos",
+            },
+          ],
+          site_name: "Materiales Vasquez Hermanos",
+        }}
+        twitter={{
+          handle: "@MaterialesVH",
+          site: "@MaterialesVH",
+          cardType: "summary",
+        }}
+      />
+      <LocalBusinessJsonLd
+        type="HomeGoodsStore"
+        name="Materiales Vasquez Hermanos"
+        description="Amplia gama de productos para obra negra, ferretería, muebles, y artículos para el hogar"
+        url="https://www.materialesvasquezhnos.com.mx/"
+        telephone="+522288401919"
+        address={{
+          streetAddress: "Lázaro Cárdenas 274",
+          addressLocality: "Xalapa",
+          addressRegion: "MEX",
+          postalCode: "91180",
+          addressCountry: "MX",
+        }}
+      />
+      {/* <Head>
         <meta
           name="viewport"
           content="initial-scale=1.0, width=device-width user-scalable=no"
         />
-
-        <meta
-          name="description"
-          content="Amplia gama de productos para obra negra, ferretería, muebles, y artículos para el hogar"
-          key="descriptionIndex"
-        />
-
-        {/* Facebook */}
-        <meta property="og:type" content="business.business" />
-        <meta
-          property="og:title"
-          content="Home Center | Materiales Vasquez Hermanos"
-        />
-        <meta
-          property="og:url"
-          content="https://www.materialesvasquezhnos.com.mx/"
-        />
-        <meta
-          property="og:image"
-          content="https://res.cloudinary.com/duibtuerj/image/upload/v1630083340/brand/meta-image_rcclee.jpg"
-        />
-        <meta
-          property="og:description"
-          content="Amplia gama de productos para obra negra, ferretería, muebles, y artículos para el hogar"
-        />
-        <meta
-          property="business:contact_data:street_address"
-          content="Lázaro Cárdenas"
-        />
-        <meta property="business:contact_data:locality" content="Xalapa" />
-        <meta property="business:contact_data:region" content="Veracruz" />
-        <meta property="business:contact_data:postal_code" content="91180" />
-        <meta property="business:contact_data:country_name" content="Mexico" />
-
-        {/* twitter */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content="Home Center | Materiales Vasquez Hermanos"
-        />
-        <meta
-          name="twitter:description"
-          content="Amplia gama de productos para obra negra, ferretería, muebles, y artículos para el hogar"
-        />
-        <meta
-          name="twitter:image"
-          content="https://res.cloudinary.com/duibtuerj/image/upload/v1630083340/brand/meta-image_rcclee.jpg"
-        />
-
-        {/* <script
+        <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
@@ -136,10 +127,9 @@ const HomePage = (props) => {
               url: "https://www.materialesvasquezhnos.com.mx/",
             }),
           }}
-        /> */}
-
+        /> 
         <title>Home Center | Materiales Vasquez Hermanos</title>
-      </Head>
+      </Head> */}
 
       <main className={styles.MainStyle}>
         <Slider />
