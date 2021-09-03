@@ -26,6 +26,7 @@ const Header = ({ carIsOpen, itemsIliked }) => {
   const [session, loading] = useSession();
   const [searchResults, setSearchResults] = useState([]);
   const [noResults, setNoResults] = useState(false);
+  const [seeking, setSeeking] = useState(false);
 
   const handleOpen = () => {
     window.innerWidth < 1100 && setIsOpen(!isOpen);
@@ -33,6 +34,8 @@ const Header = ({ carIsOpen, itemsIliked }) => {
 
   const searchProduct = debounce(async (value) => {
     if (value !== "") {
+      // Activa la animacion de busqueda
+      setSeeking(true);
       // Solicita articulos relacionados por nombre
       const responseRelatedByName = await fetch(
         `https://api-vasquez.herokuapp.com/api/related-by-name/${value.toUpperCase()}?first=1&last=6`
@@ -41,6 +44,8 @@ const Header = ({ carIsOpen, itemsIliked }) => {
       if (data.length > 0) {
         setSearchResults(data);
         setNoResults(false);
+        // Desactiva la animacion de busqueda
+        setSeeking(false);
       } else {
         setNoResults(true);
       }
@@ -87,6 +92,7 @@ const Header = ({ carIsOpen, itemsIliked }) => {
           hidden={hidden}
           input={input}
           handleClick={handleClick}
+          seeking={seeking}
         />
         {loading ? null : (
           <ImageLogInContainer session={session} itemsIliked={itemsIliked} />

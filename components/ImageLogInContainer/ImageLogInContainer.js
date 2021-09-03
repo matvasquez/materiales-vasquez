@@ -14,7 +14,12 @@ import {
 const ImageLogInContainer = ({ session, itemsIliked }) => {
   return (
     <>
-      <Link href="/registro-de-usuario" passHref>
+      <Link
+        href={
+          session ? `/perfil-de/${session.user.name}` : "/registro-de-usuario"
+        }
+        passHref
+      >
         <LogInContainer aria-label={`Icono de registro de usuario`}>
           {itemsIliked.length > 0 && (
             <ItemsIlikedContainer>

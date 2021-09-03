@@ -70,3 +70,25 @@ export const ButtonLogIn = styled.button`
 export const SpanStyles = styled.span`
   font-weight: 700;
 `;
+
+export const ViewProfileButton = styled.a`
+  width: 80%;
+  padding: 0.5rem;
+  margin: 6rem auto;
+  font-size: 1.6rem;
+  font-weight: 600;
+  text-align: center;
+  background: var(--yellow);
+  border: none;
+  border-radius: 1rem;
+  outline: none;
+  cursor: pointer;
+  transition: 0.3s ease-in-out all;
+  &:hover {
+    background-color: #ffb910;
+  }
+  @media (min-width: 750px) {
+    width: 50%;
+    margin: 5rem auto 2rem;
+  }
+`;

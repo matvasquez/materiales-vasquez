@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import SwiperCore, { Autoplay } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
-import algoliasearch from "algoliasearch";
 
 // Import Swiper styles
 import "../../node_modules/swiper/swiper-bundle.min.css";

@@ -2,11 +2,12 @@ import React from "react";
 
 //Components
 import { MagnifierIcon } from "../IconsSVG/MagnifierIcon";
+import { Seeking } from "../Loaders/Seeking";
 
 // Styled-Components
 import { InputSearch, InputStyled, IconContainer } from "./style";
 
-const SearchBar = ({ handleSearch, hidden, input, handleClick }) => {
+const SearchBar = ({ handleSearch, hidden, input, handleClick, seeking }) => {
   return (
     <InputSearch hidden={hidden}>
       <InputStyled
@@ -17,7 +18,7 @@ const SearchBar = ({ handleSearch, hidden, input, handleClick }) => {
         onChange={(e) => handleSearch(e.target.value.toString())}
       />
       <IconContainer onClick={handleClick} hidden={hidden}>
-        <MagnifierIcon />
+        {seeking ? <Seeking /> : <MagnifierIcon />}
       </IconContainer>
     </InputSearch>
   );
