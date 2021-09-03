@@ -3,23 +3,23 @@ import React from "react";
 //Components
 import { MagnifierIcon } from "../IconsSVG/MagnifierIcon";
 
-//Styles
-import styles from "./SearchBar.module.css";
+// Styled-Components
+import { InputSearch, InputStyled, IconContainer } from "./style";
 
 const SearchBar = ({ handleSearch, hidden, input, handleClick }) => {
   return (
-    <div className={hidden ? styles.InputSearch : styles.StartSearching}>
-      <input
+    <InputSearch hidden={hidden}>
+      <InputStyled
         ref={input}
-        className={hidden ? styles.InputHidden : styles.InputStyled}
+        hidden={hidden}
         type="text"
         placeholder="Buscar producto..."
         onChange={(e) => handleSearch(e.target.value.toString())}
       />
-      <div className={styles.IconContainer} onClick={handleClick}>
+      <IconContainer onClick={handleClick} hidden={hidden}>
         <MagnifierIcon />
-      </div>
-    </div>
+      </IconContainer>
+    </InputSearch>
   );
 };
 

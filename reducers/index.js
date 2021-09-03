@@ -65,7 +65,6 @@ const reducer = (state, action) => {
       return {
         ...state,
         itemsLoaded: state.itemsLoaded.concat(action.payload),
-        // itemsLoaded: [...state.itemsLoaded, action.payload],
       };
     default:
       return state;

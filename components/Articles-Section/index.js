@@ -21,14 +21,26 @@ import {
 } from "./style";
 
 const ArticlesSection = ({ title, products, route, setItemsLoaded }) => {
+  // Activa la animación de carga en el botón de Cargar más
   const [load, setLoad] = useState(false);
+  // Reemplaza el botón de Cargar más por Son todos los productos
   const [noMore, setNoMore] = useState(false);
+
+  // Determina a que ruta de la API hacer la consulta
+  const searchTitle = {
+    lámparas: "products-by-name/LAMPARA",
+    "Menos de 200": "products-by-price/200",
+    Tienda: "new-products",
+  };
+  // Valor por defecto para hacer la consulta (Son las categorias)
+  const queryDefault = `related-by-category/${title.replace(/ /gi, "-")}`;
+  const query = searchTitle[title] || queryDefault;
 
   const handleClick = () => {
     setLoad(true);
-    let time = setTimeout(() => {
+    setTimeout(() => {
       setLoad(false);
-    }, 1500);
+    }, 3000);
   };
 
   return (
@@ -53,7 +65,7 @@ const ArticlesSection = ({ title, products, route, setItemsLoaded }) => {
               type="button"
               onClick={() => {
                 uploadMoreItems(
-                  title.replace(/ /gi, "-"),
+                  query,
                   products.length + 1,
                   products.length + 20,
                   setItemsLoaded,
@@ -62,7 +74,7 @@ const ArticlesSection = ({ title, products, route, setItemsLoaded }) => {
                 handleClick();
               }}
             >
-              {load ? <SuspensoryPoints /> : "Cargar mas"}
+              {load ? <SuspensoryPoints /> : "Cargar más"}
             </LoadMoreButton>
           )}
         </>

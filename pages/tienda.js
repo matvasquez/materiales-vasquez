@@ -3,6 +3,9 @@ import Head from "next/head";
 import fetch from "isomorphic-unfetch";
 import { connect } from "react-redux";
 
+//Actions
+import { setItemsLoaded } from "../actions";
+
 // Components
 import ArticlesSection from "../components/Articles-Section/index";
 
@@ -13,7 +16,7 @@ export async function getStaticProps() {
   const responseSection = await fetch(
     `https://api-vasquez.herokuapp.com/api/new-products?first=1&last=20`
   );
-  const { newProducts } = await responseSection.json();
+  const { data: newProducts } = await responseSection.json();
 
   return {
     props: {
@@ -29,7 +32,20 @@ export async function getStaticProps() {
 }
 
 const HomePage = (props) => {
-  const { newProducts, title, description, image, ogurl, itemsIliked } = props;
+  const {
+    newProducts,
+    title,
+    description,
+    image,
+    ogurl,
+    itemsLoaded,
+    setItemsLoaded,
+  } = props;
+
+  useEffect(() => {
+    setItemsLoaded(newProducts);
+  }, [newProducts]);
+
   return (
     <>
       <Head>
@@ -98,7 +114,7 @@ const HomePage = (props) => {
 
       <main className={styles.MainStyle}>
         {newProducts && (
-          <ArticlesSection title="Tienda" products={newProducts} route={true} />
+          <ArticlesSection title="Tienda" products={itemsLoaded} route={true} />
         )}
       </main>
     </>
@@ -107,8 +123,12 @@ const HomePage = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    itemsIliked: state.itemsIliked,
+    itemsLoaded: state.itemsLoaded,
   };
 };
 
-export default connect(mapStateToProps, null)(HomePage);
+const mapDispatchToProps = {
+  setItemsLoaded,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

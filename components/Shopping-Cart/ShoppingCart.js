@@ -60,9 +60,6 @@ const ShoppingCart = (props) => {
 
   // Previene el scroll al abrir el carrtio de compras
   useEffect(() => {
-    let x = window.scrollX;
-    let y = window.scrollY;
-
     if (carIsOpen) {
       document.body.style.position = "fixed";
     } else {

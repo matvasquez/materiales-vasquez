@@ -2,24 +2,20 @@
 // con el boton "cargar mas"
 import fetch from "isomorphic-unfetch";
 
-const main = async (category, start, end, aupdateItem, setNoMore) => {
+const main = async (query, start, end, aupdateItem, setNoMore) => {
   const response = await fetch(
-    `https://api-vasquez.herokuapp.com/api/related-by-category/${category}?first=${start}&last=${end}`
+    `https://api-vasquez.herokuapp.com/api/${query}?first=${start}&last=${end}`
   );
-  const { productsByCategory: products } = await response.json();
+  const { data: products } = await response.json();
 
-  aupdateItem(products);
-  if (products.length < 20) {
+  products !== undefined && aupdateItem(products);
+  if (products === undefined) {
+    setNoMore(true);
+  } else if (products.length < 20 || products === undefined) {
     setNoMore(true);
   }
 };
 
-export const uploadMoreItems = (
-  category,
-  start,
-  end,
-  aupdateItem,
-  setNoMore
-) => {
-  main(category, start, end, aupdateItem, setNoMore);
+export const uploadMoreItems = (query, start, end, aupdateItem, setNoMore) => {
+  main(query, start, end, aupdateItem, setNoMore);
 };

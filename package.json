@@ -27,6 +27,7 @@
     "algoliasearch": "^4.10.5",
     "babel-plugin-styled-components": "^1.13.2",
     "cors": "^2.8.5",
+    "just-debounce-it": "^1.5.0",
     "next-auth": "^3.29.0",
     "nodemailer": "^6.6.3",
     "react-redux": "^7.2.4",

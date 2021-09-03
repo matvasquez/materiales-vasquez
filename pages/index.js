@@ -20,29 +20,23 @@ export async function getServerSideProps() {
   const response = await fetch(
     `https://api-vasquez.herokuapp.com/api/new-products`
   );
-  const { newProducts } = await response.json();
+  const { data: newProducts } = await response.json();
 
   const responseSection = await fetch(
     `https://api-vasquez.herokuapp.com/api/products-by-name/${first_section}?first=1&last=8`
   );
-  const { productsByName } = await responseSection.json();
+  const { data: productsByName } = await responseSection.json();
 
   const responseSectionPrice = await fetch(
     `https://api-vasquez.herokuapp.com/api/products-by-price/${second_section}?first=1&last=8`
   );
-  const { productsByPrice } = await responseSectionPrice.json();
+  const { data: productsByPrice } = await responseSectionPrice.json();
 
   return {
     props: {
       newProducts,
       productsByName,
       productsByPrice,
-      title: "Home Center | Materiales Vasquez Hermanos",
-      description:
-        "Amplia gama de productos para obra negra, ferretería, muebles, y artículos para el hogar.",
-      image:
-        "https://res.cloudinary.com/duibtuerj/image/upload/v1630083340/brand/meta-image_rcclee.jpg",
-      ogurl: "https://www.materialesvasquezhnos.com.mx",
     }, // se pasarán al componente de la página como props
   };
 }
@@ -52,10 +46,7 @@ const HomePage = (props) => {
     newProducts,
     productsByName,
     productsByPrice,
-    title,
-    description,
-    image,
-    ogurl,
+
     itemsIliked,
   } = props;
 
@@ -67,38 +58,55 @@ const HomePage = (props) => {
           content="initial-scale=1.0, width=device-width user-scalable=no"
         />
 
-        <meta name="description" content={description} key="descriptionIndex" />
+        <meta
+          name="description"
+          content="Amplia gama de productos para obra negra, ferretería, muebles, y artículos para el hogar"
+          key="descriptionIndex"
+        />
 
         {/* Facebook */}
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content={title} key="og:titleIndex" />
+        <meta property="og:type" content="business.business" />
         <meta
-          property="og:description"
-          content={description}
-          key="og:descriptionIndex"
+          property="og:title"
+          content="Home Center | Materiales Vasquez Hermanos"
+        />
+        <meta
+          property="og:url"
+          content="https://www.materialesvasquezhnos.com.mx/"
         />
         <meta
           property="og:image"
           content="https://res.cloudinary.com/duibtuerj/image/upload/v1630083340/brand/meta-image_rcclee.jpg"
-          key="og:imageIndex"
         />
-        <meta property="og:url" content={ogurl} key="og:urlIndex" />
+        <meta
+          property="og:description"
+          content="Amplia gama de productos para obra negra, ferretería, muebles, y artículos para el hogar"
+        />
+        <meta
+          property="business:contact_data:street_address"
+          content="Lázaro Cárdenas"
+        />
+        <meta property="business:contact_data:locality" content="Xalapa" />
+        <meta property="business:contact_data:region" content="Veracruz" />
+        <meta property="business:contact_data:postal_code" content="91180" />
+        <meta property="business:contact_data:country_name" content="Mexico" />
 
         {/* twitter */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={title} key="twitter:titleIndex" />
+        <meta
+          name="twitter:title"
+          content="Home Center | Materiales Vasquez Hermanos"
+        />
         <meta
           name="twitter:description"
-          content={description}
-          key="twitter:descriptionIndex"
+          content="Amplia gama de productos para obra negra, ferretería, muebles, y artículos para el hogar"
         />
         <meta
           name="twitter:image"
           content="https://res.cloudinary.com/duibtuerj/image/upload/v1630083340/brand/meta-image_rcclee.jpg"
-          index="twitter:imageIndex"
         />
 
-        <script
+        {/* <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
@@ -128,9 +136,9 @@ const HomePage = (props) => {
               url: "https://www.materialesvasquezhnos.com.mx/",
             }),
           }}
-        />
+        /> */}
 
-        <title>{title}</title>
+        <title>Home Center | Materiales Vasquez Hermanos</title>
       </Head>
 
       <main className={styles.MainStyle}>

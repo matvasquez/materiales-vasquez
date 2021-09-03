@@ -3,6 +3,9 @@ import Head from "next/head";
 import fetch from "isomorphic-unfetch";
 import { connect } from "react-redux";
 
+//Actions
+import { setItemsLoaded } from "../../actions";
+
 // Components
 import ArticlesSection from "../../components/Articles-Section/index";
 
@@ -24,14 +27,14 @@ export async function getStaticProps({ params }) {
     const responseSection = await fetch(
       `https://api-vasquez.herokuapp.com/api/products-by-name/LAMPARA?first=1&last=20`
     );
-    const { productsByName } = await responseSection.json();
-    products = await productsByName;
+    const { data } = await responseSection.json();
+    products = await data;
   } else if (params.id === "Menos-de-200") {
     const responseSectionPrice = await fetch(
       `https://api-vasquez.herokuapp.com/api/products-by-price/200?first=1&last=20`
     );
-    const { productsByPrice } = await responseSectionPrice.json();
-    products = await productsByPrice;
+    const { data } = await responseSectionPrice.json();
+    products = await data;
   }
 
   return {
@@ -48,7 +51,19 @@ export async function getStaticProps({ params }) {
 }
 
 const HomePage = (props) => {
-  const { products, title, description, image, ogurl } = props;
+  const {
+    products,
+    title,
+    description,
+    image,
+    ogurl,
+    itemsLoaded,
+    setItemsLoaded,
+  } = props;
+
+  useEffect(() => {
+    setItemsLoaded(products);
+  }, [products]);
   return (
     <>
       <Head>
@@ -57,30 +72,63 @@ const HomePage = (props) => {
           content="initial-scale=1.0, width=device-width user-scalable=no"
         />
 
-        <meta name="description" content={description} key="descriptionIndex" />
+        <meta
+          name="description"
+          content={
+            description ||
+            "Amplia gama de productos para obra negra, ferretería, muebles, y artículos para el hogar"
+          }
+          key="descriptionIndex"
+        />
 
         {/* Facebook */}
         <meta property="og:type" content="website" />
-        <meta property="og:title" content={title} key="og:titleIndex" />
+        <meta
+          property="og:title"
+          content={title || "Productos nuevos | Materiales Vasquez Hermanos"}
+          key="og:titleIndex"
+        />
         <meta
           property="og:description"
-          content={description}
+          content={
+            description ||
+            "Amplia gama de productos para obra negra, ferretería, muebles, y artículos para el hogar"
+          }
           key="og:descriptionIndex"
         />
-        <meta property="og:image" content={image} key="og:imageIndex" />
-        <meta property="og:url" content={ogurl} key="og:urlIndex" />
+        <meta
+          property="og:image"
+          content="https://res.cloudinary.com/duibtuerj/image/upload/v1630083340/brand/meta-image_rcclee.jpg"
+          key="og:imageIndex"
+        />
+        <meta
+          property="og:url"
+          content="https://www.materialesvasquezhnos.com.mx"
+          key="og:urlIndex"
+        />
 
         {/* twitter */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={title} key="twitter:titleIndex" />
+        <meta
+          name="twitter:title"
+          content={title || "Productos nuevos | Materiales Vasquez Hermanos"}
+          key="twitter:titleIndex"
+        />
         <meta
           name="twitter:description"
-          content={description}
+          content={
+            description ||
+            "Amplia gama de productos para obra negra, ferretería, muebles, y artículos para el hogar"
+          }
           key="twitter:descriptionIndex"
         />
-        <meta name="twitter:image" content={image} index="twitter:imageIndex" />
+        <meta
+          name="twitter:image"
+          content="https://res.cloudinary.com/duibtuerj/image/upload/v1630083340/brand/meta-image_rcclee.jpg"
+          index="twitter:imageIndex"
+        />
 
-        <script
+        {/* <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
@@ -110,14 +158,14 @@ const HomePage = (props) => {
               url: "https://www.materialesvasquezhnos.com.mx/",
             }),
           }}
-        />
+        /> */}
 
         <title>{`${title} | Materiales Vasquez Hermanos`}</title>
       </Head>
 
       <main className={styles.MainStyle}>
         {products && (
-          <ArticlesSection title={title} products={products} route={true} />
+          <ArticlesSection title={title} products={itemsLoaded} route={true} />
         )}
       </main>
     </>
@@ -126,8 +174,12 @@ const HomePage = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    itemsIliked: state.itemsIliked,
+    itemsLoaded: state.itemsLoaded,
   };
 };
 
-export default connect(mapStateToProps, null)(HomePage);
+const mapDispatchToProps = {
+  setItemsLoaded,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
