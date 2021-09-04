@@ -11,8 +11,8 @@ const rotation = keyframes`
 `;
 
 export const Conatiner = styled.div`
-  width: 1.7rem;
-  height: 1.7rem;
+  width: 100%;
+  height: 100%;
   margin: 0;
 
   display: flex;

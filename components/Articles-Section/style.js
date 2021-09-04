@@ -23,10 +23,27 @@ export const TitleSection = styled.h3`
   text-align: left;
   font-weight: 500;
   text-transform: capitalize;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   @media (min-width: 750px) {
     font-size: 3rem;
     font-weight: 700;
   }
+`;
+
+export const OpenFilters = styled.button`
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: none;
+  border: 0.1rem solid var(--blue);
+  border-radius: 0.5rem;
+  outline: none;
+  cursor: pointer;
 `;
 
 export const ItemsContainer = styled.section`

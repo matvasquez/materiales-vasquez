@@ -35,6 +35,8 @@ export const getServerSideProps = async (context) => {
 
   return {
     props: {
+      session,
+      providers,
       title: `Registro de usuario | Materiales Vasquez Hermanos`,
       description:
         "Amplia gama de productos para obra negra, ferretería, muebles, y artículos para el hogar.",

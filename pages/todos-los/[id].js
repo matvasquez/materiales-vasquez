@@ -50,7 +50,7 @@ export async function getStaticProps({ params }) {
   };
 }
 
-const HomePage = (props) => {
+const AllSections = (props) => {
   const {
     products,
     title,
@@ -110,4 +110,4 @@ const mapDispatchToProps = {
   setItemsLoaded,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
+export default connect(mapStateToProps, mapDispatchToProps)(AllSections);

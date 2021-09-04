@@ -74,6 +74,9 @@ export const IconContainer = styled.div`
   width: 1.7rem;
   height: 1.7rem;
   margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   ${(props) =>
     props.hidden &&

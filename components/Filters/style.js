@@ -63,7 +63,17 @@ export const CloseButton = styled.div`
 
 export const PriceText = styled.p`
   width: 100%;
+  margin-top: 1rem;
   font-weight: 500;
+  text-align: left;
+`;
+
+export const InputRangeContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 `;
 
 export const InputRange = styled.input`
@@ -71,16 +81,16 @@ export const InputRange = styled.input`
   width: 100%;
   height: 1.5rem;
   border-radius: 1rem;
-  background-color: var(--white);
-  border: 0.1rem solid var(--blue);
+  background: transparent;
+  border: none;
   outline: none;
-  transition: 0.3s ease-in-out all;
+  opacity: 0;
   ::-webkit-slider-runnable-track {
-    /* width: 50%;
+    width: 50%;
     height: 1.5rem;
     border-radius: 1rem;
-    background: var(--yellow);
-    cursor: pointer; */
+    background: transparent;
+    cursor: pointer;
   }
   ::-webkit-slider-thumb {
     -webkit-appearance: none;
@@ -91,6 +101,19 @@ export const InputRange = styled.input`
     background: var(--red);
     cursor: pointer;
   }
+`;
+
+export const RangeStyle = styled.div`
+  /* width: 100%; */
+  height: 0.8rem;
+  border-radius: 1rem;
+  background-color: var(--blue);
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: -1;
+  /* ${(props) => props.minSlider && `width: ${props.minSlider}%`} */
+  ${(props) => (props.slider ? `width: ${props.slider}%` : `width: 0`)}
 `;
 
 export const FilterSection = styled.section`
@@ -119,13 +142,15 @@ export const SectionName = styled.p`
 
 export const BrandsContainer = styled.ul`
   width: 100%;
-
+  max-height: 40vh;
+  margin: 1rem auto;
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: repeat(${(props) => props.rows && props.rows}, 1fr);
   grid-gap: 2rem;
   justify-items: start;
   align-items: center;
+  overflow-y: scroll;
 `;
 
 export const BrandsList = styled.li`
@@ -154,14 +179,14 @@ export const CheckMarck = styled.div`
   background: none;
   position: relative;
   &:after {
-    content: "\\2714";
+    content: "\\26AC";
     position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
     font-size: 2.3rem;
-    color: #0275ff;
+    color: var(--blue);
     line-height: 1.4rem;
     text-align: center;
   }
@@ -169,33 +194,6 @@ export const CheckMarck = styled.div`
     display: none;
   }
 `;
-
-// export const Brand = styled.div`
-//   width: fit-content;
-//   padding: 0.5rem;
-//   margin: 0.5rem;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   background: none;
-//   border: 0.1rem solid var(--blue);
-//   border-radius: 0.8rem;
-//   cursor: pointer;
-//   transition: 0.3s ease-in-out all;
-//   position: relative;
-//   ${(props) =>
-//     props.isChecked &&
-//     `
-//       background-color: var(--blue);
-//       ${BrandLabel} {
-//         color: var(--yellow);
-//       }
-//   `}
-//   &:hover {
-//     background-color: var(--yellow);
-//     border: 0.1rem solid var(--yellow);
-//   }
-// `;
 
 export const ButtonsContainer = styled.section`
   width: 100%;
@@ -211,6 +209,34 @@ export const ButtonsContainer = styled.section`
   align-items: center;
 `;
 
+export const CategoriesScroll = styled.div`
+  width: 100%;
+  overflow-x: scroll;
+`;
+
+export const CategoriesContainer = styled.ul`
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(
+    ${(props) => props.columns && props.columns},
+    min-content
+  );
+  grid-gap: 1rem;
+  justify-items: center;
+  align-items: center;
+`;
+
+export const CategoriesList = styled.li`
+  padding: 0.4rem 0.6rem;
+  background-color: var(--blue);
+  border-radius: 0.5rem;
+`;
+
+export const CategoriesAnchor = styled.a`
+  white-space: nowrap;
+  color: var(--background);
+`;
+
 export const ApplyFiltersButton = styled.button`
   width: 100%;
   padding: 1rem;
@@ -224,8 +250,8 @@ export const ApplyFiltersButton = styled.button`
   cursor: pointer;
   transition: 0.3s ease-in-out all;
   :disabled {
-    color: #3a4a77;
-    background-color: #ffd87a;
+    color: #91a7e2;
+    background-color: #ffe199;
   }
   &:hover {
     background-color: #ffcc51;
@@ -252,10 +278,13 @@ export const CleanFilters = styled.button`
   outline: none;
   cursor: pointer;
   transition: 0.3s ease-in-out all;
+  :disabled {
+    color: #91a7e2;
+    border: 0.1rem solid #91a7e2;
+  }
   &:hover {
-    background-color: var(--yellow);
     border: 0.1rem solid var(--yellow);
-    border-radius: 2rem;
+    border-radius: 1.5rem;
   }
   @media (min-width: 750px) {
     width: 80%;
@@ -263,4 +292,15 @@ export const CleanFilters = styled.button`
   @media (min-width: 1200px) {
     width: 90%;
   }
+`;
+
+export const LookingFor = styled.div`
+  width: 6rem;
+  height: 6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: 20%;
+  left: calc(50% - 2rem);
 `;

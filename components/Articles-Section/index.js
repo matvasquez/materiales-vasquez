@@ -9,18 +9,27 @@ import { setItemsLoaded } from "../../actions";
 // Components
 import PreviewItem from "../Preview-Item/PreviewItem";
 import { SuspensoryPoints } from "../Loaders/SuspensoryPoints";
+import { FiltersIcons } from "../IconsSVG/FiltersIcons";
 
 // Styled-Components
 import {
   SectionStyled,
   TitleSection,
+  OpenFilters,
   ItemsContainer,
   ButtonMore,
   LoadMoreButton,
   NoMoreText,
 } from "./style";
 
-const ArticlesSection = ({ title, products, route, setItemsLoaded }) => {
+const ArticlesSection = ({
+  title,
+  products,
+  route,
+  routeWithFilters,
+  setItemsLoaded,
+  handleOpenFilters,
+}) => {
   // Activa la animación de carga en el botón de Cargar más
   const [load, setLoad] = useState(false);
   // Reemplaza el botón de Cargar más por Son todos los productos
@@ -45,7 +54,14 @@ const ArticlesSection = ({ title, products, route, setItemsLoaded }) => {
 
   return (
     <SectionStyled>
-      <TitleSection>{title}</TitleSection>
+      <TitleSection>
+        {title}
+        {route && (
+          <OpenFilters onClick={() => handleOpenFilters()}>
+            <FiltersIcons />
+          </OpenFilters>
+        )}
+      </TitleSection>
       <ItemsContainer>
         {products &&
           products.map((product, i) => (
@@ -58,24 +74,28 @@ const ArticlesSection = ({ title, products, route, setItemsLoaded }) => {
       </ItemsContainer>
       {route ? (
         <>
-          {noMore ? (
-            <NoMoreText>Son todos los productos</NoMoreText>
-          ) : (
-            <LoadMoreButton
-              type="button"
-              onClick={() => {
-                uploadMoreItems(
-                  query,
-                  products.length + 1,
-                  products.length + 20,
-                  setItemsLoaded,
-                  setNoMore
-                );
-                handleClick();
-              }}
-            >
-              {load ? <SuspensoryPoints /> : "Cargar más"}
-            </LoadMoreButton>
+          {!routeWithFilters && (
+            <>
+              {noMore ? (
+                <NoMoreText>Son todos los productos</NoMoreText>
+              ) : (
+                <LoadMoreButton
+                  type="button"
+                  onClick={() => {
+                    uploadMoreItems(
+                      query,
+                      products.length + 1,
+                      products.length + 20,
+                      setItemsLoaded,
+                      setNoMore
+                    );
+                    handleClick();
+                  }}
+                >
+                  {load ? <SuspensoryPoints /> : "Cargar más"}
+                </LoadMoreButton>
+              )}
+            </>
           )}
         </>
       ) : (

@@ -15,10 +15,10 @@ import styles from "../../styles/components/Main.module.css";
 // Styled-Components
 import {
   SectionEmpty,
-  OpenFilters,
   TitleSection,
   EmptyContainer,
   TextEmpty,
+  ClearFilters,
 } from "../../styles/categoria/style";
 
 // Genera las rutas de el detalle de todas las categorias
@@ -67,7 +67,7 @@ export async function getServerSideProps({ params }) {
   };
 }
 
-const Tienda = (props) => {
+const Categories = (props) => {
   const {
     products = [],
     brands = [],
@@ -83,6 +83,8 @@ const Tienda = (props) => {
   } = props;
 
   const [openFilters, setOpenFilters] = useState(false);
+  const [seeking, setSeeking] = useState(false);
+  const [routeWithFilters, setRouteWithFilters] = useState(false);
 
   const handleOpenFilters = () => {
     setOpenFilters(!openFilters);
@@ -93,15 +95,30 @@ const Tienda = (props) => {
   }, [products]);
 
   const applyFilters = async (minPrice, maxPrice, selectedBrands) => {
+    setSeeking(true);
     const brandsQuery = selectedBrands.map((brand) => `'${brand}'`);
 
     const response = await fetch(
-      `https://api-vasquez.herokuapp.com/api/filters/(${brandsQuery.toString()})?first=${minPrice}&last=${maxPrice}`
+      `https://api-vasquez.herokuapp.com/api/filters/(${brandsQuery.toString()})?categorie=${title.replace(
+        / /gi,
+        "-"
+      )}&first=${minPrice}&last=${maxPrice}`
     );
     const { data } = await response.json();
 
+    if (data) {
+      setResetItemsLoaded();
+      setItemsLoaded(data);
+      setSeeking(false);
+      handleOpenFilters();
+      setRouteWithFilters(true);
+    }
+  };
+
+  const beforeFiltering = () => {
     setResetItemsLoaded();
-    setItemsLoaded(data);
+    setItemsLoaded(products);
+    setOpenFilters(false);
   };
 
   return (
@@ -136,18 +153,29 @@ const Tienda = (props) => {
           isOpen={openFilters}
           handleOpenFilters={handleOpenFilters}
           applyFilters={applyFilters}
+          seeking={seeking}
+          setRouteWithFilters={setRouteWithFilters}
+          beforeFiltering={beforeFiltering}
         />
-        <OpenFilters onClick={() => handleOpenFilters()}>
-          Abrir filtros
-        </OpenFilters>
         {itemsLoaded.length > 0 ? (
-          <ArticlesSection title={title} products={itemsLoaded} route={true} />
+          <ArticlesSection
+            title={title}
+            products={itemsLoaded}
+            route={true}
+            routeWithFilters={routeWithFilters}
+            handleOpenFilters={handleOpenFilters}
+          />
         ) : (
           <SectionEmpty>
             <TitleSection>{title}</TitleSection>
             <EmptyContainer>
               <TextEmpty>Sección Vacía</TextEmpty>
             </EmptyContainer>
+            {routeWithFilters && (
+              <ClearFilters type="button" onClick={() => beforeFiltering()}>
+                Ver productos sin filtros
+              </ClearFilters>
+            )}
           </SectionEmpty>
         )}
       </main>
@@ -166,4 +194,4 @@ const mapDispatchToProps = {
   setResetItemsLoaded,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Tienda);
+export default connect(mapStateToProps, mapDispatchToProps)(Categories);

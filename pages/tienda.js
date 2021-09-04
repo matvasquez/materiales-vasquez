@@ -4,47 +4,90 @@ import fetch from "isomorphic-unfetch";
 import { connect } from "react-redux";
 
 //Actions
-import { setItemsLoaded } from "../actions";
+import { setItemsLoaded, setResetItemsLoaded } from "../actions";
 
 // Components
 import ArticlesSection from "../components/Articles-Section/index";
+import Filter from "../components/Filters/Filters";
 
 // Styles
 import styles from "../styles/components/Main.module.css";
 
-export async function getServerSideProps() {
+// Styled-Components
+import { ClearFilters } from "../styles/tiendas/style";
+
+export async function getServerSideProps(context) {
   const responseSection = await fetch(
     `https://api-vasquez.herokuapp.com/api/new-products?first=1&last=20`
   );
   const { data: newProducts } = await responseSection.json();
 
+  const responseBrands = await fetch(
+    `https://api-vasquez.herokuapp.com/api/brands-tienda`
+  );
+  const { brands } = await responseBrands.json();
+
+  const responseCategories = await fetch(
+    `https://api-vasquez.herokuapp.com/api/categories/all-categories`
+  );
+  const { data: categories } = await responseCategories.json();
+
   return {
     props: {
       newProducts,
-      title: "Tienda | Materiales Vasquez Hermanos",
-      description:
-        "Amplia gama de productos para obra negra, ferretería, muebles, y artículos para el hogar.",
-      image:
-        "https://res.cloudinary.com/duibtuerj/image/upload/v1630083340/brand/meta-image_rcclee.jpg",
-      ogurl: "https://www.materialesvasquezhnos.com.mx",
+      brands,
+      categories,
     }, // se pasarán al componente de la página como props
   };
 }
 
-const HomePage = (props) => {
+const Store = (props) => {
   const {
     newProducts,
-    title,
-    description,
-    image,
-    ogurl,
+    brands,
+    categories,
     itemsLoaded,
     setItemsLoaded,
+    setResetItemsLoaded,
   } = props;
+
+  const [openFilters, setOpenFilters] = useState(false);
+  const [seeking, setSeeking] = useState(false);
+  const [routeWithFilters, setRouteWithFilters] = useState(false);
+
+  const handleOpenFilters = () => {
+    setOpenFilters(!openFilters);
+  };
 
   useEffect(() => {
     setItemsLoaded(newProducts);
   }, [newProducts]);
+
+  const applyFilters = async (minPrice, maxPrice, selectedBrands) => {
+    setSeeking(true);
+    const brandsQuery = selectedBrands.map((brand) => `'${brand}'`);
+
+    const response = await fetch(
+      `https://api-vasquez.herokuapp.com//api/filters/(${brandsQuery.toString()})?categorie=todas&first=${minPrice}&last=${maxPrice}`
+    );
+
+    const { data } = await response.json();
+
+    if (data) {
+      console.log("setResetItemsLoaded");
+      setResetItemsLoaded();
+      setItemsLoaded(data);
+      setSeeking(false);
+      handleOpenFilters();
+      setRouteWithFilters(true);
+    }
+  };
+
+  const beforeFiltering = () => {
+    setResetItemsLoaded();
+    setItemsLoaded(newProducts);
+    setOpenFilters(false);
+  };
 
   return (
     <>
@@ -70,12 +113,28 @@ const HomePage = (props) => {
           type="image/x-icon"
         ></link>
 
-        <title>{title}</title>
+        <title>Tienda | Materiales Vasquez Hermanos</title>
       </Head>
 
       <main className={styles.MainStyle}>
-        {newProducts && (
-          <ArticlesSection title="Tienda" products={itemsLoaded} route={true} />
+        <Filter
+          brands={brands}
+          categories={categories}
+          isOpen={openFilters}
+          handleOpenFilters={handleOpenFilters}
+          applyFilters={applyFilters}
+          seeking={seeking}
+          setRouteWithFilters={setRouteWithFilters}
+          beforeFiltering={beforeFiltering}
+        />
+        {itemsLoaded.length > 0 && (
+          <ArticlesSection
+            title="Tienda"
+            products={itemsLoaded}
+            route={true}
+            routeWithFilters={routeWithFilters}
+            handleOpenFilters={handleOpenFilters}
+          />
         )}
       </main>
     </>
@@ -90,6 +149,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   setItemsLoaded,
+  setResetItemsLoaded,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
+export default connect(mapStateToProps, mapDispatchToProps)(Store);
