@@ -1,87 +1,124 @@
 import React, { useEffect, useState, useRef } from "react";
+import styled from "styled-components";
 //import Link from "next/link";
-
-// Components
-import MoreFilters from "../More-Filters";
 
 // Styled-Components
 import {
   SectionStyled,
-  CategoriesContainer,
-  ButtonCategory,
-  MoreContainer,
-  ButtonMore,
+  CloseButton,
+  PriceText,
+  InputRange,
+  FilterSection,
+  SectionName,
+  BrandsContainer,
+  BrandsList,
+  BrandLabel,
+  BrandInput,
+  CheckMarck,
+  ButtonsContainer,
+  ApplyFiltersButton,
+  CleanFilters,
 } from "./style";
 
-const Filter = ({ brands, categories, setDefaultFilters, applyFilters }) => {
-  const [isOpen, setIsOpen] = useState(false);
+const Filter = ({ brands, isOpen, handleOpenFilters, applyFilters }) => {
+  const formatter = new Intl.NumberFormat("en-US", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+  // const [isOpen, setIsOpen] = useState(false);
   const minimumPriceRef = useRef(null);
   const maximumPriceRef = useRef(null);
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(10000);
+  const [selectedBrands, setSelectedBrands] = useState([]);
 
-  const handleClick = () => {
-    setIsOpen(!isOpen);
+  const handleChangeMinPrice = () => {
+    setMinPrice(minimumPriceRef.current.value);
+  };
+  const handleChangeMaxPrice = () => {
+    setMaxPrice(maximumPriceRef.current.value);
   };
 
-  const handleFilters = (selectedBrands) => {
-    let userFilters = "";
-    if (selectedBrands) {
-      let firtsBrand =
-        selectedBrands.length > 0
-          ? `AND (DESC_MARCA:'${selectedBrands[0]}'`
-          : "";
-      let moreBrands =
-        selectedBrands.length >= 1
-          ? selectedBrands
-              .slice(1)
-              .map((brand) => `OR DESC_MARCA:'${brand}'`)
-              .join("")
-          : "";
-
-      userFilters = `price > ${
-        minimumPriceRef.current.value == "" ? 0 : minimumPriceRef.current.value
-      } AND price < ${
-        maximumPriceRef.current.value == ""
-          ? 100000
-          : maximumPriceRef.current.value
-      } ${selectedBrands.length === 1 ? `${firtsBrand})` : ``} ${
-        selectedBrands.length > 1 ? `${firtsBrand} ${moreBrands})` : ``
-      }`;
+  const handleChangeBrand = (brand) => {
+    if (selectedBrands.includes(brand)) {
+      setSelectedBrands(selectedBrands.filter((item) => item !== brand));
+    } else {
+      setSelectedBrands((selectedBrands) => [...selectedBrands, brand]);
     }
-
-    setDefaultFilters(userFilters);
-    applyFilters(userFilters);
   };
 
   return (
-    <SectionStyled>
+    <SectionStyled open={isOpen}>
+      <CloseButton onClick={() => handleOpenFilters()} />
+      <FilterSection>
+        <SectionName>Rango de precio</SectionName>
+        <PriceText style={{ textAlign: "left" }}>
+          ${formatter.format(minPrice)}
+        </PriceText>
+        <InputRange
+          type="range"
+          name="min-price"
+          min="0"
+          max="100"
+          step="10"
+          ref={minimumPriceRef}
+          value={minPrice}
+          onChange={() => handleChangeMinPrice()}
+          slider={minPrice}
+        />
+        <PriceText style={{ textAlign: "right" }}>
+          ${formatter.format(maxPrice)}
+        </PriceText>
+        <InputRange
+          type="range"
+          name="max-price"
+          min="100"
+          max="10000"
+          step="100"
+          ref={maximumPriceRef}
+          value={maxPrice}
+          onChange={() => handleChangeMaxPrice()}
+          slider={maxPrice}
+        />
+      </FilterSection>
       {brands && (
-        <>
-          <CategoriesContainer numColumns={brands.length}>
-            {brands.map((brand) => (
-              <ButtonCategory
-                key={brand}
-                onClick={() => handleFilters([brand])}
-              >
-                {brand}
-              </ButtonCategory>
-            ))}
-          </CategoriesContainer>
-          <MoreContainer>
-            <ButtonMore type="button" onClick={handleClick}>
-              Más
-            </ButtonMore>
-          </MoreContainer>
-          <MoreFilters
-            brands={brands}
-            categories={categories}
-            handleClick={handleClick}
-            isOpen={isOpen}
-            filters={(selectedBrands) => handleFilters(selectedBrands)}
-            minimumPriceRef={minimumPriceRef}
-            maximumPriceRef={maximumPriceRef}
-          />
-        </>
+        <FilterSection>
+          <SectionName>Filtrar por marca</SectionName>
+          {brands && (
+            <BrandsContainer rows={brands.length}>
+              {brands.map((brand) => (
+                <BrandsList key={brand.marca}>
+                  <BrandLabel htmlFor={brand.marca}>{brand.marca}</BrandLabel>
+                  <BrandInput
+                    type="checkbox"
+                    id={brand.marca}
+                    onChange={() => handleChangeBrand(brand.marca)}
+                  />
+                  <CheckMarck
+                    style={
+                      selectedBrands.includes(brand.marca)
+                        ? { display: "block" }
+                        : { display: "none" }
+                    }
+                  />
+                </BrandsList>
+              ))}
+            </BrandsContainer>
+          )}
+        </FilterSection>
       )}
+      <ButtonsContainer>
+        <CleanFilters type="button">Limpiar filtros</CleanFilters>
+        <ApplyFiltersButton
+          type="button"
+          onClick={() => {
+            applyFilters(minPrice, maxPrice, selectedBrands);
+            handleOpenFilters();
+          }}
+        >
+          Aplicar filtros
+        </ApplyFiltersButton>
+      </ButtonsContainer>
     </SectionStyled>
   );
 };

@@ -66,6 +66,11 @@ const reducer = (state, action) => {
         ...state,
         itemsLoaded: state.itemsLoaded.concat(action.payload),
       };
+    case "RESET_ITEMS_LOADED":
+      return {
+        ...state,
+        itemsLoaded: [],
+      };
     default:
       return state;
   }

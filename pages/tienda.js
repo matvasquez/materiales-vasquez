@@ -12,7 +12,7 @@ import ArticlesSection from "../components/Articles-Section/index";
 // Styles
 import styles from "../styles/components/Main.module.css";
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const responseSection = await fetch(
     `https://api-vasquez.herokuapp.com/api/new-products?first=1&last=20`
   );

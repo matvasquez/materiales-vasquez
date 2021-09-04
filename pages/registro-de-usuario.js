@@ -20,20 +20,18 @@ import {
   ViewProfileButton,
 } from "../styles/registro-de-usuario/style";
 
-export const getStaticProps = async () => {
-  // const session = await getSession(context);
-  // const providers = await getProviders();
+export const getServerSideProps = async (context) => {
+  const session = await getSession(context);
+  const providers = await getProviders();
 
-  // console.log("session: ", session);
-
-  // if (session) {
-  //   return {
-  //     redirect: {
-  //       destination: `/perfil-de/${session.user.name.replace(/ /gi, "-")}`,
-  //       permanent: false,
-  //     },
-  //   };
-  // }
+  if (session) {
+    return {
+      redirect: {
+        destination: `/perfil-de/${session.user.name.replace(/ /gi, "-")}`,
+        permanent: false,
+      },
+    };
+  }
 
   return {
     props: {
@@ -47,9 +45,9 @@ export const getStaticProps = async () => {
   };
 };
 
-const HomePage = (props) => {
-  const { providers, title } = props;
-  const [session, loading] = useSession();
+const UserRegistration = (props) => {
+  const { session, providers, title } = props;
+  // const [session, loading] = useSession();
 
   return (
     <>
@@ -143,43 +141,38 @@ const HomePage = (props) => {
 
       <main className={styles.MainStyle}>
         <h1>Registro de usuario</h1>
-        {loading ? null : (
-          <>
-            {session ? (
-              <SectionStyled>
-                <h2 style={{ textAlign: "center", margin: "3rem auto" }}>
-                  {session.user.name} tu ya estas registrado
-                </h2>
-                <p style={{ textAlign: "center", margin: "3rem auto" }}>
-                  Debes cerrar sesión para poder registrarte con una nueva
-                  cuenta
-                </p>
-                <Link href={`/perfil-de/${session.user.name}`} passHref>
-                  <ViewProfileButton>Ver mi perfil</ViewProfileButton>
-                </Link>
-              </SectionStyled>
-            ) : (
-              <SectionStyled>
-                <Container>
-                  <Text>Aún no está registrado</Text>
-                  <Text>Regístrese en menos de dos minutos</Text>
-                </Container>
-                <Container>
-                  {Object.values(providers).map((provider) => (
-                    <div key={provider.name}>
-                      <ButtonLogIn
-                        type="button"
-                        onClick={() => signIn(provider.id)}
-                        color={provider.id === "google" ? "#DB4437" : "#4267B2"}
-                      >
-                        Acceder con <SpanStyles>{provider.name}</SpanStyles>
-                      </ButtonLogIn>
-                    </div>
-                  ))}
-                </Container>
-              </SectionStyled>
-            )}
-          </>
+        {session ? (
+          <SectionStyled>
+            <h2 style={{ textAlign: "center", margin: "3rem auto" }}>
+              {session.user.name} tu ya estas registrado
+            </h2>
+            <p style={{ textAlign: "center", margin: "3rem auto" }}>
+              Debes cerrar sesión para poder registrarte con una nueva cuenta
+            </p>
+            <Link href={`/perfil-de/${session.user.name}`} passHref>
+              <ViewProfileButton>Ver mi perfil</ViewProfileButton>
+            </Link>
+          </SectionStyled>
+        ) : (
+          <SectionStyled>
+            <Container>
+              <Text>Aún no está registrado</Text>
+              <Text>Regístrese en menos de dos minutos</Text>
+            </Container>
+            <Container>
+              {Object.values(providers).map((provider) => (
+                <div key={provider.name}>
+                  <ButtonLogIn
+                    type="button"
+                    onClick={() => signIn(provider.id)}
+                    color={provider.id === "google" ? "#DB4437" : "#4267B2"}
+                  >
+                    Acceder con <SpanStyles>{provider.name}</SpanStyles>
+                  </ButtonLogIn>
+                </div>
+              ))}
+            </Container>
+          </SectionStyled>
         )}
       </main>
     </>
@@ -193,4 +186,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, null)(HomePage);
+export default connect(mapStateToProps, null)(UserRegistration);

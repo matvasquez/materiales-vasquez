@@ -22,6 +22,15 @@ export const SectionEmpty = styled.section`
   }
 `;
 
+export const OpenFilters = styled.button`
+  padding: 0.2rem;
+  margin-left: auto;
+  border: 0.1rem solid var(--blue);
+  border-radius: 0.5rem;
+  outline: none;
+  cursor: pointer;
+`;
+
 export const TitleSection = styled.h1`
   font-size: 2rem;
   margin: 2rem auto;

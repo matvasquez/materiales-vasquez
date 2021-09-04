@@ -26,35 +26,34 @@ import {
   SectionIliked,
 } from "../../styles/perfil/style";
 
-// export const getStaticProps = async ({ params }) => {
-//   // const session = await getSession(context);
-//   console.log("params: ", params);
+export const getServerSideProps = async (context) => {
+  const session = await getSession(context);
 
-//   // if (session === null) {
-//   //   return {
-//   //     redirect: {
-//   //       destination: "/registro-de-usuario",
-//   //       permanent: false,
-//   //     },
-//   //   };
-//   // }
+  if (session === null) {
+    return {
+      redirect: {
+        destination: "/registro-de-usuario",
+        permanent: false,
+      },
+    };
+  }
 
-//   return {
-//     props: {
-//       // session,
-//       title: `${session.user.name.toUpperCase()} | Materiales Vasquez Hermanos`,
-//       description:
-//         "Amplia gama de productos para obra negra, ferretería, muebles, y artículos para el hogar.",
-//       image:
-//         "https://res.cloudinary.com/duibtuerj/image/upload/v1630083340/brand/meta-image_rcclee.jpg",
-//       ogurl: "https://www.materialesvasquezhnos.com.mx",
-//     },
-//   };
-// };
+  return {
+    props: {
+      session,
+      title: `${session.user.name.toUpperCase()} | Materiales Vasquez Hermanos`,
+      description:
+        "Amplia gama de productos para obra negra, ferretería, muebles, y artículos para el hogar.",
+      image:
+        "https://res.cloudinary.com/duibtuerj/image/upload/v1630083340/brand/meta-image_rcclee.jpg",
+      ogurl: "https://www.materialesvasquezhnos.com.mx",
+    },
+  };
+};
 
 const UserProfile = (props) => {
-  const [session, loading] = useSession();
-  const { itemsIliked } = props;
+  // const [session, loading] = useSession();
+  const { session, itemsIliked } = props;
 
   return (
     <>
@@ -85,26 +84,22 @@ const UserProfile = (props) => {
 
       <main className={styles.MainStyle}>
         <>
-          {loading ? null : (
-            <>
-              {session && (
-                <UserInfo>
-                  <ImageContainer>
-                    <img
-                      src={session.user.image}
-                      width={300}
-                      height={300}
-                      alt={`Fotografía de perfil de ${session.user.name}`}
-                    />
-                  </ImageContainer>
-                  <UserName>{session.user.name}</UserName>
-                  <p>{session.user.email}</p>
-                  <ButtonLogOut type="button" onClick={() => signOut()}>
-                    Cerrar sesión
-                  </ButtonLogOut>
-                </UserInfo>
-              )}
-            </>
+          {session && (
+            <UserInfo>
+              <ImageContainer>
+                <img
+                  src={session.user.image}
+                  width={300}
+                  height={300}
+                  alt={`Fotografía de perfil de ${session.user.name}`}
+                />
+              </ImageContainer>
+              <UserName>{session.user.name}</UserName>
+              <p>{session.user.email}</p>
+              <ButtonLogOut type="button" onClick={() => signOut()}>
+                Cerrar sesión
+              </ButtonLogOut>
+            </UserInfo>
           )}
           <SectionIliked>
             {itemsIliked.length === 0 ? (

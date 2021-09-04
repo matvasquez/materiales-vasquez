@@ -57,3 +57,8 @@ export const setItemsLoaded = (payload) => ({
   type: "ITEMS_LOADED",
   payload,
 });
+
+export const setResetItemsLoaded = (payload) => ({
+  type: "RESET_ITEMS_LOADED",
+  payload,
+});
