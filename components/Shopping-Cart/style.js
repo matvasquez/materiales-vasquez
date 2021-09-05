@@ -102,8 +102,17 @@ export const CartPreview = styled.section`
 `;
 
 export const OpenCloseButton = styled.button`
-  display: none;
-  ${(props) =>
+  /* display: none; */
+  background-color: transparent;
+  color: transparent;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  border: none;
+  position: absolute;
+  top: 0rem;
+  right: 0rem;
+  /* ${(props) =>
     props.carIsOpen &&
     `
   display: block;
@@ -114,11 +123,12 @@ export const OpenCloseButton = styled.button`
   outline: none;
   cursor: pointer;
   opacity: 0.5;
-  position: absolute;
   top: 1rem;
   right: 1rem;
-  `}
+  `} */
   @media (min-width: 1200px) {
+    width: fit-content;
+    height: fit-content;
     padding: 0.2rem;
     font-size: 1rem;
     color: var(--yellow);

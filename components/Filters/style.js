@@ -21,6 +21,7 @@ export const SectionStyled = styled.section`
     align-items: center;
     border-radius: 1.5rem;
     z-index: 200;
+    overflow: hidden;
   }
 `;
 

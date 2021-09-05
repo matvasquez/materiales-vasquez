@@ -116,7 +116,7 @@ const HomePage = (props) => {
         }}
       />
 
-      <main className={styles.MainStyle}>
+      <main className={styles.MainHome}>
         <Slider />
         {itemsIliked.length > 0 && (
           <ArticlesLiked

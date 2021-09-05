@@ -8,8 +8,19 @@
   align-items: center;
 }
 
+.MainHome {
+  width: 100%;
+  padding: 1rem;
+  margin-top: 4.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
 @media (min-width: 750px) {
-  .MainStyle {
+  .MainStyle,
+  .MainHome {
     margin-top: 8rem;
   }
 }
@@ -22,5 +33,10 @@
     grid-gap: 1rem;
     justify-items: center;
     align-items: start;
+  }
+
+  .MainHome {
+    padding: 2rem 1rem;
+    margin-top: 19rem;
   }
 }
