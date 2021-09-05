@@ -3,34 +3,34 @@ import styled from "styled-components";
 export const SectionStyled = styled.section`
   width: 100vw;
   height: 100vh;
-  padding: 4rem 1rem 2rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-start;
+  padding: 1rem 1rem 2rem 1rem;
   background-color: var(--background);
   position: fixed;
   top: 0;
   left: ${(props) => (props.open ? "0" : "-100%")};
+  overflow-y: scroll;
   z-index: 200000;
   transition: 0.3s ease-in-out all;
-  /* @media (min-width: 750px) {
-    padding: 5rem;
-    justify-content: flex-start;
-    background-color: rgb(0 20 76 / 85%);
-  }
   @media (min-width: 1200px) {
-    grid-column: 1 / span 3;
-    grid-row: 2 / span 1;
+    grid-column: 1 / span 1;
     position: initial;
     width: 100%;
-    height: fit-content;
     padding: 0;
+    height: fit-content;
     justify-content: center;
     align-items: center;
     border-radius: 1.5rem;
     z-index: 200;
-  } */
+  }
+`;
+
+export const Conatiner = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  position: relative;
 `;
 
 export const CloseButton = styled.div`
@@ -44,6 +44,7 @@ export const CloseButton = styled.div`
   position: absolute;
   top: 2rem;
   right: 2rem;
+  z-index: 3;
   &:after {
     content: "\\2715";
     position: absolute;
@@ -61,64 +62,35 @@ export const CloseButton = styled.div`
   }
 `;
 
-export const PriceText = styled.p`
+export const InputPriceContainer = styled.div`
   width: 100%;
-  margin-top: 1rem;
-  font-weight: 500;
-  text-align: left;
-`;
-
-export const InputRangeContainer = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1rem;
+  justify-items: center;
   align-items: center;
-  position: relative;
+  color: var(--blue);
+  ::placeholder {
+    color: var(--blue);
+  }
 `;
 
-export const InputRange = styled.input`
-  /* -webkit-appearance: none; */
+export const InputPrice = styled.input`
   width: 100%;
-  height: 1.5rem;
+  padding: 0.5rem;
   border-radius: 1rem;
   background: transparent;
-  border: none;
+  border: 0.1rem solid var(--blue);
   outline: none;
-  opacity: 0;
-  ::-webkit-slider-runnable-track {
-    width: 50%;
-    height: 1.5rem;
-    border-radius: 1rem;
-    background: transparent;
-    cursor: pointer;
+  @media (min-width: 750px) {
+    width: 80%;
+    margin: 0 auto;
   }
-  ::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 1.5rem;
-    height: 1.5rem;
-    border-radius: 50%;
-    background: var(--red);
-    cursor: pointer;
-  }
-`;
-
-export const RangeStyle = styled.div`
-  /* width: 100%; */
-  height: 0.8rem;
-  border-radius: 1rem;
-  background-color: var(--blue);
-  position: absolute;
-  left: 0;
-  right: 0;
-  z-index: -1;
-  /* ${(props) => props.minSlider && `width: ${props.minSlider}%`} */
-  ${(props) => (props.slider ? `width: ${props.slider}%` : `width: 0`)}
 `;
 
 export const FilterSection = styled.section`
   width: 100%;
-  padding: 1rem;
+  padding: 0 1rem;
   margin: 1rem auto;
   display: flex;
   flex-direction: column;
@@ -126,7 +98,6 @@ export const FilterSection = styled.section`
   align-items: center;
   border-radius: 1rem;
   @media (min-width: 750px) {
-    width: 80%;
   }
   @media (min-width: 1200px) {
     width: 95%;
@@ -142,22 +113,32 @@ export const SectionName = styled.p`
 
 export const BrandsContainer = styled.ul`
   width: 100%;
-  max-height: 40vh;
   margin: 1rem auto;
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: repeat(${(props) => props.rows && props.rows}, 1fr);
-  grid-gap: 2rem;
+  grid-gap: 1.5rem;
   justify-items: start;
   align-items: center;
-  overflow-y: scroll;
+  @media (min-width: 750px) {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto;
+  }
+  @media (min-width: 1200px) {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(${(props) => props.rows && props.rows}, 1fr);
+  }
 `;
 
 export const BrandsList = styled.li`
-  width: 100%;
+  width: 80%;
+  padding: 0.2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  @media (min-width: 750px) {
+    width: 100%;
+  }
 `;
 
 export const BrandLabel = styled.label`
@@ -166,6 +147,8 @@ export const BrandLabel = styled.label`
   font-size: 1.4rem;
   white-space: nowrap;
   font-weight: 700;
+  border-bottom: 0.1rem solid var(--blue);
+  border-radius: 0;
 `;
 
 export const BrandInput = styled.input`
@@ -174,8 +157,8 @@ export const BrandInput = styled.input`
 `;
 
 export const CheckMarck = styled.div`
-  width: 1.4rem;
-  height: 1.4rem;
+  width: 1.5rem;
+  height: 1.5rem;
   background: none;
   position: relative;
   &:after {
@@ -199,19 +182,35 @@ export const ButtonsContainer = styled.section`
   width: 100%;
   padding: 1rem;
   margin: 1rem auto;
-  width: 100%;
-  padding: 1rem;
-  margin: 1rem auto;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 1rem;
   justify-items: center;
-  align-items: center;
+  align-items: start;
+  @media (min-width: 1200px) {
+    padding: 0;
+    margin: 0;
+  }
 `;
 
 export const CategoriesScroll = styled.div`
   width: 100%;
   overflow-x: scroll;
+  @media (min-width: 1200px) {
+    grid-template-columns: 1fr;
+    justify-items: start;
+    position: relative;
+    &:after {
+      content: "\\21E9";
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem;
+      font-size: 1.4rem;
+      color: var(--blue);
+      line-height: 1.4rem;
+      text-align: center;
+    }
+  }
 `;
 
 export const CategoriesContainer = styled.ul`
@@ -224,6 +223,13 @@ export const CategoriesContainer = styled.ul`
   grid-gap: 1rem;
   justify-items: center;
   align-items: center;
+  @media (min-width: 1200px) {
+    height: 30rem;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    grid-template-columns: 1fr;
+    justify-items: start;
+  }
 `;
 
 export const CategoriesList = styled.li`
@@ -240,6 +246,7 @@ export const CategoriesAnchor = styled.a`
 export const ApplyFiltersButton = styled.button`
   width: 100%;
   padding: 1rem;
+  margin: 1rem auto;
   color: var(--blue);
   font-size: 1.6rem;
   font-weight: 700;
@@ -261,9 +268,8 @@ export const ApplyFiltersButton = styled.button`
     bottom: 6rem;
   }
   @media (min-width: 1200px) {
-    width: 90%;
-    position: initial;
-    margin: 5rem auto;
+    width: 100%;
+    margin: 0;
   }
 `;
 
@@ -272,7 +278,7 @@ export const CleanFilters = styled.button`
   padding: 1rem;
   margin: 1rem auto;
   font-size: 1.6rem;
-  background: none;
+  background-color: var(--background);
   border: 0.1rem solid var(--blue);
   border-radius: 1rem;
   outline: none;
@@ -290,7 +296,8 @@ export const CleanFilters = styled.button`
     width: 80%;
   }
   @media (min-width: 1200px) {
-    width: 90%;
+    width: 100%;
+    margin: 0;
   }
 `;
 

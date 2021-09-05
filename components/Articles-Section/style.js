@@ -14,6 +14,12 @@ export const SectionStyled = styled.section`
   @media (min-width: 750px) {
     width: 95%;
   }
+
+  @media (min-width: 1200px) {
+    grid-column: 2 / span 1;
+    width: 100%;
+    margin: 0;
+  }
 `;
 
 export const TitleSection = styled.h3`
@@ -44,6 +50,9 @@ export const OpenFilters = styled.button`
   border-radius: 0.5rem;
   outline: none;
   cursor: pointer;
+  @media (min-width: 1200px) {
+    display: none;
+  }
 `;
 
 export const ItemsContainer = styled.section`

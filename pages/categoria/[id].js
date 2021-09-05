@@ -102,7 +102,9 @@ const Categories = (props) => {
       `https://api-vasquez.herokuapp.com/api/filters/(${brandsQuery.toString()})?categorie=${title.replace(
         / /gi,
         "-"
-      )}&first=${minPrice}&last=${maxPrice}`
+      )}&first=${minPrice.replace(/e/gi, "") || 0}&last=${
+        maxPrice.replace(/e/gi, "") || 100000
+      }`
     );
     const { data } = await response.json();
 

@@ -68,13 +68,14 @@ const Store = (props) => {
     const brandsQuery = selectedBrands.map((brand) => `'${brand}'`);
 
     const response = await fetch(
-      `https://api-vasquez.herokuapp.com//api/filters/(${brandsQuery.toString()})?categorie=todas&first=${minPrice}&last=${maxPrice}`
+      `https://api-vasquez.herokuapp.com/api/filters/(${brandsQuery.toString()})?categorie=todas&first=${
+        minPrice.replace(/e/gi, "") || 0
+      }&last=${maxPrice.replace(/e/gi, "") || 100000}`
     );
 
     const { data } = await response.json();
 
     if (data) {
-      console.log("setResetItemsLoaded");
       setResetItemsLoaded();
       setItemsLoaded(data);
       setSeeking(false);
