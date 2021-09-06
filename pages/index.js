@@ -74,9 +74,45 @@ const HomePage = (props) => {
           href="https://res.cloudinary.com/duibtuerj/image/upload/v1630083407/brand/favicon_aowz1n.png"
           type="image/x-icon"
         ></link>
+
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:title"
+          content="Home Center | Materiales Vasquez Hermanos"
+        />
+        <meta
+          property="og:url"
+          content="https://www.materialesvasquezhnos.com.mx/"
+        />
+        <meta
+          property="og:image"
+          content="https://res.cloudinary.com/duibtuerj/image/upload/v1630083340/brand/meta-image_rcclee.jpg"
+        />
+        <meta
+          property="og:description"
+          content="Amplia gama de productos para obra negra, ferretería, muebles, y artículos para el hogar"
+        />
+        <meta name="twitter:card" content="summary" />
+        <meta
+          name="twitter:title"
+          content="Home Center | Materiales Vasquez Hermanos"
+        />
+        <meta name="twitter:site" content="@MaterialesVH" />
+        <meta
+          name="twitter:description"
+          content="Amplia gama de productos para obra negra, ferretería, muebles, y artículos para el hogar"
+        />
+        <meta
+          name="twitter:image"
+          content="https://res.cloudinary.com/duibtuerj/image/upload/v1630083340/brand/meta-image_rcclee.jpg"
+        />
+        <meta
+          name="twitter:image:alt"
+          content="Logotipo de Materiales Vasquez Hermanos"
+        />
       </Head>
 
-      <NextSeo
+      {/* <NextSeo
         title="Home Center | Materiales Vasquez Hermanos"
         description="Amplia gama de productos para obra negra, ferretería, muebles, y artículos para el hogar"
         canonical="https://www.materialesvasquezhnos.com.mx/"
@@ -100,7 +136,7 @@ const HomePage = (props) => {
           site: "@MaterialesVH",
           cardType: "summary",
         }}
-      />
+      /> */}
       <LocalBusinessJsonLd
         type="HomeGoodsStore"
         name="Materiales Vasquez Hermanos"
