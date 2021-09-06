@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { connect } from "react-redux";
-import Head from "next/head";
+// import Head from "next/head";
 import { NextSeo } from "next-seo";
 import fetch from "isomorphic-unfetch";
 import { useMyItems } from "../../hooks/useMyItems";
@@ -13,7 +13,6 @@ import {
   setPricesToCart,
   setIitemsIliked,
   setDeleteFavorite,
-  setCloseCart,
 } from "../../actions";
 
 //Components
@@ -54,7 +53,7 @@ import {
 //   const { data } = await response.json();
 
 //   const paths = data.map(({ articulo_id }) => ({
-//     params: {
+//     context.params: {
 //       id: articulo_id.replace(/ /gi, "space").replace(/\//gi, "slash"),
 //     },
 //   }));
@@ -111,7 +110,6 @@ const ProductPage = (props) => {
     setPricesToCart,
     setIitemsIliked,
     setDeleteFavorite,
-    setCloseCart,
   } = props;
 
   // Hook que verifica si el producto esta entre los favoritos
@@ -144,8 +142,8 @@ const ProductPage = (props) => {
   });
 
   return (
-    <div>
-      <Head>
+    <>
+      {/* <Head>
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"
@@ -171,8 +169,8 @@ const ProductPage = (props) => {
           content={product.description}
         />
         <title>{`${product.name} | Materiales Vasquez Hermanos`}</title>
-      </Head>
-      {/* <NextSeo
+      </Head> */}
+      <NextSeo
         title={`${product.name} | Materiales Vasquez Hermanos`}
         description={product.description}
         canonical="https://www.materialesvasquezhnos.com.mx/"
@@ -195,7 +193,7 @@ const ProductPage = (props) => {
           site: "@MaterialesVH",
           cardType: "summary",
         }}
-      /> */}
+      />
       <main className={styles.MainStyle}>
         <MainInfo>
           <LikeContainer
@@ -305,7 +303,7 @@ const ProductPage = (props) => {
           </RelatedArticles>
         )}
       </main>
-    </div>
+    </>
   );
 };
 
@@ -324,7 +322,6 @@ const mapDispatchToProps = {
   setPricesToCart,
   setIitemsIliked,
   setDeleteFavorite,
-  setCloseCart,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductPage);

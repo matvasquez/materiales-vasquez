@@ -1,6 +1,6 @@
 import React from "react";
 import Head from "next/head";
-// import { NextSeo, LocalBusinessJsonLd } from "next-seo";
+import { NextSeo, LocalBusinessJsonLd } from "next-seo";
 import fetch from "isomorphic-unfetch";
 import { connect } from "react-redux";
 
@@ -61,7 +61,7 @@ const HomePage = (props) => {
         <title>Home Center | Materiales Vasquez Hermanos</title>
       </Head>
 
-      {/* <NextSeo
+      <NextSeo
         title="Home Center | Materiales Vasquez Hermanos"
         description="Amplia gama de productos para obra negra, ferretería, muebles, y artículos para el hogar"
         canonical="https://www.materialesvasquezhnos.com.mx/"
@@ -85,7 +85,7 @@ const HomePage = (props) => {
           site: "@MaterialesVH",
           cardType: "summary",
         }}
-      /> */}
+      />
       {/* <LocalBusinessJsonLd
         type="HomeGoodsStore"
         name="Materiales Vasquez Hermanos"

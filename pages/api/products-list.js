@@ -55,14 +55,3 @@ export default async function getProductList(req, res) {
       );
   }, 1000);
 }
-
-// CUBNÑV
-// PCD11%2F245
-// PCD11%2F290
-// PCP11%2F2
-// PLV1%2F2
-// PNCG1%2F2
-// PRCG1%2F2
-// PTBN11%2F2
-// PTPS11%2F2
-// RR63D6WWX
