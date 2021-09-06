@@ -56,57 +56,10 @@ const UserRegistration = (props) => {
       <Head>
         <meta
           name="viewport"
-          content="initial-scale=1.0, width=device-width user-scalable=no"
+          content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"
         />
 
-        <meta
-          name="description"
-          content="Amplia gama de productos para obra negra, ferretería, muebles, y artículos para el hogar."
-          key="descriptionIndex"
-        />
-
-        {/* Facebook */}
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:title"
-          content="Registro de usuario | Materiales Vasquez Hermanos"
-          key="og:titleIndex"
-        />
-        <meta
-          property="og:description"
-          content="Amplia gama de productos para obra negra, ferretería, muebles, y artículos para el hogar."
-          key="og:descriptionIndex"
-        />
-        <meta
-          property="og:image"
-          content="https://res.cloudinary.com/duibtuerj/image/upload/v1630083340/brand/meta-image_rcclee.jpg"
-          key="og:imageIndex"
-        />
-        <meta
-          property="og:url"
-          content="https://www.materialesvasquezhnos.com.mx/registro-de-usuario"
-          key="og:urlIndex"
-        />
-
-        {/* twitter */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content="Registro de usuario | Materiales Vasquez Hermanos"
-          key="twitter:titleIndex"
-        />
-        <meta
-          name="twitter:description"
-          content="Amplia gama de productos para obra negra, ferretería, muebles, y artículos para el hogar."
-          key="twitter:descriptionIndex"
-        />
-        <meta
-          name="twitter:image"
-          content="https://res.cloudinary.com/duibtuerj/image/upload/v1630083340/brand/meta-image_rcclee.jpg"
-          index="twitter:imageIndex"
-        />
-
-        <script
+        {/* <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
@@ -136,7 +89,7 @@ const UserRegistration = (props) => {
               url: "https://www.materialesvasquezhnos.com.mx/",
             }),
           }}
-        />
+        /> */}
 
         <title>{title}</title>
       </Head>

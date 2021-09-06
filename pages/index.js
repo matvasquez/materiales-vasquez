@@ -54,62 +54,11 @@ const HomePage = (props) => {
   return (
     <>
       <Head>
-        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"
-          rel="stylesheet"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Archivo+Narrow&display=swap"
-          rel="stylesheet"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap"
-          rel="stylesheet"
-        />
-        <link
-          rel="icon"
-          href="https://res.cloudinary.com/duibtuerj/image/upload/v1630083407/brand/favicon_aowz1n.png"
-          type="image/x-icon"
-        ></link>
-
-        <meta property="og:type" content="website" />
         <meta
-          property="og:title"
-          content="Home Center | Materiales Vasquez Hermanos"
+          name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"
         />
-        <meta
-          property="og:url"
-          content="https://www.materialesvasquezhnos.com.mx/"
-        />
-        <meta
-          property="og:image"
-          content="https://res.cloudinary.com/duibtuerj/image/upload/v1630083340/brand/meta-image_rcclee.jpg"
-        />
-        <meta
-          property="og:description"
-          content="Amplia gama de productos para obra negra, ferretería, muebles, y artículos para el hogar"
-        />
-        <meta name="twitter:card" content="summary" />
-        <meta
-          name="twitter:title"
-          content="Home Center | Materiales Vasquez Hermanos"
-        />
-        <meta name="twitter:site" content="@MaterialesVH" />
-        <meta
-          name="twitter:description"
-          content="Amplia gama de productos para obra negra, ferretería, muebles, y artículos para el hogar"
-        />
-        <meta
-          name="twitter:image"
-          content="https://res.cloudinary.com/duibtuerj/image/upload/v1630083340/brand/meta-image_rcclee.jpg"
-        />
-        <meta
-          name="twitter:image:alt"
-          content="Logotipo de Materiales Vasquez Hermanos"
-        />
+        <title>Home Center | Materiales Vasquez Hermanos</title>
       </Head>
 
       {/* <NextSeo

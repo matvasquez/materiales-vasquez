@@ -144,30 +144,35 @@ const ProductPage = (props) => {
   });
 
   return (
-    <>
+    <div>
       <Head>
-        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"
-          rel="stylesheet"
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"
         />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Archivo+Narrow&display=swap"
-          rel="stylesheet"
+        <meta property="og:type" content="website" />
+        <meta
+          key="og:title"
+          property="og:title"
+          content={`${product.name} | Materiales Vasquez Hermanos`}
         />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap"
-          rel="stylesheet"
+        <meta
+          key="og:url"
+          property="og:url"
+          content="https://www.materialesvasquezhnos.com.mx/"
         />
-        <link
-          rel="icon"
-          href="https://res.cloudinary.com/duibtuerj/image/upload/v1630083407/brand/favicon_aowz1n.png"
-          type="image/x-icon"
-        ></link>
+        <meta
+          property="og:image"
+          content="https://res.cloudinary.com/duibtuerj/image/upload/v1630083340/brand/meta-image_rcclee.jpg"
+        />
+        <meta
+          key="og:description"
+          property="og:description"
+          content={product.description}
+        />
+        <title>{`${product.name} | Materiales Vasquez Hermanos`}</title>
       </Head>
-      <NextSeo
+      {/* <NextSeo
         title={`${product.name} | Materiales Vasquez Hermanos`}
         description={product.description}
         canonical="https://www.materialesvasquezhnos.com.mx/"
@@ -190,7 +195,7 @@ const ProductPage = (props) => {
           site: "@MaterialesVH",
           cardType: "summary",
         }}
-      />
+      /> */}
       <main className={styles.MainStyle}>
         <MainInfo>
           <LikeContainer
@@ -300,7 +305,7 @@ const ProductPage = (props) => {
           </RelatedArticles>
         )}
       </main>
-    </>
+    </div>
   );
 };
 
