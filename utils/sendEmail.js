@@ -3,8 +3,8 @@
 async function main(body) {
   console.log("Ejecución de main");
   window
-    .fetch("https://api-vasquez.herokuapp.com/api/send-email", {
-      // .fetch("http://localhost:3015/api/send-email", {
+    // .fetch("https://api-vasquez.herokuapp.com/api/send-email", {
+    .fetch("http://localhost:3015/api/send-email", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: body,

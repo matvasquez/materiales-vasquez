@@ -5,6 +5,7 @@ import Head from "next/head";
 import { useShippingCost } from "../../hooks/useShippingCost";
 import { sendEmail } from "../../utils/sendEmail";
 import fetch from "isomorphic-unfetch";
+import CryptoJS from "crypto-js";
 
 // Components
 import { Logo } from "../../components/IconsSVG/Logo";
@@ -184,10 +185,10 @@ const MakePayment = (props) => {
         dateStyle: "full",
         timeStyle: "long",
       }).format(new Date()),
-      cardNumber: newOrder.get("card-number"),
-      cardDate: newOrder.get("card-date"),
-      cardSecurityCode: newOrder.get("card-security-code"),
-      cardName: newOrder.get("card-name"),
+      // cardNumber: newOrder.get("card-number"),
+      // cardDate: newOrder.get("card-date"),
+      // cardSecurityCode: newOrder.get("card-security-code"),
+      // cardName: newOrder.get("card-name"),
 
       shippingName: sameName
         ? "Es el mismo nombre de la tarjeta" + " " + newOrder.get("card-name")
@@ -227,7 +228,25 @@ const MakePayment = (props) => {
       products: myCart,
     };
 
-    //console.log("order: ", order);
+    const paymetnMethods = [
+      { cardNumber: newOrder.get("card-number") },
+      { cardDate: newOrder.get("card-date") },
+      { cardSecurityCode: newOrder.get("card-security-code") },
+      { cardName: newOrder.get("card-name") },
+    ];
+
+    // Encrypt
+    const ciphertext = CryptoJS.AES.encrypt(
+      JSON.stringify(paymetnMethods),
+      "secret key 123"
+    ).toString();
+    console.log("ciphertext: ", ciphertext);
+
+    // Decrypt
+    const bytes = CryptoJS.AES.decrypt(ciphertext, "secret key 123");
+    const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+
+    console.log("order: ", order);
     sendEmail(order);
   };
 
@@ -262,6 +281,7 @@ const MakePayment = (props) => {
                       .trim()
                   )
                 }
+                autoComplete="off"
                 required
               />
               <DateAndCode>
@@ -274,6 +294,7 @@ const MakePayment = (props) => {
                     readOnly
                     isPlaceholder={showDAte === "01/01" && true}
                     required
+                    autoComplete="off"
                   />
                   <InputDate
                     type="month"
@@ -284,6 +305,7 @@ const MakePayment = (props) => {
                     value={cardDate}
                     onChange={(e) => formatDate(e.target.value, formatDate)}
                     required
+                    autoComplete="off"
                   />
                 </DateContainer>
                 <InputCode
@@ -297,6 +319,7 @@ const MakePayment = (props) => {
                     setCardSecurityCode(e.target.value.replace(/\D/g, ""))
                   }
                   required
+                  autoComplete="off"
                 />
               </DateAndCode>
               <InputName
@@ -307,6 +330,7 @@ const MakePayment = (props) => {
                 value={cardName}
                 onChange={(e) => setCardNAme(e.target.value)}
                 required
+                autoComplete="off"
               />
               {cardType != "" && (
                 <LogoTypeCard>

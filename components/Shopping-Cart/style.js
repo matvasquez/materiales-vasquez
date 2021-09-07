@@ -111,6 +111,12 @@ export const OpenCloseButton = styled.button`
   top: 0rem;
   right: 0rem;
 
+  ${(props) =>
+    props.carIsOpen &&
+    `
+      height: 4rem;
+  `}
+
   @media (min-width: 1200px) {
     width: fit-content;
     height: fit-content;
