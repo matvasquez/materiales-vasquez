@@ -1,11 +1,17 @@
 import React, { useState, useRef, useEffect } from "react";
 import { connect } from "react-redux";
-import { setOpenCart, setCloseCart, setShippingCost } from "../../actions";
+import {
+  setOpenCart,
+  setCloseCart,
+  setShippingCost,
+  setPurchasingData,
+} from "../../actions";
 import Head from "next/head";
 import { useShippingCost } from "../../hooks/useShippingCost";
 import { sendEmail } from "../../utils/sendEmail";
 import fetch from "isomorphic-unfetch";
 import CryptoJS from "crypto-js";
+import SHA256 from "crypto-js/sha256";
 
 // Components
 import { Logo } from "../../components/IconsSVG/Logo";
@@ -19,6 +25,7 @@ import PreviewItem from "../../components/Preview-Item/PreviewItem";
 import {
   MainStiled,
   MainTitle,
+  Iframe,
   BuyersData,
   FormStyled,
   CardStyled,
@@ -93,7 +100,9 @@ const MakePayment = (props) => {
     setCloseCart,
     shoppingCartPrices,
     shippingCost,
+    purchasingData,
     setShippingCost,
+    setPurchasingData,
   } = props;
 
   const formatter = new Intl.NumberFormat("en-US", {
@@ -240,15 +249,73 @@ const MakePayment = (props) => {
       JSON.stringify(paymetnMethods),
       "secret key 123"
     ).toString();
-    console.log("ciphertext: ", ciphertext);
+    console.log("ciphertext paymetnMethods: ", ciphertext);
 
     // Decrypt
     const bytes = CryptoJS.AES.decrypt(ciphertext, "secret key 123");
     const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
 
+    setPurchasingData(order);
+
     console.log("order: ", order);
-    sendEmail(order);
+    //sendEmail(order);
   };
+
+  // Código de pasarela de pagos
+  const forwardForm = (responseObj, elementArr) => {
+    const newForm = document.createElement("form");
+    newForm.setAttribute("method", "post");
+    newForm.setAttribute("action", responseObj.redirectURL);
+    newForm.setAttribute("id", "newForm");
+    document.body.appendChild(newForm);
+    for (let i = 0; i < elementArr.length; i++) {
+      let element = elementArr[i];
+      let input = document.createElement("input");
+      input.setAttribute("type", "hidden");
+      input.setAttribute("name", element.name);
+      input.setAttribute("value", element.value);
+      document.newForm.appendChild(input);
+    }
+    document.newForm.submit();
+  };
+
+  const receiveMessage = (e) => {
+    if (e.origin != "https://test.ipg-online.com") {
+      return;
+    }
+    let elementArr = e.data.elementArr;
+    forwardForm(e.data, elementArr);
+  };
+
+  useEffect(() => {
+    window.addEventListener("message", receiveMessage, false);
+    return () => {
+      window.removeEventListener("message", receiveMessage, false);
+    };
+  }, []);
+
+  // Se concatenen los valores requeridos
+  const values = (
+    process.env.NEXT_PUBLIC_STORE_ID +
+    new Intl.DateTimeFormat("es-MX", {
+      dateStyle: "full",
+      timeStyle: "long",
+    }).format(new Date()) +
+    (shippingCost + subTotal) +
+    "484" +
+    process.env.NEXT_PUBLIC_SHARED_SECRET
+  ).toString();
+  // Se obtiene la cadena hexadecimal
+  const convertStringToHex = (str) => {
+    var arr = [];
+    for (let i = 0; i < str.length; i++) {
+      arr[i] = ("00" + str.charCodeAt(i).toString(16)).slice(-4);
+    }
+    // Se genera hash con el algoritmo SHA256
+    return CryptoJS.SHA256(arr).toString();
+  };
+
+  console.log("purchasingData: ", purchasingData);
 
   return (
     <>
@@ -261,6 +328,62 @@ const MakePayment = (props) => {
       </Head>
       <MainStiled>
         <MainTitle>Realizar Pago</MainTitle>
+
+        <form
+          method="POST"
+          target="myFrame"
+          action="https://test.ipg-online.com/connect/gateway/processing"
+        >
+          <input type="hidden" name="checkoutoption" value="simpleform" />
+          <input
+            type="hidden"
+            name="hostURI"
+            value="URL WHERE IFRAME IS LOADED"
+          />
+          <input type="hidden" name="txntype" value="sale" />
+          <input type="hidden" name="timezone" value="UTC-5" />
+          <input
+            type="hidden"
+            name="txndatetime"
+            value={new Intl.DateTimeFormat("es-MX", {
+              dateStyle: "full",
+              timeStyle: "long",
+            }).format(new Date())}
+          />
+          <input
+            type="hidden"
+            name="hash_algorithm"
+            value={convertStringToHex(values)}
+          />
+          <input
+            type="hidden"
+            name="hash"
+            value="https://www.materialesvasquezhnos.com.mx/realizar-pago"
+          />
+          <input
+            type="hidden"
+            name="storename"
+            value={process.env.NEXT_PUBLIC_STORE_ID}
+          />
+          <input type="hidden" name="currency" value="484" />
+          <input
+            type="hidden"
+            name="chargetotal"
+            value={shippingCost + subTotal}
+          />
+          <input
+            type="hidden"
+            name="responseFailURL"
+            value="https://www.materialesvasquezhnos.com.mx/pago-error"
+          />
+          <input
+            type="hidden"
+            name="responseSuccessURL"
+            value="https://www.materialesvasquezhnos.com.mx/pago-realizado"
+          />
+        </form>
+        <Iframe name="myFrame"></Iframe>
+
         <BuyersData>
           <FormStyled ref={paymentForm} onSubmit={handleSubmit}>
             <CardStyled>
@@ -572,6 +695,7 @@ const mapStateToProps = (state) => {
     carIsOpen: state.carIsOpen,
     shoppingCartPrices: state.shoppingCartPrices,
     shippingCost: state.shippingCost,
+    purchasingData: state.purchasingData,
   };
 };
 
@@ -580,6 +704,7 @@ const mapDispatchToProps = {
   setCloseCart,
 
   setShippingCost,
+  setPurchasingData,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MakePayment);

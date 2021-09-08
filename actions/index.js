@@ -62,3 +62,13 @@ export const setResetItemsLoaded = (payload) => ({
   type: "RESET_ITEMS_LOADED",
   payload,
 });
+
+export const setPurchasingData = (payload) => ({
+  type: "UPDATE_PURCHASE_INFORMATION",
+  payload,
+});
+
+export const setPurchaseSuccess = (payload) => ({
+  type: "PURCHASE_SUCCESS",
+  payload,
+});

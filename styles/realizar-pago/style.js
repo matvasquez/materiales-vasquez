@@ -25,6 +25,14 @@ export const MainTitle = styled.h1`
   }
 `;
 
+export const Iframe = styled.iframe`
+  width: 90%;
+  margin: 0 auto;
+  border: none;
+  outline: none;
+  background-color: aqua;
+`;
+
 export const BuyersData = styled.section`
   width: 100%;
   display: flex;

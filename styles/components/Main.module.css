@@ -40,3 +40,20 @@
     margin-top: 19rem;
   }
 }
+
+@media print {
+  .MainStyle {
+    padding: 2rem 1rem;
+    margin: 0;
+  }
+
+  .MainHome {
+    padding: 1rem;
+    margin: 0;
+    width: 100vw;
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+  }
+}

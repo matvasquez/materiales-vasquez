@@ -6,4 +6,5 @@ export const initialState = {
   itemsIliked: [],
   shippingCost: 50,
   itemsLoaded: [],
+  purchasingData: "",
 };

@@ -27,6 +27,10 @@ export const HeaderStyled = styled.header`
     grid-template-rows: min-content;
     grid-gap: 1rem;
   }
+
+  @media print {
+    display: none;
+  }
 `;
 
 export const LogoContainer = styled.a`

@@ -73,6 +73,10 @@ export const ShoppingCartStyled = styled.section`
       grid-column-gap: 1rem;
     `}
   }
+
+  @media print {
+    display: none;
+  }
 `;
 
 export const CornerLeftContainer = styled.div`

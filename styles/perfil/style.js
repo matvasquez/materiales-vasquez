@@ -20,10 +20,6 @@ export const UserInfo = styled.section`
   @media (min-width: 1000px) {
     width: 80%;
   }
-  @media (min-width: 1000px) and (orientation: portrait) {
-  }
-  @media (min-width: 1000px) and (orientation: landscape) {
-  }
 `;
 
 export const ImageContainer = styled.div`

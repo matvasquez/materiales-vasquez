@@ -59,3 +59,9 @@ body {
 body::-webkit-scrollbar {
   display: none;
 }
+
+@media print {
+  body {
+    background-color: var(--white);
+  }
+}

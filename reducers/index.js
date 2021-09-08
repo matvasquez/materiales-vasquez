@@ -71,6 +71,19 @@ const reducer = (state, action) => {
         ...state,
         itemsLoaded: [],
       };
+    case "UPDATE_PURCHASE_INFORMATION":
+      return {
+        ...state,
+        purchasingData: action.payload,
+      };
+    case "PURCHASE_SUCCESS":
+      return {
+        ...state,
+        carIsEmpty: false,
+        myCart: [],
+        carIsOpen: false,
+        shoppingCartPrices: [],
+      };
     default:
       return state;
   }

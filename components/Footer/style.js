@@ -17,6 +17,9 @@ export const FooterStyled = styled.footer`
     padding: 3rem 2rem;
     margin: 0;
   }
+  @media print {
+    display: none;
+  }
 `;
 
 export const LinksSyled = styled.section`
