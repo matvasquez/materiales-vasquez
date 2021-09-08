@@ -194,7 +194,7 @@ const ProductPage = (props) => {
           cardType: "summary",
         }}
       />
-      <main className={styles.MainStyle}>
+      <main className={styles.MainHome}>
         <MainInfo>
           <LikeContainer
             type="button"

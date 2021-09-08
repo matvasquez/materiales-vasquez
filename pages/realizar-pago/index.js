@@ -257,7 +257,7 @@ const MakePayment = (props) => {
 
     setPurchasingData(order);
 
-    console.log("order: ", order);
+    // console.log("order: ", order);
     //sendEmail(order);
   };
 
@@ -315,7 +315,7 @@ const MakePayment = (props) => {
     return CryptoJS.SHA256(arr).toString();
   };
 
-  console.log("purchasingData: ", purchasingData);
+  // console.log("purchasingData: ", purchasingData);
 
   return (
     <>

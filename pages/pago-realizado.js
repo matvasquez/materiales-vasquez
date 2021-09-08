@@ -61,40 +61,22 @@ const Success = ({ purchasingData, setPurchaseSuccess }) => {
         </TotalContainer>
         <ProductsContainer>
           {purchasingData.products.map((product) => (
-            <>
-              <Products key={product.articulo_id}>
-                <p>
-                  {product.name} |{" "}
-                  <span>
-                    {product.initialQuantity}
-                    {product.initialQuantity > 1 ? "piezas" : "pieza"}
-                  </span>
-                </p>
-                <p>${formatter.format(product.price)}</p>
-                <img
-                  src={`data:image/jpg;base64,${product.image_url}`}
-                  width={300}
-                  height={300}
-                  alt={`Fotografía de ${product.name}`}
-                />
-              </Products>
-              <Products key={product.articulo_id}>
-                <p>
-                  {product.name} |{" "}
-                  <span>
-                    {product.initialQuantity}
-                    {product.initialQuantity > 1 ? "piezas" : "pieza"}
-                  </span>
-                </p>
-                <p>${formatter.format(product.price)}</p>
-                <img
-                  src={`data:image/jpg;base64,${product.image_url}`}
-                  width={300}
-                  height={300}
-                  alt={`Fotografía de ${product.name}`}
-                />
-              </Products>
-            </>
+            <Products key={product.articulo_id}>
+              <p>
+                {product.name} |{" "}
+                <span>
+                  {product.initialQuantity}
+                  {product.initialQuantity > 1 ? "piezas" : "pieza"}
+                </span>
+              </p>
+              <p>${formatter.format(product.price)}</p>
+              <img
+                src={`data:image/jpg;base64,${product.image_url}`}
+                width={300}
+                height={300}
+                alt={`Fotografía de ${product.name}`}
+              />
+            </Products>
           ))}
           <Products>
             <h4>Costo de envío</h4>

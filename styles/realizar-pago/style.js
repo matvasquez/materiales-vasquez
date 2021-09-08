@@ -26,6 +26,7 @@ export const MainTitle = styled.h1`
 `;
 
 export const Iframe = styled.iframe`
+  display: none;
   width: 90%;
   margin: 0 auto;
   border: none;
