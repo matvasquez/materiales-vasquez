@@ -16,6 +16,8 @@ export const AnchorStyled = styled.a`
 
 export const Name = styled.p`
   width: 100%;
+  font-size: 1.4rem;
+  font-weight: 400;
   text-align: left;
   text-transform: capitalize;
   color: var(--text);

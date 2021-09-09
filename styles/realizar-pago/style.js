@@ -212,7 +212,8 @@ export const InputCode = styled.input`
 
 export const InputName = styled.input`
   width: 82%;
-  margin: 0 auto;
+  margin: 0;
+  margin-right: auto;
   font-size: 1.4rem;
   font-family: "Share Tech Mono", "Roboto", monospace;
   text-align: start;
@@ -367,6 +368,11 @@ export const InputSameName = styled(InputBase)`
 
 export const InputEmail = styled(InputBase)`
   text-transform: initial;
+`;
+
+export const ProofOfPurchase = styled.p`
+  font-size: 1rem;
+  text-align: center;
 `;
 
 export const References = styled.textarea`

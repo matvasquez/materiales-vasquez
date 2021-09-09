@@ -13,10 +13,10 @@ export const SuccessIcon = ({ width = "100%" }) => {
       <path
         d="M380 150L220 330L120 250"
         stroke="var(--background)"
-        stroke-width="8"
-        stroke-miterlimit="10"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="8"
+        strokeMiterlimit="10"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <defs>
         <linearGradient
@@ -27,8 +27,8 @@ export const SuccessIcon = ({ width = "100%" }) => {
           y2="446.5"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="var(--blue)" />
-          <stop offset="1" stop-color="#03328C" />
+          <stop stopColor="var(--blue)" />
+          <stop offset="1" stopColor="#03328C" />
         </linearGradient>
       </defs>
     </svg>

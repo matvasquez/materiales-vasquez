@@ -20,6 +20,7 @@ import { VisaLogo } from "../../components/IconsSVG/VisaLogo";
 import { MastercardLogo } from "../../components/IconsSVG/MastercardLogo";
 import { AmericanExpressLogo } from "../../components/IconsSVG/AmericanExpressLogo";
 import PreviewItem from "../../components/Preview-Item/PreviewItem";
+import { SuspensoryPoints } from "../../components/Loaders/SuspensoryPoints";
 
 // Styled-Components
 import {
@@ -48,6 +49,7 @@ import {
   InputBase,
   InputSameName,
   InputEmail,
+  ProofOfPurchase,
   References,
   SelectCity,
   FreeShippingText,
@@ -126,6 +128,8 @@ const MakePayment = (props) => {
   const invoiceCheck = useRef(null);
   const shippingNameCheck = useRef(null);
   const [cost, deliveryCities] = useShippingCost(zipCode, subTotal);
+  // Activa la animación de carga en el botón de Cargar más
+  const [load, setLoad] = useState(false);
 
   const [related, setRelated] = useState([]);
 
@@ -188,6 +192,7 @@ const MakePayment = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoad(true);
     const newOrder = new FormData(paymentForm.current);
     const order = {
       date: new Intl.DateTimeFormat("es-MX", {
@@ -237,28 +242,36 @@ const MakePayment = (props) => {
       products: myCart,
     };
 
-    const paymetnMethods = [
-      { cardNumber: newOrder.get("card-number") },
-      { cardDate: newOrder.get("card-date") },
-      { cardSecurityCode: newOrder.get("card-security-code") },
-      { cardName: newOrder.get("card-name") },
-    ];
+    // const paymetnMethods = [
+    //   { cardNumber: newOrder.get("card-number") },
+    //   { cardDate: newOrder.get("card-date") },
+    //   { cardSecurityCode: newOrder.get("card-security-code") },
+    //   { cardName: newOrder.get("card-name") },
+    // ];
 
-    // Encrypt
-    const ciphertext = CryptoJS.AES.encrypt(
-      JSON.stringify(paymetnMethods),
-      "secret key 123"
-    ).toString();
-    console.log("ciphertext paymetnMethods: ", ciphertext);
+    // // Encrypt
+    // const ciphertext = CryptoJS.AES.encrypt(
+    //   JSON.stringify(paymetnMethods),
+    //   "secret key 123"
+    // ).toString();
+    // console.log("ciphertext paymetnMethods: ", ciphertext);
 
-    // Decrypt
-    const bytes = CryptoJS.AES.decrypt(ciphertext, "secret key 123");
-    const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+    // // Decrypt
+    // const bytes = CryptoJS.AES.decrypt(ciphertext, "secret key 123");
+    // const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
 
     setPurchasingData(order);
 
-    // console.log("order: ", order);
-    //sendEmail(order);
+    //console.log("order: ", order);
+    sendEmail(order);
+
+    // Esto solo es de prueba
+    setTimeout(() => {
+      setLoad(false);
+      window.location.replace(
+        "https://materiales-vasquez.vercel.app/pago-realizado"
+      );
+    }, 3000);
   };
 
   // Código de pasarela de pagos
@@ -513,6 +526,9 @@ const MakePayment = (props) => {
                 maxLength="30"
                 required
               />
+              <ProofOfPurchase>
+                A este correo enviaremos tu comprobante de compra
+              </ProofOfPurchase>
             </ShippingData>
             <ShippingAddress>
               <Subtitle>¿A dónde lo enviamos?</Subtitle>
@@ -575,7 +591,7 @@ const MakePayment = (props) => {
               <References
                 name="addressReferences"
                 placeholder="Referencias"
-                maxLength="150"
+                maxLength="350"
                 required
               />
               <InvoiceQuestion>
@@ -663,7 +679,9 @@ const MakePayment = (props) => {
                 />
               </CostContainer>
             </CostDetails>
-            <BuyButton type="submit">Pagar</BuyButton>
+            <BuyButton type="submit">
+              {load ? <SuspensoryPoints /> : "Pagar"}
+            </BuyButton>
           </FormStyled>
         </BuyersData>
 

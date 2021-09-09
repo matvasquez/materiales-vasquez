@@ -132,6 +132,10 @@ const Success = ({ purchasingData, setPurchaseSuccess }) => {
         <PrintButton type="button" onClick={() => window.print()}>
           Imprimir
         </PrintButton>
+        <p>
+          Igualmente enviamos tu recibo al correo{" "}
+          <span>{purchasingData.shippingEmail}</span>
+        </p>
       </ButtonsInfoContainer>
     </main>
   );

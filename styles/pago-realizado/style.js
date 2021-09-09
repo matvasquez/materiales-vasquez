@@ -236,6 +236,13 @@ export const ButtonsInfoContainer = styled.section`
   align-items: center;
   background-color: var(--white);
   border-radius: 0 0 1.5rem 1.5rem;
+  p {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+  span {
+    color: var(--yellow);
+  }
   @media (min-width: 750px) {
     width: 90%;
   }
