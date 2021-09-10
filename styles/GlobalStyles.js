@@ -2,12 +2,7 @@ import { createGlobalStyle } from "styled-components";
 //import kreditTTF from "../public/fonts/kredit/kredit.ttf";
 
 export const GlobalStyles = createGlobalStyle`
-  @font-face {
-      font-family: 'kredit';
-      src: url('./fonts/kredit.ttf');
-      font-weight: 400;
-      font-style: normal;
-  }
+
     
     :root {
     --background: #E6E6E6;
