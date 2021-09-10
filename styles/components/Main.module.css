@@ -24,6 +24,13 @@
     margin-top: 8rem;
   }
 }
+
+@media (min-width: 750px) {
+  .MainStyle,
+  .MainHome {
+    min-height: 45vh;
+  }
+}
 @media (min-width: 1200px) {
   .MainStyle {
     padding: 2rem 1rem;

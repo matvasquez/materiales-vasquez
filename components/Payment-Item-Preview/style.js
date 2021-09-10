@@ -5,6 +5,7 @@ export const ItemContainer = styled.div`
   margin: 0.5rem;
   display: grid;
   grid-template-columns: 1fr 3fr 0.5fr 1fr;
+  grid-template-rows: 9rem;
   grid-column-gap: 0.5rem;
   justify-content: center;
   align-items: center;

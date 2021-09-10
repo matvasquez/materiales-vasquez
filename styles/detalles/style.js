@@ -14,6 +14,9 @@ export const MainInfo = styled.section`
   @media (min-width: 750px) {
     height: calc(100vh - 8rem);
   }
+  @media (min-width: 1000px) {
+    width: 95%;
+  }
   @media (min-width: 1200px) {
     width: 80%;
     height: fit-content;
@@ -41,6 +44,9 @@ export const ImageContainer = styled.div`
   }
   @media (min-width: 375px) {
     margin-top: 10%;
+  }
+  @media (min-width: 1000px) {
+    margin-top: 7%;
   }
   @media (min-width: 1200px) {
     width: 45%;
@@ -90,6 +96,11 @@ export const Info = styled.div`
     position: absolute;
     bottom: 12%;
   }
+  @media (min-width: 1000px) {
+    width: 60%;
+    height: 32%;
+    bottom: 10%;
+  }
   @media (min-width: 1200px) {
     width: 45%;
     margin: 0;
@@ -105,7 +116,7 @@ export const NameAndPrice = styled.div`
 `;
 
 export const Name = styled.h1`
-  margin: 1rem 0;
+  margin: 0.8rem 0;
   font-size: 1.8rem;
   font-weight: 700;
   color: var(--background);
@@ -127,14 +138,14 @@ export const Price = styled.p`
 `;
 
 export const DescriptionH3 = styled.h3`
-  margin: 1rem auto 0 0;
+  margin: 0.5rem auto 0 0;
   font-size: 1.6rem;
-  font-weight: 500;
+  font-weight: 700;
   color: var(--background);
 `;
 
 export const Paragraph = styled.p`
-  margin: 0.5rem 0;
+  margin: 0.4rem 0;
   font-size: 1.2rem;
   font-weight: 400;
   text-transform: capitalize;
@@ -230,6 +241,9 @@ export const NotAvailable = styled.p`
 export const RelatedArticles = styled.section`
   width: 100%;
   margin: 4rem 0;
+  @media (min-width: 1000px) {
+    width: 95%;
+  }
   @media (min-width: 1200px) {
     width: 80%;
   }
@@ -262,8 +276,8 @@ export const PreviewItemContainer = styled.div`
     display: none;
   }
   @media (min-width: 750px) {
-    width: 95%;
-    margin: 0 auto;
+    /* width: 95%;
+    margin: 0 auto; */
     grid-template-columns: repeat(6, 27%);
     grid-auto-rows: 30rem;
   }

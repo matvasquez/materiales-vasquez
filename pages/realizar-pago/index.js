@@ -112,6 +112,10 @@ const MakePayment = (props) => {
     maximumFractionDigits: 2,
   });
 
+  // const urlWebsite = "http://localhost:3000";
+  // const urlWebsite = "https://materiales-vasquez.vercel.app";
+  const urlWebsite = "https://www.materialesvasquezhnos.com.mx";
+
   const [subTotal, setSubTotal] = useState(0);
   const [cardNumber, setCardNumber] = useState("");
   const [cardDate, setCardDate] = useState("2021-07");
@@ -182,7 +186,6 @@ const MakePayment = (props) => {
           myCart.length - 1
         ].name
           .split(" ")[0]
-          .split(" ")[0]
           .replace(/\//gi, "slash")}?first=1&last=4`
       );
       const { data: related } = await responseRelatedByName.json();
@@ -196,8 +199,8 @@ const MakePayment = (props) => {
     const newOrder = new FormData(paymentForm.current);
     const order = {
       date: new Intl.DateTimeFormat("es-MX", {
-        dateStyle: "full",
-        timeStyle: "long",
+        dateStyle: "medium",
+        timeStyle: "short",
       }).format(new Date()),
       // cardNumber: newOrder.get("card-number"),
       // cardDate: newOrder.get("card-date"),
@@ -262,15 +265,13 @@ const MakePayment = (props) => {
 
     setPurchasingData(order);
 
-    //console.log("order: ", order);
-    sendEmail(order);
+    console.log("order: ", order);
+    //sendEmail(order);
 
     // Esto solo es de prueba
     setTimeout(() => {
       setLoad(false);
-      window.location.replace(
-        "https://materiales-vasquez.vercel.app/pago-realizado"
-      );
+      window.location.href = "/pago-realizado";
     }, 3000);
   };
 
@@ -293,11 +294,14 @@ const MakePayment = (props) => {
   };
 
   const receiveMessage = (e) => {
-    if (e.origin != "https://test.ipg-online.com") {
-      return;
-    }
-    let elementArr = e.data.elementArr;
-    forwardForm(e.data, elementArr);
+    console.log("receiveMessage");
+    // if (e.origin != urlWebsite) {
+    //   console.log("e.origin: ", e.origin);
+    //   return;
+    // }
+    // let elementArr = e.data.elementArr;
+    // console.log("elementArr: ", elementArr);
+    // forwardForm(e.data, elementArr);
   };
 
   useEffect(() => {
@@ -305,26 +309,39 @@ const MakePayment = (props) => {
     return () => {
       window.removeEventListener("message", receiveMessage, false);
     };
-  }, []);
+  }, ["message"]);
 
-  // Se concatenen los valores requeridos
-  const values = (
-    process.env.NEXT_PUBLIC_STORE_ID +
-    new Intl.DateTimeFormat("es-MX", {
-      dateStyle: "full",
-      timeStyle: "long",
-    }).format(new Date()) +
-    (shippingCost + subTotal) +
-    "484" +
-    process.env.NEXT_PUBLIC_SHARED_SECRET
-  ).toString();
   // Se obtiene la cadena hexadecimal
-  const convertStringToHex = (str) => {
+  const convertStringToHex = () => {
+    // Se concatenen los valores requeridos
+    const str = (
+      process.env.NEXT_PUBLIC_STORE_ID +
+      new Intl.DateTimeFormat("es-MX", {
+        dateStyle: "medium",
+        timeStyle: "short",
+      }).format(new Date()) +
+      (shippingCost + subTotal) +
+      "484" +
+      process.env.NEXT_PUBLIC_SHARED_SECRET
+    )
+      .toString()
+      .replace(/,/gi, "")
+      .replace(/ /gi, "");
+    console.log("Concatenar: ", str);
     var arr = [];
     for (let i = 0; i < str.length; i++) {
-      arr[i] = ("00" + str.charCodeAt(i).toString(16)).slice(-4);
+      // arr[i] = str.charCodeAt(i).toString(16).slice(-4);
+      arr[i] = str.charCodeAt(i);
     }
+    console.log(
+      "representación hexadecimal: ",
+      arr.toString().replace(/,/gi, "")
+    );
     // Se genera hash con el algoritmo SHA256
+    console.log(
+      "hash con el algoritmo SHA256: ",
+      CryptoJS.SHA256(arr.toString().replace(/,/gi, "")).toString()
+    );
     return CryptoJS.SHA256(arr).toString();
   };
 
@@ -351,28 +368,20 @@ const MakePayment = (props) => {
           <input
             type="hidden"
             name="hostURI"
-            value="URL WHERE IFRAME IS LOADED"
+            value={`${urlWebsite}/realizar-pago`}
           />
           <input type="hidden" name="txntype" value="sale" />
-          <input type="hidden" name="timezone" value="UTC-5" />
+          <input type="hidden" name="timezone" value="America/Mexico_City" />
           <input
             type="hidden"
             name="txndatetime"
             value={new Intl.DateTimeFormat("es-MX", {
-              dateStyle: "full",
-              timeStyle: "long",
+              dateStyle: "medium",
+              timeStyle: "short",
             }).format(new Date())}
           />
-          <input
-            type="hidden"
-            name="hash_algorithm"
-            value={convertStringToHex(values)}
-          />
-          <input
-            type="hidden"
-            name="hash"
-            value="https://www.materialesvasquezhnos.com.mx/realizar-pago"
-          />
+          <input type="hidden" name="hash_algorithm" value="SHA256" />
+          <input type="hidden" name="hash" value={convertStringToHex()} />
           <input
             type="hidden"
             name="storename"
@@ -387,13 +396,14 @@ const MakePayment = (props) => {
           <input
             type="hidden"
             name="responseFailURL"
-            value="https://www.materialesvasquezhnos.com.mx/pago-error"
+            value={`${urlWebsite}/pago-error`}
           />
           <input
             type="hidden"
             name="responseSuccessURL"
-            value="https://www.materialesvasquezhnos.com.mx/pago-realizado"
+            value={`${urlWebsite}/pago-realizado`}
           />
+          <button type="submit">Submit</button>
         </form>
         <Iframe name="myFrame"></Iframe>
 
@@ -418,21 +428,21 @@ const MakePayment = (props) => {
                   )
                 }
                 autoComplete="off"
-                required
+                // required
               />
               <DateAndCode>
                 <DateContainer>
                   <ShowDAte
                     type="text"
                     name="card-date"
-                    value={showDAte}
+                    // value={showDAte}
                     placeholder="01/01"
-                    readOnly
-                    isPlaceholder={showDAte === "01/01" && true}
-                    required
+                    // isPlaceholder={showDAte === "01/01" && true}
+                    // required
                     autoComplete="off"
+                    maxLength="5"
                   />
-                  <InputDate
+                  {/* <InputDate
                     type="month"
                     maxLength="4"
                     min="2010-01"
@@ -441,8 +451,7 @@ const MakePayment = (props) => {
                     value={cardDate}
                     onChange={(e) => formatDate(e.target.value, formatDate)}
                     required
-                    autoComplete="off"
-                  />
+                  autoComplete="off" /> */}
                 </DateContainer>
                 <InputCode
                   type="text"
@@ -454,7 +463,7 @@ const MakePayment = (props) => {
                   onChange={(e) =>
                     setCardSecurityCode(e.target.value.replace(/\D/g, ""))
                   }
-                  required
+                  // required
                   autoComplete="off"
                 />
               </DateAndCode>
@@ -465,7 +474,7 @@ const MakePayment = (props) => {
                 placeholder="Ingresa aquí el nombre"
                 value={cardName}
                 onChange={(e) => setCardNAme(e.target.value)}
-                required
+                // required
                 autoComplete="off"
               />
               {cardType != "" && (

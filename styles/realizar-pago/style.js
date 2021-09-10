@@ -26,7 +26,7 @@ export const MainTitle = styled.h1`
 `;
 
 export const Iframe = styled.iframe`
-  display: none;
+  /* display: none; */
   width: 90%;
   margin: 0 auto;
   border: none;
@@ -165,6 +165,12 @@ export const ShowDAte = styled.input`
   text-align: center;
   opacity: ${(props) => props.isPlaceholder && "0.5"};
   outline: none;
+  ::placeholder {
+    color: var(--background);
+    font-family: "Share Tech Mono", "Roboto", monospace;
+    font-size: 1.2rem;
+    opacity: 0.5;
+  }
 `;
 
 export const InputDate = styled.input`
@@ -173,7 +179,7 @@ export const InputDate = styled.input`
   top: 0;
   width: 100%;
   height: 100%;
-  background: none;
+  background: aquamarine;
   color: transparent;
   border: none;
   outline: none;
@@ -276,6 +282,7 @@ export const ShippingAddress = styled.div`
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(5, min-content);
+    grid-gap: 0.5rem;
   }
   @media (min-width: 1200px) {
     grid-column: 2 / span 1;
@@ -309,6 +316,7 @@ export const StateAndZipCode = styled(StreetAndNumber)`
   @media (min-width: 750px) {
     grid-column: 1 / span 2;
     grid-row: 2 / span 1;
+    grid-template-columns: 3fr 2fr;
   }
 `;
 

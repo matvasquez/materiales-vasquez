@@ -172,9 +172,7 @@ export const sendEmail = (order) => {
                                           } ${message.shippingLastName}</p>
                                       </td>
                                       <td width="30%" align="right" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 12px; font-weight: 400; line-height: 14px; padding: 5px 0; color: #00144c;">
-                                          ${message.date
-                                            .toLowerCase()
-                                            .slice(0, -6)}
+                                          ${message.date}
                                       </td>
                                   </tr>
                               </table>
@@ -442,11 +440,11 @@ export const sendEmail = (order) => {
   `,
   };
 
+  // matvasquezh@gmail.com
+
   const bodyOfMessageToCompany = {
-    receiver: `matvasquezh@gmail.com, ${process.env.NEXT_PUBLIC_MAIL_SMTP}`,
-    subject: `Nueva compra desde E-commerce! ${message.date
-      .toLowerCase()
-      .slice(0, -6)}`,
+    receiver: `${process.env.NEXT_PUBLIC_MAIL_SMTP}`,
+    subject: `Nueva compra desde E-commerce! ${message.date}`,
     html: `<!DOCTYPE html>
   <html>
   <head>
@@ -545,9 +543,7 @@ export const sendEmail = (order) => {
                       <tr>
                           <td align="center" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding-top: 25px;">
                               <h3 style="font-size: 18px; font-weight: 800; line-height: 20px; color: #00144c; margin: 0;">
-                                  Nueva compra desde E-commerce! ${message.date
-                                    .toLowerCase()
-                                    .slice(0, -6)}
+                                  Nueva compra desde E-commerce! ${message.date}
                               </h3>
                           </td>
                       </tr>

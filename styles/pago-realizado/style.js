@@ -133,7 +133,7 @@ export const TotalContainer = styled.div`
   background-color: var(--background);
   border-radius: 1rem;
   @media print {
-    width: 100%;
+    width: 50%;
     margin: 0 auto;
   }
 `;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 
 // Actions
@@ -33,7 +33,7 @@ import {
 } from "../styles/pago-realizado/style";
 
 const Success = ({ purchasingData, setPurchaseSuccess }) => {
-  setPurchaseSuccess();
+  //setPurchaseSuccess();
   const formatter = new Intl.NumberFormat("en-US", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,

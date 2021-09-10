@@ -43,8 +43,8 @@ export const Price = styled(Name)`
 `;
 
 export const ButtonsContainer = styled.div`
-  width: 100%;
-  padding: 0 0.5rem;
+  width: 95%;
+  /* padding: 0 0.5rem; */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -53,7 +53,7 @@ export const ButtonsContainer = styled.div`
 export const ButtonLike = styled.button`
   width: 2rem;
   height: 2rem;
-  margin-left: 0.5rem;
+  /* margin-left: 0.5rem; */
   background: none;
   border: none;
   outline: none;
@@ -67,7 +67,7 @@ export const ButtonLike = styled.button`
 `;
 
 export const ButtonAdd = styled.button`
-  padding: 0.4rem 0.6rem;
+  padding: 0.4rem;
   font-size: 1.2rem;
   color: var(--background);
   background-color: var(--blue);
@@ -133,9 +133,6 @@ export const ArticleStyled = styled.article`
     `
     margin: 0;
   `}
-  &:hover {
-    background-color: #f3f3f3;
-  }
 
   @media (min-width: 750px) {
     margin: 0;

@@ -66,7 +66,7 @@ const UserProfile = (props) => {
         <title>Perfil de usuario | Materiales Vasquez Hermanos</title>
       </Head>
 
-      <main className={styles.MainStyle}>
+      <main className={styles.MainHome}>
         <>
           {session && (
             <UserInfo>

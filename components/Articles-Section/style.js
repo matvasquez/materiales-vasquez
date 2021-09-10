@@ -59,14 +59,17 @@ export const ItemsContainer = styled.section`
   width: 100%;
   min-height: 50vh;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  /* grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); */
+  grid-template-columns: 45vw 45vw;
   grid-auto-rows: 27rem;
   grid-gap: 1rem;
-  align-items: stretch;
+  justify-items: center;
+  align-items: center;
 
   @media (min-width: 750px) {
     grid-template-columns: repeat(auto-fill, 32%);
     grid-auto-rows: 30rem;
+    align-items: stretch;
   }
   @media (min-width: 1200px) {
     grid-template-columns: repeat(5, 1fr);

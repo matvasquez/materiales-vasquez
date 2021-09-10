@@ -11,9 +11,6 @@ import { SliderItem } from "../Slider-Item/SliderItem";
 // Stiled-Components
 import { SliderStyled } from "./style";
 
-// Styles
-import styles from "./Slider.module.css";
-
 // install Swiper modules
 SwiperCore.use([Autoplay]);
 
@@ -37,7 +34,7 @@ const sliderItems = [
 
 const Slider = () => {
   return (
-    <section className={styles.SliderStyled}>
+    <SliderStyled>
       <Swiper
         spaceBetween={10}
         slidesPerView={1}
@@ -54,7 +51,7 @@ const Slider = () => {
             </SwiperSlide>
           ))}
       </Swiper>
-    </section>
+    </SliderStyled>
   );
 };
 

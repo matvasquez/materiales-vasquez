@@ -65,7 +65,7 @@ export const Text = styled.p`
   margin-right: 1rem;
   margin-left: auto;
   padding: 0.5rem;
-  font-size: 2rem;
+  font-size: 1.8rem;
   text-align: center;
   color: var(--background);
   border: 0.1rem solid #fff;

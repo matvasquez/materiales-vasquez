@@ -94,7 +94,7 @@ const UserRegistration = (props) => {
         <title>{title}</title>
       </Head>
 
-      <main className={styles.MainStyle}>
+      <main className={styles.MainHome}>
         <h1>Registro de usuario</h1>
         {session ? (
           <SectionStyled>
