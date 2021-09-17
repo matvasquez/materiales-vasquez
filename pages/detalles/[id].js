@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import { connect } from "react-redux";
 // import Head from "next/head";
@@ -64,44 +65,44 @@ import {
 //   };
 // };
 
-export const getServerSideProps = async ({ params }) => {
-  // Solicita los datos del articulo principal
-  const responseDetails = await fetch(
-    `https://api-vasquez.herokuapp.com/api/detalles/${params.id}`
-  );
-  const { data: product } = await responseDetails.json();
+// export const getServerSideProps = async ({ params }) => {
+//   // Solicita los datos del articulo principal
+//   const responseDetails = await fetch(
+//     `https://api-vasquez.herokuapp.com/api/detalles/${params.id}`
+//   );
+//   const { data: product } = await responseDetails.json();
 
-  // Solicita articulos relacionados por nombre
-  const responseRelatedByName = await fetch(
-    `https://api-vasquez.herokuapp.com/api/related-by-name/${product[0].name
-      .split(" ")[0]
-      .replace(/\//gi, "slash")}?first=1&last=6`
-  );
-  const { data: related } = await responseRelatedByName.json();
+//   // Solicita articulos relacionados por nombre
+//   const responseRelatedByName = await fetch(
+//     `https://api-vasquez.herokuapp.com/api/related-by-name/${product[0].name
+//       .split(" ")[0]
+//       .replace(/\//gi, "slash")}?first=1&last=6`
+//   );
+//   const { data: related } = await responseRelatedByName.json();
 
-  // Solicita articulos relacionados por categoria
-  const responseRelatedByCategory = await fetch(
-    `https://api-vasquez.herokuapp.com/api/related-by-category/${product[0].category.replace(
-      / /gi,
-      "-"
-    )}?first=1&last=6`
-  );
-  const { data: relatedCategory } = await responseRelatedByCategory.json();
+//   // Solicita articulos relacionados por categoria
+//   const responseRelatedByCategory = await fetch(
+//     `https://api-vasquez.herokuapp.com/api/related-by-category/${product[0].category.replace(
+//       / /gi,
+//       "-"
+//     )}?first=1&last=6`
+//   );
+//   const { data: relatedCategory } = await responseRelatedByCategory.json();
 
-  return {
-    props: {
-      product: product[0],
-      related: related,
-      relatedCategory: relatedCategory,
-    },
-  };
-};
+//   return {
+//     props: {
+//       product: product[0],
+//       related: related,
+//       relatedCategory: relatedCategory,
+//     },
+//   };
+// };
 
 const ProductPage = (props) => {
   const {
-    product,
-    related = [],
-    relatedCategory = [],
+    // product,
+    // related = [],
+    // relatedCategory = [],
 
     myCart,
     itemsIliked,
@@ -112,12 +113,54 @@ const ProductPage = (props) => {
     setDeleteFavorite,
   } = props;
 
+  const router = useRouter();
+  const { id } = router.query;
+  const [product, setProduct] = useState([]);
+  const [related, setRelated] = useState([]);
+  const [relatedCategory, setRelatedCategory] = useState([]);
+
+  console.log("id: ", id);
+
+  useEffect(async () => {
+    if (id) {
+      const responseDetails = await fetch(`/api/detalles/${id}`);
+      const { data } = await responseDetails.json();
+      setProduct(data[0]);
+
+      const responseRelatedByName = await fetch(
+        `/api/related-by-name/${data[0].name
+          .split(" ")[0]
+          .replace(/\//gi, "slash")}?first=1&last=6`
+      );
+      const { data: dataRelated } = await responseRelatedByName.json();
+      setRelated(dataRelated);
+
+      const responseRelatedByCategory = await fetch(
+        `/api/related-by-category/${data[0].category.replace(
+          / /gi,
+          "-"
+        )}?first=1&last=6`
+      );
+      const { data: dataRelatedCategory } =
+        await responseRelatedByCategory.json();
+      setRelatedCategory(dataRelatedCategory);
+    }
+  }, [id]);
+
   // Hook que verifica si el producto esta entre los favoritos
-  const [yesItIsMineLike] = useMyItems(product.articulo_id, itemsIliked);
+  const [yesItIsMineLike] = useMyItems(
+    product.articulo_id ? product.articulo_id : "982734872638",
+    itemsIliked
+  );
   // Hook que verifica si el producto esta en el carrito
-  const [yesItIsMineCart] = useMyItems(product.articulo_id, myCart);
+  const [yesItIsMineCart] = useMyItems(
+    product.articulo_id ? product.articulo_id : "982734872638",
+    myCart
+  );
   // Hook que solicita el Stock
-  const [stock] = useGetStock(product.articulo_id);
+  const [stock] = useGetStock(
+    product.articulo_id ? product.articulo_id : "982734872638"
+  );
 
   // Envia al Carrito y a la lista de precios
   const handleSetCart = () => {
@@ -170,7 +213,7 @@ const ProductPage = (props) => {
         />
         <title>{`${product.name} | Materiales Vasquez Hermanos`}</title>
       </Head> */}
-      <NextSeo
+      {/* <NextSeo
         title={`${product.name} | Materiales Vasquez Hermanos`}
         description={product.description}
         canonical="https://www.materialesvasquezhnos.com.mx/"
@@ -193,7 +236,7 @@ const ProductPage = (props) => {
           site: "@MaterialesVH",
           cardType: "summary",
         }}
-      />
+      /> */}
       <main className={styles.MainHome}>
         <MainInfo>
           <LikeContainer

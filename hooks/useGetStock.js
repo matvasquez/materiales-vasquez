@@ -7,9 +7,7 @@ export function useGetStock(id) {
   useEffect(async () => {
     window
       .fetch(
-        `https://api-vasquez.herokuapp.com/api/stock/${id
-          .replace(/ /gi, "space")
-          .replace(/\//gi, "slash")}`
+        `/api/stock/${id.replace(/ /gi, "space").replace(/\//gi, "slash")}`
       )
       .then((response) => response.json())
       .then(({ data }) => {

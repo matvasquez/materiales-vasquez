@@ -23,9 +23,7 @@ const MainMenu = ({ isOpen, handleOpen }) => {
   const [apartments, setapartments] = useState([]);
 
   useEffect(async () => {
-    const response = await fetch(
-      "https://api-vasquez.herokuapp.com/api/categories/main-menu"
-    );
+    const response = await fetch("/api/categories/main-menu");
     const { data } = await response.json();
 
     setapartments(data);

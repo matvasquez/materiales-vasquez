@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import Head from "next/head";
 import fetch from "isomorphic-unfetch";
 import { connect } from "react-redux";
@@ -41,41 +42,41 @@ import {
 // };
 
 // export async function getStaticProps({ params }) {
-export async function getServerSideProps({ params }) {
-  const response = await fetch(
-    `https://api-vasquez.herokuapp.com/api/related-by-category/${params.id}?first=1&last=20`
-  );
-  const { data: products } = await response.json();
+// export async function getServerSideProps({ params }) {
+//   const response = await fetch(
+//     `https://api-vasquez.herokuapp.com/api/related-by-category/${params.id}?first=1&last=20`
+//   );
+//   const { data: products } = await response.json();
 
-  const responseBrands = await fetch(
-    `https://api-vasquez.herokuapp.com/api/brands/${params.id}`
-  );
-  const { brands } = await responseBrands.json();
+//   const responseBrands = await fetch(
+//     `https://api-vasquez.herokuapp.com/api/brands/${params.id}`
+//   );
+//   const { brands } = await responseBrands.json();
 
-  return {
-    props: {
-      products,
-      brands,
+//   return {
+//     props: {
+//       products,
+//       brands,
 
-      title: `${params.id.replace(/-/gi, " ")}`,
-      description:
-        "Amplia gama de productos para obra negra, ferretería, muebles, y artículos para el hogar.",
-      image:
-        "https://res.cloudinary.com/duibtuerj/image/upload/v1630083340/brand/meta-image_rcclee.jpg",
-      ogurl: "https://www.materialesvasquezhnos.com.mx",
-    }, // se pasarán al componente de la página como props
-  };
-}
+//       title: `${params.id.replace(/-/gi, " ")}`,
+//       description:
+//         "Amplia gama de productos para obra negra, ferretería, muebles, y artículos para el hogar.",
+//       image:
+//         "https://res.cloudinary.com/duibtuerj/image/upload/v1630083340/brand/meta-image_rcclee.jpg",
+//       ogurl: "https://www.materialesvasquezhnos.com.mx",
+//     }, // se pasarán al componente de la página como props
+//   };
+// }
 
 const Categories = (props) => {
   const {
-    products = [],
-    brands = [],
+    // products = [],
+    // brands = [],
 
-    title,
-    description,
-    image,
-    ogurl,
+    // title,
+    // description,
+    // image,
+    // ogurl,
 
     itemsLoaded,
     setItemsLoaded,
@@ -85,6 +86,25 @@ const Categories = (props) => {
   const [openFilters, setOpenFilters] = useState(false);
   const [seeking, setSeeking] = useState(false);
   const [routeWithFilters, setRouteWithFilters] = useState(false);
+
+  const router = useRouter();
+  const { id } = router.query;
+  const [products, setProducts] = useState([]);
+  const [brands, setBrands] = useState([]);
+
+  useEffect(async () => {
+    if (id) {
+      const response = await fetch(
+        `/api/related-by-category/${id}?first=1&last=20`
+      );
+      const { data: dataNewProducts } = await response.json();
+      setProducts(dataNewProducts);
+
+      const responseBrands = await fetch(`/api/brands/${id}`);
+      const { brands: dataBrands } = await responseBrands.json();
+      setBrands(dataBrands);
+    }
+  }, [id]);
 
   const handleOpenFilters = () => {
     setOpenFilters(!openFilters);
@@ -97,9 +117,16 @@ const Categories = (props) => {
   const applyFilters = async (minPrice, maxPrice, selectedBrands) => {
     setSeeking(true);
     const brandsQuery = selectedBrands.map((brand) => `'${brand}'`);
-
+    console.log(
+      `/api/filters/(${brandsQuery.toString()})?categorie=${id.replace(
+        / /gi,
+        "-"
+      )}&first=${minPrice.replace(/e/gi, "") || 0}&last=${
+        maxPrice.replace(/e/gi, "") || 100000
+      }`
+    );
     const response = await fetch(
-      `https://api-vasquez.herokuapp.com/api/filters/(${brandsQuery.toString()})?categorie=${title.replace(
+      `/api/filters/(${brandsQuery.toString()})?categorie=${id.replace(
         / /gi,
         "-"
       )}&first=${minPrice.replace(/e/gi, "") || 0}&last=${
@@ -130,7 +157,7 @@ const Categories = (props) => {
           name="viewport"
           content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"
         />
-        <title>{title} | Materiales Vasquez Hermanos</title>
+        {id && <title>{id} | Materiales Vasquez Hermanos</title>}
       </Head>
 
       <main className={styles.MainStyle}>
@@ -145,7 +172,7 @@ const Categories = (props) => {
         />
         {itemsLoaded.length > 0 ? (
           <ArticlesSection
-            title={title}
+            title={id}
             products={itemsLoaded}
             route={true}
             routeWithFilters={routeWithFilters}
@@ -153,7 +180,7 @@ const Categories = (props) => {
           />
         ) : (
           <SectionEmpty>
-            <TitleSection>{title}</TitleSection>
+            <TitleSection>{id}</TitleSection>
             <EmptyContainer>
               <TextEmpty>Sección Vacía</TextEmpty>
             </EmptyContainer>

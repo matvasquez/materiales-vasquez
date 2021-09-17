@@ -1,16 +1,7 @@
 import fetch from "isomorphic-unfetch";
 
-const URL = `https://api-vasquez.herokuapp.com/api/send-email`;
-// const URL = `http://localhost:3015/api/send-email`;
-
-// const responseDetails = await fetch(URL, {
-//   method: "POST",
-//   headers: {
-//     "Content-Type": "application/json",
-//   },
-//   body: encodeFormURL({ ...data, api_token: TOKEN, id: ID }),
-// });
-// const { data: product } = await responseDetails.json();
+// const URL = `https://api-vasquez.herokuapp.com/api/send-email`;
+const URL = `/api/send-email`;
 
 const main = async (body) => {
   console.log("Se envia");
@@ -443,7 +434,8 @@ export const sendEmail = (order) => {
   // matvasquezh@gmail.com
 
   const bodyOfMessageToCompany = {
-    receiver: `${process.env.NEXT_PUBLIC_MAIL_SMTP}`,
+    // receiver: `${process.env.NEXT_PUBLIC_MAIL_SMTP}`,
+    receiver: `poncianogl@hotmail.com`,
     subject: `Nueva compra desde E-commerce! ${message.date}`,
     html: `<!DOCTYPE html>
   <html>

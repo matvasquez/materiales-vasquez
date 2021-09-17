@@ -1,5 +1,5 @@
 import Cors from "cors";
-import initMiddleware from "../../../lib/init-middleware";
+import initMiddleware from "../../lib/init-middleware";
 
 const cors = initMiddleware(
   Cors({
@@ -14,7 +14,7 @@ const rest = new (require("rest-mssql-nodejs"))({
   database: process.env.NEXT_PUBLIC_DATABASE,
 });
 
-export default async function getMainCategories(req, res) {
+export default async function getNewProducts(req, res) {
   // Run cors
   await cors(req, res);
   if (req.method !== "GET") {
@@ -22,19 +22,25 @@ export default async function getMainCategories(req, res) {
       .status(500)
       .json({ message: "Lo sentimos, sólo aceptamos solicitudes GET" });
   }
+
   setTimeout(async () => {
     const result = await rest.executeQuery(
-      `SELECT DISTINCT RTRIM(DESCRIBECO) AS name
-      FROM CAT_CLAS
-      WHERE DESCRIBECO IN ('ACABADOS', 'BAÑOS', 'COCINA', 'ELECTRICO', 'HERRAMIENTAS', 'ILUMINACION', 'MATERIALES DE CONSTRUCCION', 'PLOMERIA');`
+      `SELECT DISTINCT RTRIM(m.DESC_MARCA) AS marca, m.DESC_MARCA
+        FROM MARCAS AS m
+        LEFT OUTER JOIN ARTICULO AS a
+            ON m.CVE_MARCA = a.CVE_MARCA
+        LEFT OUTER JOIN CAT_CLAS AS c
+            ON a.CVE_CLAS = c.CVE_CLAS
+        WHERE a.HABVTAS = ''
+        ORDER BY m.DESC_MARCA ASC;`
     );
 
     result &&
       res.status(200).json({
-        name: "Main Categories",
+        name: "All Store Brands",
         method: req.method,
         total: result.data[0].length,
-        data: result.data[0],
+        brands: result.data[0],
       });
   }, 1000);
 }

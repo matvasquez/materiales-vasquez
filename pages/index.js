@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import { NextSeo, LocalBusinessJsonLd } from "next-seo";
 import fetch from "isomorphic-unfetch";
@@ -17,39 +17,61 @@ import styles from "../styles/components/Main.module.css";
 const first_section = "LAMPARA";
 const second_section = "200";
 
-export async function getStaticProps() {
-  const response = await fetch(
-    `https://api-vasquez.herokuapp.com/api/new-products`
-  );
-  const { data: newProducts } = await response.json();
+// export async function getStaticProps() {
+//   const response = await fetch(
+//     `https://api-vasquez.herokuapp.com/api/new-products`
+//   );
+//   const { data: newProducts } = await response.json();
 
-  const responseSection = await fetch(
-    `https://api-vasquez.herokuapp.com/api/products-by-name/${first_section}?first=1&last=8`
-  );
-  const { data: productsByName } = await responseSection.json();
+//   const responseSection = await fetch(
+//     `https://api-vasquez.herokuapp.com/api/products-by-name/${first_section}?first=1&last=8`
+//   );
+//   const { data: productsByName } = await responseSection.json();
 
-  const responseSectionPrice = await fetch(
-    `https://api-vasquez.herokuapp.com/api/products-by-price/${second_section}?first=1&last=8`
-  );
-  const { data: productsByPrice } = await responseSectionPrice.json();
+//   const responseSectionPrice = await fetch(
+//     `https://api-vasquez.herokuapp.com/api/products-by-price/${second_section}?first=1&last=8`
+//   );
+//   const { data: productsByPrice } = await responseSectionPrice.json();
 
-  return {
-    props: {
-      newProducts,
-      productsByName,
-      productsByPrice,
-    }, // se pasarán al componente de la página como props
-  };
-}
+//   return {
+//     props: {
+//       newProducts,
+//       productsByName,
+//       productsByPrice,
+//     }, // se pasarán al componente de la página como props
+//   };
+// }
 
 const HomePage = (props) => {
   const {
-    newProducts,
-    productsByName,
-    productsByPrice,
+    //   newProducts,
+    //   productsByName,
+    //   productsByPrice,
 
     itemsIliked,
   } = props;
+
+  const [newProducts, setNewProducts] = useState([]);
+  const [productsByName, setProductsByName] = useState([]);
+  const [productsByPrice, setProductsByPrice] = useState([]);
+
+  useEffect(async () => {
+    const response = await fetch(`/api/new-products`);
+    const { data: dataNewProducts } = await response.json();
+    setNewProducts(dataNewProducts);
+
+    const responseSection = await fetch(
+      `/api/products-by-name/${first_section}?first=1&last=8`
+    );
+    const { data: dataProductsByName } = await responseSection.json();
+    setProductsByName(dataProductsByName);
+
+    const responseSectionPrice = await fetch(
+      `/api/products-by-price/${second_section}?first=1&last=8`
+    );
+    const { data: dataProductsByPrice } = await responseSectionPrice.json();
+    setProductsByPrice(dataProductsByPrice);
+  }, []);
 
   return (
     <>

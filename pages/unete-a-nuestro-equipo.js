@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import Head from "next/head";
+// import { sendEmail } from "../utils/sendEmail";
 
 // Styled-Components
 import {
@@ -26,6 +27,26 @@ const Jobs = () => {
     console.log(inputFile.current.files[0]);
   };
 
+  const sendEmail = async (body) => {
+    const bodyOfMessageToClient = {
+      receiver: body.email,
+      subject: "Interesado en unirse al equipo",
+    };
+
+    fetch(`/api/send-email`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(bodyOfMessageToClient),
+    })
+      .then((response) => response.json())
+      .then(({ ok }) => {
+        console.log(ok);
+      })
+      .catch((error) => {
+        console.log("ERROR: ", error);
+      });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const newJobApplication = new FormData(formJob.current);
@@ -40,6 +61,7 @@ const Jobs = () => {
       curriculum: newJobApplication.get("Curriculum"),
     };
     console.log(aplication);
+    sendEmail(aplication);
   };
 
   return (

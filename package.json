@@ -6,14 +6,16 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "cross-env NODE_ENV=production node server.js",
     "export": "next export"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cross-env": "^7.0.3",
     "crypto-js": "^4.1.1",
+    "express": "^4.17.1",
     "isomorphic-unfetch": "^3.1.0",
     "mssql": "^7.2.0",
     "next": "^11.1.0",

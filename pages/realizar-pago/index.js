@@ -96,6 +96,17 @@ const cfdis = [
   "P01	POR DEFINIR",
 ];
 
+// Fecha y formato
+let date_ob = new Date();
+let date = ("0" + date_ob.getDate()).slice(-2);
+let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+let year = date_ob.getFullYear();
+let hours = date_ob.getHours();
+let minutes = date_ob.getMinutes();
+let seconds = date_ob.getSeconds();
+// prints date & time in YYYY-MM-DD HH:MM:SS format
+let dateFormat = `${year}:${month}:${date}-${hours}:${minutes}:${seconds}`;
+
 const MakePayment = (props) => {
   const {
     myCart,
@@ -112,9 +123,10 @@ const MakePayment = (props) => {
     maximumFractionDigits: 2,
   });
 
-  // const urlWebsite = "http://localhost:3000";
+  const urlWebsite = "http://localhost:3000";
+  // const urlWebsite = "https://test.ipg-online.com";
   // const urlWebsite = "https://materiales-vasquez.vercel.app";
-  const urlWebsite = "https://www.materialesvasquezhnos.com.mx";
+  //const urlWebsite = "https://www.materialesvasquezhnos.com.mx";
 
   const [subTotal, setSubTotal] = useState(0);
   const [cardNumber, setCardNumber] = useState("");
@@ -182,9 +194,7 @@ const MakePayment = (props) => {
   useEffect(async () => {
     if (myCart.length > 0) {
       const responseRelatedByName = await fetch(
-        `https://api-vasquez.herokuapp.com/api/related-by-name/${myCart[
-          myCart.length - 1
-        ].name
+        `/api/related-by-name/${myCart[myCart.length - 1].name
           .split(" ")[0]
           .replace(/\//gi, "slash")}?first=1&last=4`
       );
@@ -266,13 +276,13 @@ const MakePayment = (props) => {
     setPurchasingData(order);
 
     console.log("order: ", order);
-    //sendEmail(order);
+    sendEmail(order);
 
     // Esto solo es de prueba
-    setTimeout(() => {
-      setLoad(false);
-      window.location.href = "/pago-realizado";
-    }, 3000);
+    // setTimeout(() => {
+    //   setLoad(false);
+    //   window.location.href = "/pago-realizado";
+    // }, 3000);
   };
 
   // Código de pasarela de pagos
@@ -294,53 +304,47 @@ const MakePayment = (props) => {
   };
 
   const receiveMessage = (e) => {
-    console.log("receiveMessage");
-    // if (e.origin != urlWebsite) {
-    //   console.log("e.origin: ", e.origin);
-    //   return;
-    // }
+    // console.log("receiveMessage e: ", e);
+    if (e.origin != "https://test.ipg-online.com") {
+      return;
+    }
     // let elementArr = e.data.elementArr;
     // console.log("elementArr: ", elementArr);
     // forwardForm(e.data, elementArr);
   };
 
-  useEffect(() => {
-    window.addEventListener("message", receiveMessage, false);
-    return () => {
-      window.removeEventListener("message", receiveMessage, false);
-    };
-  }, ["message"]);
+  window.addEventListener("message", receiveMessage, false);
+  // useEffect(() => {
+  //   return () => {
+  //     window.removeEventListener("message", receiveMessage, false);
+  //   };
+  // }, ["message"]);
 
   // Se obtiene la cadena hexadecimal
   const convertStringToHex = () => {
     // Se concatenen los valores requeridos
-    const str = (
-      process.env.NEXT_PUBLIC_STORE_ID +
-      new Intl.DateTimeFormat("es-MX", {
-        dateStyle: "medium",
-        timeStyle: "short",
-      }).format(new Date()) +
-      (shippingCost + subTotal) +
-      "484" +
-      process.env.NEXT_PUBLIC_SHARED_SECRET
-    )
-      .toString()
-      .replace(/,/gi, "")
-      .replace(/ /gi, "");
-    console.log("Concatenar: ", str);
+    console.log("Fecha: ", dateFormat);
+    const str = `${process.env.NEXT_PUBLIC_STORE_ID}${dateFormat}${
+      shippingCost + subTotal
+    }${484}${process.env.NEXT_PUBLIC_SHARED_SECRET}`;
+
+    console.log("Concatenar los valores: ", str);
+
     var arr = [];
     for (let i = 0; i < str.length; i++) {
       // arr[i] = str.charCodeAt(i).toString(16).slice(-4);
       arr[i] = str.charCodeAt(i);
     }
     console.log(
-      "representación hexadecimal: ",
-      arr.toString().replace(/,/gi, "")
+      "Representación hexadecimal: ",
+      arr.toString().replace(/,/gi, "").replace(/ /gi, "")
     );
     // Se genera hash con el algoritmo SHA256
     console.log(
-      "hash con el algoritmo SHA256: ",
-      CryptoJS.SHA256(arr.toString().replace(/,/gi, "")).toString()
+      "Hash con el algoritmo SHA256: ",
+      CryptoJS.SHA256(
+        arr.toString().replace(/,/gi, "").replace(/ /gi, "")
+      ).toString()
     );
     return CryptoJS.SHA256(arr).toString();
   };
@@ -372,14 +376,7 @@ const MakePayment = (props) => {
           />
           <input type="hidden" name="txntype" value="sale" />
           <input type="hidden" name="timezone" value="America/Mexico_City" />
-          <input
-            type="hidden"
-            name="txndatetime"
-            value={new Intl.DateTimeFormat("es-MX", {
-              dateStyle: "medium",
-              timeStyle: "short",
-            }).format(new Date())}
-          />
+          <input type="hidden" name="txndatetime" value={dateFormat} />
           <input type="hidden" name="hash_algorithm" value="SHA256" />
           <input type="hidden" name="hash" value={convertStringToHex()} />
           <input

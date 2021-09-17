@@ -14,7 +14,8 @@ const rest = new (require("rest-mssql-nodejs"))({
   database: process.env.NEXT_PUBLIC_DATABASE,
 });
 
-export default async function getMainCategories(req, res) {
+export default async function getBrands(req, res) {
+  // http://localhost:3000/api/brands/ELECTRICO
   // Run cors
   await cors(req, res);
   if (req.method !== "GET") {
@@ -23,18 +24,27 @@ export default async function getMainCategories(req, res) {
       .json({ message: "Lo sentimos, sólo aceptamos solicitudes GET" });
   }
   setTimeout(async () => {
+    const query = req.query.id
+      .replace(/space/g, " ")
+      .replace(/slash/gi, "/")
+      .replace(/'/gi, "''");
+
     const result = await rest.executeQuery(
-      `SELECT DISTINCT RTRIM(DESCRIBECO) AS name
-      FROM CAT_CLAS
-      WHERE DESCRIBECO IN ('ACABADOS', 'BAÑOS', 'COCINA', 'ELECTRICO', 'HERRAMIENTAS', 'ILUMINACION', 'MATERIALES DE CONSTRUCCION', 'PLOMERIA');`
+      `SELECT DISTINCT RTRIM(m.DESC_MARCA) AS marca
+    FROM MARCAS AS m
+    LEFT OUTER JOIN ARTICULO AS a
+        ON m.CVE_MARCA = a.CVE_MARCA
+    LEFT OUTER JOIN CAT_CLAS AS c
+        ON a.CVE_CLAS = c.CVE_CLAS
+    WHERE c.DESCRIBECO = '${query}' AND a.HABVTAS = '';`
     );
 
     result &&
       res.status(200).json({
-        name: "Main Categories",
+        name: "All Brands in a Category",
         method: req.method,
         total: result.data[0].length,
-        data: result.data[0],
+        brands: result.data[0],
       });
   }, 1000);
 }

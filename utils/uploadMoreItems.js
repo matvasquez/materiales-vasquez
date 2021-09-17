@@ -3,9 +3,7 @@
 import fetch from "isomorphic-unfetch";
 
 const main = async (query, start, end, aupdateItem, setNoMore) => {
-  const response = await fetch(
-    `https://api-vasquez.herokuapp.com/api/${query}?first=${start}&last=${end}`
-  );
+  const response = await fetch(`/api/${query}?first=${start}&last=${end}`);
   const { data: products } = await response.json();
 
   products !== undefined && aupdateItem(products);

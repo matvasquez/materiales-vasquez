@@ -13,39 +13,36 @@ import Filter from "../components/Filters/Filters";
 // Styles
 import styles from "../styles/components/Main.module.css";
 
-// Styled-Components
-import { ClearFilters } from "../styles/tiendas/style";
+// export async function getServerSideProps(context) {
+//   const responseSection = await fetch(
+//     `https://api-vasquez.herokuapp.com/api/new-products?first=1&last=20`
+//   );
+//   const { data: newProducts } = await responseSection.json();
 
-export async function getServerSideProps(context) {
-  const responseSection = await fetch(
-    `https://api-vasquez.herokuapp.com/api/new-products?first=1&last=20`
-  );
-  const { data: newProducts } = await responseSection.json();
+//   const responseBrands = await fetch(
+//     `https://api-vasquez.herokuapp.com/api/brands-tienda`
+//   );
+//   const { brands } = await responseBrands.json();
 
-  const responseBrands = await fetch(
-    `https://api-vasquez.herokuapp.com/api/brands-tienda`
-  );
-  const { brands } = await responseBrands.json();
+//   const responseCategories = await fetch(
+//     `https://api-vasquez.herokuapp.com/api/categories/all-categories`
+//   );
+//   const { data: categories } = await responseCategories.json();
 
-  const responseCategories = await fetch(
-    `https://api-vasquez.herokuapp.com/api/categories/all-categories`
-  );
-  const { data: categories } = await responseCategories.json();
-
-  return {
-    props: {
-      newProducts,
-      brands,
-      categories,
-    }, // se pasarán al componente de la página como props
-  };
-}
+//   return {
+//     props: {
+//       newProducts,
+//       brands,
+//       categories,
+//     }, // se pasarán al componente de la página como props
+//   };
+// }
 
 const Store = (props) => {
   const {
-    newProducts,
-    brands,
-    categories,
+    // newProducts,
+    // brands,
+    // categories,
     itemsLoaded,
     setItemsLoaded,
     setResetItemsLoaded,
@@ -54,6 +51,24 @@ const Store = (props) => {
   const [openFilters, setOpenFilters] = useState(false);
   const [seeking, setSeeking] = useState(false);
   const [routeWithFilters, setRouteWithFilters] = useState(false);
+
+  const [newProducts, setNewProducts] = useState([]);
+  const [brands, setBrands] = useState([]);
+  const [categories, setCategories] = useState([]);
+
+  useEffect(async () => {
+    const response = await fetch(`/api/new-products?first=1&last=20`);
+    const { data: dataNewProducts } = await response.json();
+    setNewProducts(dataNewProducts);
+
+    const responseBrands = await fetch(`/api/brands-tienda`);
+    const { brands: dataBrands } = await responseBrands.json();
+    setBrands(dataBrands);
+
+    const responseCategories = await fetch(`/api/categories/all-categories`);
+    const { data: dataCategories } = await responseCategories.json();
+    setCategories(dataCategories);
+  }, []);
 
   const handleOpenFilters = () => {
     setOpenFilters(!openFilters);
@@ -68,7 +83,7 @@ const Store = (props) => {
     const brandsQuery = selectedBrands.map((brand) => `'${brand}'`);
 
     const response = await fetch(
-      `https://api-vasquez.herokuapp.com/api/filters/(${brandsQuery.toString()})?categorie=todas&first=${
+      `/api/filters/(${brandsQuery.toString()})?categorie=todas&first=${
         minPrice.replace(/e/gi, "") || 0
       }&last=${maxPrice.replace(/e/gi, "") || 100000}`
     );

@@ -28,6 +28,7 @@ export const MainTitle = styled.h1`
 export const Iframe = styled.iframe`
   /* display: none; */
   width: 90%;
+  min-height: 45vh;
   margin: 0 auto;
   border: none;
   outline: none;
