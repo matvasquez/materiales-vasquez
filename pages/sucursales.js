@@ -1,14 +1,11 @@
 import React from "react";
-import Head from "next/head";
+import { NextSeo, LocalBusinessJsonLd } from "next-seo";
 
 // Components
 import Branch from "../components/Branch/Branch";
 
-// Styles
-import styles from "../styles/components/Main.module.css";
-
 // Styled-Components
-import { MainStiled, MainTitle } from "../styles/tiendas/style";
+import { MainStiled } from "../styles/sucursales/style";
 
 // Data-Test
 const branches = [
@@ -85,18 +82,48 @@ const branches = [
   },
 ];
 
-const Stores = () => {
+const Sucursales = () => {
   return (
     <>
-      <Head>
-        <title>Sucursales | Materiales Vasquez Hermanos</title>
-        <meta
-          name="viewport"
-          content="initial-scale=1.0, width=device-width user-scalable=no"
-        />
-      </Head>
+      <NextSeo
+        title="Sucursales | Materiales Vasquez Hermanos"
+        description={`¡Contamos con ${branches.length} sucursales para estar cerca de ti, visítanos!`}
+        canonical="https://www.materialesvasquezhnos.com.mx/sucursales"
+        openGraph={{
+          url: "https://www.materialesvasquezhnos.com.mx/sucursales",
+          title: "Sucursales | Materiales Vasquez Hermanos",
+          description: `¡Contamos con ${branches.length} sucursales para estar cerca de ti, visítanos!`,
+          images: [
+            {
+              url: "https://res.cloudinary.com/duibtuerj/image/upload/v1630083340/brand/meta-image_rcclee.jpg",
+              width: 200,
+              height: 200,
+              alt: "Logotipo de Materiales Vasquez Hermanos",
+            },
+          ],
+          site_name: "Materiales Vasquez Hermanos",
+        }}
+        twitter={{
+          handle: "@MaterialesVH",
+          site: "@MaterialesVH",
+          cardType: "summary",
+        }}
+      />
+      <LocalBusinessJsonLd
+        type="HomeGoodsStore"
+        name="Sucursales | Materiales Vasquez Hermanos"
+        description={`¡Contamos con ${branches.length} sucursales para estar cerca de ti, visítanos!`}
+        url="https://www.materialesvasquezhnos.com.mx/sucursales"
+        telephone="+522288401919"
+        address={{
+          streetAddress: "Lázaro Cárdenas 274",
+          addressLocality: "Xalapa",
+          addressRegion: "MEX",
+          postalCode: "91180",
+          addressCountry: "MX",
+        }}
+      />
       <MainStiled>
-        {/* <MainTitle>Encuentra la sucursal más cerca de ti.</MainTitle> */}
         {branches.map((store) => (
           <Branch key={store.address} {...store} />
         ))}
@@ -105,4 +132,4 @@ const Stores = () => {
   );
 };
 
-export default Stores;
+export default Sucursales;

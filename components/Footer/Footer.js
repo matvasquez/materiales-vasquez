@@ -35,7 +35,7 @@ const Footer = ({ carIsEmpty }) => {
           <GroupTitle>Servicio al cliente</GroupTitle>
           <ul>
             <Li>
-              <Link href="/tiendas" passHref>
+              <Link href="/sucursales" passHref>
                 <Anchor>Sucursales y horarios</Anchor>
               </Link>
             </Li>

@@ -6,7 +6,7 @@ import {
   setShippingCost,
   setPurchasingData,
 } from "../../actions";
-import Head from "next/head";
+import { NextSeo, LocalBusinessJsonLd } from "next-seo";
 import { useShippingCost } from "../../hooks/useShippingCost";
 import { sendEmail } from "../../utils/sendEmail";
 import fetch from "isomorphic-unfetch";
@@ -123,7 +123,7 @@ const MakePayment = (props) => {
     maximumFractionDigits: 2,
   });
 
-  const urlWebsite = "http://localhost:3000";
+  const urlWebsite = process.env.NEXT_PUBLIC_URL;
   // const urlWebsite = "https://test.ipg-online.com";
   // const urlWebsite = "https://materiales-vasquez.vercel.app";
   //const urlWebsite = "https://www.materialesvasquezhnos.com.mx";
@@ -255,24 +255,6 @@ const MakePayment = (props) => {
       products: myCart,
     };
 
-    // const paymetnMethods = [
-    //   { cardNumber: newOrder.get("card-number") },
-    //   { cardDate: newOrder.get("card-date") },
-    //   { cardSecurityCode: newOrder.get("card-security-code") },
-    //   { cardName: newOrder.get("card-name") },
-    // ];
-
-    // // Encrypt
-    // const ciphertext = CryptoJS.AES.encrypt(
-    //   JSON.stringify(paymetnMethods),
-    //   "secret key 123"
-    // ).toString();
-    // console.log("ciphertext paymetnMethods: ", ciphertext);
-
-    // // Decrypt
-    // const bytes = CryptoJS.AES.decrypt(ciphertext, "secret key 123");
-    // const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-
     setPurchasingData(order);
 
     console.log("order: ", order);
@@ -313,12 +295,12 @@ const MakePayment = (props) => {
     // forwardForm(e.data, elementArr);
   };
 
-  window.addEventListener("message", receiveMessage, false);
-  // useEffect(() => {
-  //   return () => {
-  //     window.removeEventListener("message", receiveMessage, false);
-  //   };
-  // }, ["message"]);
+  useEffect(() => {
+    window.addEventListener("message", receiveMessage, false);
+    return () => {
+      window.removeEventListener("message", receiveMessage, false);
+    };
+  }, ["message"]);
 
   // Se obtiene la cadena hexadecimal
   const convertStringToHex = () => {
@@ -332,8 +314,7 @@ const MakePayment = (props) => {
 
     var arr = [];
     for (let i = 0; i < str.length; i++) {
-      // arr[i] = str.charCodeAt(i).toString(16).slice(-4);
-      arr[i] = str.charCodeAt(i);
+      arr[i] = str.charCodeAt(i).toString(16).slice(-4);
     }
     console.log(
       "Representación hexadecimal: ",
@@ -346,20 +327,52 @@ const MakePayment = (props) => {
         arr.toString().replace(/,/gi, "").replace(/ /gi, "")
       ).toString()
     );
-    return CryptoJS.SHA256(arr).toString();
+    // return CryptoJS.SHA256(arr).toString();
+    return "7c9fc5975cdda629d965be0a7e71383d56ea61a6bc8c963b04342022f6ea4e5b";
   };
 
   // console.log("purchasingData: ", purchasingData);
 
   return (
     <>
-      <Head>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"
-        />
-        <title>Realizar Pago | Materiales Vasquez Hermanos</title>
-      </Head>
+      <NextSeo
+        title="Realizar Pago | Materiales Vasquez Hermanos"
+        description={`Todo listo para adquirir tus ${myCart.length} artículos en el carrito`}
+        canonical="https://www.materialesvasquezhnos.com.mx/realizar-pago"
+        openGraph={{
+          url: "https://www.materialesvasquezhnos.com.mx/realizar-pago",
+          title: "Realizar Pago | Materiales Vasquez Hermanos",
+          description: `Todo listo para adquirir tus ${myCart.length} artículos en el carrito`,
+          images: [
+            {
+              url: "https://res.cloudinary.com/duibtuerj/image/upload/v1630083340/brand/meta-image_rcclee.jpg",
+              width: 200,
+              height: 200,
+              alt: "Logotipo de Materiales Vasquez Hermanos",
+            },
+          ],
+          site_name: "Materiales Vasquez Hermanos",
+        }}
+        twitter={{
+          handle: "@MaterialesVH",
+          site: "@MaterialesVH",
+          cardType: "summary",
+        }}
+      />
+      <LocalBusinessJsonLd
+        type="HomeGoodsStore"
+        name="Realizar Pago | Materiales Vasquez Hermanos"
+        description={`Todo listo para adquirir tus ${myCart.length} artículos en el carrito`}
+        url="https://www.materialesvasquezhnos.com.mx/realizar-pago"
+        telephone="+522288401919"
+        address={{
+          streetAddress: "Lázaro Cárdenas 274",
+          addressLocality: "Xalapa",
+          addressRegion: "MEX",
+          postalCode: "91180",
+          addressCountry: "MX",
+        }}
+      />
       <MainStiled>
         <MainTitle>Realizar Pago</MainTitle>
 

@@ -1,5 +1,5 @@
 import React from "react";
-import Head from "next/head";
+import { NextSeo, LocalBusinessJsonLd } from "next-seo";
 
 // Styled-Components
 import {
@@ -16,13 +16,44 @@ import {
 const AboutUs = () => {
   return (
     <>
-      <Head>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"
-        />
-        <title>Aviso de Privacidad | Materiales Vasquez Hermanos</title>
-      </Head>
+      <NextSeo
+        title="Aviso de Privacidad | Materiales Vasquez Hermanos"
+        description="Conoce nuestro aviso de privacidad"
+        canonical="https://www.materialesvasquezhnos.com.mx/aviso-de-privacidad"
+        openGraph={{
+          url: "https://www.materialesvasquezhnos.com.mx/aviso-de-privacidad",
+          title: "Aviso de Privacidad | Materiales Vasquez Hermanos",
+          description: "Conoce nuestro aviso de privacidad",
+          images: [
+            {
+              url: "https://res.cloudinary.com/duibtuerj/image/upload/v1630083340/brand/meta-image_rcclee.jpg",
+              width: 200,
+              height: 200,
+              alt: "Logotipo de Materiales Vasquez Hermanos",
+            },
+          ],
+          site_name: "Materiales Vasquez Hermanos",
+        }}
+        twitter={{
+          handle: "@MaterialesVH",
+          site: "@MaterialesVH",
+          cardType: "summary",
+        }}
+      />
+      <LocalBusinessJsonLd
+        type="HomeGoodsStore"
+        name="Aviso de Privacidad | Materiales Vasquez Hermanos"
+        description="Conoce nuestro aviso de privacidad"
+        url="https://www.materialesvasquezhnos.com.mx/aviso-de-privacidad"
+        telephone="+522288401919"
+        address={{
+          streetAddress: "Lázaro Cárdenas 274",
+          addressLocality: "Xalapa",
+          addressRegion: "MEX",
+          postalCode: "91180",
+          addressCountry: "MX",
+        }}
+      />
       <MainStiled>
         <MainTitle>Aviso de Privacidad</MainTitle>
         <Paragraph>

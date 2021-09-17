@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import React from "react";
 import Link from "next/link";
 import { connect } from "react-redux";
-// import Head from "next/head";
-import { NextSeo } from "next-seo";
+import { NextSeo, ProductJsonLd } from "next-seo";
 import fetch from "isomorphic-unfetch";
 import { useMyItems } from "../../hooks/useMyItems";
 import { useGetStock } from "../../hooks/useGetStock";
@@ -49,7 +47,7 @@ import {
 // Genera las rutas de el detalle de todos los productos
 // export const getStaticPaths = async () => {
 //   const response = await fetch(
-//     "https://api-vasquez.herokuapp.com/api/products-list"
+//     "${process.env.NEXT_PUBLIC_URL}/api/products-list"
 //   );
 //   const { data } = await response.json();
 
@@ -65,44 +63,46 @@ import {
 //   };
 // };
 
-// export const getServerSideProps = async ({ params }) => {
-//   // Solicita los datos del articulo principal
-//   const responseDetails = await fetch(
-//     `https://api-vasquez.herokuapp.com/api/detalles/${params.id}`
-//   );
-//   const { data: product } = await responseDetails.json();
+export const getServerSideProps = async ({ params }) => {
+  // Solicita los datos del articulo principal
+  const responseDetails = await fetch(
+    `${process.env.NEXT_PUBLIC_URL}/api/detalles/${params.id}`
+  );
+  const { data: product } = await responseDetails.json();
 
-//   // Solicita articulos relacionados por nombre
-//   const responseRelatedByName = await fetch(
-//     `https://api-vasquez.herokuapp.com/api/related-by-name/${product[0].name
-//       .split(" ")[0]
-//       .replace(/\//gi, "slash")}?first=1&last=6`
-//   );
-//   const { data: related } = await responseRelatedByName.json();
+  // Solicita articulos relacionados por nombre
+  const responseRelatedByName = await fetch(
+    `${process.env.NEXT_PUBLIC_URL}/api/related-by-name/${product[0].name
+      .split(" ")[0]
+      .replace(/\//gi, "slash")}?first=1&last=6`
+  );
+  const { data: related } = await responseRelatedByName.json();
 
-//   // Solicita articulos relacionados por categoria
-//   const responseRelatedByCategory = await fetch(
-//     `https://api-vasquez.herokuapp.com/api/related-by-category/${product[0].category.replace(
-//       / /gi,
-//       "-"
-//     )}?first=1&last=6`
-//   );
-//   const { data: relatedCategory } = await responseRelatedByCategory.json();
+  // Solicita articulos relacionados por categoria
+  const responseRelatedByCategory = await fetch(
+    `${
+      process.env.NEXT_PUBLIC_URL
+    }/api/related-by-category/${product[0].category.replace(
+      / /gi,
+      "-"
+    )}?first=1&last=6`
+  );
+  const { data: relatedCategory } = await responseRelatedByCategory.json();
 
-//   return {
-//     props: {
-//       product: product[0],
-//       related: related,
-//       relatedCategory: relatedCategory,
-//     },
-//   };
-// };
+  return {
+    props: {
+      product: product[0],
+      related: related,
+      relatedCategory: relatedCategory,
+    },
+  };
+};
 
 const ProductPage = (props) => {
   const {
-    // product,
-    // related = [],
-    // relatedCategory = [],
+    product,
+    related = [],
+    relatedCategory = [],
 
     myCart,
     itemsIliked,
@@ -113,54 +113,12 @@ const ProductPage = (props) => {
     setDeleteFavorite,
   } = props;
 
-  const router = useRouter();
-  const { id } = router.query;
-  const [product, setProduct] = useState([]);
-  const [related, setRelated] = useState([]);
-  const [relatedCategory, setRelatedCategory] = useState([]);
-
-  console.log("id: ", id);
-
-  useEffect(async () => {
-    if (id) {
-      const responseDetails = await fetch(`/api/detalles/${id}`);
-      const { data } = await responseDetails.json();
-      setProduct(data[0]);
-
-      const responseRelatedByName = await fetch(
-        `/api/related-by-name/${data[0].name
-          .split(" ")[0]
-          .replace(/\//gi, "slash")}?first=1&last=6`
-      );
-      const { data: dataRelated } = await responseRelatedByName.json();
-      setRelated(dataRelated);
-
-      const responseRelatedByCategory = await fetch(
-        `/api/related-by-category/${data[0].category.replace(
-          / /gi,
-          "-"
-        )}?first=1&last=6`
-      );
-      const { data: dataRelatedCategory } =
-        await responseRelatedByCategory.json();
-      setRelatedCategory(dataRelatedCategory);
-    }
-  }, [id]);
-
   // Hook que verifica si el producto esta entre los favoritos
-  const [yesItIsMineLike] = useMyItems(
-    product.articulo_id ? product.articulo_id : "982734872638",
-    itemsIliked
-  );
+  const [yesItIsMineLike] = useMyItems(product.articulo_id, itemsIliked);
   // Hook que verifica si el producto esta en el carrito
-  const [yesItIsMineCart] = useMyItems(
-    product.articulo_id ? product.articulo_id : "982734872638",
-    myCart
-  );
+  const [yesItIsMineCart] = useMyItems(product.articulo_id, myCart);
   // Hook que solicita el Stock
-  const [stock] = useGetStock(
-    product.articulo_id ? product.articulo_id : "982734872638"
-  );
+  const [stock] = useGetStock(product.articulo_id);
 
   // Envia al Carrito y a la lista de precios
   const handleSetCart = () => {
@@ -186,34 +144,7 @@ const ProductPage = (props) => {
 
   return (
     <>
-      {/* <Head>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"
-        />
-        <meta property="og:type" content="website" />
-        <meta
-          key="og:title"
-          property="og:title"
-          content={`${product.name} | Materiales Vasquez Hermanos`}
-        />
-        <meta
-          key="og:url"
-          property="og:url"
-          content="https://www.materialesvasquezhnos.com.mx/"
-        />
-        <meta
-          property="og:image"
-          content="https://res.cloudinary.com/duibtuerj/image/upload/v1630083340/brand/meta-image_rcclee.jpg"
-        />
-        <meta
-          key="og:description"
-          property="og:description"
-          content={product.description}
-        />
-        <title>{`${product.name} | Materiales Vasquez Hermanos`}</title>
-      </Head> */}
-      {/* <NextSeo
+      <NextSeo
         title={`${product.name} | Materiales Vasquez Hermanos`}
         description={product.description}
         canonical="https://www.materialesvasquezhnos.com.mx/"
@@ -236,7 +167,15 @@ const ProductPage = (props) => {
           site: "@MaterialesVH",
           cardType: "summary",
         }}
-      /> */}
+      />
+
+      <ProductJsonLd
+        productName={`${product.name}`}
+        images={[`data:image/jpg;base64,${product.image_url}`]}
+        description={product.description}
+        //brand={product.name}
+      />
+
       <main className={styles.MainHome}>
         <MainInfo>
           <LikeContainer
