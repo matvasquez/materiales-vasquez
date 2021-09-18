@@ -65,3 +65,7 @@ body::-webkit-scrollbar {
     background-color: var(--white);
   }
 }
+
+.paymentrow {
+  border: none;
+}

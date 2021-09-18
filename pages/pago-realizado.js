@@ -33,7 +33,7 @@ import {
 } from "../styles/pago-realizado/style";
 
 const Success = ({ purchasingData, setPurchaseSuccess }) => {
-  //setPurchaseSuccess();
+  setPurchaseSuccess();
   const formatter = new Intl.NumberFormat("en-US", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
@@ -60,24 +60,28 @@ const Success = ({ purchasingData, setPurchaseSuccess }) => {
           <p>Tu importe</p>
         </TotalContainer>
         <ProductsContainer>
-          {purchasingData.products.map((product) => (
-            <Products key={product.articulo_id}>
-              <p>
-                {product.name} |{" "}
-                <span>
-                  {product.initialQuantity}
-                  {product.initialQuantity > 1 ? "piezas" : "pieza"}
-                </span>
-              </p>
-              <p>${formatter.format(product.price)}</p>
-              <img
-                src={`data:image/jpg;base64,${product.image_url}`}
-                width={300}
-                height={300}
-                alt={`Fotografía de ${product.name}`}
-              />
-            </Products>
-          ))}
+          {purchasingData.length > 0 && (
+            <>
+              {purchasingData.products.map((product) => (
+                <Products key={product.articulo_id}>
+                  <p>
+                    {product.name} |{" "}
+                    <span>
+                      {product.initialQuantity}
+                      {product.initialQuantity > 1 ? "piezas" : "pieza"}
+                    </span>
+                  </p>
+                  <p>${formatter.format(product.price)}</p>
+                  <img
+                    src={`data:image/jpg;base64,${product.image_url}`}
+                    width={300}
+                    height={300}
+                    alt={`Fotografía de ${product.name}`}
+                  />
+                </Products>
+              ))}
+            </>
+          )}
           <Products>
             <h4>Costo de envío</h4>
             <p>${purchasingData.shippingCost}</p>

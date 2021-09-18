@@ -1,12 +1,15 @@
 import styled from "styled-components";
 
 export const AnchorStyled = styled.a`
-  /* grid-row: 1 / span 1; */
   width: 100%;
   height: 60%;
   display: flex;
   justify-content: center;
   align-items: center;
+  div {
+    width: 100%;
+    height: 100%;
+  }
   img {
     width: 100%;
     height: 100%;

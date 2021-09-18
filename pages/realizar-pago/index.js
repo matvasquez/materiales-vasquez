@@ -10,8 +10,6 @@ import { NextSeo, LocalBusinessJsonLd } from "next-seo";
 import { useShippingCost } from "../../hooks/useShippingCost";
 import { sendEmail } from "../../utils/sendEmail";
 import fetch from "isomorphic-unfetch";
-import CryptoJS from "crypto-js";
-import SHA256 from "crypto-js/sha256";
 
 // Components
 import { Logo } from "../../components/IconsSVG/Logo";
@@ -21,12 +19,12 @@ import { MastercardLogo } from "../../components/IconsSVG/MastercardLogo";
 import { AmericanExpressLogo } from "../../components/IconsSVG/AmericanExpressLogo";
 import PreviewItem from "../../components/Preview-Item/PreviewItem";
 import { SuspensoryPoints } from "../../components/Loaders/SuspensoryPoints";
+import PasarelaDePagos from "../../components/Pasarela-de-pagos/PasarelaDePagos";
 
 // Styled-Components
 import {
   MainStiled,
   MainTitle,
-  Iframe,
   BuyersData,
   FormStyled,
   CardStyled,
@@ -59,7 +57,7 @@ import {
   ShippingInvoice,
   InputRFC,
   SelectCFDI,
-  BuyButton,
+  // BuyButton,
   MyListOfItems,
   CostDetails,
   CostContainer,
@@ -96,17 +94,6 @@ const cfdis = [
   "P01	POR DEFINIR",
 ];
 
-// Fecha y formato
-let date_ob = new Date();
-let date = ("0" + date_ob.getDate()).slice(-2);
-let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
-let year = date_ob.getFullYear();
-let hours = date_ob.getHours();
-let minutes = date_ob.getMinutes();
-let seconds = date_ob.getSeconds();
-// prints date & time in YYYY-MM-DD HH:MM:SS format
-let dateFormat = `${year}:${month}:${date}-${hours}:${minutes}:${seconds}`;
-
 const MakePayment = (props) => {
   const {
     myCart,
@@ -122,11 +109,6 @@ const MakePayment = (props) => {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
-
-  const urlWebsite = process.env.NEXT_PUBLIC_URL;
-  // const urlWebsite = "https://test.ipg-online.com";
-  // const urlWebsite = "https://materiales-vasquez.vercel.app";
-  //const urlWebsite = "https://www.materialesvasquezhnos.com.mx";
 
   const [subTotal, setSubTotal] = useState(0);
   const [cardNumber, setCardNumber] = useState("");
@@ -267,72 +249,6 @@ const MakePayment = (props) => {
     // }, 3000);
   };
 
-  // Código de pasarela de pagos
-  const forwardForm = (responseObj, elementArr) => {
-    const newForm = document.createElement("form");
-    newForm.setAttribute("method", "post");
-    newForm.setAttribute("action", responseObj.redirectURL);
-    newForm.setAttribute("id", "newForm");
-    document.body.appendChild(newForm);
-    for (let i = 0; i < elementArr.length; i++) {
-      let element = elementArr[i];
-      let input = document.createElement("input");
-      input.setAttribute("type", "hidden");
-      input.setAttribute("name", element.name);
-      input.setAttribute("value", element.value);
-      document.newForm.appendChild(input);
-    }
-    document.newForm.submit();
-  };
-
-  const receiveMessage = (e) => {
-    // console.log("receiveMessage e: ", e);
-    if (e.origin != "https://test.ipg-online.com") {
-      return;
-    }
-    // let elementArr = e.data.elementArr;
-    // console.log("elementArr: ", elementArr);
-    // forwardForm(e.data, elementArr);
-  };
-
-  useEffect(() => {
-    window.addEventListener("message", receiveMessage, false);
-    return () => {
-      window.removeEventListener("message", receiveMessage, false);
-    };
-  }, ["message"]);
-
-  // Se obtiene la cadena hexadecimal
-  const convertStringToHex = () => {
-    // Se concatenen los valores requeridos
-    console.log("Fecha: ", dateFormat);
-    const str = `${process.env.NEXT_PUBLIC_STORE_ID}${dateFormat}${
-      shippingCost + subTotal
-    }${484}${process.env.NEXT_PUBLIC_SHARED_SECRET}`;
-
-    console.log("Concatenar los valores: ", str);
-
-    var arr = [];
-    for (let i = 0; i < str.length; i++) {
-      arr[i] = str.charCodeAt(i).toString(16).slice(-4);
-    }
-    console.log(
-      "Representación hexadecimal: ",
-      arr.toString().replace(/,/gi, "").replace(/ /gi, "")
-    );
-    // Se genera hash con el algoritmo SHA256
-    console.log(
-      "Hash con el algoritmo SHA256: ",
-      CryptoJS.SHA256(
-        arr.toString().replace(/,/gi, "").replace(/ /gi, "")
-      ).toString()
-    );
-    // return CryptoJS.SHA256(arr).toString();
-    return "7c9fc5975cdda629d965be0a7e71383d56ea61a6bc8c963b04342022f6ea4e5b";
-  };
-
-  // console.log("purchasingData: ", purchasingData);
-
   return (
     <>
       <NextSeo
@@ -376,50 +292,9 @@ const MakePayment = (props) => {
       <MainStiled>
         <MainTitle>Realizar Pago</MainTitle>
 
-        <form
-          method="POST"
-          target="myFrame"
-          action="https://test.ipg-online.com/connect/gateway/processing"
-        >
-          <input type="hidden" name="checkoutoption" value="simpleform" />
-          <input
-            type="hidden"
-            name="hostURI"
-            value={`${urlWebsite}/realizar-pago`}
-          />
-          <input type="hidden" name="txntype" value="sale" />
-          <input type="hidden" name="timezone" value="America/Mexico_City" />
-          <input type="hidden" name="txndatetime" value={dateFormat} />
-          <input type="hidden" name="hash_algorithm" value="SHA256" />
-          <input type="hidden" name="hash" value={convertStringToHex()} />
-          <input
-            type="hidden"
-            name="storename"
-            value={process.env.NEXT_PUBLIC_STORE_ID}
-          />
-          <input type="hidden" name="currency" value="484" />
-          <input
-            type="hidden"
-            name="chargetotal"
-            value={shippingCost + subTotal}
-          />
-          <input
-            type="hidden"
-            name="responseFailURL"
-            value={`${urlWebsite}/pago-error`}
-          />
-          <input
-            type="hidden"
-            name="responseSuccessURL"
-            value={`${urlWebsite}/pago-realizado`}
-          />
-          <button type="submit">Submit</button>
-        </form>
-        <Iframe name="myFrame"></Iframe>
-
         <BuyersData>
           <FormStyled ref={paymentForm} onSubmit={handleSubmit}>
-            <CardStyled>
+            {/* <CardStyled>
               <CardDataTitle>Datos de tarjeta</CardDataTitle>
               <ChipStyled />
               <CardNumber
@@ -452,7 +327,7 @@ const MakePayment = (props) => {
                     autoComplete="off"
                     maxLength="5"
                   />
-                  {/* <InputDate
+                  <InputDate
                     type="month"
                     maxLength="4"
                     min="2010-01"
@@ -461,7 +336,7 @@ const MakePayment = (props) => {
                     value={cardDate}
                     onChange={(e) => formatDate(e.target.value, formatDate)}
                     required
-                  autoComplete="off" /> */}
+                  autoComplete="off" />
                 </DateContainer>
                 <InputCode
                   type="text"
@@ -497,7 +372,8 @@ const MakePayment = (props) => {
               <LogoContainer>
                 <Logo />
               </LogoContainer>
-            </CardStyled>
+            </CardStyled> */}
+
             <ShippingData>
               <Subtitle>¿A quién se lo enviamos?</Subtitle>
               <InvoiceQuestion>
@@ -698,10 +574,15 @@ const MakePayment = (props) => {
                 />
               </CostContainer>
             </CostDetails>
-            <BuyButton type="submit">
+            {/* <BuyButton type="submit">
               {load ? <SuspensoryPoints /> : "Pagar"}
-            </BuyButton>
+            </BuyButton> */}
           </FormStyled>
+          <PasarelaDePagos
+            shippingCost={shippingCost}
+            subTotal={subTotal}
+            load={load}
+          />
         </BuyersData>
 
         {related.length > 0 && (

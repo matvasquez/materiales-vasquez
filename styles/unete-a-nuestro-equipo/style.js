@@ -87,7 +87,6 @@ export const InputBase = styled.input`
   margin: 1rem auto;
   font-size: 1.4rem;
   text-align: start;
-  text-transform: capitalize;
   color: var(--blue);
   background: none;
   border: none;
@@ -132,34 +131,6 @@ export const Experience = styled.textarea`
     width: 95%;
     margin: 1.5rem auto;
     min-height: 8rem;
-  }
-`;
-
-export const Curriculum = styled.input`
-  margin: 1rem auto;
-  ::before {
-    content: "Seleccione un archivo";
-    display: inline-block;
-    background: none;
-    border: 0.1rem solid var(--blue);
-    border-radius: 0.5rem;
-    padding: 0.5rem 0.8rem;
-    outline: none;
-    white-space: nowrap;
-    cursor: pointer;
-    text-shadow: 1px 1px var(--white);
-    font-weight: 700;
-    font-size: 1.2rem;
-    transition: 0.3s ease-in-out all;
-  }
-  ::-webkit-file-upload-button {
-    visibility: hidden;
-  }
-  :hover {
-    color: var(--yellow);
-  }
-  @media (min-width: 750px) {
-    margin: 1rem auto 1rem 2rem;
   }
 `;
 

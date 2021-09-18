@@ -38,7 +38,9 @@ const Header = ({ carIsOpen, itemsIliked }) => {
       setSeeking(true);
       // Solicita articulos relacionados por nombre
       const responseRelatedByName = await fetch(
-        `https://api-vasquez.herokuapp.com/api/related-by-name/${value.toUpperCase()}?first=1&last=6`
+        `${
+          process.env.NEXT_PUBLIC_URL
+        }/api/related-by-name/${value.toUpperCase()}?first=1&last=6`
       );
       const { data } = await responseRelatedByName.json();
       if (data.length > 0) {

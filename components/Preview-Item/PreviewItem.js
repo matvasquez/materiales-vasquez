@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { connect } from "react-redux";
 import { useMyItems } from "../../hooks/useMyItems";
 
@@ -32,6 +33,11 @@ const formatter = new Intl.NumberFormat("en-US", {
   minimumFractionDigits: 2,
   maximumFractionDigits: 2,
 });
+
+// Loader para componente Image
+const loader = ({ src, width, quality }) => {
+  return `${src}?w=${width}&q=${quality || 75}`;
+};
 
 const PreviewItem = (props) => {
   const {
@@ -67,7 +73,6 @@ const PreviewItem = (props) => {
       price,
       initialQuantity: 1,
     });
-    setPricesToCart(price);
   };
 
   // Envia a favoritos
@@ -89,12 +94,16 @@ const PreviewItem = (props) => {
         passHref
       >
         <AnchorStyled aria-label={`Ver detalles de ${name}`}>
-          <img
-            src={`data:image/jpg;base64,${image_url}`}
-            width={300}
-            height={300}
-            alt={`Fotografía de ${name}`}
-          />
+          <div>
+            <Image
+              loader={loader}
+              src={`data:image/jpg;base64,${image_url}`}
+              width={300}
+              height={300}
+              alt={`Fotografía de ${name}`}
+              placeholder="blurDataURL"
+            />
+          </div>
         </AnchorStyled>
       </Link>
       <Name>{name.toLowerCase()}</Name>
