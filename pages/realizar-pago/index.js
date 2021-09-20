@@ -1,11 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { connect } from "react-redux";
-import {
-  setOpenCart,
-  setCloseCart,
-  setShippingCost,
-  setPurchasingData,
-} from "../../actions";
+import { setOpenCart, setCloseCart, setPurchasingData } from "../../actions";
 import { NextSeo, LocalBusinessJsonLd } from "next-seo";
 import { useShippingCost } from "../../hooks/useShippingCost";
 import { sendEmail } from "../../utils/sendEmail";
@@ -42,6 +37,7 @@ import {
   ShippingAddress,
   ShippingData,
   Subtitle,
+  DataSubtitle,
   StreetAndNumber,
   StateAndZipCode,
   InputBase,
@@ -99,9 +95,8 @@ const MakePayment = (props) => {
     myCart,
     setCloseCart,
     shoppingCartPrices,
-    shippingCost,
+    //shippingCost,
     purchasingData,
-    setShippingCost,
     setPurchasingData,
   } = props;
 
@@ -121,6 +116,7 @@ const MakePayment = (props) => {
   const [shippingName, setShippingName] = useState("");
   const [city, setCity] = useState("Xalapa");
   const [zipCode, setZipCode] = useState("");
+  const [shippingCost, setShippingCost] = useState(50);
   const [invoiceRequired, setInvoiceRequired] = useState(false);
   const paymentForm = useRef(null);
   const invoiceCheck = useRef(null);
@@ -375,8 +371,8 @@ const MakePayment = (props) => {
             </CardStyled> */}
 
             <ShippingData>
-              <Subtitle>¿A quién se lo enviamos?</Subtitle>
-              <InvoiceQuestion>
+              <DataSubtitle>¿A quién se lo enviamos?</DataSubtitle>
+              {/* <InvoiceQuestion>
                 <InvoiceInput
                   type="checkbox"
                   id="shippingNameCheckbox"
@@ -388,7 +384,7 @@ const MakePayment = (props) => {
                 <Invoice htmlFor="shippingNameCheckbox" bg={sameName}>
                   El nombre es el mismo nombre que la tarjeta
                 </Invoice>
-              </InvoiceQuestion>
+              </InvoiceQuestion> */}
               <InputSameName
                 type="text"
                 name="shippingName"
@@ -578,11 +574,7 @@ const MakePayment = (props) => {
               {load ? <SuspensoryPoints /> : "Pagar"}
             </BuyButton> */}
           </FormStyled>
-          <PasarelaDePagos
-            shippingCost={shippingCost}
-            subTotal={subTotal}
-            load={load}
-          />
+          <PasarelaDePagos shippingCost={shippingCost} subTotal={subTotal} />
         </BuyersData>
 
         {related.length > 0 && (
@@ -620,8 +612,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   setOpenCart,
   setCloseCart,
-
-  setShippingCost,
   setPurchasingData,
 };
 

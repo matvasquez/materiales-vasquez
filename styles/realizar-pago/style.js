@@ -49,7 +49,7 @@ export const FormStyled = styled.form`
     padding: 5rem 1rem;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-gap: 1rem;
+    grid-gap: 2rem;
     justify-items: center;
     align-items: start;
   }
@@ -277,7 +277,7 @@ export const ShippingAddress = styled.div`
   }
   @media (min-width: 1200px) {
     grid-column: 2 / span 1;
-    grid-row: 2 / span 1;
+    grid-row: 1 / span 1;
   }
 `;
 
@@ -349,8 +349,27 @@ export const ShippingData = styled(ShippingAddress)`
     }
   }
   @media (min-width: 1200px) {
-    grid-column: 2 / span 1;
+    grid-column: 1 / span 1;
     grid-row: 1 / span 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: min-content;
+    grid-gap: 1rem;
+    justify-items: center;
+    align-items: center;
+    ${InputBase} {
+      width: 100%;
+    }
+  }
+`;
+
+export const DataSubtitle = styled.p`
+  font-size: 1.5rem;
+  font-weight: 500;
+  @media (min-width: 750px) {
+    grid-column: 1 / span 2;
+    grid-row: 1 / span 1;
+    text-align: center;
   }
 `;
 
@@ -370,6 +389,8 @@ export const InputEmail = styled(InputBase)`
 `;
 
 export const ProofOfPurchase = styled.p`
+  grid-column: 2 / span 1;
+  grid-row: 4 / span 1;
   font-size: 1rem;
   text-align: center;
 `;
@@ -516,13 +537,14 @@ export const ShippingInvoice = styled(ShippingAddress)`
   @media (min-width: 1200px) {
     grid-column: 2 / span 1;
     grid-row: 2 / span 1;
+    height: initial;
     padding-top: 1rem;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: flex-start;
     align-items: flex-start;
-    transform: translateY(30rem);
+    transform: translateY(0);
     input {
       width: 45%;
     }
@@ -536,7 +558,7 @@ export const InputRFC = styled(InputBase)`
 export const MyListOfItems = styled.section`
   width: 100%;
   padding: 1rem;
-  margin: 0 auto;
+  margin: 2rem auto;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -547,8 +569,9 @@ export const MyListOfItems = styled.section`
     width: 90%;
   }
   @media (min-width: 1200px) {
-    grid-column: 1 / span 1;
-    grid-row: 2 / span 1;
+    grid-column: 1 / span 2;
+    grid-row: 3 / span 1;
+    width: 50%;
   }
 `;
 
@@ -579,14 +602,8 @@ export const BuyButton = styled.button`
 export const CostDetails = styled(MyListOfItems)`
   margin-top: 1rem;
   @media (min-width: 1200px) {
-    grid-column: 1 / span 2;
-    grid-row: 4 / span 1;
-    width: 50%;
-    ${(props) =>
-      props.invoice &&
-      `
-        margin-top: 18rem;
-    `}
+    grid-column: 1 / span 1;
+    grid-row: 2 / span 1;
   }
 `;
 

@@ -1,10 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { uploadMoreItems } from "../../utils/uploadMoreItems";
-import { connect } from "react-redux";
-
-//Actions
-import { setItemsLoaded } from "../../actions";
 
 // Components
 import PreviewItem from "../Preview-Item/PreviewItem";
@@ -27,13 +23,21 @@ const ArticlesSection = ({
   products,
   route,
   routeWithFilters,
-  setItemsLoaded,
   handleOpenFilters,
 }) => {
   // Activa la animación de carga en el botón de Cargar más
   const [load, setLoad] = useState(false);
   // Reemplaza el botón de Cargar más por Son todos los productos
   const [noMore, setNoMore] = useState(false);
+  const [itemsLoaded, setItemsLoaded] = useState([]);
+
+  const updateItems = (items) => {
+    setItemsLoaded(itemsLoaded.concat(items));
+  };
+
+  useEffect(() => {
+    setItemsLoaded(products);
+  }, []);
 
   // Determina a que ruta de la API hacer la consulta
   const searchTitle = {
@@ -64,7 +68,7 @@ const ArticlesSection = ({
       </TitleSection>
       <ItemsContainer>
         {products &&
-          products.map((product, i) => (
+          itemsLoaded.map((product, i) => (
             <PreviewItem
               key={product.articulo_id + product.price}
               {...product}
@@ -86,7 +90,7 @@ const ArticlesSection = ({
                       query,
                       products.length + 1,
                       products.length + 20,
-                      setItemsLoaded,
+                      updateItems,
                       setNoMore
                     );
                     handleClick();
@@ -114,8 +118,4 @@ const ArticlesSection = ({
   );
 };
 
-const mapDispatchToProps = {
-  setItemsLoaded,
-};
-
-export default connect(null, mapDispatchToProps)(ArticlesSection);
+export default ArticlesSection;

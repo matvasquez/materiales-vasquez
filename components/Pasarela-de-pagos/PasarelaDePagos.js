@@ -1,17 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import sjcl from "sjcl";
 
 // Tarjeta de pruebas: 5426064000424979
 // Cualquier CVV y EXP
 // Password: Secret!33
 
+// Components
+import { SuspensoryPoints } from "../../components/Loaders/SuspensoryPoints";
+
 // Styled-Components
 import { FormStyled, BuyButton, Iframe } from "./style";
 
-// const PasarelaDePagos = ({ shippingCost, subTotal }) => {
-const PasarelaDePagos = ({ load }) => {
-  let shippingCost = 50;
-  let subTotal = 300;
+const PasarelaDePagos = ({ shippingCost, subTotal }) => {
+  const [load, setLoad] = useState(false);
+  const [show, setShow] = useState(true);
 
   // Fecha y formato
   let date_ob = new Date();
@@ -47,29 +49,17 @@ const PasarelaDePagos = ({ load }) => {
   }
 
   const receiveMessage = (e) => {
-    console.log("receiveMessage e: ", e);
     if (e.origin != "https://test.ipg-online.com") {
       return;
     }
     let elementArr = e.data.elementArr;
-    console.log("elementArr: ", elementArr);
     forwardForm(e.data, elementArr);
   };
 
   if (process.browser) {
     // Client-side-only
-    console.log("window: ", window);
-    window.addEventListener("click", (e) => console.log("Click: ", e));
-
     window.addEventListener("message", (e) => receiveMessage(e), false);
   }
-
-  //   useEffect(() => {
-  //     console.log("useEffect message");
-  //     return () => {
-  //       window.removeEventListener("message", receiveMessage, false);
-  //     };
-  //   }, []);
 
   // Se obtiene la cadena hexadecimal
   const convertStringToHex = () => {
@@ -92,13 +82,23 @@ const PasarelaDePagos = ({ load }) => {
     return hash;
   };
 
+  const handleSubmit = () => {
+    console.log("handleSubmit");
+    setLoad(true);
+    // setShow(true);
+    setTimeout(() => {
+      setLoad(false);
+    }, 3000);
+  };
+
   return (
     <>
-      <Iframe name="myFrame"></Iframe>
+      <Iframe name="myFrame" show={show}></Iframe>
       <FormStyled
         method="POST"
         target="myFrame"
         action="https://test.ipg-online.com/connect/gateway/processing"
+        onSubmit={handleSubmit}
       >
         <input type="hidden" name="checkoutoption" value="simpleform" />
         <input

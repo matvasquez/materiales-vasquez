@@ -18,7 +18,6 @@ export const SectionStyled = styled.section`
   @media (min-width: 1200px) {
     grid-column: 2 / span 1;
     width: 100%;
-    margin: 0;
   }
 `;
 

@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { NextSeo, LocalBusinessJsonLd } from "next-seo";
 import fetch from "isomorphic-unfetch";
-import { connect } from "react-redux";
-
-//Actions
-import { setItemsLoaded, setResetItemsLoaded } from "../actions";
 
 // Components
 import ArticlesSection from "../components/Articles-Section/index";
@@ -39,36 +35,12 @@ export async function getServerSideProps(context) {
 }
 
 const Store = (props) => {
-  const {
-    newProducts,
-    brands,
-    categories,
-    itemsLoaded,
-    setItemsLoaded,
-    setResetItemsLoaded,
-  } = props;
+  const { newProducts, brands, categories } = props;
 
   const [openFilters, setOpenFilters] = useState(false);
   const [seeking, setSeeking] = useState(false);
   const [routeWithFilters, setRouteWithFilters] = useState(false);
-
-  // const [newProducts, setNewProducts] = useState([]);
-  // const [brands, setBrands] = useState([]);
-  // const [categories, setCategories] = useState([]);
-
-  // useEffect(async () => {
-  //   const response = await fetch(`/api/new-products?first=1&last=20`);
-  //   const { data: dataNewProducts } = await response.json();
-  //   setNewProducts(dataNewProducts);
-
-  //   const responseBrands = await fetch(`/api/brands-tienda`);
-  //   const { brands: dataBrands } = await responseBrands.json();
-  //   setBrands(dataBrands);
-
-  //   const responseCategories = await fetch(`/api/categories/all-categories`);
-  //   const { data: dataCategories } = await responseCategories.json();
-  //   setCategories(dataCategories);
-  // }, []);
+  const [itemsLoaded, setItemsLoaded] = useState([]);
 
   const handleOpenFilters = () => {
     setOpenFilters(!openFilters);
@@ -77,6 +49,10 @@ const Store = (props) => {
   useEffect(() => {
     setItemsLoaded(newProducts);
   }, [newProducts]);
+
+  const setResetItemsLoaded = () => {
+    setItemsLoaded([]);
+  };
 
   const applyFilters = async (minPrice, maxPrice, selectedBrands) => {
     setSeeking(true);
@@ -173,15 +149,4 @@ const Store = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    itemsLoaded: state.itemsLoaded,
-  };
-};
-
-const mapDispatchToProps = {
-  setItemsLoaded,
-  setResetItemsLoaded,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Store);
+export default Store;

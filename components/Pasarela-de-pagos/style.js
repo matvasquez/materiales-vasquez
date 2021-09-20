@@ -13,12 +13,7 @@ export const FormStyled = styled.form`
   }
   @media (min-width: 1200px) {
     width: 80%;
-    padding: 5rem 1rem;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 1rem;
-    justify-items: center;
-    align-items: start;
+    padding: 1rem;
   }
 `;
 
@@ -49,8 +44,8 @@ export const BuyButton = styled.button`
 export const Iframe = styled.iframe`
   /* display: none; */
   width: 90%;
-  height: 35rem;
-  padding: 1rem 0;
+  ${(props) => (props.show ? `height: 35rem;` : `height: 0;`)}
+  ${(props) => (props.show ? `padding: 1rem 0;` : `padding: 0;`)}
   margin: 1.5rem auto;
   display: flex;
   flex-direction: column;
@@ -62,5 +57,8 @@ export const Iframe = styled.iframe`
   outline: none;
   body::-webkit-scrollbar {
     display: none;
+  }
+  @media (min-width: 1200px) {
+    width: 80%;
   }
 `;

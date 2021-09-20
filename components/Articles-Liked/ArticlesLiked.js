@@ -11,11 +11,11 @@ import {
   ItemsScroll,
 } from "./style";
 
-const ArticlesLiked = ({ title, articles }) => {
+const ArticlesLiked = ({ articles }) => {
   return (
     <>
       <SectionStyled>
-        <TitleSection>{title}</TitleSection>
+        <TitleSection>Productos que te gustan</TitleSection>
         <ItemsContainer>
           <ItemsScroll rows={articles.length > 3 ? articles.length : 3}>
             {articles &&

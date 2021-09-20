@@ -16,7 +16,7 @@ export const HeaderStyled = styled.header`
   top: 0;
   left: 0;
   right: 0;
-  z-index: ${(props) => (props.zindex ? 999 : 1001)};
+  z-index: ${(props) => (props.zindex ? 998 : 999)};
   @media (min-width: 750px) {
     padding: 2rem;
   }

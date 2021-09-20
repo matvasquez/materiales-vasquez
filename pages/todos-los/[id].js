@@ -1,28 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { NextSeo, LocalBusinessJsonLd } from "next-seo";
 import fetch from "isomorphic-unfetch";
-import { connect } from "react-redux";
-
-//Actions
-import { setItemsLoaded } from "../../actions";
 
 // Components
 import ArticlesSection from "../../components/Articles-Section/index";
 
 // Styles
 import styles from "../../styles/components/Main.module.css";
-import { Conatiner } from "../../components/Loaders/SuspensoryPoints/style";
-
-// Genera las rutas la lista de productos de las secciones de la página principal
-// export const getStaticPaths = async () => {
-//   return {
-//     paths: [{ params: { id: "lámparas" } }, { params: { id: "Menos-de-200" } }],
-//     fallback: false,
-//   };
-// };
 
 export async function getServerSideProps({ params }) {
-  console.log("params: ", params);
   let products;
 
   if (params.id === "lámparas") {
@@ -52,35 +38,7 @@ export async function getServerSideProps({ params }) {
 }
 
 const AllSections = (props) => {
-  const { products, title, description, itemsLoaded, setItemsLoaded } = props;
-  // const router = useRouter();
-  // const { id } = router.query;
-  // const [products, setProducts] = useState([]);
-
-  // console.log("id: ", id);
-  // console.log("products: ", products);
-
-  // useEffect(async () => {
-  //   if (id) {
-  //     if (id === "lámparas") {
-  //       const responseSection = await fetch(
-  //         `/api/products-by-name/LAMPARA?first=1&last=20`
-  //       );
-  //       const { data } = await responseSection.json();
-  //       setProducts(data);
-  //     } else if (id === "Menos-de-200") {
-  //       const responseSectionPrice = await fetch(
-  //         `/api/products-by-price/200?first=1&last=20`
-  //       );
-  //       const { data } = await responseSectionPrice.json();
-  //       setProducts(data);
-  //     }
-  //   }
-  // }, [id]);
-
-  useEffect(() => {
-    setItemsLoaded(products);
-  }, [products]);
+  const { products, title, description } = props;
 
   return (
     <>
@@ -123,11 +81,11 @@ const AllSections = (props) => {
         }}
       />
 
-      <main className={styles.MainStyle}>
+      <main className={styles.MainHome}>
         {products.length > 0 && (
           <ArticlesSection
             title={title.replace(/-/gi, " ")}
-            products={itemsLoaded}
+            products={products}
             route={true}
           />
         )}
@@ -136,14 +94,4 @@ const AllSections = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    itemsLoaded: state.itemsLoaded,
-  };
-};
-
-const mapDispatchToProps = {
-  setItemsLoaded,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(AllSections);
+export default AllSections;

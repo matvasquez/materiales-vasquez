@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { setOpenCart, setCloseCart, setUpdateCart } from "../../actions";
+import { setUpdateCart } from "../../actions";
 import { useSession } from "next-auth/client";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -39,24 +39,20 @@ import {
 } from "./style";
 
 const ShoppingCart = (props) => {
-  const {
-    carIsEmpty,
-    setOpenCart,
-    setUpdateCart,
-    shoppingCartPrices,
-    shippingCost,
-    setCloseCart,
-    myCart,
-    carIsOpen,
-  } = props;
+  const { setUpdateCart, shoppingCartPrices, myCart } = props;
 
   const cart = useRef(false);
-  const [pocition, setPocition] = useState(0);
   const [subTotal, setSubTotal] = useState(0);
-  const [total, setTotal] = useState(0);
   const [changeCart, setChangeCart] = useState(false);
   const { pathname } = useRouter();
   const [session, loading] = useSession();
+  //
+  const [carIsEmpty, setCarIsEmpty] = useState(false);
+  const [carIsOpen, setCarIsOpen] = useState(false);
+
+  useEffect(() => {
+    myCart.length > 0 ? setCarIsEmpty(true) : setCarIsEmpty(false);
+  }, [myCart]);
 
   // Previene el scroll al abrir el carrtio de compras
   useEffect(() => {
@@ -67,24 +63,15 @@ const ShoppingCart = (props) => {
     }
   }, [carIsOpen]);
 
-  // Abre el carrito de compras
+  // Abre y cierra el carrito de compras
   const handleSetOpen = () => {
-    setOpenCart();
-  };
-
-  // Obtiene la pocicion del scroll al abrir el carrito de compras
-  const handleTouchStart = (e) => {
-    setPocition(e.changedTouches[0].screenY);
+    setCarIsOpen(!carIsOpen);
   };
 
   // Dispara el evento de abrir o cerrar el carrtio
   // dependiendo el swipe que se realize
   const handleTouchMove = (e) => {
-    if (pocition > e.changedTouches[0].screenY) {
-      handleSetOpen();
-    } else if (pocition < e.changedTouches[0].screenY - 100) {
-      setCloseCart();
-    }
+    handleSetOpen();
   };
 
   useEffect(() => {
@@ -117,10 +104,6 @@ const ShoppingCart = (props) => {
     setUpdateCart(newCart);
   };
 
-  useEffect(() => {
-    setTotal(parseFloat(subTotal) + parseFloat(shippingCost));
-  }, [subTotal, shippingCost]);
-
   const formatter = new Intl.NumberFormat("en-US", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
@@ -130,11 +113,9 @@ const ShoppingCart = (props) => {
     <>
       <ShoppingCartStyled
         ref={cart}
-        onTouchStart={(e) => handleTouchStart(e)}
         onTouchMove={(e) => handleTouchMove(e)}
-        carIsEmpty={carIsEmpty}
         carIsOpen={carIsOpen}
-        hide={pathname === "/realizar-pago" && true}
+        hide={pathname === "/registro-de-usuario" && true}
       >
         <CornerLeftContainer>
           <CornerLeft />
@@ -145,17 +126,9 @@ const ShoppingCart = (props) => {
         <OpenCloseButton
           type="button"
           carIsOpen={carIsOpen}
-          onClick={
-            carIsOpen
-              ? (e) => {
-                  setCloseCart(e);
-                }
-              : (e) => {
-                  handleSetOpen(e);
-                }
-          }
+          onClick={handleSetOpen}
         >
-          {carIsOpen ? "Cerrar" : "Abrir"}
+          {!carIsOpen && "Abrir"}
         </OpenCloseButton>
         <Title carIsOpen={carIsOpen}>Carrito</Title>
         {carIsOpen ? (
@@ -169,7 +142,7 @@ const ShoppingCart = (props) => {
                     handleUpdateQuantity={handleUpdateQuantity}
                     carIsOpen={carIsOpen}
                     changeCart={changeCart}
-                    closeCart={setCloseCart}
+                    closeCart={handleSetOpen}
                   />
                 ))}
             </CartItemsOpen>
@@ -185,19 +158,23 @@ const ShoppingCart = (props) => {
                 <p>Subtotal</p>
                 <SubPrice>${formatter.format(subTotal)}</SubPrice>
               </DetailsPrice>
-              <DetailsPrice className="DetailShipping">
+              <DetailsPrice>
                 <p>Envío</p>
                 <SubPrice>
                   {subTotal > 200
-                    ? "Envío Gratis*"
-                    : `$${formatter.format(shippingCost)}`}
+                    ? "Envío gratis*"
+                    : `$${formatter.format(50)}`}
                 </SubPrice>
               </DetailsPrice>
               <DetailsPrice className="DetailTotal">
                 <TotalText>Total</TotalText>
-                <TotalPrice>${formatter.format(total)}</TotalPrice>
+                <TotalPrice>
+                  {subTotal > 200
+                    ? `$${formatter.format(subTotal)}`
+                    : `$${formatter.format(subTotal + 50)}`}
+                </TotalPrice>
               </DetailsPrice>
-              <BuyButtonContainer onClick={() => setCloseCart()}>
+              <BuyButtonContainer>
                 <Link
                   href={session ? "/realizar-pago" : "/registro-de-usuario"}
                   passHref
@@ -206,15 +183,12 @@ const ShoppingCart = (props) => {
                 </Link>
               </BuyButtonContainer>
               <FreeShippingText>
-                Envío gratis en Xalapa a partir de $200
+                Envío gratis dentro de Xalapa a partir de $200
               </FreeShippingText>
             </Totals>
           </>
         ) : (
-          <CartPreview
-            onTouchStart={(e) => handleTouchStart(e)}
-            onTouchMove={(e) => handleTouchMove(e)}
-          >
+          <CartPreview onTouchMove={(e) => handleTouchMove(e)}>
             <ItemsContainer>
               <ContainerScroll>
                 {myCart &&
@@ -229,24 +203,19 @@ const ShoppingCart = (props) => {
           </CartPreview>
         )}
       </ShoppingCartStyled>
-      {carIsOpen && <Background carIsOpen={carIsOpen} />}
+      <Background carIsOpen={carIsOpen} />
     </>
   );
 };
 
 const mapStateToProps = (state) => {
   return {
-    carIsEmpty: state.carIsEmpty,
     myCart: state.myCart,
-    carIsOpen: state.carIsOpen,
     shoppingCartPrices: state.shoppingCartPrices,
-    shippingCost: state.shippingCost,
   };
 };
 
 const mapDispatchToProps = {
-  setOpenCart,
-  setCloseCart,
   setUpdateCart,
 };
 

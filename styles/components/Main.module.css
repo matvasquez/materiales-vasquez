@@ -18,19 +18,22 @@
   align-items: center;
 }
 
-@media (min-width: 750px) {
-  .MainStyle,
-  .MainHome {
-    margin-top: 8rem;
-  }
+.ItemsIlikedSection {
+  width: 100%;
+  display: flex;
 }
 
 @media (min-width: 750px) {
   .MainStyle,
   .MainHome {
+    margin-top: 8rem;
     min-height: 45vh;
   }
+  .ItemsIlikedSection {
+    width: 95%;
+  }
 }
+
 @media (min-width: 1200px) {
   .MainStyle {
     padding: 2rem 1rem;
@@ -45,6 +48,10 @@
   .MainHome {
     padding: 2rem 1rem;
     margin-top: 19rem;
+  }
+
+  .ItemsIlikedSection {
+    width: 100%;
   }
 }
 

@@ -73,6 +73,7 @@ const PreviewItem = (props) => {
       price,
       initialQuantity: 1,
     });
+    setPricesToCart(price);
   };
 
   // Envia a favoritos

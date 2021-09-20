@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { NextSeo, LocalBusinessJsonLd } from "next-seo";
 import fetch from "isomorphic-unfetch";
 import { connect } from "react-redux";
@@ -16,7 +16,7 @@ import styles from "../styles/components/Main.module.css";
 const first_section = "LAMPARA";
 const second_section = "200";
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_URL}/api/new-products`
   );
@@ -35,21 +35,37 @@ export async function getStaticProps() {
   return {
     props: {
       title: "Home Center | Materiales Vasquez Hermanos",
-      newProducts,
-      productsByName,
-      productsByPrice,
+      products: [
+        {
+          title: "Productos Nuevos",
+          productlist: newProducts,
+        },
+        {
+          title: "lámparas",
+          productlist: productsByName,
+        },
+        {
+          title: `Menos de ${second_section.toLowerCase()}`,
+          productlist: productsByPrice,
+        },
+      ],
     }, // se pasarán al componente de la página como props
   };
 }
 
 const HomePage = (props) => {
   const {
-    newProducts,
-    productsByName,
-    productsByPrice,
+    products,
 
     itemsIliked,
   } = props;
+  const [thereAreItemsThatIlike, setThereAreItemsThatIlike] = useState(false);
+
+  useEffect(() => {
+    itemsIliked.length > 0
+      ? setThereAreItemsThatIlike(true)
+      : setThereAreItemsThatIlike(false);
+  }, [itemsIliked]);
 
   return (
     <>
@@ -95,25 +111,34 @@ const HomePage = (props) => {
 
       <main className={styles.MainHome}>
         <Slider />
-        {itemsIliked.length > 0 && (
-          <ArticlesLiked
-            key={"Productos que te gustan"}
-            title="Productos que te gustan"
-            articles={itemsIliked}
-          />
+        {thereAreItemsThatIlike && (
+          <>
+            {itemsIliked.length > 0 && (
+              <div className={styles.ItemsIlikedSection}>
+                <ArticlesLiked articles={itemsIliked} />
+              </div>
+            )}
+          </>
         )}
-        {newProducts && (
+        {products.map((section) => (
+          <ArticlesSection
+            key={section.title}
+            title={section.title}
+            products={section.productlist}
+          />
+        ))}
+        {/* {newProducts.length > 0 && (
           <ArticlesSection title="Productos Nuevos" products={newProducts} />
         )}
-        {productsByName && (
+        {productsByName.length > 0 && (
           <ArticlesSection title={`lámparas`} products={productsByName} />
         )}
-        {productsByPrice && (
+        {productsByPrice.length > 0 && (
           <ArticlesSection
             title={`Menos de ${second_section.toLowerCase()}`}
             products={productsByPrice}
           />
-        )}
+        )} */}
         <Brands />
       </main>
     </>
@@ -123,7 +148,6 @@ const HomePage = (props) => {
 const mapStateToProps = (state) => {
   return {
     itemsIliked: state.itemsIliked,
-    itemsLoaded: state.itemsLoaded,
   };
 };
 

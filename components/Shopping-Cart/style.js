@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const ShoppingCartStyled = styled.section`
   width: 100vw;
+  height: 10rem;
   padding: 0.5rem 0 0;
   display: flex;
   flex-direction: column;
@@ -10,19 +11,13 @@ export const ShoppingCartStyled = styled.section`
   background-color: var(--blue);
   color: var(--background);
   position: fixed;
-  top: 110%;
+  top: calc(100% - 8rem);
   bottom: -10%;
   left: 0;
   right: 0;
   transition: 0.3s ease-in-out all;
   transition-timing-function: cubic-bezier(0.43, -0.03, 0.38, 1.37);
-  z-index: 1000;
-  ${(props) =>
-    props.carIsEmpty &&
-    `
-    top: calc(100% - 8rem);
-    height: 10rem;
-  `}
+  z-index: 1001;
 
   ${(props) =>
     props.carIsOpen &&
@@ -37,16 +32,12 @@ export const ShoppingCartStyled = styled.section`
     display: none;
   `}
   @media (min-width: 750px) {
-    ${(props) =>
-      props.carIsEmpty &&
-      `
-    width: 60vw;
-    height: min-content;
+    width: 50vw;
     padding: 1rem;
-    top: calc(100% - 10rem);
-    left: calc(50% - 30vw);
     border-radius: 2rem;
-  `}
+    left: calc(50% - 25vw);
+    top: initial;
+    bottom: 1rem;
     ${(props) =>
       props.carIsOpen &&
       `
@@ -114,11 +105,27 @@ export const OpenCloseButton = styled.button`
   position: absolute;
   top: 0rem;
   right: 0rem;
+  transition: 0.3s ease-in-out all;
 
   ${(props) =>
     props.carIsOpen &&
     `
       height: 4rem;
+      padding-right: 1rem;
+      color: var(--white);
+      opacity: 0.3;
+      text-align: right;
+      &:after {
+        content: "\\2715";
+        position: absolute;
+        top: 1.5rem;
+        right: 2rem;
+        font-size: 2.5rem;
+        color: var(--white);
+        line-height: 2.5rem;
+        text-align: center;
+        transition: 0.3s ease-in-out all;
+      }
   `}
 
   @media (min-width: 1200px) {
@@ -136,21 +143,22 @@ export const OpenCloseButton = styled.button`
     position: absolute;
     top: 0.5rem;
     right: 2rem;
-    transition: 0.3s ease-in-out all;
     :hover {
       color: var(--white);
     }
     ${(props) =>
       props.carIsOpen &&
       `
-      padding: 0.4rem;
+      width: 10rem;
+      height: 4rem;
       top: 2rem;
       right: 2rem;
-      border: 0.1rem solid var(--white);
-      border-radius: 0.5rem;
       :hover{
-        border: 0.1rem solid var(--yellow);
-    }
+        opacity: 0.8;
+        &:after{
+          color: var(--yellow);
+        }
+      }
   `}
   }
 `;
@@ -265,11 +273,6 @@ export const NumberOfItems = styled.p`
   width: 100%;
   margin: 0 auto;
   text-align: center;
-
-  /* @media (min-width: 750px) {
-    width: 90%;
-    margin: 1rem auto;
-  } */
 `;
 
 export const SubPrice = styled.p`
@@ -365,20 +368,20 @@ export const Counter = styled.p`
 export const Background = styled.div`
   display: none;
   @media (min-width: 750px) {
-    display: block;
-    width: 100vw;
-    height: 100vh;
-    background-color: var(--background);
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 999;
-    transition: 0.3s ease-in-out all;
-    opacity: 0;
+    display: none;
     ${(props) =>
       props.carIsOpen &&
       `
-      opacity: 0.9;
+      display: block;
+      width: 100vw;
+      height: 100vh;
+      background-color: var(--blue);
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      transition: 0.3s ease-in-out all;
+      opacity: 0.3;
     `}
   }
 `;

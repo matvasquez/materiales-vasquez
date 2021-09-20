@@ -8,11 +8,11 @@ export const FooterStyled = styled.footer`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  ${(props) =>
+  /* ${(props) =>
     props.carIsEmpty &&
     `
   margin-bottom: 8rem;
-  `}
+  `} */
   @media (min-width: 750px) {
     padding: 3rem 2rem;
     margin: 0;

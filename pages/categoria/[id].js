@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { NextSeo, LocalBusinessJsonLd } from "next-seo";
 import fetch from "isomorphic-unfetch";
-import { connect } from "react-redux";
-
-//Actions
-import { setItemsLoaded, setResetItemsLoaded } from "../../actions";
 
 // Components
 import ArticlesSection from "../../components/Articles-Section/index";
@@ -49,18 +45,23 @@ const Categories = (props) => {
     brands = [],
 
     title,
-
-    itemsLoaded,
-    setItemsLoaded,
-    setResetItemsLoaded,
   } = props;
 
   const [openFilters, setOpenFilters] = useState(false);
   const [seeking, setSeeking] = useState(false);
   const [routeWithFilters, setRouteWithFilters] = useState(false);
+  const [itemsLoaded, setItemsLoaded] = useState([]);
+
+  useEffect(() => {
+    setItemsLoaded(products);
+  }, []);
 
   const handleOpenFilters = () => {
     setOpenFilters(!openFilters);
+  };
+
+  const setResetItemsLoaded = () => {
+    setItemsLoaded([]);
   };
 
   useEffect(() => {
@@ -74,7 +75,7 @@ const Categories = (props) => {
     const response = await fetch(
       `${
         process.env.NEXT_PUBLIC_URL
-      }/api/filters/(${brandsQuery.toString()})?categorie=${id.replace(
+      }/api/filters/(${brandsQuery.toString()})?categorie=${title.replace(
         / /gi,
         "-"
       )}&first=${minPrice.replace(/e/gi, "") || 0}&last=${
@@ -175,15 +176,4 @@ const Categories = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    itemsLoaded: state.itemsLoaded,
-  };
-};
-
-const mapDispatchToProps = {
-  setItemsLoaded,
-  setResetItemsLoaded,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Categories);
+export default Categories;

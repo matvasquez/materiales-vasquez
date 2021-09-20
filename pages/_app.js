@@ -7,23 +7,18 @@ import { createStore } from "redux";
 import { initialState } from "../utils/initialState";
 import reducer from "../reducers/index";
 
+import { loadState, saveState } from "../utils/saveLocalStorage";
+
 import Layout from "../components/Layout/index";
 import "../styles/GlobalStyles.css";
 
 import { Provider as ProviderNextAuth } from "next-auth/client";
 
 const MyApp = ({ Component, pageProps }) => {
-  // // Configuracion de persistReducer, el que guardará en local storage
-  // const persistConfig = {
-  //   key: "root",
-  //   storage,
-  //   blacklist: ["itemsLoaded"], // No guarda itemsLoaded
-  // };
-  // const persistedReducer = persistReducer(persistConfig, reducer);
+  const initialData = loadState() || initialState;
 
-  const store = createStore(reducer, initialState);
-
-  // const persistor = persistStore(store);
+  const store = createStore(reducer, initialData);
+  store.subscribe(() => saveState(store.getState()));
 
   return (
     <>

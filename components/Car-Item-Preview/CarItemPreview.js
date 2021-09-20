@@ -34,14 +34,17 @@ const CarItemPreview = ({
   price,
   image_url,
   initialQuantity,
+
+  closeCart,
+
   changeCart,
   carIsOpen,
+
   handleUpdateQuantity,
   shoppingCartPrices,
   setUpdatePrices,
   setRemovedFromCart,
   setEmptyCart,
-  setCloseCart,
 }) => {
   const selectQ = useRef(null);
   const [quantityInInventory, setQuantityInInventory] = useState([]);
@@ -123,7 +126,7 @@ const CarItemPreview = ({
     <>
       {carIsOpen ? (
         <CartItem>
-          <ImageContainer onClick={() => setCloseCart()}>
+          <ImageContainer>
             <Link href={`/detalles/${articulo_id}`} passHref>
               <ImageItem aria-label={`Ver detalles de ${name}`}>
                 <img
@@ -162,7 +165,7 @@ const CarItemPreview = ({
               )}
             </SelectStyled>
           </SelectContainer>
-          <NameContainer onClick={() => setCloseCart()}>
+          <NameContainer onClick={closeCart}>
             <Link
               href={`/detalles/${articulo_id
                 .replace(/ /gi, "space")
@@ -201,7 +204,6 @@ const CarItemPreview = ({
 
 const mapStateToProps = (state) => {
   return {
-    carIsOpen: state.carIsOpen,
     shoppingCartPrices: state.shoppingCartPrices,
     myCart: state.myCart,
   };
