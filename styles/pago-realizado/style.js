@@ -121,20 +121,29 @@ export const PurchaseInfoContainer = styled.section`
     width: 70%;
   }
   @media print {
-    width: 90%;
+    width: 92%;
   }
 `;
 
 export const TotalContainer = styled.div`
-  width: 80%;
+  width: 100%;
   padding: 1rem;
   margin: 1rem auto;
   text-align: center;
   background-color: var(--background);
-  border-radius: 1rem;
+  border-radius: 0;
+  p {
+    width: 100%;
+    margin: 1rem 0;
+    font-size: 1rem;
+  }
   @media print {
-    width: 50%;
+    width: 100%;
     margin: 0 auto;
+    background: none;
+    h2 {
+      font-size: 3rem;
+    }
   }
 `;
 
@@ -142,6 +151,10 @@ export const ProductsContainer = styled.div`
   width: 100%;
   padding: 2rem 0;
   font-size: 1.2rem;
+  p:first-child {
+    width: 100%;
+    text-align: left;
+  }
 `;
 
 export const Products = styled.div`
@@ -188,7 +201,7 @@ export const ShippingDetails = styled.div`
   width: 100%;
   padding: 1rem;
   font-size: 1.2rem;
-  text-align: center;
+  text-align: left;
 `;
 
 export const Gratitude = styled.div`

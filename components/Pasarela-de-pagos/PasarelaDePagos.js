@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import sjcl from "sjcl";
 
 // Tarjeta de pruebas: 5426064000424979
-// Cualquier CVV y EXP
-// Password: Secret!33
 
 // Components
 import { SuspensoryPoints } from "../../components/Loaders/SuspensoryPoints";
@@ -13,7 +11,7 @@ import { FormStyled, BuyButton, Iframe } from "./style";
 
 const PasarelaDePagos = ({ shippingCost, subTotal }) => {
   const [load, setLoad] = useState(false);
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
 
   // Fecha y formato
   let date_ob = new Date();
@@ -28,38 +26,6 @@ const PasarelaDePagos = ({ shippingCost, subTotal }) => {
 
   // const urlWebsite = process.env.NEXT_PUBLIC_URL;
   const urlWebsite = "http://localhost:3000";
-
-  // Código de pasarela de pagos
-  function forwardForm(responseObj, elementArr) {
-    let newForm = document.createElement("form");
-    newForm.setAttribute("method", "post");
-    newForm.setAttribute("action", responseObj.redirectURL);
-    newForm.setAttribute("id", "newForm");
-    newForm.setAttribute("name", "newForm");
-    document.body.appendChild(newForm);
-    for (let i = 0; i < elementArr.length; i++) {
-      let element = elementArr[i];
-      let input = document.createElement("input");
-      input.setAttribute("type", "hidden");
-      input.setAttribute("name", element.name);
-      input.setAttribute("value", element.value);
-      document.newForm.appendChild(input);
-    }
-    document.newForm.submit();
-  }
-
-  const receiveMessage = (e) => {
-    if (e.origin != "https://test.ipg-online.com") {
-      return;
-    }
-    let elementArr = e.data.elementArr;
-    forwardForm(e.data, elementArr);
-  };
-
-  if (process.browser) {
-    // Client-side-only
-    window.addEventListener("message", (e) => receiveMessage(e), false);
-  }
 
   // Se obtiene la cadena hexadecimal
   const convertStringToHex = () => {
@@ -82,10 +48,9 @@ const PasarelaDePagos = ({ shippingCost, subTotal }) => {
     return hash;
   };
 
-  const handleSubmit = () => {
-    console.log("handleSubmit");
+  const handleSubmitPayment = () => {
     setLoad(true);
-    // setShow(true);
+    setShow(true);
     setTimeout(() => {
       setLoad(false);
     }, 3000);
@@ -98,7 +63,7 @@ const PasarelaDePagos = ({ shippingCost, subTotal }) => {
         method="POST"
         target="myFrame"
         action="https://test.ipg-online.com/connect/gateway/processing"
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmitPayment}
       >
         <input type="hidden" name="checkoutoption" value="simpleform" />
         <input

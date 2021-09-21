@@ -79,9 +79,7 @@ const reducer = (state, action) => {
     case "PURCHASE_SUCCESS":
       return {
         ...state,
-        carIsEmpty: false,
         myCart: [],
-        carIsOpen: false,
         shoppingCartPrices: [],
       };
     default:

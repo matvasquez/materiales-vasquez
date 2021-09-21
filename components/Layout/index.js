@@ -20,7 +20,11 @@ const Layout = ({ children, myCart }) => {
       {children}
       <Footer />
       {pathname !== "/realizar-pago" && (
-        <>{myCart.length > 0 && <ShoppingCart />}</>
+        <>
+          {pathname !== "/pago-error" && (
+            <>{myCart.length > 0 && <ShoppingCart />}</>
+          )}
+        </>
       )}
     </>
   );

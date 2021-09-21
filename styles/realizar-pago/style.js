@@ -336,7 +336,7 @@ export const InputBase = styled.input`
 // ----------------------------------------------
 
 export const ShippingData = styled(ShippingAddress)`
-  border-radius: 0 0 1rem 1rem;
+  border-radius: 1rem;
   @media (min-width: 750px) {
     width: 90%;
     display: flex;

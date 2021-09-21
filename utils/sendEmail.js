@@ -20,6 +20,7 @@ const main = async (body) => {
 };
 
 export const sendEmail = (order) => {
+  console.log("sendEmail: ", order);
   const message = order;
   const bodyOfMessageToClient = {
     receiver: message.shippingEmail,

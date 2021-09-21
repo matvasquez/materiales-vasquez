@@ -358,6 +358,9 @@ export function useShippingCost(zipCode, subTotal) {
       alert(
         `Para este código postal comunícate al 22 88 36 62 83 y te brindaremos la información para tu envío`
       );
+    } else {
+      setCost(50);
+      setDeliveryCities(["Xalapa", "Coatepec", "Banderilla"]);
     }
   }, [zipCode, subTotal]);
 

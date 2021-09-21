@@ -127,6 +127,8 @@ const MakePayment = (props) => {
 
   const [related, setRelated] = useState([]);
 
+  const formFiserv = useRef(null);
+
   useEffect(() => {
     setCloseCart();
     window.onscroll = null;
@@ -183,67 +185,124 @@ const MakePayment = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    // console.log("handleSubmit: ", e);
     setLoad(true);
-    const newOrder = new FormData(paymentForm.current);
-    const order = {
-      date: new Intl.DateTimeFormat("es-MX", {
-        dateStyle: "medium",
-        timeStyle: "short",
-      }).format(new Date()),
-      // cardNumber: newOrder.get("card-number"),
-      // cardDate: newOrder.get("card-date"),
-      // cardSecurityCode: newOrder.get("card-security-code"),
-      // cardName: newOrder.get("card-name"),
 
-      shippingName: sameName
-        ? "Es el mismo nombre de la tarjeta" + " " + newOrder.get("card-name")
-        : newOrder.get("shippingName"),
-      shippingLastName: sameName
-        ? "Es el mismo nombre de la tarjeta"
-        : newOrder.get("shippingLastName"),
-      phoneNumber: newOrder.get("phoneNumber"),
-      shippingEmail: newOrder.get("shippingEmail"),
+    const status = e.data.elementArr.filter(
+      (element) => element.name === "status"
+    );
+    // console.log("status: ", status);
+    // console.log("status: ", status[0].value);
+    if (status[0].value === "APROBADO") {
+      // console.log("====================================");
+      // console.log("APROBADO");
+      // console.log("====================================");
+      // console.log("Número de pedido: ", e.data.elementArr[4].value);
+      // console.log("Código de aprobación: ", e.data.elementArr[14].value);
+      // console.log("Monto de compra: ", e.data.elementArr[11].value);
+      // console.log(
+      //   "Tarjeta con terminación: ",
+      //   e.data.elementArr[27].value.slice(-4)
+      // );
 
-      addressState: newOrder.get("addressState"),
-      addressCP: newOrder.get("addressCP"),
-      addressCity: newOrder.get("addressCity"),
-      addressStreet: newOrder.get("addressStreet"),
-      addressNumber: newOrder.get("addressNumber"),
-      addressReferences: newOrder.get("addressReferences"),
+      const newOrder = new FormData(paymentForm.current);
+      const order = {
+        date: new Intl.DateTimeFormat("es-MX", {
+          dateStyle: "medium",
+          timeStyle: "short",
+        }).format(new Date()),
 
-      requiredInvoice: invoiceRequired
-        ? "Requiere Factura"
-        : "No requiere Factura",
-      invoiceRFC: invoiceRequired ? newOrder.get("invoiceRFC") : "",
-      invoiceCompanyName: invoiceRequired
-        ? newOrder.get("invoiceCompanyName")
-        : "",
-      cfdi: invoiceRequired ? newOrder.get("cfdi") : "",
-      invoicePhoneNumber: invoiceRequired
-        ? newOrder.get("invoicePhoneNumber")
-        : "",
-      invoiceShippingEmail: invoiceRequired
-        ? newOrder.get("invoiceShippingEmail")
-        : "",
+        orderNumber: e.data.elementArr[4].value,
+        approvalCode: e.data.elementArr[14].value,
+        purchaseAmount: e.data.elementArr[11].value,
+        terminatedCard: e.data.elementArr[27].value.slice(-4),
 
-      subTotal: formatter.format(subTotal),
-      shippingCost: formatter.format(shippingCost),
-      total: formatter.format(shippingCost + subTotal),
+        shippingName: sameName
+          ? "Es el mismo nombre de la tarjeta" + " " + newOrder.get("card-name")
+          : newOrder.get("shippingName"),
+        shippingLastName: sameName
+          ? "Es el mismo nombre de la tarjeta"
+          : newOrder.get("shippingLastName"),
+        phoneNumber: newOrder.get("phoneNumber"),
+        shippingEmail: newOrder.get("shippingEmail"),
 
-      products: myCart,
-    };
+        addressState: newOrder.get("addressState"),
+        addressCP: newOrder.get("addressCP"),
+        addressCity: newOrder.get("addressCity"),
+        addressStreet: newOrder.get("addressStreet"),
+        addressNumber: newOrder.get("addressNumber"),
+        addressReferences: newOrder.get("addressReferences"),
 
-    setPurchasingData(order);
+        requiredInvoice: invoiceRequired
+          ? "Requiere Factura"
+          : "No requiere Factura",
+        invoiceRFC: invoiceRequired ? newOrder.get("invoiceRFC") : "",
+        invoiceCompanyName: invoiceRequired
+          ? newOrder.get("invoiceCompanyName")
+          : "",
+        cfdi: invoiceRequired ? newOrder.get("cfdi") : "",
+        invoicePhoneNumber: invoiceRequired
+          ? newOrder.get("invoicePhoneNumber")
+          : "",
+        invoiceShippingEmail: invoiceRequired
+          ? newOrder.get("invoiceShippingEmail")
+          : "",
 
-    console.log("order: ", order);
-    sendEmail(order);
+        subTotal: subTotal,
+        shippingCost: shippingCost,
+        total: shippingCost + subTotal,
 
-    // Esto solo es de prueba
-    // setTimeout(() => {
-    //   setLoad(false);
-    //   window.location.href = "/pago-realizado";
-    // }, 3000);
+        products: myCart,
+      };
+
+      // console.log("order: ", order);
+      setPurchasingData(order);
+
+      sendEmail(order);
+    } else if (status[0].value === "FALLADO") {
+      const orderFail = {
+        failReason: e.data.elementArr[15].value,
+        chargeTotal: e.data.elementArr[16].value,
+      };
+      setPurchasingData(orderFail);
+    }
   };
+
+  // Código de pasarela de pagos
+  function forwardForm(responseObj, elementArr) {
+    var newForm = document.createElement("form");
+    newForm.setAttribute("method", "post");
+    newForm.setAttribute("action", responseObj.redirectURL);
+    newForm.setAttribute("id", "newForm");
+    newForm.setAttribute("name", "newForm");
+    document.body.appendChild(newForm);
+    for (var i = 0; i < elementArr.length; i++) {
+      var element = elementArr[i];
+      var input = document.createElement("input");
+      input.setAttribute("type", "hidden");
+      input.setAttribute("name", element.name);
+      input.setAttribute("value", element.value);
+      // document.newForm.appendChild(input);
+      document.getElementById("newForm").appendChild(input);
+    }
+    // document.newForm.submit();
+    document.getElementById("newForm").submit();
+  }
+
+  const receiveMessage = (e) => {
+    // console.log("receiveMessage: ", e);
+    if (e.origin != "https://test.ipg-online.com") {
+      return;
+    }
+    let elementArr = e.data.elementArr;
+    forwardForm(e.data, elementArr);
+    handleSubmit(e);
+  };
+
+  if (process.browser) {
+    // Client-side-only
+    window.addEventListener("message", (e) => receiveMessage(e), false);
+  }
 
   return (
     <>
@@ -287,9 +346,14 @@ const MakePayment = (props) => {
       />
       <MainStiled>
         <MainTitle>Realizar Pago</MainTitle>
+        <div ref={formFiserv}></div>
 
         <BuyersData>
-          <FormStyled ref={paymentForm} onSubmit={handleSubmit}>
+          <FormStyled
+            ref={paymentForm}
+            id="customerDataForm"
+            onSubmit={handleSubmit}
+          >
             {/* <CardStyled>
               <CardDataTitle>Datos de tarjeta</CardDataTitle>
               <ChipStyled />
@@ -574,7 +638,11 @@ const MakePayment = (props) => {
               {load ? <SuspensoryPoints /> : "Pagar"}
             </BuyButton> */}
           </FormStyled>
-          <PasarelaDePagos shippingCost={shippingCost} subTotal={subTotal} />
+          <PasarelaDePagos
+            shippingCost={shippingCost}
+            subTotal={subTotal}
+            // customerDataForm={paymentForm.current}
+          />
         </BuyersData>
 
         {related.length > 0 && (
