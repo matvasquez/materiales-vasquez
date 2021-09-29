@@ -19,6 +19,9 @@ const PagoError = ({ purchasingData }) => {
       <h3>Ups!!</h3>
       <p>Ocurrió un error al procesar el pago</p>
       <p style={{ fontWeight: "700", fontSize: "1.8rem" }}>
+        Status {purchasingData.status}
+      </p>
+      <p style={{ fontWeight: "600", fontSize: "1.6rem" }}>
         {purchasingData.failReason}
       </p>
       <p>

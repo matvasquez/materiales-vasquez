@@ -13,7 +13,7 @@ export const FormStyled = styled.form`
   }
   @media (min-width: 1200px) {
     width: 80%;
-    padding: 1rem;
+    border-radius: 0 0 1.5rem 1.5rem;
   }
 `;
 
@@ -42,12 +42,11 @@ export const BuyButton = styled.button`
 `;
 
 export const Iframe = styled.iframe`
-  /* display: none; */
   width: 90%;
-  ${(props) => (props.show ? `height: 35rem;` : `height: 0;`)}
-  ${(props) => (props.show ? `padding: 1rem 0;` : `padding: 0;`)}
+  ${(props) => (props.show ? `height: 36.5rem;` : `height: 0;`)}
+  padding: 0;
   margin: 1.5rem auto;
-  display: flex;
+  ${(props) => (props.show ? `display: flex;` : `display: none;`)}
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
@@ -55,10 +54,15 @@ export const Iframe = styled.iframe`
   border-radius: 1rem;
   border: none;
   outline: none;
-  body::-webkit-scrollbar {
-    display: none;
+  @media (min-width: 750px) {
+    ${(props) => (props.show ? `height: 30rem;` : `height: 0;`)}
+    ${(props) => (props.show ? `display: flex;` : `display: none;`)}
   }
   @media (min-width: 1200px) {
     width: 80%;
+    margin: 0 auto;
+    ${(props) => (props.show ? `height: 60rem;` : `height: 0;`)}
+    ${(props) => (props.show ? `display: flex;` : `display: none;`)}
+    border-radius: 0 0 2rem 2rem;
   }
 `;

@@ -33,7 +33,7 @@ export default async function getStockOfAProduct(req, res) {
       ON a.CLAVEART = l.CLAVEART
   LEFT OUTER JOIN ART_ALM AS s
       ON a.CLAVEART = s.CLAVEART
-  WHERE a.CLAVEART = '${query}' AND a.HABVTAS = '' AND l.NO_LISTAP = '001' AND s.CVEALM IN ('0020','0007','0018','0014','0015','0002','0008','0023','0017','0028','0027')`);
+  WHERE a.CLAVEART = '${query}' AND a.HABVTAS = '' AND l.NO_LISTAP = '001' AND s.CVEALM IN ('0020','0007','0018','0014','0015','0002','0008','0023','0017','0028','0027');`);
 
     result &&
       res.status(200).json({

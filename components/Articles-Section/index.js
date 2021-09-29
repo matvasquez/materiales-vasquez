@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { uploadMoreItems } from "../../utils/uploadMoreItems";
+import { useRouter } from "next/router";
 
 // Components
 import PreviewItem from "../Preview-Item/PreviewItem";
@@ -22,6 +23,7 @@ const ArticlesSection = ({
   title,
   products,
   route,
+  showFilters,
   routeWithFilters,
   handleOpenFilters,
 }) => {
@@ -30,6 +32,7 @@ const ArticlesSection = ({
   // Reemplaza el botón de Cargar más por Son todos los productos
   const [noMore, setNoMore] = useState(false);
   const [itemsLoaded, setItemsLoaded] = useState([]);
+  const router = useRouter();
 
   const updateItems = (items) => {
     setItemsLoaded(itemsLoaded.concat(items));
@@ -37,17 +40,22 @@ const ArticlesSection = ({
 
   useEffect(() => {
     setItemsLoaded(products);
-  }, []);
+  }, [products]);
 
   // Determina a que ruta de la API hacer la consulta
-  const searchTitle = {
-    lámparas: "products-by-name/LAMPARA",
-    "Menos de 200": "products-by-price/200",
-    Tienda: "new-products",
+  const searchTitle = () => {
+    if (router.pathname.slice(0, 11) === "/todos-los/") {
+      if (router.query.id === "Menos-de-200") {
+        return "products-by-price/200";
+      } else {
+        return `products-by-name/${router.query.id}`;
+      }
+    } else if (router.pathname.slice(0, 11) === "/tienda") {
+      return "new-products";
+    } else {
+      return `related-by-category/${title.replace(/ /gi, "-")}`;
+    }
   };
-  // Valor por defecto para hacer la consulta (Son las categorias)
-  const queryDefault = `related-by-category/${title.replace(/ /gi, "-")}`;
-  const query = searchTitle[title] || queryDefault;
 
   const handleClick = () => {
     setLoad(true);
@@ -61,9 +69,13 @@ const ArticlesSection = ({
       <TitleSection>
         {title}
         {route && (
-          <OpenFilters onClick={() => handleOpenFilters()}>
-            <FiltersIcons />
-          </OpenFilters>
+          <>
+            {showFilters && (
+              <OpenFilters onClick={() => handleOpenFilters()}>
+                <FiltersIcons />
+              </OpenFilters>
+            )}
+          </>
         )}
       </TitleSection>
       <ItemsContainer>
@@ -80,14 +92,14 @@ const ArticlesSection = ({
         <>
           {!routeWithFilters && (
             <>
-              {noMore ? (
+              {noMore || products.length < 20 ? (
                 <NoMoreText>Son todos los productos</NoMoreText>
               ) : (
                 <LoadMoreButton
                   type="button"
                   onClick={() => {
                     uploadMoreItems(
-                      query,
+                      searchTitle(),
                       products.length + 1,
                       products.length + 20,
                       updateItems,

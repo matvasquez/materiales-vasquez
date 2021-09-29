@@ -16,7 +16,7 @@ import styles from "../styles/components/Main.module.css";
 const first_section = "LAMPARA";
 const second_section = "200";
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_URL}/api/new-products`
   );
@@ -127,18 +127,6 @@ const HomePage = (props) => {
             products={section.productlist}
           />
         ))}
-        {/* {newProducts.length > 0 && (
-          <ArticlesSection title="Productos Nuevos" products={newProducts} />
-        )}
-        {productsByName.length > 0 && (
-          <ArticlesSection title={`lámparas`} products={productsByName} />
-        )}
-        {productsByPrice.length > 0 && (
-          <ArticlesSection
-            title={`Menos de ${second_section.toLowerCase()}`}
-            products={productsByPrice}
-          />
-        )} */}
         <Brands />
       </main>
     </>

@@ -1,7 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import sjcl from "sjcl";
 
 // Tarjeta de pruebas: 5426064000424979
+// 5201160034352797
+//--------
+// 4931580001642617 Visa Secret3
+// 5579220000000012 MasterCard Secret3
 
 // Components
 import { SuspensoryPoints } from "../../components/Loaders/SuspensoryPoints";
@@ -97,9 +101,35 @@ const PasarelaDePagos = ({ shippingCost, subTotal }) => {
           name="responseSuccessURL"
           value={`${urlWebsite}/pago-realizado`}
         />
-        <BuyButton type="submit">
-          {load ? <SuspensoryPoints /> : "Pagar"}
-        </BuyButton>
+        <input type="hidden" name="authenticateTransaction" value="true" />
+        <input
+          type="hidden"
+          name="threeDSRequestorChallengeIndicator"
+          value="4"
+        />
+        <input
+          type="hidden"
+          name="buttonBackgroundHexColorCode"
+          value="#ffc947"
+        />
+        <input type="hidden" name="buttonBorderHexColorCode" value="#ffc947" />
+        <input type="hidden" name="buttonHexColorCode" value="#00144c" />
+        <input type="hidden" name="buttonHoverHexColorCode" value="#00144c" />
+        <input
+          type="hidden"
+          name="buttonHoverBackgroundHexColorCode"
+          value="#fcd783"
+        />
+        <input
+          type="hidden"
+          name="buttonHoverBorderHexColorCode"
+          value="#fcd783"
+        />
+        {!show && (
+          <BuyButton type="submit">
+            {load ? <SuspensoryPoints /> : "Pagar"}
+          </BuyButton>
+        )}
       </FormStyled>
     </>
   );

@@ -15,7 +15,15 @@ const SearchBar = ({ handleSearch, hidden, input, handleClick, seeking }) => {
         hidden={hidden}
         type="text"
         placeholder="Buscar producto..."
-        onChange={(e) => handleSearch(e.target.value.toString())}
+        onChange={(e) =>
+          handleSearch(
+            e.target.value
+              .toString()
+              .normalize("NFD")
+              .replace(/[\u0300-\u036f]/g, "")
+              .replace(/s$/g, "")
+          )
+        }
       />
       <IconContainer onClick={handleClick} hidden={hidden}>
         {seeking ? <Seeking /> : <MagnifierIcon />}

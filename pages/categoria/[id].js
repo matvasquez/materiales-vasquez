@@ -166,7 +166,7 @@ const Categories = (props) => {
             </EmptyContainer>
             {routeWithFilters && (
               <ClearFilters type="button" onClick={() => beforeFiltering()}>
-                Ver productos sin filtros
+                Quitar filtros
               </ClearFilters>
             )}
           </SectionEmpty>

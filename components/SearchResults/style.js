@@ -17,12 +17,15 @@ export const NotFound = styled.div`
 `;
 
 export const SearchResultContainer = styled.div`
-  max-height: calc(100vh - 4.5rem);
+  width: 100vw;
+  height: calc(100vh - 4.5rem);
   padding: 1rem 1rem 4rem 1rem;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   background-color: var(--background);
+  border-top: 1rem solid var(--blue);
+  /* border-bottom: 1rem solid var(--blue); */
 
   position: fixed;
   top: 4.5rem;
@@ -44,5 +47,33 @@ export const SearchResultContainer = styled.div`
     width: 50vw;
     top: 19rem;
     left: calc(50% - 25vw);
+  }
+`;
+
+export const LoadMoreButton = styled.div`
+  width: 80%;
+  padding: 0.5rem;
+  margin: 2rem auto;
+  font-size: 1.6rem;
+  font-weight: 600;
+  text-align: center;
+  display: flex;
+  color: var(--blue);
+  background: var(--yellow);
+  border: none;
+  border-radius: 1rem;
+  outline: none;
+  transition: 0.3s ease-in-out all;
+  &:hover {
+    background-color: #ffb910;
+  }
+  a {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+  }
+  @media (min-width: 750px) {
+    width: 50%;
+    margin: 5rem auto 2rem;
   }
 `;

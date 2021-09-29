@@ -27,6 +27,7 @@ const Header = ({ carIsOpen, itemsIliked }) => {
   const [searchResults, setSearchResults] = useState([]);
   const [noResults, setNoResults] = useState(false);
   const [seeking, setSeeking] = useState(false);
+  const [searchName, setSearchName] = useState("");
 
   const handleOpen = () => {
     window.innerWidth < 1100 && setIsOpen(!isOpen);
@@ -48,6 +49,8 @@ const Header = ({ carIsOpen, itemsIliked }) => {
         setNoResults(false);
         // Desactiva la animacion de busqueda
         setSeeking(false);
+        // Actualiza el valor de búsqueda para ofrecer más resultados
+        setSearchName(value.toUpperCase());
       } else {
         setNoResults(true);
       }
@@ -67,13 +70,13 @@ const Header = ({ carIsOpen, itemsIliked }) => {
     // input.current.select();
   };
 
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.position = "fixed";
-    } else {
-      document.body.style.position = "initial";
-    }
-  }, [isOpen]);
+  // useEffect(() => {
+  //   if (isOpen) {
+  //     document.body.style.position = "fixed";
+  //   } else {
+  //     document.body.style.position = "initial";
+  //   }
+  // }, [isOpen]);
 
   return (
     <>
@@ -105,6 +108,7 @@ const Header = ({ carIsOpen, itemsIliked }) => {
           searchResults={searchResults}
           noResults={noResults}
           clear={setSearchResults}
+          searchName={searchName}
         />
       )}
     </>

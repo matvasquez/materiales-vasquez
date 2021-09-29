@@ -8,6 +8,7 @@ export const SearchResult = styled.a`
   background-color: var(--white);
   display: grid;
   grid-template-columns: 1fr 2fr;
+  grid-auto-rows: 7rem;
   justify-items: center;
   align-content: stretch;
   border: none;
@@ -20,7 +21,7 @@ export const SearchResult = styled.a`
 `;
 
 export const ImageContainer = styled.div`
-  width: 100%;
+  width: 70%;
 `;
 
 export const InfoContainer = styled.div`
@@ -28,7 +29,7 @@ export const InfoContainer = styled.div`
   padding: 0.5rem;
   color: var(--text);
   display: grid;
-  grid-template-columns: 3fr 1fr;
+  grid-template-columns: 2fr 1fr;
   grid-template-rows: 2fr 1fr;
 `;
 

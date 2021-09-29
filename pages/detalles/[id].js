@@ -44,25 +44,6 @@ import {
   PreviewItemContainer,
 } from "../../styles/detalles/style";
 
-// Genera las rutas de el detalle de todos los productos
-// export const getStaticPaths = async () => {
-//   const response = await fetch(
-//     "${process.env.NEXT_PUBLIC_URL}/api/products-list"
-//   );
-//   const { data } = await response.json();
-
-//   const paths = data.map(({ articulo_id }) => ({
-//     context.params: {
-//       id: articulo_id.replace(/ /gi, "space").replace(/\//gi, "slash"),
-//     },
-//   }));
-
-//   return {
-//     paths,
-//     fallback: false,
-//   };
-// };
-
 export const getServerSideProps = async ({ params }) => {
   // Solicita los datos del articulo principal
   const responseDetails = await fetch(
@@ -154,7 +135,7 @@ const ProductPage = (props) => {
           description: `${product.description}`,
           images: [
             {
-              url: `data:image/jpg;base64,${product.image_url}`,
+              url: `https://res.cloudinary.com/duibtuerj/image/upload/v1630083340/brand/meta-image_rcclee.jpg`,
               width: 200,
               height: 200,
               alt: `Fotografía de ${product.name}`,
@@ -171,7 +152,9 @@ const ProductPage = (props) => {
 
       <ProductJsonLd
         productName={`${product.name}`}
-        images={[`data:image/jpg;base64,${product.image_url}`]}
+        images={[
+          `https://res.cloudinary.com/duibtuerj/image/upload/v1630083340/brand/meta-image_rcclee.jpg`,
+        ]}
         description={product.description}
         //brand={product.name}
       />
@@ -225,7 +208,7 @@ const ProductPage = (props) => {
             </Paragraph>
             <Categories>
               Categoría
-              <Link href={`/todos/${product.category}`} passHref>
+              <Link href={`/categoria/${product.category}`} passHref>
                 <Category>{product.category}</Category>
               </Link>
             </Categories>

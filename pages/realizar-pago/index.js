@@ -5,15 +5,11 @@ import { NextSeo, LocalBusinessJsonLd } from "next-seo";
 import { useShippingCost } from "../../hooks/useShippingCost";
 import { sendEmail } from "../../utils/sendEmail";
 import fetch from "isomorphic-unfetch";
+import debounce from "just-debounce-it";
 
 // Components
-import { Logo } from "../../components/IconsSVG/Logo";
 import PaymentItemPreview from "../../components/Payment-Item-Preview/PaymentItemPreview";
-import { VisaLogo } from "../../components/IconsSVG/VisaLogo";
-import { MastercardLogo } from "../../components/IconsSVG/MastercardLogo";
-import { AmericanExpressLogo } from "../../components/IconsSVG/AmericanExpressLogo";
 import PreviewItem from "../../components/Preview-Item/PreviewItem";
-import { SuspensoryPoints } from "../../components/Loaders/SuspensoryPoints";
 import PasarelaDePagos from "../../components/Pasarela-de-pagos/PasarelaDePagos";
 
 // Styled-Components
@@ -22,30 +18,19 @@ import {
   MainTitle,
   BuyersData,
   FormStyled,
-  CardStyled,
-  CardDataTitle,
-  CardNumber,
-  ChipStyled,
-  DateAndCode,
-  ShowDAte,
-  DateContainer,
-  InputDate,
-  InputCode,
-  InputName,
-  LogoTypeCard,
-  LogoContainer,
   ShippingAddress,
   ShippingData,
   Subtitle,
   DataSubtitle,
-  StreetAndNumber,
-  StateAndZipCode,
   InputBase,
+  ZipCode,
   InputSameName,
+  PhoneNumber,
   InputEmail,
   ProofOfPurchase,
   References,
   SelectCity,
+  Street,
   FreeShippingText,
   InvoiceQuestion,
   Invoice,
@@ -91,14 +76,7 @@ const cfdis = [
 ];
 
 const MakePayment = (props) => {
-  const {
-    myCart,
-    setCloseCart,
-    shoppingCartPrices,
-    //shippingCost,
-    purchasingData,
-    setPurchasingData,
-  } = props;
+  const { myCart, setCloseCart, shoppingCartPrices, setPurchasingData } = props;
 
   const formatter = new Intl.NumberFormat("en-US", {
     minimumFractionDigits: 2,
@@ -106,13 +84,6 @@ const MakePayment = (props) => {
   });
 
   const [subTotal, setSubTotal] = useState(0);
-  const [cardNumber, setCardNumber] = useState("");
-  const [cardDate, setCardDate] = useState("2021-07");
-  const [showDAte, setShowDAte] = useState("01/01");
-  const [cardSecurityCode, setCardSecurityCode] = useState("");
-  const [cardName, setCardNAme] = useState("");
-  const [cardType, setCardType] = useState("");
-  const [sameName, setSameName] = useState(false);
   const [shippingName, setShippingName] = useState("");
   const [city, setCity] = useState("Xalapa");
   const [zipCode, setZipCode] = useState("");
@@ -120,7 +91,6 @@ const MakePayment = (props) => {
   const [invoiceRequired, setInvoiceRequired] = useState(false);
   const paymentForm = useRef(null);
   const invoiceCheck = useRef(null);
-  const shippingNameCheck = useRef(null);
   const [cost, deliveryCities] = useShippingCost(zipCode, subTotal);
   // Activa la animación de carga en el botón de Cargar más
   const [load, setLoad] = useState(false);
@@ -148,24 +118,6 @@ const MakePayment = (props) => {
     }
   }, [shoppingCartPrices]);
 
-  useEffect(() => {
-    if (cardNumber.startsWith("3")) {
-      setCardType("American Express");
-    } else if (cardNumber.startsWith("4")) {
-      setCardType("Visa");
-    } else if (cardNumber.startsWith("5")) {
-      setCardType("Mastercard");
-    } else {
-      setCardType("");
-    }
-  }, [cardNumber]);
-
-  const formatDate = (value) => {
-    let year = value.slice(2, 4);
-    let month = value.slice(5, 7);
-    setShowDAte(year + "/" + month);
-  };
-
   const handleChange = (e, func) => {
     func(e);
   };
@@ -185,26 +137,16 @@ const MakePayment = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // console.log("handleSubmit: ", e);
     setLoad(true);
+
+    // console.log("elementArr: ", e.data.elementArr);
 
     const status = e.data.elementArr.filter(
       (element) => element.name === "status"
     );
-    // console.log("status: ", status);
+
     // console.log("status: ", status[0].value);
     if (status[0].value === "APROBADO") {
-      // console.log("====================================");
-      // console.log("APROBADO");
-      // console.log("====================================");
-      // console.log("Número de pedido: ", e.data.elementArr[4].value);
-      // console.log("Código de aprobación: ", e.data.elementArr[14].value);
-      // console.log("Monto de compra: ", e.data.elementArr[11].value);
-      // console.log(
-      //   "Tarjeta con terminación: ",
-      //   e.data.elementArr[27].value.slice(-4)
-      // );
-
       const newOrder = new FormData(paymentForm.current);
       const order = {
         date: new Intl.DateTimeFormat("es-MX", {
@@ -217,12 +159,6 @@ const MakePayment = (props) => {
         purchaseAmount: e.data.elementArr[11].value,
         terminatedCard: e.data.elementArr[27].value.slice(-4),
 
-        shippingName: sameName
-          ? "Es el mismo nombre de la tarjeta" + " " + newOrder.get("card-name")
-          : newOrder.get("shippingName"),
-        shippingLastName: sameName
-          ? "Es el mismo nombre de la tarjeta"
-          : newOrder.get("shippingLastName"),
         phoneNumber: newOrder.get("phoneNumber"),
         shippingEmail: newOrder.get("shippingEmail"),
 
@@ -258,11 +194,18 @@ const MakePayment = (props) => {
       // console.log("order: ", order);
       setPurchasingData(order);
 
-      sendEmail(order);
-    } else if (status[0].value === "FALLADO") {
+      // sendEmail(order);
+    } else {
+      const failReason = e.data.elementArr.filter(
+        (element) => element.name === "fail_reason"
+      );
+      const chargetotal = e.data.elementArr.filter(
+        (element) => element.name === "chargetotal"
+      );
       const orderFail = {
-        failReason: e.data.elementArr[15].value,
-        chargeTotal: e.data.elementArr[16].value,
+        status: status[0].value,
+        failReason: failReason.length !== 0 ? failReason[0].value : "",
+        chargeTotal: chargetotal.length !== 0 ? chargetotal[0].value : "",
       };
       setPurchasingData(orderFail);
     }
@@ -285,24 +228,30 @@ const MakePayment = (props) => {
       // document.newForm.appendChild(input);
       document.getElementById("newForm").appendChild(input);
     }
-    // document.newForm.submit();
     document.getElementById("newForm").submit();
   }
 
+  // Limita el numero de llamados a las funciones de
+  // enviar mail y cambiar de pagina
+  const handlePurchase = debounce(async (e, elementArr) => {
+    forwardForm(e.data, elementArr);
+    handleSubmit(e);
+  }, 3000);
+
   const receiveMessage = (e) => {
-    // console.log("receiveMessage: ", e);
     if (e.origin != "https://test.ipg-online.com") {
       return;
     }
     let elementArr = e.data.elementArr;
-    forwardForm(e.data, elementArr);
-    handleSubmit(e);
+    handlePurchase(e, elementArr);
   };
 
-  if (process.browser) {
-    // Client-side-only
+  useEffect(() => {
     window.addEventListener("message", (e) => receiveMessage(e), false);
-  }
+    return () => {
+      window.removeEventListener("message", (e) => receiveMessage(e), false);
+    };
+  }, ["message"]);
 
   return (
     <>
@@ -354,101 +303,8 @@ const MakePayment = (props) => {
             id="customerDataForm"
             onSubmit={handleSubmit}
           >
-            {/* <CardStyled>
-              <CardDataTitle>Datos de tarjeta</CardDataTitle>
-              <ChipStyled />
-              <CardNumber
-                type="text"
-                name="card-number"
-                maxLength="19"
-                placeholder="Ingresa aquí el número"
-                inputMode="numeric"
-                value={cardNumber}
-                onChange={(e) =>
-                  setCardNumber(
-                    e.target.value
-                      .replace(/\D/g, "")
-                      .replace(/([0-9]{4})/g, "$1 ")
-                      .trim()
-                  )
-                }
-                autoComplete="off"
-                // required
-              />
-              <DateAndCode>
-                <DateContainer>
-                  <ShowDAte
-                    type="text"
-                    name="card-date"
-                    // value={showDAte}
-                    placeholder="01/01"
-                    // isPlaceholder={showDAte === "01/01" && true}
-                    // required
-                    autoComplete="off"
-                    maxLength="5"
-                  />
-                  <InputDate
-                    type="month"
-                    maxLength="4"
-                    min="2010-01"
-                    max="2030-12"
-                    inputMode="month"
-                    value={cardDate}
-                    onChange={(e) => formatDate(e.target.value, formatDate)}
-                    required
-                  autoComplete="off" />
-                </DateContainer>
-                <InputCode
-                  type="text"
-                  name="card-security-code"
-                  maxLength="3"
-                  placeholder="CVC/CVV"
-                  inputMode="numeric"
-                  value={cardSecurityCode}
-                  onChange={(e) =>
-                    setCardSecurityCode(e.target.value.replace(/\D/g, ""))
-                  }
-                  // required
-                  autoComplete="off"
-                />
-              </DateAndCode>
-              <InputName
-                type="text"
-                name="card-name"
-                maxLength="30"
-                placeholder="Ingresa aquí el nombre"
-                value={cardName}
-                onChange={(e) => setCardNAme(e.target.value)}
-                // required
-                autoComplete="off"
-              />
-              {cardType != "" && (
-                <LogoTypeCard>
-                  {cardType === "Visa" && <VisaLogo />}
-                  {cardType === "Mastercard" && <MastercardLogo />}
-                  {cardType === "American Express" && <AmericanExpressLogo />}
-                </LogoTypeCard>
-              )}
-              <LogoContainer>
-                <Logo />
-              </LogoContainer>
-            </CardStyled> */}
-
             <ShippingData>
               <DataSubtitle>¿A quién se lo enviamos?</DataSubtitle>
-              {/* <InvoiceQuestion>
-                <InvoiceInput
-                  type="checkbox"
-                  id="shippingNameCheckbox"
-                  name="shippingNameCheckbox"
-                  ref={shippingNameCheck}
-                  defaultChecked={sameName}
-                  onChange={() => setSameName(!sameName)}
-                />
-                <Invoice htmlFor="shippingNameCheckbox" bg={sameName}>
-                  El nombre es el mismo nombre que la tarjeta
-                </Invoice>
-              </InvoiceQuestion> */}
               <InputSameName
                 type="text"
                 name="shippingName"
@@ -456,16 +312,14 @@ const MakePayment = (props) => {
                 maxLength="30"
                 value={shippingName}
                 onChange={(e) => setShippingName(e.target.value)}
-                same={sameName}
               />
               <InputSameName
                 type="text"
                 name="shippingLastName"
                 placeholder="Apellidos"
                 maxLength="30"
-                same={sameName}
               />
-              <InputBase
+              <PhoneNumber
                 type="tel"
                 name="phoneNumber"
                 placeholder="Numero de teléfono"
@@ -487,30 +341,28 @@ const MakePayment = (props) => {
             </ShippingData>
             <ShippingAddress>
               <Subtitle>¿A dónde lo enviamos?</Subtitle>
-              <StateAndZipCode>
-                <InputBase
-                  type="text"
-                  name="addressState"
-                  placeholder="Estado"
-                  maxLength="30"
-                  required
-                />
-                <InputBase
-                  type="text"
-                  name="addressCP"
-                  inputMode="numeric"
-                  placeholder="Código Postal"
-                  value={zipCode}
-                  onChange={(e) =>
-                    handleChange(
-                      e.target.value.replace(/\D/g, "").trim(),
-                      setZipCode
-                    )
-                  }
-                  maxLength="7"
-                  required
-                />
-              </StateAndZipCode>
+              <InputBase
+                type="text"
+                name="addressState"
+                placeholder="Estado"
+                maxLength="30"
+                required
+              />
+              <ZipCode
+                type="text"
+                name="addressCP"
+                inputMode="numeric"
+                placeholder="Código Postal"
+                value={zipCode}
+                onChange={(e) =>
+                  handleChange(
+                    e.target.value.replace(/\D/g, "").trim(),
+                    setZipCode
+                  )
+                }
+                maxLength="7"
+                required
+              />
               <SelectCity
                 name="addressCity"
                 defaultValue="Xalapa"
@@ -526,23 +378,21 @@ const MakePayment = (props) => {
               <FreeShippingText>
                 Envío gratis en Xalapa a partir de $200
               </FreeShippingText>
-              <StreetAndNumber>
-                <InputBase
-                  type="text"
-                  name="addressStreet"
-                  placeholder="Calle"
-                  maxLength="40"
-                  required
-                />
-                <InputBase
-                  type="text"
-                  name="addressNumber"
-                  inputMode="numeric"
-                  placeholder="Numero"
-                  maxLength="4"
-                  required
-                />
-              </StreetAndNumber>
+              <InputBase
+                type="text"
+                name="addressStreet"
+                placeholder="Calle"
+                maxLength="40"
+                required
+              />
+              <InputBase
+                type="text"
+                name="addressNumber"
+                inputMode="numeric"
+                placeholder="Numero"
+                maxLength="4"
+                required
+              />
               <References
                 name="addressReferences"
                 placeholder="Referencias"
@@ -634,15 +484,8 @@ const MakePayment = (props) => {
                 />
               </CostContainer>
             </CostDetails>
-            {/* <BuyButton type="submit">
-              {load ? <SuspensoryPoints /> : "Pagar"}
-            </BuyButton> */}
           </FormStyled>
-          <PasarelaDePagos
-            shippingCost={shippingCost}
-            subTotal={subTotal}
-            // customerDataForm={paymentForm.current}
-          />
+          <PasarelaDePagos shippingCost={shippingCost} subTotal={subTotal} />
         </BuyersData>
 
         {related.length > 0 && (

@@ -38,8 +38,7 @@ const formatter = new Intl.NumberFormat("en-US", {
 });
 
 const Success = ({ purchasingData, setPurchaseSuccess }) => {
-  console.log("purchasingData: ", purchasingData);
-  // setPurchaseSuccess();
+  setPurchaseSuccess();
 
   return (
     <main className={styles.MainHome}>
@@ -61,7 +60,7 @@ const Success = ({ purchasingData, setPurchaseSuccess }) => {
           <PurchaseInfoContainer>
             <TotalContainer>
               <p>Tu importe</p>
-              <h2>${purchasingData.purchaseAmount}</h2>
+              <h2>${formatter.format(purchasingData.purchaseAmount)}</h2>
               <div>
                 <p>Tarjeta con terminación: {purchasingData.terminatedCard}</p>
                 <p>Número de pedido: {purchasingData.orderNumber}</p>

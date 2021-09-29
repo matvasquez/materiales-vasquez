@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { connect } from "react-redux";
 import { useMyItems } from "../../hooks/useMyItems";
+import { useGetStock } from "../../hooks/useGetStock";
 
 //Actions
 import {
@@ -62,6 +63,8 @@ const PreviewItem = (props) => {
   const [yesItIsMineLike] = useMyItems(articulo_id, itemsIliked);
   // Hook que verifica si el producto esta en el carrito
   const [yesItIsMineCart] = useMyItems(articulo_id, myCart);
+  // Consulta el stock
+  const [stock] = useGetStock(articulo_id);
 
   // Envia al Carrito y a la lista de precios
   const handleSetCart = () => {
@@ -116,13 +119,15 @@ const PreviewItem = (props) => {
         >
           <>{yesItIsMineLike ? <HeartFull /> : <HeartEmpty />}</>
         </ButtonLike>
-        <ButtonAdd
-          type="button"
-          inMyCArt={yesItIsMineCart}
-          onClick={yesItIsMineCart ? () => setOpenCart() : handleSetCart}
-        >
-          {yesItIsMineCart ? "Ver el carrito" : "Añadir al carrito"}
-        </ButtonAdd>
+        {stock !== "" && (
+          <ButtonAdd
+            type="button"
+            inMyCArt={yesItIsMineCart}
+            onClick={yesItIsMineCart ? () => setOpenCart() : handleSetCart}
+          >
+            {yesItIsMineCart ? "Ver el carrito" : "Añadir al carrito"}
+          </ButtonAdd>
+        )}
       </ButtonsContainer>
     </ArticleStyled>
   );

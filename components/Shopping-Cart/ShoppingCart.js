@@ -176,7 +176,8 @@ const ShoppingCart = (props) => {
               </DetailsPrice>
               <BuyButtonContainer>
                 <Link
-                  href={session ? "/realizar-pago" : "/registro-de-usuario"}
+                  // href={session ? "/realizar-pago" : "/registro-de-usuario"}
+                  href="/realizar-pago"
                   passHref
                 >
                   <BuyButton>Continuar</BuyButton>

@@ -78,6 +78,12 @@ const CarItemPreview = ({
         ...quantityInInventory,
         "Eliminar",
       ]);
+    } else {
+      setQuantityInInventory([]);
+      setQuantityInInventory((quantityInInventory) => [
+        ...quantityInInventory,
+        "Eliminar",
+      ]);
     }
   }, [stock]);
 
