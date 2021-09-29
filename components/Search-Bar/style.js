@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 export const InputSearch = styled.div`
   grid-column: 5 / span 1;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 3rem;
+  height: 3rem;
   display: grid;
   grid-template-columns: 5fr 1fr;
   justify-items: center;
@@ -16,6 +16,7 @@ export const InputSearch = styled.div`
     `
     grid-column: 2 / span 4;
     width: 100%;
+    height: 2.5rem;
     border: 0.1rem solid var(--blue);
   `}
 
@@ -62,10 +63,11 @@ export const InputStyled = styled.input`
   `}
   @media (min-width: 1200px) {
     display: block;
-    font-size: 2rem;
-    padding: 1rem;
+    font-size: 1.6rem;
+    padding: 0.8rem;
+    padding-left: 1rem;
     ::placeholder {
-      font-size: 2rem;
+      font-size: 1.6rem;
     }
   }
 `;
@@ -87,7 +89,7 @@ export const IconContainer = styled.div`
   `}
 
   @media (min-width: 1200px) {
-    width: 3rem;
-    height: 3rem;
+    width: 2rem;
+    height: 2rem;
   }
 `;

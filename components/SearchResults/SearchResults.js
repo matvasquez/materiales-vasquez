@@ -18,7 +18,7 @@ const SearchResults = ({ searchResults, noResults, clear, searchName }) => {
           {searchName !== "" && (
             <LoadMoreButton onClick={() => clear([])}>
               <Link href={`/todos-los/${searchName}`}>
-                <a>Ver mas {searchName}</a>
+                <a>Ver mas</a>
               </Link>
             </LoadMoreButton>
           )}

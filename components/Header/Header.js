@@ -34,6 +34,9 @@ const Header = ({ carIsOpen, itemsIliked }) => {
   };
 
   const searchProduct = debounce(async (value) => {
+    const controller = new AbortController();
+    const signal = controller.signal;
+
     if (value !== "") {
       // Activa la animacion de busqueda
       setSeeking(true);
@@ -41,7 +44,8 @@ const Header = ({ carIsOpen, itemsIliked }) => {
       const responseRelatedByName = await fetch(
         `${
           process.env.NEXT_PUBLIC_URL
-        }/api/related-by-name/${value.toUpperCase()}?first=1&last=6`
+        }/api/related-by-name/${value.toUpperCase()}?first=1&last=6`,
+        { signal }
       );
       const { data } = await responseRelatedByName.json();
       if (data.length > 0) {
@@ -52,11 +56,16 @@ const Header = ({ carIsOpen, itemsIliked }) => {
         // Actualiza el valor de búsqueda para ofrecer más resultados
         setSearchName(value.toUpperCase());
       } else {
+        controller.abort();
+        setSearchResults([]);
         setNoResults(true);
+        setSeeking(false);
       }
     } else {
+      controller.abort();
       setSearchResults([]);
       setNoResults(false);
+      setSeeking(false);
     }
   }, 1000);
 
@@ -70,13 +79,19 @@ const Header = ({ carIsOpen, itemsIliked }) => {
     // input.current.select();
   };
 
-  // useEffect(() => {
-  //   if (isOpen) {
-  //     document.body.style.position = "fixed";
-  //   } else {
-  //     document.body.style.position = "initial";
-  //   }
-  // }, [isOpen]);
+  useEffect(() => {
+    if (isOpen || searchResults.length > 0) {
+      // document.body.style.position = "fixed";
+      document.body.style.maxHeight = "100vh";
+      document.body.style.overflow = "hidden";
+    } else {
+      // document.body.style.position = "initial";
+      document.body.style.maxHeight = "initial";
+      document.body.style.overflow = "visible";
+    }
+  }, [isOpen, searchResults]);
+
+  console.log("searchResults: ", searchResults);
 
   return (
     <>

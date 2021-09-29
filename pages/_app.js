@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { DefaultSeo } from "next-seo";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
@@ -56,6 +57,12 @@ const MyApp = ({ Component, pageProps }) => {
               },
             ]}
           />
+          <Head>
+            <meta
+              name="viewport"
+              content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=5"
+            />
+          </Head>
           <Layout>
             <Component {...pageProps} />
           </Layout>

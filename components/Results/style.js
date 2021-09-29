@@ -18,6 +18,14 @@ export const SearchResult = styled.a`
     height: 100%;
     object-fit: contain;
   }
+  @media (min-width: 750px) {
+    height: 100%;
+    margin: 0 auto;
+    grid-auto-rows: 12rem;
+  }
+  @media (min-width: 1200px) {
+    grid-auto-rows: 10rem;
+  }
 `;
 
 export const ImageContainer = styled.div`

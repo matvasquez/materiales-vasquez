@@ -26,11 +26,6 @@ export const Conatiner = styled.div`
     width: 1.5rem;
     height: 1.5rem;
   `}
-
-  @media (min-width: 1200px) {
-    width: 3rem;
-    height: 3rem;
-  }
 `;
 
 export const Cricle = styled.div`
