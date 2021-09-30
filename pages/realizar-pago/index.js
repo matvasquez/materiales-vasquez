@@ -146,6 +146,7 @@ const MakePayment = (props) => {
     );
 
     console.log("status: ", status[0].value);
+
     if (status[0].value === "APROBADO") {
       const newOrder = new FormData(paymentForm.current);
       const order = {
@@ -194,7 +195,7 @@ const MakePayment = (props) => {
       // console.log("order: ", order);
       setPurchasingData(order);
 
-      // sendEmail(order);
+      sendEmail(order);
     } else {
       const failReason = e.data.elementArr.filter(
         (element) => element.name === "fail_reason"
@@ -228,7 +229,7 @@ const MakePayment = (props) => {
       // document.newForm.appendChild(input);
       document.getElementById("newForm").appendChild(input);
     }
-    document.getElementById("newForm").submit();
+    // document.getElementById("newForm").submit();
   }
 
   // Limita el numero de llamados a las funciones de
