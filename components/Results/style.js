@@ -1,18 +1,21 @@
 import styled from "styled-components";
 
-export const SearchResult = styled.a`
-  width: 90%;
-  padding: 1rem 0.2rem;
-  margin: 1rem auto;
-  color: var(--text);
-  background-color: var(--white);
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  grid-auto-rows: 7rem;
-  justify-items: center;
-  align-content: stretch;
-  border: none;
-  border-radius: 1rem;
+export const SearchResult = styled.div`
+  width: 100%;
+  a {
+    width: 100%;
+    height: 100%;
+    padding: 0.5rem;
+    color: var(--text);
+    background-color: var(--white);
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-auto-rows: 7rem;
+    justify-items: center;
+    align-content: stretch;
+    border: none;
+    border-radius: 1rem;
+  }
   img {
     width: 100%;
     height: 100%;

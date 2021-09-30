@@ -200,8 +200,8 @@ export const CartItemsOpen = styled.section`
 
 export const Totals = styled.section`
   width: 100%;
-  height: 45%;
-  padding: 2rem 1rem 0;
+  height: 42%;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -273,6 +273,7 @@ export const NumberOfItems = styled.p`
   width: 100%;
   margin: 0 auto;
   text-align: center;
+  opacity: 0.7;
 `;
 
 export const SubPrice = styled.p`

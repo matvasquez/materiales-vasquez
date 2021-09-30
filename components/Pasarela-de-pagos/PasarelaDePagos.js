@@ -29,8 +29,6 @@ const PasarelaDePagos = ({ shippingCost, subTotal }) => {
   // imprime date & time in YYYY-MM-DD HH:MM:SS format
   let dateFormat = `${year}:${month}:${date}-${hours}:${minutes}:${seconds}`;
 
-  // const urlWebsite = "https://materiales-vasquez.vercel.app/realizar-pago";
-
   useEffect(() => {
     console.log(window.location.origin);
     setUrlWebsite(window.location.origin);

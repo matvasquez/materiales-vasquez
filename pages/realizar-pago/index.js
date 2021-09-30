@@ -139,13 +139,13 @@ const MakePayment = (props) => {
     e.preventDefault();
     setLoad(true);
 
-    // console.log("elementArr: ", e.data.elementArr);
+    console.log("elementArr: ", e.data.elementArr);
 
     const status = e.data.elementArr.filter(
       (element) => element.name === "status"
     );
 
-    // console.log("status: ", status[0].value);
+    console.log("status: ", status[0].value);
     if (status[0].value === "APROBADO") {
       const newOrder = new FormData(paymentForm.current);
       const order = {

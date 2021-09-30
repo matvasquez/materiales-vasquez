@@ -23,25 +23,19 @@ export const NotFound = styled.div`
   }
 `;
 
-export const SearchResultContainer = styled.div`
+export const Container = styled.div`
   width: 100vw;
   height: calc(100vh - 4.5rem);
   padding: 1rem 1rem 4rem 1rem;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   background-color: var(--background);
-  border-top: 1rem solid var(--blue);
-  /* border-bottom: 1rem solid var(--blue); */
+  border-top: 0.5rem solid var(--blue);
+  border-bottom: 0.5rem solid var(--blue);
 
   position: fixed;
   top: 4.5rem;
   left: 0;
-  overflow-y: scroll;
   z-index: 1100;
-  ::-webkit-scrollbar {
-    display: none;
-  }
+
   @media (min-width: 750px) {
     height: calc(70vh - 4.5rem);
     padding: 2rem;
@@ -57,6 +51,21 @@ export const SearchResultContainer = styled.div`
     top: 19rem;
     left: calc(50% - 25vw);
     border: none;
+  }
+`;
+
+export const SearchResultContainer = styled.div`
+  width: 100%;
+  height: 100%;
+
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 0.5fr;
+  grid-gap: 1rem;
+  overflow-y: scroll;
+
+  ::-webkit-scrollbar {
+    display: none;
   }
 `;
 

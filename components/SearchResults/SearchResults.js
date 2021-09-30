@@ -5,11 +5,16 @@ import Link from "next/link";
 import { Results } from "../Results/Results";
 
 // Styled-Components
-import { NotFound, SearchResultContainer, LoadMoreButton } from "./style";
+import {
+  NotFound,
+  Container,
+  SearchResultContainer,
+  LoadMoreButton,
+} from "./style";
 
 const SearchResults = ({ searchResults, noResults, clear, searchName }) => {
   return (
-    <>
+    <Container>
       {searchResults.length > 0 && (
         <SearchResultContainer>
           {searchResults.map((result) => (
@@ -29,7 +34,7 @@ const SearchResults = ({ searchResults, noResults, clear, searchName }) => {
           <p>No encontré nada con ese nombre</p>
         </NotFound>
       )}
-    </>
+    </Container>
   );
 };
 

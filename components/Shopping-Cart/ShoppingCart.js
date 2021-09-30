@@ -42,6 +42,7 @@ const ShoppingCart = (props) => {
   const { setUpdateCart, shoppingCartPrices, myCart } = props;
 
   const cart = useRef(false);
+  const [pocition, setPocition] = useState(0);
   const [subTotal, setSubTotal] = useState(0);
   const [changeCart, setChangeCart] = useState(false);
   const { pathname } = useRouter();
@@ -55,6 +56,7 @@ const ShoppingCart = (props) => {
   }, [myCart]);
 
   // Previene el scroll al abrir el carrtio de compras
+
   useEffect(() => {
     if (carIsOpen) {
       document.body.style.position = "fixed";
@@ -68,10 +70,19 @@ const ShoppingCart = (props) => {
     setCarIsOpen(!carIsOpen);
   };
 
+  // Obtiene la pocicion del scroll al abrir el carrito de compras
+  const handleTouchStart = (e) => {
+    setPocition(e.changedTouches[0].screenY);
+  };
+
   // Dispara el evento de abrir o cerrar el carrtio
   // dependiendo el swipe que se realize
   const handleTouchMove = (e) => {
-    handleSetOpen();
+    if (carIsOpen) {
+      if (pocition < e.changedTouches[0].screenY - 100) {
+        handleSetOpen();
+      }
+    }
   };
 
   useEffect(() => {
@@ -113,6 +124,7 @@ const ShoppingCart = (props) => {
     <>
       <ShoppingCartStyled
         ref={cart}
+        onTouchStart={(e) => handleTouchStart(e)}
         onTouchMove={(e) => handleTouchMove(e)}
         carIsOpen={carIsOpen}
         hide={pathname === "/registro-de-usuario" && true}
@@ -147,13 +159,16 @@ const ShoppingCart = (props) => {
                 ))}
             </CartItemsOpen>
             <Totals>
-              <ApllyPromoCodeButton>
+              {/* <ApllyPromoCodeButton>
                 <PromoCodeInput type="text" placeholder="Código de cupón" />
                 <PromoCodeButton type="button">Aplicar</PromoCodeButton>
-              </ApllyPromoCodeButton>
-              <NumberOfItems>
+              </ApllyPromoCodeButton> */}
+              {/* <NumberOfItems>
                 Tienes {myCart.length} diferentes artículos en tu carrito
-              </NumberOfItems>
+              </NumberOfItems> */}
+              <FreeShippingText>
+                Envío gratis dentro de Xalapa a partir de $200
+              </FreeShippingText>
               <DetailsPrice>
                 <p>Subtotal</p>
                 <SubPrice>${formatter.format(subTotal)}</SubPrice>
@@ -183,9 +198,6 @@ const ShoppingCart = (props) => {
                   <BuyButton>Continuar</BuyButton>
                 </Link>
               </BuyButtonContainer>
-              <FreeShippingText>
-                Envío gratis dentro de Xalapa a partir de $200
-              </FreeShippingText>
             </Totals>
           </>
         ) : (
