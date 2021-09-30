@@ -36,6 +36,7 @@ const ArticlesSection = ({
 
   const updateItems = (items) => {
     setItemsLoaded(itemsLoaded.concat(items));
+    // setItemsLoaded((itemsLoaded) => [...itemsLoaded, items]);
   };
 
   useEffect(() => {
@@ -100,8 +101,8 @@ const ArticlesSection = ({
                   onClick={() => {
                     uploadMoreItems(
                       searchTitle(),
-                      products.length + 1,
-                      products.length + 20,
+                      itemsLoaded.length + 1,
+                      itemsLoaded.length + 20,
                       updateItems,
                       setNoMore
                     );

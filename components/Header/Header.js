@@ -79,19 +79,38 @@ const Header = ({ carIsOpen, itemsIliked }) => {
     // input.current.select();
   };
 
+  const disableScroll = () => {
+    console.log("disableScroll");
+    let x = window.scrollX;
+    let y = window.scrollY;
+    window.onscroll = function () {
+      window.scrollTo(x, y);
+    };
+  };
+
   useEffect(() => {
     if (isOpen || searchResults.length > 0) {
-      // document.body.style.position = "fixed";
-      document.body.style.maxHeight = "100vh";
-      document.body.style.overflow = "hidden";
+      window.addEventListener("scroll", disableScroll);
     } else {
-      // document.body.style.position = "initial";
-      document.body.style.maxHeight = "initial";
-      document.body.style.overflow = "visible";
+      window.onscroll = null;
     }
+    return () => {
+      window.removeEventListener("scroll", disableScroll);
+    };
   }, [isOpen, searchResults]);
+  // useEffect(() => {
+  //   if (isOpen || searchResults.length > 0) {
+  //     // document.body.style.position = "fixed";
+  //     document.body.style.maxHeight = "100vh";
+  //     document.body.style.overflow = "hidden";
+  //   } else {
+  //     // document.body.style.position = "initial";
+  //     document.body.style.maxHeight = "initial";
+  //     document.body.style.overflow = "visible";
+  //   }
+  // }, [isOpen, searchResults]);
 
-  console.log("searchResults: ", searchResults);
+  // console.log("searchResults: ", searchResults);
 
   return (
     <>

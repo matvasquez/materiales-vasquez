@@ -52,10 +52,6 @@ const Categories = (props) => {
   const [routeWithFilters, setRouteWithFilters] = useState(false);
   const [itemsLoaded, setItemsLoaded] = useState([]);
 
-  useEffect(() => {
-    setItemsLoaded(products);
-  }, []);
-
   const handleOpenFilters = () => {
     setOpenFilters(!openFilters);
   };
@@ -83,6 +79,7 @@ const Categories = (props) => {
       }`
     );
     const { data } = await response.json();
+    console.log("data: ", data);
 
     if (data) {
       setResetItemsLoaded();
@@ -155,6 +152,7 @@ const Categories = (props) => {
             title={title}
             products={itemsLoaded}
             route={true}
+            showFilters={true}
             routeWithFilters={routeWithFilters}
             handleOpenFilters={handleOpenFilters}
           />
