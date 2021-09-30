@@ -37,18 +37,18 @@ export const Container = styled.div`
   z-index: 1100;
 
   @media (min-width: 750px) {
-    height: calc(70vh - 4.5rem);
+    width: 95vw;
+    height: calc(60vh - 4.5rem);
     padding: 2rem;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    /* grid-auto-rows: 15rem; */
-    grid-gap: 2rem;
-    top: 8rem;
+    top: 6rem;
+    left: calc(50% - 47.5vw);
     box-shadow: 0 10px 11px 0 rgba(0, 20, 76, 0.5);
+    border: none;
+    border-radius: 0 0 2rem 2rem;
   }
   @media (min-width: 1200px) {
     width: 50vw;
-    top: 19rem;
+    top: 11rem;
     left: calc(50% - 25vw);
     border: none;
   }
@@ -66,6 +66,11 @@ export const SearchResultContainer = styled.div`
 
   ::-webkit-scrollbar {
     display: none;
+  }
+  @media (min-width: 750px) {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr 1fr 1fr 0.5fr;
+    grid-gap: 2rem;
   }
 `;
 

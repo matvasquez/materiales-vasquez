@@ -14,27 +14,29 @@ import {
 
 const SearchResults = ({ searchResults, noResults, clear, searchName }) => {
   return (
-    <Container>
+    <>
       {searchResults.length > 0 && (
-        <SearchResultContainer>
-          {searchResults.map((result) => (
-            <Results key={result.articulo_id} {...result} clear={clear} />
-          ))}
-          {searchName !== "" && (
-            <LoadMoreButton onClick={() => clear([])}>
-              <Link href={`/todos-los/${searchName}`}>
-                <a>Ver más</a>
-              </Link>
-            </LoadMoreButton>
-          )}
-        </SearchResultContainer>
+        <Container>
+          <SearchResultContainer>
+            {searchResults.map((result) => (
+              <Results key={result.articulo_id} {...result} clear={clear} />
+            ))}
+            {searchName !== "" && (
+              <LoadMoreButton onClick={() => clear([])}>
+                <Link href={`/todos-los/${searchName}`}>
+                  <a>Ver más</a>
+                </Link>
+              </LoadMoreButton>
+            )}
+          </SearchResultContainer>
+        </Container>
       )}
       {noResults && (
         <NotFound>
           <p>No encontré nada con ese nombre</p>
         </NotFound>
       )}
-    </Container>
+    </>
   );
 };
 
