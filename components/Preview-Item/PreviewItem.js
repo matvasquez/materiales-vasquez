@@ -116,6 +116,7 @@ const PreviewItem = (props) => {
         <ButtonLike
           type="button"
           onClick={yesItIsMineLike ? handleDeleteFavorite : handleLike}
+          aria-label="Botón para agregar a favoritos"
         >
           <>{yesItIsMineLike ? <HeartFull /> : <HeartEmpty />}</>
         </ButtonLike>

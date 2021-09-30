@@ -68,7 +68,6 @@ export const LoadMoreButton = styled.div`
   font-weight: 600;
   text-align: center;
   display: flex;
-  color: var(--blue);
   background: var(--yellow);
   border: none;
   border-radius: 1rem;
@@ -80,6 +79,7 @@ export const LoadMoreButton = styled.div`
   a {
     width: 100%;
     height: 100%;
+    color: var(--blue);
     cursor: pointer;
   }
   @media (min-width: 750px) {

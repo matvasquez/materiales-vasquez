@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import sjcl from "sjcl";
 
 // Tarjeta de pruebas: 5426064000424979
@@ -16,6 +16,7 @@ import { FormStyled, BuyButton, Iframe } from "./style";
 const PasarelaDePagos = ({ shippingCost, subTotal }) => {
   const [load, setLoad] = useState(false);
   const [show, setShow] = useState(false);
+  const [urlWebsite, setUrlWebsite] = useState("http://localhost:3000");
 
   // Fecha y formato
   let date_ob = new Date();
@@ -28,8 +29,12 @@ const PasarelaDePagos = ({ shippingCost, subTotal }) => {
   // imprime date & time in YYYY-MM-DD HH:MM:SS format
   let dateFormat = `${year}:${month}:${date}-${hours}:${minutes}:${seconds}`;
 
-  // const urlWebsite = process.env.NEXT_PUBLIC_URL;
-  const urlWebsite = "http://localhost:3000";
+  // const urlWebsite = "https://materiales-vasquez.vercel.app/realizar-pago";
+
+  useEffect(() => {
+    console.log(window.location.origin);
+    setUrlWebsite(window.location.origin);
+  }, []);
 
   // Se obtiene la cadena hexadecimal
   const convertStringToHex = () => {

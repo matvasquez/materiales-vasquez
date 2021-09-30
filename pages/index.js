@@ -16,7 +16,7 @@ import styles from "../styles/components/Main.module.css";
 const first_section = "LAMPARA";
 const second_section = "200";
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_URL}/api/new-products`
   );
@@ -34,7 +34,6 @@ export async function getStaticProps() {
 
   return {
     props: {
-      title: "Home Center | Materiales Vasquez Hermanos",
       products: [
         {
           title: "Productos Nuevos",

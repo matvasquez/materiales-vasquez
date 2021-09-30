@@ -69,3 +69,11 @@ body::-webkit-scrollbar {
 .paymentrow {
   border: none;
 }
+
+header {
+  display: none;
+}
+
+footer {
+  display: none;
+}

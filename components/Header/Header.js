@@ -116,10 +116,13 @@ const Header = ({ carIsOpen, itemsIliked }) => {
     <>
       <HeaderStyled zindex={carIsOpen}>
         <MainMenu isOpen={isOpen} handleOpen={handleOpen} />
-        <ButtonMenu handleClick={handleOpen} />
+        <ButtonMenu
+          handleClick={handleOpen}
+          aria-label="Botón para abrir el menú lateral"
+        />
         <Link href="/" passHref>
           <LogoContainer
-            style={{ display: hidden && "none" }}
+            style={{ display: hidden ? "none" : null }}
             aria-label="Inicio"
             itemProp="logo"
           >
