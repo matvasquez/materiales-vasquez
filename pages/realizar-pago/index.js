@@ -139,13 +139,17 @@ const MakePayment = (props) => {
     e.preventDefault();
     setLoad(true);
 
-    console.log("elementArr: ", e.data.elementArr);
+    // console.log("elementArr: ", e.data.elementArr);
 
     const status = e.data.elementArr.filter(
       (element) => element.name === "status"
     );
 
-    console.log("status: ", status[0].value);
+    const code = e.data.elementArr.filter(
+      (element) => element.name === "approval_code"
+    );
+
+    // console.log("status: ", status[0].value);
 
     if (status[0].value === "APROBADO") {
       const newOrder = new FormData(paymentForm.current);
@@ -207,6 +211,7 @@ const MakePayment = (props) => {
         status: status[0].value,
         failReason: failReason.length !== 0 ? failReason[0].value : "",
         chargeTotal: chargetotal.length !== 0 ? chargetotal[0].value : "",
+        approval_code: code[0].value,
       };
       setPurchasingData(orderFail);
     }

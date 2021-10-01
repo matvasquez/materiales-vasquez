@@ -65,6 +65,9 @@ const PasarelaDePagos = ({ shippingCost, subTotal }) => {
     }, 3000);
   };
 
+  console.log(`${urlWebsite}/pago-realizado`);
+  console.log(`${urlWebsite}/pago-error`);
+
   return (
     <>
       <Iframe name="myFrame" show={show}></Iframe>
@@ -99,14 +102,12 @@ const PasarelaDePagos = ({ shippingCost, subTotal }) => {
         <input
           type="hidden"
           name="responseFailURL"
-          value="https://materiales-vasquez.vercel.app/pago-error"
-          // value={`${urlWebsite}/pago-error`}
+          value={`${urlWebsite}/pago-error`}
         />
         <input
           type="hidden"
           name="responseSuccessURL"
-          value="https://materiales-vasquez.vercel.app/pago-realizado"
-          // value={`${urlWebsite}/pago-realizado`}
+          value={`${urlWebsite}/pago-realizado`}
         />
         <input type="hidden" name="authenticateTransaction" value="true" />
         <input

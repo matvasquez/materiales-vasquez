@@ -38,6 +38,7 @@ const formatter = new Intl.NumberFormat("en-US", {
 });
 
 const Success = ({ purchasingData, setPurchaseSuccess }) => {
+  console.log(purchasingData);
   setPurchaseSuccess();
 
   return (
