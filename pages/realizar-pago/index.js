@@ -195,7 +195,7 @@ const MakePayment = (props) => {
       // console.log("order: ", order);
       setPurchasingData(order);
 
-      sendEmail(order);
+      // sendEmail(order);
     } else {
       const failReason = e.data.elementArr.filter(
         (element) => element.name === "fail_reason"

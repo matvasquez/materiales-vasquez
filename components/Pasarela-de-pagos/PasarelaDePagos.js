@@ -6,6 +6,8 @@ import sjcl from "sjcl";
 //--------
 // 4931580001642617 Visa Secret3
 // 5579220000000012 MasterCard Secret3
+// Tarjeta para errores
+// 4004430000000007
 
 // Components
 import { SuspensoryPoints } from "../../components/Loaders/SuspensoryPoints";

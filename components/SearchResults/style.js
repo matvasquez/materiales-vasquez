@@ -48,6 +48,7 @@ export const Container = styled.div`
   }
   @media (min-width: 1200px) {
     width: 50vw;
+    height: calc(65vh - 4.5rem);
     top: 11rem;
     left: calc(50% - 25vw);
     border: none;
