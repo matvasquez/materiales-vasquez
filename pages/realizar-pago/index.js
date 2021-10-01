@@ -229,7 +229,7 @@ const MakePayment = (props) => {
       // document.newForm.appendChild(input);
       document.getElementById("newForm").appendChild(input);
     }
-    // document.getElementById("newForm").submit();
+    document.getElementById("newForm").submit();
   }
 
   // Limita el numero de llamados a las funciones de
