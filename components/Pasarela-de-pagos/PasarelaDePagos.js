@@ -9,6 +9,8 @@ import sjcl from "sjcl";
 // Tarjeta para errores
 // 4004430000000007
 
+// "start": "cross-env NODE_ENV=production node server.js",
+
 // Components
 import { SuspensoryPoints } from "../../components/Loaders/SuspensoryPoints";
 
@@ -28,7 +30,7 @@ const PasarelaDePagos = ({ shippingCost, subTotal }) => {
   let hours = date_ob.getHours();
   let minutes = date_ob.getMinutes();
   let seconds = date_ob.getSeconds();
-  // imprime date & time in YYYY-MM-DD HH:MM:SS format
+  // Obtiene date & time in YYYY-MM-DD HH:MM:SS format
   let dateFormat = `${year}:${month}:${date}-${hours}:${minutes}:${seconds}`;
 
   useEffect(() => {
@@ -39,8 +41,6 @@ const PasarelaDePagos = ({ shippingCost, subTotal }) => {
   // Se obtiene la cadena hexadecimal
   const convertStringToHex = () => {
     // Se concatenen los valores requeridos
-    // console.log("Fecha: ", dateFormat);
-
     const str = `${process.env.NEXT_PUBLIC_STORE_ID}${dateFormat}${
       shippingCost + subTotal
     }${484}${process.env.NEXT_PUBLIC_SHARED_SECRET}`;
@@ -48,11 +48,9 @@ const PasarelaDePagos = ({ shippingCost, subTotal }) => {
     // console.log("Concatenar los valores: ", str);
 
     const hex = Buffer.from(str, "utf8").toString("hex");
-    // console.log("Buffer: ", hex);
 
     const myBitArray = sjcl.hash.sha256.hash(hex);
     const hash = sjcl.codec.hex.fromBits(myBitArray);
-    // console.log("Buffsha256er: ", hash);
 
     return hash;
   };
@@ -64,9 +62,6 @@ const PasarelaDePagos = ({ shippingCost, subTotal }) => {
       setLoad(false);
     }, 3000);
   };
-
-  console.log(`${urlWebsite}/pago-realizado`);
-  console.log(`${urlWebsite}/pago-error`);
 
   return (
     <>
