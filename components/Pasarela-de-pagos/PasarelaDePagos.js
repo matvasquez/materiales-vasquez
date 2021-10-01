@@ -99,12 +99,14 @@ const PasarelaDePagos = ({ shippingCost, subTotal }) => {
         <input
           type="hidden"
           name="responseFailURL"
-          value={`${urlWebsite}/pago-error`}
+          value="https://materiales-vasquez.vercel.app/pago-error"
+          // value={`${urlWebsite}/pago-error`}
         />
         <input
           type="hidden"
           name="responseSuccessURL"
-          value={`${urlWebsite}/pago-realizado`}
+          value="https://materiales-vasquez.vercel.app/pago-realizado"
+          // value={`${urlWebsite}/pago-realizado`}
         />
         <input type="hidden" name="authenticateTransaction" value="true" />
         <input
