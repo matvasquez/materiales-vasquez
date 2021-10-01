@@ -20,9 +20,7 @@ import { FormStyled, BuyButton, Iframe } from "./style";
 const PasarelaDePagos = ({ shippingCost, subTotal }) => {
   const [load, setLoad] = useState(false);
   const [show, setShow] = useState(false);
-  const [urlWebsite, setUrlWebsite] = useState(
-    "https://materiales-vasquez.vercel.app/"
-  );
+  const [urlWebsite, setUrlWebsite] = useState("http://localhost:3000");
 
   // Fecha y formato
   let date_ob = new Date();
@@ -36,7 +34,6 @@ const PasarelaDePagos = ({ shippingCost, subTotal }) => {
   let dateFormat = `${year}:${month}:${date}-${hours}:${minutes}:${seconds}`;
 
   useEffect(() => {
-    console.log(window.location.origin);
     setUrlWebsite(window.location.origin);
   }, []);
 
