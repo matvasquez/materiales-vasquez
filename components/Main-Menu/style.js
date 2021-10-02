@@ -95,7 +95,7 @@ export const UlStyled = styled.ul`
   @media (min-width: 1200px) {
     width: 100%;
     height: fit-content;
-    padding: 0.5rem 1rem;
+    padding: 0 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;

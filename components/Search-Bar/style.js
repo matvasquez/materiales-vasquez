@@ -64,7 +64,7 @@ export const InputStyled = styled.input`
   @media (min-width: 1200px) {
     display: block;
     font-size: 1.6rem;
-    padding: 0.8rem;
+    padding: 0.5rem;
     padding-left: 1rem;
     ::placeholder {
       font-size: 1.6rem;
