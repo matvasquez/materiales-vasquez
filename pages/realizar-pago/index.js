@@ -197,7 +197,7 @@ const MakePayment = (props) => {
       // console.log("order: ", order);
       setPurchasingData(order);
 
-      // sendEmail(order);
+      sendEmail(order);
     } else {
       const failReason = e.data.elementArr.filter(
         (element) => element.name === "fail_reason"
@@ -232,7 +232,7 @@ const MakePayment = (props) => {
       input.setAttribute("name", element.name);
       input.setAttribute("value", element.value);
       // document.newForm.appendChild(input);
-      // document.getElementById("newForm").appendChild(input);
+      document.getElementById("newForm").appendChild(input);
     }
     // document.getElementById("newForm").submit();
   }

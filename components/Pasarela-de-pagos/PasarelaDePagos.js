@@ -22,6 +22,8 @@ const PasarelaDePagos = ({ shippingCost, subTotal }) => {
   const [show, setShow] = useState(false);
   const [urlWebsite, setUrlWebsite] = useState("http://localhost:3000");
 
+  console.log("urlWebsite: ", urlWebsite);
+
   // Fecha y formato
   let date_ob = new Date();
   let date = ("0" + date_ob.getDate()).slice(-2);
