@@ -49,7 +49,6 @@ import {
 } from "../../styles/realizar-pago/style";
 
 //Data
-
 const cfdis = [
   "G01	ADQUISICIÓN DE MERCANCIAS",
   "G02	DEVOLUCIONES, DESCUENTOS O BONIFICACIONES",
@@ -140,7 +139,6 @@ const MakePayment = (props) => {
     setLoad(true);
 
     // console.log("elementArr: ", e.data.elementArr);
-
     const status = e.data.elementArr.filter(
       (element) => element.name === "status"
     );

@@ -22,8 +22,6 @@ const PasarelaDePagos = ({ shippingCost, subTotal }) => {
   const [show, setShow] = useState(false);
   const [urlWebsite, setUrlWebsite] = useState("http://localhost:3000");
 
-  console.log("urlWebsite: ", urlWebsite);
-
   // Fecha y formato
   let date_ob = new Date();
   let date = ("0" + date_ob.getDate()).slice(-2);
@@ -47,7 +45,6 @@ const PasarelaDePagos = ({ shippingCost, subTotal }) => {
     }${484}${process.env.NEXT_PUBLIC_SHARED_SECRET}`;
 
     // console.log("Concatenar los valores: ", str);
-
     const hex = Buffer.from(str, "utf8").toString("hex");
 
     const myBitArray = sjcl.hash.sha256.hash(hex);
