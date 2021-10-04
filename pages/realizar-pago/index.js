@@ -211,7 +211,7 @@ const MakePayment = (props) => {
       };
       setPurchasingData(orderFail);
     }
-    // window.location.href = e.data.redirectURL;
+    window.location.href = e.data.redirectURL;
   };
 
   // Código de pasarela de pagos
@@ -238,7 +238,7 @@ const MakePayment = (props) => {
   // Limita el numero de llamados a las funciones de
   // enviar mail y cambiar de pagina
   const handlePurchase = debounce(async (e, elementArr) => {
-    forwardForm(e.data, elementArr);
+    // forwardForm(e.data, elementArr);
     handleSubmit(e);
   }, 3000);
 
