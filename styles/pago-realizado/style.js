@@ -199,6 +199,7 @@ export const InfoContainer = styled.section`
 
 export const ShippingDetails = styled.div`
   width: 100%;
+  max-width: 50vw;
   padding: 1rem;
   font-size: 1.2rem;
   text-align: left;

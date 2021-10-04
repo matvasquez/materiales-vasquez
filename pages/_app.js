@@ -2,11 +2,13 @@ import Head from "next/head";
 import { DefaultSeo } from "next-seo";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
-// import { persistStore, persistReducer } from "redux-persist";
-// import storage from "redux-persist/lib/storage";
-// import { PersistGate } from "redux-persist/integration/react";
 import { initialState } from "../utils/initialState";
 import reducer from "../reducers/index";
+
+import { useEffect } from "react";
+import { useRouter } from "next/router";
+
+import * as ga from "../lib/ga";
 
 import { loadState, saveState } from "../utils/saveLocalStorage";
 
@@ -16,6 +18,21 @@ import "../styles/GlobalStyles.css";
 import { Provider as ProviderNextAuth } from "next-auth/client";
 
 const MyApp = ({ Component, pageProps }) => {
+  // Google Analytics
+  const router = useRouter();
+  useEffect(() => {
+    const handleRouteChange = (url) => {
+      ga.pageview(url);
+    };
+    //Cuando el componente esté montado, suscríbase a los cambios del enrutador y registre esas visitas a la página
+    router.events.on("routeChangeComplete", handleRouteChange);
+
+    // Si el componente está desmontado, desinscribirse del evento con el método `off`
+    return () => {
+      router.events.off("routeChangeComplete", handleRouteChange);
+    };
+  }, [router.events]);
+
   const initialData = loadState() || initialState;
 
   const store = createStore(reducer, initialData);
