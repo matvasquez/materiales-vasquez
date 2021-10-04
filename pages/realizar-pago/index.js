@@ -229,8 +229,8 @@ const MakePayment = (props) => {
       input.setAttribute("type", "hidden");
       input.setAttribute("name", element.name);
       input.setAttribute("value", element.value);
-      // document.newForm.appendChild(input);
-      document.getElementById("newForm").appendChild(input);
+      document.newForm.appendChild(input);
+      // document.getElementById("newForm").appendChild(input);
     }
     document.getElementById("newForm").submit();
   }
