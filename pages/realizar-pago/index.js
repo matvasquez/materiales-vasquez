@@ -211,7 +211,7 @@ const MakePayment = (props) => {
       };
       setPurchasingData(orderFail);
     }
-    window.location.href = e.data.redirectURL;
+    // window.location.href = e.data.redirectURL;
   };
 
   // Código de pasarela de pagos
@@ -219,7 +219,7 @@ const MakePayment = (props) => {
     var newForm = document.createElement("form");
     newForm.setAttribute("method", "post");
     newForm.setAttribute("action", "");
-    // newForm.setAttribute("action", responseObj.redirectURL);
+    newForm.setAttribute("action", responseObj.redirectURL);
     newForm.setAttribute("id", "newForm");
     newForm.setAttribute("name", "newForm");
     document.body.appendChild(newForm);
@@ -232,7 +232,7 @@ const MakePayment = (props) => {
       // document.newForm.appendChild(input);
       document.getElementById("newForm").appendChild(input);
     }
-    // document.getElementById("newForm").submit();
+    document.getElementById("newForm").submit();
   }
 
   // Limita el numero de llamados a las funciones de

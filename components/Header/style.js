@@ -23,6 +23,7 @@ export const HeaderStyled = styled.header`
 
   @media (min-width: 1200px) {
     padding: 2rem 1rem;
+    padding: 1rem 1rem 0.5rem 1rem;
     grid-template-columns: 1fr 2fr 1fr;
     grid-template-rows: min-content;
     grid-gap: 1rem;
