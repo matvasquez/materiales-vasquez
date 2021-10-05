@@ -83,7 +83,6 @@ const MakePayment = (props) => {
   });
 
   const [subTotal, setSubTotal] = useState(0);
-  const [shippingName, setShippingName] = useState("");
   const [city, setCity] = useState("Xalapa");
   const [zipCode, setZipCode] = useState("");
   const [shippingCost, setShippingCost] = useState(50);
@@ -134,9 +133,14 @@ const MakePayment = (props) => {
     }
   }, [myCart]);
 
+  useEffect(() => {
+    paymentForm.current.reset();
+  }, [myCart]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoad(true);
+    console.log(myCart);
 
     // console.log("elementArr: ", e.data.elementArr);
     const status = e.data.elementArr.filter(
@@ -160,6 +164,9 @@ const MakePayment = (props) => {
         purchaseAmount: e.data.elementArr[11].value,
         terminatedCard: e.data.elementArr[27].value.slice(-4),
 
+        shippingName: newOrder.get("shippingName"),
+        shippingLastName: newOrder.get("shippingLastName"),
+
         phoneNumber: newOrder.get("phoneNumber"),
         shippingEmail: newOrder.get("shippingEmail"),
 
@@ -170,24 +177,21 @@ const MakePayment = (props) => {
         addressNumber: newOrder.get("addressNumber"),
         addressReferences: newOrder.get("addressReferences"),
 
-        requiredInvoice: invoiceRequired
-          ? "Requiere Factura"
-          : "No requiere Factura",
-        invoiceRFC: invoiceRequired ? newOrder.get("invoiceRFC") : "",
-        invoiceCompanyName: invoiceRequired
-          ? newOrder.get("invoiceCompanyName")
-          : "",
-        cfdi: invoiceRequired ? newOrder.get("cfdi") : "",
-        invoicePhoneNumber: invoiceRequired
-          ? newOrder.get("invoicePhoneNumber")
-          : "",
-        invoiceShippingEmail: invoiceRequired
-          ? newOrder.get("invoiceShippingEmail")
-          : "",
+        requiredInvoice: "Datos para facturación",
+        invoiceRFC: newOrder.get("invoiceRFC"),
+        invoiceCompanyName: newOrder.get("invoiceCompanyName"),
+        cfdi: newOrder.get("cfdi"),
+        invoicePhoneNumber: newOrder.get("invoicePhoneNumber"),
+        invoiceShippingEmail: newOrder.get("invoiceShippingEmail"),
 
-        subTotal: subTotal,
+        subTotal: shoppingCartPrices.reduce(
+          (accumulator, currentValue) => accumulator + currentValue
+        ),
         shippingCost: shippingCost,
-        total: shippingCost + subTotal,
+        total:
+          shoppingCartPrices.reduce(
+            (accumulator, currentValue) => accumulator + currentValue
+          ) + shippingCost,
 
         products: myCart,
       };
@@ -211,7 +215,10 @@ const MakePayment = (props) => {
       };
       setPurchasingData(orderFail);
     }
-    window.location.href = e.data.redirectURL;
+    setTimeout(() => {
+      console.log("setTimeout");
+      // window.location.href = e.data.redirectURL;
+    }, 500);
   };
 
   // Código de pasarela de pagos
@@ -314,14 +321,14 @@ const MakePayment = (props) => {
                 name="shippingName"
                 placeholder="Nombre/s"
                 maxLength="30"
-                value={shippingName}
-                onChange={(e) => setShippingName(e.target.value)}
+                required
               />
               <InputSameName
                 type="text"
                 name="shippingLastName"
                 placeholder="Apellidos"
                 maxLength="30"
+                required
               />
               <PhoneNumber
                 type="tel"
