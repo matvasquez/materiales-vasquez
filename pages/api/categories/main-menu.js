@@ -23,10 +23,15 @@ export default async function getMainCategories(req, res) {
       .json({ message: "Lo sentimos, sólo aceptamos solicitudes GET" });
   }
   setTimeout(async () => {
+    // const result = await rest.executeQuery(
+    //   `SELECT DISTINCT RTRIM(DESCRIBECO) AS name
+    //   FROM CAT_CLAS
+    //   WHERE DESCRIBECO IN ('ACABADOS', 'BAÑOS', 'HOGAR', 'COCINA', 'ELECTRICO', 'HERRAMIENTAS', 'ILUMINACION', 'MATERIALES DE CONSTRUCCION', 'PLOMERIA');`
+    // );
     const result = await rest.executeQuery(
-      `SELECT DISTINCT RTRIM(DESCRIBECO) AS name
+      `SELECT DISTINCT RTRIM(DESCRIBECO) AS name 
       FROM CAT_CLAS
-      WHERE DESCRIBECO IN ('ACABADOS', 'BAÑOS', 'COCINA', 'ELECTRICO', 'HERRAMIENTAS', 'ILUMINACION', 'MATERIALES DE CONSTRUCCION', 'PLOMERIA');`
+      WHERE HOJA = 'N'AND NIVEL = '3';`
     );
 
     result &&
