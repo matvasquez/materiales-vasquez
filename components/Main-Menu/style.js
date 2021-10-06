@@ -125,13 +125,14 @@ export const LiStyled = styled.li`
   border-radius: 0;
   overflow: hidden;
   position: relative;
-  :hover {
+  &:hover {
     ${LineLink} {
       width: 100%;
     }
   }
   @media (min-width: 1200px) {
     justify-content: center;
+    overflow: visible;
   }
 `;
 

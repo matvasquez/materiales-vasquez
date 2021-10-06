@@ -6,6 +6,7 @@ import fetch from "isomorphic-unfetch";
 import { Instagram } from "../IconsSVG/Instagram";
 import { Twitter } from "../IconsSVG/Twitter";
 import { Facebook } from "../IconsSVG/Facebook";
+import MenuSection from "../Menu-Section/MenuSection";
 
 // Styled-Components
 import {
@@ -29,21 +30,6 @@ const MainMenu = ({ isOpen, handleOpen }) => {
     setapartments(data);
   }, []);
 
-  console.log(apartments);
-  useEffect(() => {
-    if (apartments.length > 0) {
-      apartments.forEach(async (categorie) => {
-        console.log(categorie.category_id);
-        const response = await fetch(
-          `/api/categories/sub-categories/${categorie.category_id}`
-        );
-        const { data } = await response.json();
-        categorie.category_id;
-        console.log(data);
-      });
-    }
-  }, []);
-
   return (
     <NavStyled open={isOpen}>
       <CloseButton
@@ -60,15 +46,11 @@ const MainMenu = ({ isOpen, handleOpen }) => {
         </LiStyled>
         {apartments &&
           apartments.map((menuItem) => (
-            <LiStyled key={menuItem.category_id} onClick={() => handleOpen()}>
-              <Link
-                href={`/categoria/${menuItem.name.replace(/ /gi, "-")}`}
-                passHref
-              >
-                <AnchorStyled>{menuItem.name}</AnchorStyled>
-              </Link>
-              <LineLink />
-            </LiStyled>
+            <MenuSection
+              key={menuItem.category_id}
+              {...menuItem}
+              handleOpen={handleOpen}
+            />
           ))}
         <SocialIconsConatiner>
           <LinkIcon

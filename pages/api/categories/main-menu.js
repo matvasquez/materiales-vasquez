@@ -23,36 +23,11 @@ export default async function getMainCategories(req, res) {
       .json({ message: "Lo sentimos, sólo aceptamos solicitudes GET" });
   }
 
-  let resultMenu = [];
+  // let resultMenu = [];
   setTimeout(async () => {
     const result = await rest.executeQuery(
       `SELECT RTRIM(DESGIR) AS name, RTRIM(CLAVEGIR) AS category_id FROM ARTGIRO`
     );
-
-    // console.log(result.data[0]);
-
-    if (result) {
-      result.data[0].forEach(async (categorie) => {
-        // console.log(categorie.category_id);
-        const sub = await rest.executeQuery(
-          `SELECT RTRIM(CLAVEGIR2) AS id, RTRIM(DESC_GIR2) AS name FROM ARTGIRO2 
-          WHERE CLAVEGIR = '${categorie.category_id}'`
-        );
-        // console.log("sub: ", sub.data[0]);
-        // console.log("====================================");
-        // console.log(categorie);
-        // console.log("====================================");
-        // console.log("====================================");
-        categorie.subCategorie = sub.data[0];
-        console.log(categorie);
-        resultMenu.push(categorie);
-      });
-    }
-
-    if (resultMenu.length > 0) {
-      console.log("-----------------------------");
-      console.log("resultMenu: ", resultMenu);
-    }
 
     if (result) {
       res.status(200).json({

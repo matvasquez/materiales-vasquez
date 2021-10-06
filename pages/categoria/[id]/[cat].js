@@ -3,11 +3,11 @@ import { NextSeo, LocalBusinessJsonLd } from "next-seo";
 import fetch from "isomorphic-unfetch";
 
 // Components
-import ArticlesSection from "../../components/Articles-Section/index";
-import Filter from "../../components/Filters/Filters";
+import ArticlesSection from "../../../components/Articles-Section/index";
+import Filter from "../../../components/Filters/Filters";
 
 // Styles
-import styles from "../../styles/components/Main.module.css";
+import styles from "../../../styles/components/Main.module.css";
 // Styled-Components
 import {
   SectionEmpty,
@@ -15,18 +15,18 @@ import {
   EmptyContainer,
   TextEmpty,
   ClearFilters,
-} from "../../styles/categoria/style";
+} from "../../../styles/categoria/style";
 
 export async function getServerSideProps({ params }) {
-  console.log("params.id: ", params.id);
-  // `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/${params.id}?first=1&last=20`
+  console.log("params.id: ", params.cat);
+  // `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/${params.cat}?first=1&last=20`
   const response = await fetch(
-    `http://localhost:3000/api/related-by-category/${params.id}?first=1&last=20`
+    `http://localhost:3000/api/related-by-subcategory/${params.cat}?first=1&last=20`
   );
   const { data: products } = await response.json();
 
   const responseBrands = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/brands/${params.id}`
+    `${process.env.NEXT_PUBLIC_URL}/api/brands/${params.cat}`
   );
   const { brands } = await responseBrands.json();
 
