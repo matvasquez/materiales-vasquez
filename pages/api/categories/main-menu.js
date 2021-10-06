@@ -22,24 +22,45 @@ export default async function getMainCategories(req, res) {
       .status(500)
       .json({ message: "Lo sentimos, sólo aceptamos solicitudes GET" });
   }
+
+  let resultMenu = [];
   setTimeout(async () => {
-    // const result = await rest.executeQuery(
-    //   `SELECT DISTINCT RTRIM(DESCRIBECO) AS name
-    //   FROM CAT_CLAS
-    //   WHERE DESCRIBECO IN ('ACABADOS', 'BAÑOS', 'HOGAR', 'COCINA', 'ELECTRICO', 'HERRAMIENTAS', 'ILUMINACION', 'MATERIALES DE CONSTRUCCION', 'PLOMERIA');`
-    // );
     const result = await rest.executeQuery(
-      `SELECT DISTINCT RTRIM(DESCRIBECO) AS name 
-      FROM CAT_CLAS
-      WHERE HOJA = 'N'AND NIVEL = '3';`
+      `SELECT RTRIM(DESGIR) AS name, RTRIM(CLAVEGIR) AS category_id FROM ARTGIRO`
     );
 
-    result &&
+    // console.log(result.data[0]);
+
+    if (result) {
+      result.data[0].forEach(async (categorie) => {
+        // console.log(categorie.category_id);
+        const sub = await rest.executeQuery(
+          `SELECT RTRIM(CLAVEGIR2) AS id, RTRIM(DESC_GIR2) AS name FROM ARTGIRO2 
+          WHERE CLAVEGIR = '${categorie.category_id}'`
+        );
+        // console.log("sub: ", sub.data[0]);
+        // console.log("====================================");
+        // console.log(categorie);
+        // console.log("====================================");
+        // console.log("====================================");
+        categorie.subCategorie = sub.data[0];
+        console.log(categorie);
+        resultMenu.push(categorie);
+      });
+    }
+
+    if (resultMenu.length > 0) {
+      console.log("-----------------------------");
+      console.log("resultMenu: ", resultMenu);
+    }
+
+    if (result) {
       res.status(200).json({
         name: "Main Categories",
         method: req.method,
         total: result.data[0].length,
         data: result.data[0],
       });
+    }
   }, 1000);
 }

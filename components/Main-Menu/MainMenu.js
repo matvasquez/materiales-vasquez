@@ -29,6 +29,21 @@ const MainMenu = ({ isOpen, handleOpen }) => {
     setapartments(data);
   }, []);
 
+  console.log(apartments);
+  useEffect(() => {
+    if (apartments.length > 0) {
+      apartments.forEach(async (categorie) => {
+        console.log(categorie.category_id);
+        const response = await fetch(
+          `/api/categories/sub-categories/${categorie.category_id}`
+        );
+        const { data } = await response.json();
+        categorie.category_id;
+        console.log(data);
+      });
+    }
+  }, []);
+
   return (
     <NavStyled open={isOpen}>
       <CloseButton
@@ -45,7 +60,7 @@ const MainMenu = ({ isOpen, handleOpen }) => {
         </LiStyled>
         {apartments &&
           apartments.map((menuItem) => (
-            <LiStyled key={menuItem.name} onClick={() => handleOpen()}>
+            <LiStyled key={menuItem.category_id} onClick={() => handleOpen()}>
               <Link
                 href={`/categoria/${menuItem.name.replace(/ /gi, "-")}`}
                 passHref
