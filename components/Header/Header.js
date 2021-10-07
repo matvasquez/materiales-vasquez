@@ -80,7 +80,6 @@ const Header = ({ carIsOpen, itemsIliked }) => {
   };
 
   const disableScroll = () => {
-    console.log("disableScroll");
     let x = window.scrollX;
     let y = window.scrollY;
     window.onscroll = function () {

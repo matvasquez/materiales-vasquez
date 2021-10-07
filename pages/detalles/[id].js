@@ -47,9 +47,8 @@ import {
 export const getServerSideProps = async ({ params }) => {
   console.log("params: ", params);
   // Solicita los datos del articulo principal
-  // `${process.env.NEXT_PUBLIC_URL}/api/detalles/${params.id}`
   const responseDetails = await fetch(
-    `http://localhost:3000/api/detalles/${params.id}`
+    `${process.env.NEXT_PUBLIC_URL}/api/detalles/${params.id}`
   );
   const { data: product } = await responseDetails.json();
   console.log("product: ", product[0]);
