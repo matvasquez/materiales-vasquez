@@ -19,7 +19,6 @@ export const SectionStyled = styled.section`
     height: fit-content;
     justify-content: center;
     align-items: center;
-    border-radius: 1.5rem;
     z-index: 200;
     overflow: hidden;
   }
@@ -65,28 +64,88 @@ export const CloseButton = styled.div`
 
 export const InputPriceContainer = styled.div`
   width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 1rem;
-  justify-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
+
+  position: relative;
   color: var(--blue);
   ::placeholder {
     color: var(--blue);
   }
 `;
 
-export const InputPrice = styled.input`
+export const InputRangePrice = styled.input`
+  grid-column: 1 / span 2;
   width: 100%;
-  padding: 0.5rem;
-  border-radius: 1rem;
-  background: transparent;
-  border: 0.1rem solid var(--blue);
-  outline: none;
-  @media (min-width: 750px) {
-    width: 80%;
-    margin: 0 auto;
+
+  -webkit-appearance: none;
+  &:focus {
+    outline: none;
   }
+  &::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 1px;
+    cursor: pointer;
+    box-shadow: none;
+    background: var(--blue);
+    border-radius: 0px;
+    border: 0px solid var(--blue);
+  }
+  &::-moz-range-track {
+    width: 100%;
+    height: 1px;
+    cursor: pointer;
+    box-shadow: none;
+    background: var(--blue);
+    border-radius: 0px;
+    border: 0px solid var(--blue);
+  }
+
+  &::-webkit-slider-thumb {
+    box-shadow: none;
+    border: 0px solid var(--blue);
+    box-shadow: 0px 10px 10px rgb(0 20 76 / 25%);
+    height: 42px;
+    width: 22px;
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 1);
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -20px;
+  }
+  &::-moz-range-thumb {
+    box-shadow: none;
+    border: 0px solid var(--blue);
+    box-shadow: 0px 10px 10px rgb(0 20 76 / 25%);
+    height: 42px;
+    width: 22px;
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 1);
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -20px;
+  }
+  &::-moz-focus-outer {
+    border: 0;
+  }
+`;
+
+export const BoxMinmax = styled.div`
+  width: 11rem;
+  padding: 1rem;
+  margin-bottom: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 0.2rem solid var(--blue);
+  border-radius: 2rem;
+`;
+
+export const InputPrice = styled.p`
+  font-size: 1.6rem;
+  font-weight: 500;
 `;
 
 export const FilterSection = styled.section`
@@ -201,47 +260,67 @@ export const CategoriesScroll = styled.div`
     grid-template-columns: 1fr;
     justify-items: start;
     position: relative;
-    &:after {
-      content: "\\21E9";
-      position: absolute;
-      bottom: 1rem;
-      right: 1rem;
-      font-size: 1.4rem;
-      color: var(--blue);
-      line-height: 1.4rem;
-      text-align: center;
-    }
   }
 `;
 
 export const CategoriesContainer = styled.ul`
   width: 100%;
-  display: grid;
-  grid-template-columns: repeat(
-    ${(props) => props.columns && props.columns},
-    min-content
-  );
-  grid-gap: 1rem;
-  justify-items: center;
-  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
   @media (min-width: 1200px) {
-    height: 30rem;
     overflow-x: hidden;
     overflow-y: scroll;
-    grid-template-columns: 1fr;
-    justify-items: start;
   }
 `;
 
 export const CategoriesList = styled.li`
+  width: 100%;
   padding: 0.4rem 0.6rem;
-  background-color: var(--blue);
+  margin: 0.5rem 0;
+  border: 0.1rem solid var(--blue);
   border-radius: 0.5rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  transition: 0.3s ease-in-out all;
+  &:hover {
+    border: 0.1rem solid var(--blue);
+    background-color: rgb(0 20 76 / 25%);
+  }
 `;
 
-export const CategoriesAnchor = styled.a`
+export const CheckInput = styled.div`
+  height: 1.6rem;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 0.2rem solid var(--blue);
+  transition: 0.3s ease-in-out all;
+  ${(props) =>
+    props.show
+      ? `
+      width: 1.1rem;
+      border-top: none;
+      border-left: none;
+      transform: rotate(32deg);
+      border-radius: 0 0 0.3rem 0;
+      `
+      : `
+      width: 1.6rem;
+      border-radius: 50%;      
+      `}
+`;
+
+export const CategoriesName = styled.a`
+  width: 100%;
+  margin-left: 1rem;
   white-space: nowrap;
-  color: var(--background);
+  color: var(--blue);
+  cursor: pointer;
 `;
 
 export const ApplyFiltersButton = styled.button`
@@ -271,6 +350,7 @@ export const ApplyFiltersButton = styled.button`
   @media (min-width: 1200px) {
     width: 100%;
     margin: 0;
+    grid-column: ${(props) => (props.search ? `1 / span 2` : `2 / span 1`)};
   }
 `;
 
@@ -303,12 +383,10 @@ export const CleanFilters = styled.button`
 `;
 
 export const LookingFor = styled.div`
-  width: 6rem;
-  height: 6rem;
+  width: 2rem;
+  height: 2rem;
+  margin: 0 auto;
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
-  bottom: 20%;
-  left: calc(50% - 2rem);
 `;

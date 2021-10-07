@@ -54,18 +54,19 @@ const Store = (props) => {
     setItemsLoaded([]);
   };
 
-  const applyFilters = async (minPrice, maxPrice, selectedBrands) => {
+  const applyFilters = async (maxPrice, selectCategories, selectedBrands) => {
     setSeeking(true);
+
     const brandsQuery = selectedBrands.map((brand) => `'${brand}'`);
+    let queryUrl = `${
+      process.env.NEXT_PUBLIC_URL
+    }/api/filters/(${brandsQuery.toString()})?categorie=${selectCategories}&first=0&last=${
+      maxPrice.replace(/e/gi, "") || 100000
+    }`;
 
-    const response = await fetch(
-      `${
-        process.env.NEXT_PUBLIC_URL
-      }/api/filters/(${brandsQuery.toString()})?categorie=todas&first=${
-        minPrice.replace(/e/gi, "") || 0
-      }&last=${maxPrice.replace(/e/gi, "") || 100000}`
-    );
+    console.log(queryUrl);
 
+    const response = await fetch(queryUrl);
     const { data } = await response.json();
 
     if (data) {
@@ -127,7 +128,7 @@ const Store = (props) => {
       <main className={styles.MainStyle}>
         <Filter
           brands={brands}
-          categories={categories}
+          // categories={categories}
           isOpen={openFilters}
           handleOpenFilters={handleOpenFilters}
           applyFilters={applyFilters}

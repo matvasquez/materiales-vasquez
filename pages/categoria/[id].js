@@ -20,18 +20,29 @@ import {
 export async function getServerSideProps({ params }) {
   console.log("params.id: ", params.id);
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/${params.id}?first=1&last=20`
+    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/${params.id.replace(
+      / /gi,
+      "-"
+    )}?first=1&last=20`
   );
   const { data: products } = await response.json();
 
+  const responseSubcategories = await fetch(
+    `${
+      process.env.NEXT_PUBLIC_URL
+    }/api/categories/by-section/${params.id.replace(/ /gi, "-")}`
+  );
+  const { data: subCategories } = await responseSubcategories.json();
+
   const responseBrands = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/brands/${params.id}`
+    `${process.env.NEXT_PUBLIC_URL}/api/brands/${params.id.replace(/ /gi, "-")}`
   );
   const { brands } = await responseBrands.json();
 
   return {
     props: {
       products,
+      subCategories,
       brands,
 
       title: `${params.id.replace(/-/gi, " ")}`,
@@ -42,6 +53,7 @@ export async function getServerSideProps({ params }) {
 const Categories = (props) => {
   const {
     products = [],
+    subCategories = [],
     brands = [],
 
     title,
@@ -64,22 +76,18 @@ const Categories = (props) => {
     setItemsLoaded(products);
   }, [products]);
 
-  const applyFilters = async (minPrice, maxPrice, selectedBrands) => {
+  const applyFilters = async (maxPrice, selectCategories, selectedBrands) => {
     setSeeking(true);
-    const brandsQuery = selectedBrands.map((brand) => `'${brand}'`);
 
-    const response = await fetch(
-      `${
-        process.env.NEXT_PUBLIC_URL
-      }/api/filters/(${brandsQuery.toString()})?categorie=${title.replace(
-        / /gi,
-        "-"
-      )}&first=${minPrice.replace(/e/gi, "") || 0}&last=${
-        maxPrice.replace(/e/gi, "") || 100000
-      }`
-    );
+    const brandsQuery = selectedBrands.map((brand) => `'${brand}'`);
+    let queryUrl = `${
+      process.env.NEXT_PUBLIC_URL
+    }/api/filters/(${brandsQuery.toString()})?categorie=${
+      selectCategories || "todas"
+    }&first=0&last=${maxPrice.replace(/e/gi, "") || 100000}`;
+
+    const response = await fetch(queryUrl);
     const { data } = await response.json();
-    console.log("data: ", data);
 
     if (data) {
       setResetItemsLoaded();
@@ -139,6 +147,7 @@ const Categories = (props) => {
 
       <main className={styles.MainStyle}>
         <Filter
+          categories={subCategories}
           brands={brands}
           isOpen={openFilters}
           handleOpenFilters={handleOpenFilters}

@@ -1,5 +1,5 @@
 import Cors from "cors";
-import initMiddleware from "../../../lib/init-middleware";
+import initMiddleware from "../../../../lib/init-middleware";
 
 const cors = initMiddleware(
   Cors({
@@ -14,8 +14,7 @@ const rest = new (require("rest-mssql-nodejs"))({
   database: process.env.NEXT_PUBLIC_DATABASE,
 });
 
-export default async function getBrands(req, res) {
-  // http://localhost:3000/api/brands/ELECTRICO
+export default async function getSubCategoriesBySection(req, res) {
   // Run cors
   await cors(req, res);
   if (req.method !== "GET") {
@@ -24,28 +23,20 @@ export default async function getBrands(req, res) {
       .json({ message: "Lo sentimos, sólo aceptamos solicitudes GET" });
   }
   setTimeout(async () => {
-    const query = req.query.id
-      .replace(/-/g, " ")
-      .replace(/space/g, " ")
-      .replace(/slash/gi, "/")
-      .replace(/'/gi, "''");
-
     const result = await rest.executeQuery(
-      `SELECT DISTINCT RTRIM(m.DESC_MARCA) AS marca
-      FROM MARCAS AS m
-      LEFT OUTER JOIN ARTICULO AS a
-          ON m.CVE_MARCA = a.CVE_MARCA
-      LEFT OUTER JOIN ARTGIRO AS g
-          ON a.CLAVEGIR = g.CLAVEGIR
-      WHERE g.DESGIR = '${query}' AND a.HABVTAS = '';`
+      `SELECT RTRIM(sc.DESC_GIR2) AS sub_category, RTRIM(sc.CLAVEGIR2) AS id_sub
+      FROM ARTGIRO AS c
+      LEFT OUTER JOIN ARTGIRO2 AS sc
+          ON c.CLAVEGIR = sc.CLAVEGIR
+      WHERE c.DESGIR = '${req.query.id.replace(/-/gi, " ")}'`
     );
 
     result &&
       res.status(200).json({
-        name: "All Brands in a Category",
+        name: "Main Categories",
         method: req.method,
         total: result.data[0].length,
-        brands: result.data[0],
+        data: result.data[0],
       });
   }, 1000);
 }
