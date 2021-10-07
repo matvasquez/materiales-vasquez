@@ -24,11 +24,12 @@ export default async function getDetailsProduct(req, res) {
       .json({ message: "Lo sentimos, sólo aceptamos solicitudes GET" });
   }
   const query = req.query.id.replace(/space/g, " ").replace(/slash/gi, "/");
+  console.log("query: ", query);
 
   setTimeout(async () => {
     const result = await rest.executeQuery(`SELECT *
     FROM (
-        SELECT ROW_NUMBER () OVER(ORDER BY a.FECHA_ALTA DESC) AS row_id, RTRIM(a.CLAVEART) AS articulo_id, RTRIM(a.DESC_BREVE) AS name, RTRIM(a.DESCRIBEAR) AS description, l.PREC_IVA1 AS price, RTRIM(m.DESC_MARCA) AS marca, RTRIM(c.DESCRIBECO) AS category, RTRIM(g.DESGIR) AS main_category, cast('' as xml).value(
+        SELECT ROW_NUMBER () OVER(ORDER BY a.FECHA_ALTA DESC) AS row_id, RTRIM(a.CLAVEART) AS articulo_id, RTRIM(a.DESC_BREVE) AS name, RTRIM(a.DESCRIBEAR) AS description, l.PREC_IVA1 AS price, RTRIM(g.DESGIR) AS category, RTRIM(g2.DESC_GIR2) AS main_category, cast('' as xml).value(
         'xs:base64Binary(sql:column("i.IMAGEN"))', 'varchar(max)'
     ) AS image_url
     FROM ARTICULO AS a
@@ -36,18 +37,18 @@ export default async function getDetailsProduct(req, res) {
         ON a.CLAVEART = l.CLAVEART
     LEFT OUTER JOIN ARTGIRO AS g
         ON a.CLAVEGIR = g.CLAVEGIR
+    LEFT OUTER JOIN ARTGIRO2 AS g2
+        ON a.CLAVEGIR2 = g2.CLAVEGIR2
     LEFT OUTER JOIN CAT_CLAS AS c
         ON a.CVE_CLAS = c.CVE_CLAS
     LEFT OUTER JOIN IMAGENES AS i
         ON a.CLAVEART = i.CAMPO1
     LEFT OUTER JOIN ART_ALM AS s
         ON a.CLAVEART = s.CLAVEART
-    LEFT OUTER JOIN MARCAS AS m
-        ON a.CVE_MARCA = m.CVE_MARCA
-    WHERE a.HABVTAS = '' AND l.NO_LISTAP = '001' AND i.IMAGEN Is NOT NULL AND s.CVEALM IN ('0020','0007','0018','0014','0015','0002','0008','0023','0017','0028','0027')
-    GROUP BY a.CLAVEART, a.DESC_BREVE, a.DESCRIBEAR, l.PREC_IVA1, m.DESC_MARCA, a.CVE_CLAS, c.DESCRIBECO, a.CLAVEGIR, g.DESGIR, i.IMAGEN, a.FECHA_ALTA
-  ) AS articles_with_row_nums
-  WHERE articulo_id = '${query}';`);
+    WHERE AND a.HABVTAS = '' l.NO_LISTAP = '001' AND i.IMAGEN Is NOT NULL AND s.CVEALM IN ('0020','0007','0018','0014','0015','0002','0008','0023','0017','0028','0027')
+    GROUP BY a.CLAVEART, a.DESC_BREVE, a.DESCRIBEAR, l.PREC_IVA1, a.CVE_CLAS, g.DESGIR, a.CLAVEGIR, g2.DESC_GIR2, i.IMAGEN, a.FECHA_ALTA
+    ) AS articles_with_row_nums
+    WHERE articulo_id = '${query}'`);
 
     result &&
       res.status(200).json({

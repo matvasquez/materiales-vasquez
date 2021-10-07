@@ -25,8 +25,6 @@ export default async function getProductsByCategorie(req, res) {
       .json({ message: "Lo sentimos, sólo aceptamos solicitudes GET" });
   }
 
-  console.log("req.query: ", req.query);
-
   setTimeout(async () => {
     const result = await rest.executeQuery(
       `SELECT *

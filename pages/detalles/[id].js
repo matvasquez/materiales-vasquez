@@ -45,12 +45,14 @@ import {
 } from "../../styles/detalles/style";
 
 export const getServerSideProps = async ({ params }) => {
+  console.log("params: ", params);
   // Solicita los datos del articulo principal
+  // `${process.env.NEXT_PUBLIC_URL}/api/detalles/${params.id}`
   const responseDetails = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/detalles/${params.id}`
+    `http://localhost:3000/api/detalles/${params.id}`
   );
   const { data: product } = await responseDetails.json();
-
+  console.log("product: ", product[0]);
   // Solicita articulos relacionados por nombre
   const responseRelatedByName = await fetch(
     `${process.env.NEXT_PUBLIC_URL}/api/related-by-name/${product[0].name
@@ -93,6 +95,8 @@ const ProductPage = (props) => {
     setIitemsIliked,
     setDeleteFavorite,
   } = props;
+
+  console.log("product: ", product);
 
   // Hook que verifica si el producto esta entre los favoritos
   const [yesItIsMineLike] = useMyItems(product.articulo_id, itemsIliked);
@@ -207,10 +211,24 @@ const ProductPage = (props) => {
               )}
             </Paragraph>
             <Categories>
-              Categoría
-              <Link href={`/categoria/${product.category}`} passHref>
+              Categorías
+              <Link
+                href={`/categoria/${product.category.replace(/ /gi, "-")}`}
+                passHref
+              >
                 <Category>{product.category}</Category>
-              </Link>
+              </Link>{" "}
+              {product.main_category && (
+                <Link
+                  href={`/categoria/${product.category.replace(
+                    / /gi,
+                    "-"
+                  )}/${product.main_category.replace(/ /gi, "-")}`}
+                  passHref
+                >
+                  <Category>{product.main_category}</Category>
+                </Link>
+              )}
             </Categories>
             <Sku>
               SKU: <Span>{product.articulo_id}</Span>

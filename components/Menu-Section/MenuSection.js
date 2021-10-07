@@ -5,6 +5,8 @@ import fetch from "isomorphic-unfetch";
 // Styled Components
 import {
   SubCategorieContainer,
+  Circle,
+  CircleBottom,
   LiStyled,
   AnchorStyled,
   SubAnchorStyled,
@@ -27,18 +29,37 @@ const MenuSection = ({ name, category_id, handleOpen }) => {
   }, []);
 
   return (
-    <LiStyled key={category_id} onClick={() => handleOpen()}>
-      <Link href={`/categoria/${name.replace(/ /gi, "-")}`} passHref>
+    <LiStyled
+      key={category_id}
+      onClick={
+        window.innerWidth <= 770
+          ? () =>
+              subCategories.length > 0 ? console.log("Click") : handleOpen()
+          : () => handleOpen()
+      }
+    >
+      <Link
+        href={
+          window.innerWidth <= 770
+            ? subCategories.length > 0
+              ? `#`
+              : `/categoria/${name.replace(/ /gi, "-")}`
+            : `/categoria/${name.replace(/ /gi, "-")}`
+        }
+        passHref
+      >
         <AnchorStyled>
           {name}
           {subCategories.length > 0 && <Arrow />}
         </AnchorStyled>
       </Link>
-      <LineLink />
+      {subCategories.length === 0 && <LineLink />}
       {subCategories.length > 0 && (
         <SubCategorieContainer>
+          <Circle />
+          <CircleBottom />
           {subCategories.map((sub) => (
-            <SubLiStyled key={sub.id}>
+            <SubLiStyled key={sub.id} onClick={() => handleOpen()}>
               <Link
                 href={`/categoria/${name.replace(
                   / /gi,

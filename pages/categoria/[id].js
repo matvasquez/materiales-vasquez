@@ -19,9 +19,8 @@ import {
 
 export async function getServerSideProps({ params }) {
   console.log("params.id: ", params.id);
-  // `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/${params.id}?first=1&last=20`
   const response = await fetch(
-    `http://localhost:3000/api/related-by-category/${params.id}?first=1&last=20`
+    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/${params.id}?first=1&last=20`
   );
   const { data: products } = await response.json();
 

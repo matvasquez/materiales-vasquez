@@ -77,18 +77,25 @@ export const CloseButton = styled.button`
 export const UlStyled = styled.ul`
   width: 90%;
   height: 90%;
-  display: grid;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  /* display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: ${(props) => props.rows && `repeat(${props.rows}, 1fr)`};
   justify-content: stretch;
-  align-content: start;
+  align-content: start; */
   @media (min-width: 750px) {
     width: 50%;
     height: 100%;
     padding: 1rem;
-    grid-template-rows: ${(props) =>
+    /* grid-template-rows: ${(props) =>
       props.rows && `repeat(${props.rows - 1}, 1fr)`};
-    grid-gap: 0.5rem;
+    grid-gap: 0.5rem; */
+    justify-content: space-between;
     background-color: var(--background);
     border-radius: 2rem;
   }
@@ -96,7 +103,7 @@ export const UlStyled = styled.ul`
     width: 100%;
     height: fit-content;
     padding: 0 1rem;
-    display: flex;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
     background-color: var(--blue);
@@ -118,7 +125,7 @@ export const LineLink = styled.div`
 `;
 
 export const LiStyled = styled.li`
-  margin: 0.2rem 0;
+  margin: 0.4rem 0;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -158,12 +165,15 @@ export const AnchorStyled = styled.a`
   }
 `;
 
-export const SocialIconsConatiner = styled.li`
-  width: 80%;
+export const SocialIconsConatiner = styled.div`
+  width: 60%;
   margin: 1rem auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: absolute;
+  bottom: 4rem;
+
   @media (min-width: 750px) {
     width: fit-content;
     height: 30rem;
