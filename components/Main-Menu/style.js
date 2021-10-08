@@ -26,6 +26,7 @@ export const NavStyled = styled.nav`
   @media (min-width: 1200px) {
     width: 95vw;
     height: fit-content;
+    min-height: 1rem;
     padding: 0;
     justify-content: center;
     align-items: center;
@@ -95,6 +96,7 @@ export const UlStyled = styled.ul`
   @media (min-width: 1200px) {
     width: 100%;
     height: fit-content;
+    min-height: 1rem;
     padding: 0 1rem;
     flex-direction: row;
     justify-content: space-between;
