@@ -20,7 +20,7 @@ import {
 export async function getServerSideProps({ params }) {
   console.log("params.id: ", params.id);
   const response = await fetch(
-    `http://localhost:3000/api/related-by-category/${params.id.replace(
+    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/${params.id.replace(
       / /gi,
       "-"
     )}?first=1&last=20`
@@ -28,15 +28,14 @@ export async function getServerSideProps({ params }) {
   const { data: products } = await response.json();
 
   const responseSubcategories = await fetch(
-    `http://localhost:3000/api/categories/by-section/${params.id.replace(
-      / /gi,
-      "-"
-    )}`
+    `${
+      process.env.NEXT_PUBLIC_URL
+    }/api/categories/by-section/${params.id.replace(/ /gi, "-")}`
   );
   const { data: subCategories } = await responseSubcategories.json();
 
   const responseBrands = await fetch(
-    `http://localhost:3000/api/brands/${params.id.replace(/ /gi, "-")}`
+    `${process.env.NEXT_PUBLIC_URL}/api/brands/${params.id.replace(/ /gi, "-")}`
   );
   const { brands } = await responseBrands.json();
 
