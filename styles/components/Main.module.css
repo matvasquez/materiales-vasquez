@@ -37,7 +37,7 @@
 @media (min-width: 1200px) {
   .MainStyle {
     padding: 2rem 1rem;
-    margin-top: 19rem;
+    margin-top: 12rem;
     display: grid;
     grid-template-columns: 1fr 4fr;
     grid-gap: 1rem;
@@ -47,7 +47,7 @@
 
   .MainHome {
     padding: 2rem 1rem;
-    margin-top: 19rem;
+    margin-top: 12rem;
   }
 
   .ItemsIlikedSection {
