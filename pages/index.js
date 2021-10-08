@@ -66,6 +66,14 @@ const HomePage = (props) => {
       : setThereAreItemsThatIlike(false);
   }, [itemsIliked]);
 
+  console.log(`${process.env.NEXT_PUBLIC_URL}/api/new-products`);
+  console.log(
+    `${process.env.NEXT_PUBLIC_URL}/api/products-by-name/${first_section}?first=1&last=8`
+  );
+  console.log(
+    `${process.env.NEXT_PUBLIC_URL}/api/products-by-price/${second_section}?first=1&last=8`
+  );
+
   return (
     <>
       <NextSeo

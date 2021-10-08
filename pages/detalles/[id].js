@@ -45,13 +45,11 @@ import {
 } from "../../styles/detalles/style";
 
 export const getServerSideProps = async ({ params }) => {
-  console.log("params: ", params);
   // Solicita los datos del articulo principal
   const responseDetails = await fetch(
     `${process.env.NEXT_PUBLIC_URL}/api/detalles/${params.id}`
   );
   const { data: product } = await responseDetails.json();
-  console.log("product: ", product[0]);
   // Solicita articulos relacionados por nombre
   const responseRelatedByName = await fetch(
     `${process.env.NEXT_PUBLIC_URL}/api/related-by-name/${product[0].name
