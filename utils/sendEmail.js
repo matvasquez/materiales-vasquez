@@ -20,7 +20,6 @@ const main = async (body) => {
 
 export const sendEmail = (order) => {
   const message = order;
-  console.log("message: ", message);
   const bodyOfMessageToClient = {
     receiver: message.shippingEmail,
     subject: "Recibo de compra desde Materiales Vasquez Hermanos",

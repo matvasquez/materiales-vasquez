@@ -20,26 +20,26 @@ export async function getServerSideProps(context) {
   );
   const { brands } = await responseBrands.json();
 
-  const responseCategories = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/categories/all-categories`
-  );
-  const { data: categories } = await responseCategories.json();
+  // const responseCategories = await fetch(
+  //   `${process.env.NEXT_PUBLIC_URL}/api/categories/all-categories`
+  // );
+  // const { data: categories } = await responseCategories.json();
 
   return {
     props: {
       newProducts,
       brands,
-      categories,
     }, // se pasarán al componente de la página como props
   };
 }
 
 const Store = (props) => {
-  const { newProducts, brands, categories } = props;
+  const { newProducts, brands, categories = [] } = props;
 
   const [openFilters, setOpenFilters] = useState(false);
   const [seeking, setSeeking] = useState(false);
   const [routeWithFilters, setRouteWithFilters] = useState(false);
+  const [resultsFilters, setResultsFilters] = useState(false);
   const [itemsLoaded, setItemsLoaded] = useState([]);
 
   const handleOpenFilters = () => {
@@ -60,21 +60,25 @@ const Store = (props) => {
     const brandsQuery = selectedBrands.map((brand) => `'${brand}'`);
     let queryUrl = `${
       process.env.NEXT_PUBLIC_URL
-    }/api/filters/(${brandsQuery.toString()})?categorie=${selectCategories}&first=0&last=${
+    }/api/filters/(${brandsQuery.toString()})?categorie=&first=0&last=${
       maxPrice.replace(/e/gi, "") || 100000
     }`;
-
-    console.log(queryUrl);
 
     const response = await fetch(queryUrl);
     const { data } = await response.json();
 
-    if (data) {
+    if (data.length > 0) {
       setResetItemsLoaded();
       setItemsLoaded(data);
       setSeeking(false);
       handleOpenFilters();
       setRouteWithFilters(true);
+    } else {
+      setSeeking(false);
+      setResultsFilters(true);
+      setTimeout(() => {
+        setResultsFilters(false);
+      }, 2000);
     }
   };
 
@@ -135,12 +139,14 @@ const Store = (props) => {
           seeking={seeking}
           setRouteWithFilters={setRouteWithFilters}
           beforeFiltering={beforeFiltering}
+          resultsFilters={resultsFilters}
         />
         {itemsLoaded.length > 0 && (
           <ArticlesSection
             title="Tienda"
             products={itemsLoaded}
             route={true}
+            showFilters={true}
             routeWithFilters={routeWithFilters}
             handleOpenFilters={handleOpenFilters}
           />

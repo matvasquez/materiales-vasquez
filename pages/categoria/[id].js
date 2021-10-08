@@ -62,6 +62,7 @@ const Categories = (props) => {
   const [openFilters, setOpenFilters] = useState(false);
   const [seeking, setSeeking] = useState(false);
   const [routeWithFilters, setRouteWithFilters] = useState(false);
+  const [resultsFilters, setResultsFilters] = useState(false);
   const [itemsLoaded, setItemsLoaded] = useState([]);
 
   const handleOpenFilters = () => {
@@ -95,6 +96,12 @@ const Categories = (props) => {
       setSeeking(false);
       handleOpenFilters();
       setRouteWithFilters(true);
+    } else {
+      setSeeking(false);
+      setResultsFilters(true);
+      setTimeout(() => {
+        setResultsFilters(false);
+      }, 2000);
     }
   };
 
@@ -155,6 +162,7 @@ const Categories = (props) => {
           seeking={seeking}
           setRouteWithFilters={setRouteWithFilters}
           beforeFiltering={beforeFiltering}
+          resultsFilters={resultsFilters}
         />
         {itemsLoaded.length > 0 ? (
           <ArticlesSection

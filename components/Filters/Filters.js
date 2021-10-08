@@ -39,6 +39,7 @@ const Filter = ({
   seeking,
   setRouteWithFilters,
   beforeFiltering,
+  resultsFilters,
 }) => {
   const [maxPrice, setMaxPrice] = useState("");
   const [selectedBrands, setSelectedBrands] = useState([]);
@@ -92,8 +93,6 @@ const Filter = ({
     <SectionStyled open={isOpen}>
       <CloseButton onClick={() => handleOpenFilters()} />
       <Conatiner>
-        <FilterSection></FilterSection>
-
         {categories && (
           <FilterSection>
             <SectionName>Ver por categoria</SectionName>
@@ -196,13 +195,14 @@ const Filter = ({
               applyFilters(maxPrice, selectCategories, selectedBrands)
             }
             search={seeking}
+            resultsFilters={resultsFilters}
           >
             {seeking ? (
               <LookingFor>
                 <Seeking />
               </LookingFor>
             ) : (
-              "Aplicar filtros"
+              <>{resultsFilters ? "Sin resultados" : "Aplicar filtros"}</>
             )}
           </ApplyFiltersButton>
         </ButtonsContainer>

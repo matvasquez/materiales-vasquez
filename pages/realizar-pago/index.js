@@ -140,7 +140,6 @@ const MakePayment = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoad(true);
-    console.log(myCart);
 
     // console.log("elementArr: ", e.data.elementArr);
     const status = e.data.elementArr.filter(
@@ -216,8 +215,7 @@ const MakePayment = (props) => {
       setPurchasingData(orderFail);
     }
     setTimeout(() => {
-      console.log("setTimeout");
-      // window.location.href = e.data.redirectURL;
+      window.location.href = e.data.redirectURL;
     }, 500);
   };
 

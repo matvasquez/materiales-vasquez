@@ -63,7 +63,8 @@ export const CloseButton = styled.div`
 `;
 
 export const InputPriceContainer = styled.div`
-  width: 100%;
+  width: 95%;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -73,6 +74,9 @@ export const InputPriceContainer = styled.div`
   color: var(--blue);
   ::placeholder {
     color: var(--blue);
+  }
+  @media (min-width: 1200px) {
+    width: 100%;
   }
 `;
 
@@ -327,7 +331,7 @@ export const ApplyFiltersButton = styled.button`
   width: 100%;
   padding: 1rem;
   margin: 1rem auto;
-  color: var(--blue);
+  color: ${(props) => (props.resultsFilters ? `#ff0000` : `var(--blue)`)};
   font-size: 1.6rem;
   font-weight: 700;
   background-color: var(--yellow);
@@ -336,6 +340,7 @@ export const ApplyFiltersButton = styled.button`
   outline: none;
   cursor: pointer;
   transition: 0.3s ease-in-out all;
+  grid-column: ${(props) => (props.search ? `1 / span 2` : `2 / span 1`)};
   :disabled {
     color: #91a7e2;
     background-color: #ffe199;
@@ -350,7 +355,6 @@ export const ApplyFiltersButton = styled.button`
   @media (min-width: 1200px) {
     width: 100%;
     margin: 0;
-    grid-column: ${(props) => (props.search ? `1 / span 2` : `2 / span 1`)};
   }
 `;
 

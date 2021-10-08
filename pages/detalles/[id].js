@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import { connect } from "react-redux";
 import { NextSeo, ProductJsonLd } from "next-seo";
@@ -47,10 +47,11 @@ import {
 export const getServerSideProps = async ({ params }) => {
   // Solicita los datos del articulo principal
   const responseDetails = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/detalles/${params.id}`
+    `https://materialesvasquezhnos.com.mx/api/detalles/${params.id}`
   );
   const { data: product } = await responseDetails.json();
   // Solicita articulos relacionados por nombre
+
   const responseRelatedByName = await fetch(
     `${process.env.NEXT_PUBLIC_URL}/api/related-by-name/${product[0].name
       .split(" ")[0]
@@ -93,8 +94,6 @@ const ProductPage = (props) => {
     setDeleteFavorite,
   } = props;
 
-  console.log("product: ", product);
-
   // Hook que verifica si el producto esta entre los favoritos
   const [yesItIsMineLike] = useMyItems(product.articulo_id, itemsIliked);
   // Hook que verifica si el producto esta en el carrito
@@ -123,6 +122,13 @@ const ProductPage = (props) => {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
+
+  useEffect(async () => {
+    const response = await fetch(`/api/detalles/${product.articulo_id}`);
+    const { data } = await response.json();
+
+    console.log("data: ", data[0]);
+  }, []);
 
   return (
     <>

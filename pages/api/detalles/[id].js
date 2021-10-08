@@ -24,7 +24,6 @@ export default async function getDetailsProduct(req, res) {
       .json({ message: "Lo sentimos, sólo aceptamos solicitudes GET" });
   }
   const query = req.query.id.replace(/space/g, " ").replace(/slash/gi, "/");
-  console.log("query: ", query);
 
   setTimeout(async () => {
     const result = await rest.executeQuery(`SELECT *
@@ -45,7 +44,7 @@ export default async function getDetailsProduct(req, res) {
         ON a.CLAVEART = i.CAMPO1
     LEFT OUTER JOIN ART_ALM AS s
         ON a.CLAVEART = s.CLAVEART
-    WHERE AND a.HABVTAS = '' l.NO_LISTAP = '001' AND i.IMAGEN Is NOT NULL AND s.CVEALM IN ('0020','0007','0018','0014','0015','0002','0008','0023','0017','0028','0027')
+    WHERE a.HABVTAS = '' AND l.NO_LISTAP = '001' AND i.IMAGEN Is NOT NULL AND s.CVEALM IN ('0020','0007','0018','0014','0015','0002','0008','0023','0017','0028','0027')
     GROUP BY a.CLAVEART, a.DESC_BREVE, a.DESCRIBEAR, l.PREC_IVA1, a.CVE_CLAS, g.DESGIR, a.CLAVEGIR, g2.DESC_GIR2, i.IMAGEN, a.FECHA_ALTA
     ) AS articles_with_row_nums
     WHERE articulo_id = '${query}'`);
