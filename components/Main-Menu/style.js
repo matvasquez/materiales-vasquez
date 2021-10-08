@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const NavStyled = styled.nav`
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   padding: 4rem 1rem 2rem;
   display: flex;
   justify-content: center;
@@ -13,7 +13,7 @@ export const NavStyled = styled.nav`
   background-attachment: fixed;
   background-size: cover;
   background-attachment: fixed;
-  position: fixed;
+  position: absolute;
   top: 0;
   left: ${(props) => (props.open ? "0" : "-100%")};
   z-index: 200000;
@@ -24,16 +24,16 @@ export const NavStyled = styled.nav`
     background-color: rgb(0 20 76 / 85%);
   }
   @media (min-width: 1200px) {
-    grid-column: 1 / span 3;
-    grid-row: 2 / span 1;
-    position: initial;
-    width: 100%;
+    width: 95vw;
     height: fit-content;
     padding: 0;
     justify-content: center;
     align-items: center;
-    border-radius: 1.5rem;
-    z-index: 200;
+    border-radius: 1rem;
+    position: fixed;
+    top: 8rem;
+    left: calc(50% - 47.5vw);
+    z-index: 1003;
   }
 `;
 
@@ -83,18 +83,11 @@ export const UlStyled = styled.ul`
   justify-content: flex-start;
   align-items: flex-start;
 
-  /* display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: ${(props) => props.rows && `repeat(${props.rows}, 1fr)`};
-  justify-content: stretch;
-  align-content: start; */
   @media (min-width: 750px) {
     width: 50%;
     height: 100%;
+    min-height: 50vh;
     padding: 1rem;
-    /* grid-template-rows: ${(props) =>
-      props.rows && `repeat(${props.rows - 1}, 1fr)`};
-    grid-gap: 0.5rem; */
     justify-content: space-between;
     background-color: var(--background);
     border-radius: 2rem;
@@ -168,7 +161,7 @@ export const AnchorStyled = styled.a`
 export const SocialIconsConatiner = styled.div`
   width: 60%;
   margin: 1rem auto;
-  display: flex;
+  display: none;
   justify-content: space-between;
   align-items: center;
   position: absolute;
@@ -177,8 +170,9 @@ export const SocialIconsConatiner = styled.div`
   @media (min-width: 750px) {
     width: fit-content;
     height: 30rem;
-    position: absolute;
+    display: flex;
     flex-direction: column;
+    position: absolute;
     right: 20%;
     top: calc(50% - 10rem);
   }
@@ -186,8 +180,8 @@ export const SocialIconsConatiner = styled.div`
     width: 10%;
     height: fit-content;
     flex-direction: row;
-    right: 10%;
-    top: 1rem;
+    right: 7%;
+    top: -6.5rem;
   }
 `;
 

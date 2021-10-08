@@ -9,7 +9,6 @@ export const SubCategorieContainer = styled.ul`
   align-items: center;
   border-left: 0.1rem solid var(--blue);
   border-bottom: 0.1rem solid var(--blue);
-  /* background-color: #ffffff; */
   position: relative;
   border-radius: 0 0 0 1rem;
   transition: 0.3s ease-in-out all;
@@ -83,13 +82,10 @@ export const LiStyled = styled.li`
   height: fit-content;
   margin: 0.4rem 0;
   display: flex;
-  /* justify-content: flex-start;
-  align-items: center; */
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
   border-radius: 0;
-  /* overflow: hidden; */
   position: relative;
   &:hover {
     ${LineLink} {
@@ -97,12 +93,13 @@ export const LiStyled = styled.li`
     }
     ${SubCategorieContainer} {
       visibility: visible;
-      max-height: 10rem;
+      max-height: 70vh;
     }
   }
 
   @media (min-width: 1200px) {
     justify-content: center;
+    align-items: center;
     overflow: visible;
   }
 `;
@@ -152,7 +149,7 @@ export const Arrow = styled.div`
   width: 1rem;
   height: 1rem;
   position: absolute;
-  right: -100%;
+  right: 0;
   bottom: 0.2rem;
   &:after {
     content: "\\21E9";

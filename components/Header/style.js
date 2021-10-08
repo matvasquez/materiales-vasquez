@@ -55,8 +55,8 @@ export const LogoContainer = styled.a`
   @media (min-width: 1200px) {
     grid-column: 1 / span 1;
     grid-row: 1 / span 1;
-    width: 8rem;
-    height: 8rem;
+    width: 7rem;
+    height: 7rem;
     margin-right: 25%;
     ${(props) =>
       props.withScroll &&

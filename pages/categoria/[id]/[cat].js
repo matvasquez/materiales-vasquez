@@ -19,12 +19,19 @@ import {
 
 export async function getServerSideProps({ params }) {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/${params.cat}?first=1&last=20`
+    `${
+      process.env.NEXT_PUBLIC_URL
+    }/api/related-by-subcategory/${params.cat.replace(
+      /-/gi,
+      " "
+    )}?first=1&last=20`
   );
   const { data: products } = await response.json();
 
   const responseBrands = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/brands/${params.cat}`
+    `${
+      process.env.NEXT_PUBLIC_URL
+    }/api/brands-sub-categories/${params.cat.replace(/-/gi, " ")}`
   );
   const { brands } = await responseBrands.json();
 
@@ -33,7 +40,7 @@ export async function getServerSideProps({ params }) {
       products,
       brands,
 
-      title: `${params.id.replace(/-/gi, " ")}`,
+      title: `${params.cat.replace(/-/gi, " ")}`,
     }, // se pasarán al componente de la página como props
   };
 }

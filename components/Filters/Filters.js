@@ -40,8 +40,6 @@ const Filter = ({
   setRouteWithFilters,
   beforeFiltering,
 }) => {
-  // const [isOpen, setIsOpen] = useState(false);
-
   const [maxPrice, setMaxPrice] = useState("");
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [selectCategories, setSelectCategories] = useState([]);

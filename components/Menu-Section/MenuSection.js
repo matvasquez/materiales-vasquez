@@ -48,11 +48,9 @@ const MenuSection = ({ name, category_id, handleOpen }) => {
         }
         passHref
       >
-        <AnchorStyled>
-          {name}
-          {subCategories.length > 0 && <Arrow />}
-        </AnchorStyled>
+        <AnchorStyled>{name}</AnchorStyled>
       </Link>
+      {/* {subCategories.length > 0 && <Arrow />} */}
       {subCategories.length === 0 && <LineLink />}
       {subCategories.length > 0 && (
         <SubCategorieContainer>
