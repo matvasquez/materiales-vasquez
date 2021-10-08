@@ -19,11 +19,11 @@ import {
 
 export async function getServerSideProps({ params }) {
   console.log("params.id: ", params.id);
+
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/${params.id.replace(
-      / /gi,
-      "-"
-    )}?first=1&last=20`
+    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/${params.id
+      .replace(/ /gi, "-")
+      .replace(/Ñ/gi, "enne")}?first=1&last=20`
   );
   const { data: products } = await response.json();
 
@@ -113,23 +113,23 @@ const Categories = (props) => {
     setOpenFilters(false);
   };
 
-  useEffect(async () => {
-    const response = await fetch(
-      `/api/related-by-category/BAÑOS?first=1&last=20`
-    );
-    const { data: products } = await response.json();
-    console.log("products: ", products);
+  // useEffect(async () => {
+  //   const response = await fetch(
+  //     `/api/related-by-category/BAÑOS?first=1&last=20`
+  //   );
+  //   const { data: products } = await response.json();
+  //   console.log("products: ", products);
 
-    const responseSubcategories = await fetch(
-      `/api/categories/by-section/BAÑOS`
-    );
-    const { data: subCategories } = await responseSubcategories.json();
-    console.log("subCategories: ", subCategories);
+  //   const responseSubcategories = await fetch(
+  //     `/api/categories/by-section/BAÑOS`
+  //   );
+  //   const { data: subCategories } = await responseSubcategories.json();
+  //   console.log("subCategories: ", subCategories);
 
-    const responseBrands = await fetch(`/api/brands/BAÑOS`);
-    const { brands } = await responseBrands.json();
-    console.log("brands: ", brands);
-  }, []);
+  //   const responseBrands = await fetch(`/api/brands/BAÑOS`);
+  //   const { brands } = await responseBrands.json();
+  //   console.log("brands: ", brands);
+  // }, []);
 
   return (
     <>

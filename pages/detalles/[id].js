@@ -137,7 +137,6 @@ const ProductPage = (props) => {
 
   useEffect(() => {
     if (window) {
-      console.log(window.location);
       setCurrentUrl(window.location);
     }
   }, []);

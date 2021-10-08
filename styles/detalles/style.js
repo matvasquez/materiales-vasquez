@@ -295,7 +295,6 @@ export const PreviewItemContainer = styled.div`
 export const LinkIcon = styled.a`
   width: 100%;
   height: 4rem;
-  padding: 0.5rem;
   padding: 0.3rem;
   margin-top: 2rem;
   display: flex;
@@ -304,37 +303,28 @@ export const LinkIcon = styled.a`
   font-size: 1.4rem;
   font-weight: 500;
   color: var(--blue);
-  background: ${(props) => (props.bg ? `${props.bg}` : "var(--yellow)")};
+  background: #25d366;
   border-radius: 1.5rem;
   cursor: pointer;
   transition: 0.3s ease-in-out all;
+  border: 0.1rem solid #25d366;
   svg {
     transition: 0.3s ease-in-out all;
     fill: var(--blue);
   }
   @media (min-width: 750px) {
-    width: 3.5rem;
-    height: 3.5rem;
-    background: transparent;
-    svg {
-      fill: var(--blue);
-    }
-    &:hover {
-      background: ${(props) => (props.bg ? `${props.bg}` : "var(--blue)")};
-      svg {
-      }
-    }
+    width: 35%;
+    margin-left: auto;
   }
   @media (min-width: 1200px) {
-    background: transparent;
+    width: fit-content;
+    padding: 0.3rem 1.5rem;
     svg {
-      fill: var(--blue);
+      margin-right: 1rem;
     }
     &:hover {
-      background: ${(props) => (props.bg ? `${props.bg}` : "var(--blue)")};
-      svg {
-        fill: var(--background);
-      }
+      background: var(--background);
+      border: 0.1rem solid var(--blue);
     }
   }
 `;
