@@ -22,6 +22,7 @@ export default async function getSubCategoriesBySection(req, res) {
       .status(500)
       .json({ message: "Lo sentimos, sólo aceptamos solicitudes GET" });
   }
+
   setTimeout(async () => {
     const result = await rest.executeQuery(
       `SELECT RTRIM(sc.DESC_GIR2) AS sub_category, RTRIM(sc.CLAVEGIR2) AS id_sub

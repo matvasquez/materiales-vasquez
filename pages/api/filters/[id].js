@@ -24,8 +24,6 @@ export default async function getDetailsProduct(req, res) {
       .json({ message: "Lo sentimos, sólo aceptamos solicitudes GET" });
   }
 
-  console.log("req.query::::::::::::::::::::::::::: ", req.query);
-
   const queryFilter = `SELECT *
   FROM (
       SELECT ROW_NUMBER () OVER(ORDER BY a.FECHA_ALTA DESC) AS row_id, RTRIM(a.CLAVEART) AS articulo_id, RTRIM(a.DESC_BREVE) AS name, RTRIM(a.DESCRIBEAR) AS description, l.PREC_IVA1 AS price, RTRIM(g.DESGIR) AS category, RTRIM(g2.DESC_GIR2) AS main_category, cast('' as xml).value(
@@ -48,25 +46,22 @@ export default async function getDetailsProduct(req, res) {
     req.query.categorie === ""
       ? `(SELECT RTRIM(DESC_GIR2) AS name FROM ARTGIRO2)`
       : `('${req.query.categorie.replace(/-/gi, " ")}')`
-  } AND m.DESC_MARCA IN ${
+  } AND ${
     req.query.id == "()"
-      ? `(SELECT DISTINCT RTRIM(m.DESC_MARCA) AS marca, m.DESC_MARCA
+      ? `EXISTS (SELECT DISTINCT RTRIM(m.DESC_MARCA) AS marca, m.DESC_MARCA
       FROM MARCAS AS m
       LEFT OUTER JOIN ARTICULO AS a
           ON m.CVE_MARCA = a.CVE_MARCA
       LEFT OUTER JOIN CAT_CLAS AS c
           ON a.CVE_CLAS = c.CVE_CLAS
-      WHERE a.HABVTAS = ''
-      ORDER BY m.DESC_MARCA ASC)`
-      : `${req.query.id}`
+      WHERE a.HABVTAS = '')`
+      : `m.DESC_MARCA IN ${req.query.id}`
   } AND l.PREC_IVA1 BETWEEN ${req.query.first || 0} AND ${
     req.query.last || 100000
-  } AND l.NO_LISTAP = '001' AND i.IMAGEN Is NOT NULL AND s.CVEALM IN ('0020','0007','0018','0014','0015','0002','0008','0023','0017','0028','0027')
+  } AND l.NO_LISTAP = '001' AND i.IMAGEN IS NOT NULL AND s.CVEALM IN ('0020','0007','0018','0014','0015','0002','0008','0023','0017','0028','0027')
   GROUP BY a.CLAVEART, a.DESC_BREVE, a.DESCRIBEAR, l.PREC_IVA1, m.DESC_MARCA, g2.DESC_GIR2, a.CLAVEGIR, g.DESGIR, i.IMAGEN, a.FECHA_ALTA
 ) AS articles_with_row_nums
 WHERE row_id BETWEEN 1 AND 20;`;
-
-  console.log("queryFilter: ", queryFilter);
 
   setTimeout(async () => {
     const result = await rest.executeQuery(queryFilter);

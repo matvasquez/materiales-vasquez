@@ -20,7 +20,7 @@ import {
 export async function getServerSideProps({ params }) {
   console.log("params.id: ", params.id);
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/${params.id.replace(
+    `http://localhost:3000/api/related-by-category/${params.id.replace(
       / /gi,
       "-"
     )}?first=1&last=20`
@@ -28,14 +28,15 @@ export async function getServerSideProps({ params }) {
   const { data: products } = await response.json();
 
   const responseSubcategories = await fetch(
-    `${
-      process.env.NEXT_PUBLIC_URL
-    }/api/categories/by-section/${params.id.replace(/ /gi, "-")}`
+    `http://localhost:3000/api/categories/by-section/${params.id.replace(
+      / /gi,
+      "-"
+    )}`
   );
   const { data: subCategories } = await responseSubcategories.json();
 
   const responseBrands = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/brands/${params.id.replace(/ /gi, "-")}`
+    `http://localhost:3000/api/brands/${params.id.replace(/ /gi, "-")}`
   );
   const { brands } = await responseBrands.json();
 
@@ -81,14 +82,16 @@ const Categories = (props) => {
     setSeeking(true);
 
     const brandsQuery = selectedBrands.map((brand) => `'${brand}'`);
-    let queryUrl = `${
-      process.env.NEXT_PUBLIC_URL
-    }/api/filters/(${brandsQuery.toString()})?categorie=${
+    let queryUrl = `/api/filters/(${brandsQuery.toString()})?categorie=${
       selectCategories || "todas"
     }&first=0&last=${maxPrice.replace(/e/gi, "") || 100000}`;
 
+    console.log(queryUrl);
+
     const response = await fetch(queryUrl);
     const { data } = await response.json();
+
+    console.log(data);
 
     if (data) {
       setResetItemsLoaded();
@@ -110,6 +113,24 @@ const Categories = (props) => {
     setItemsLoaded(products);
     setOpenFilters(false);
   };
+
+  useEffect(async () => {
+    const response = await fetch(
+      `/api/related-by-category/BAÑOS?first=1&last=20`
+    );
+    const { data: products } = await response.json();
+    console.log("products: ", products);
+
+    const responseSubcategories = await fetch(
+      `/api/categories/by-section/BAÑOS`
+    );
+    const { data: subCategories } = await responseSubcategories.json();
+    console.log("subCategories: ", subCategories);
+
+    const responseBrands = await fetch(`/api/brands/BAÑOS`);
+    const { brands } = await responseBrands.json();
+    console.log("brands: ", brands);
+  }, []);
 
   return (
     <>

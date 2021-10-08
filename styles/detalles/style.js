@@ -291,3 +291,50 @@ export const PreviewItemContainer = styled.div`
     grid-auto-rows: 35rem;
   }
 `;
+
+export const LinkIcon = styled.a`
+  width: 100%;
+  height: 4rem;
+  padding: 0.5rem;
+  padding: 0.3rem;
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--blue);
+  background: ${(props) => (props.bg ? `${props.bg}` : "var(--yellow)")};
+  border-radius: 1.5rem;
+  cursor: pointer;
+  transition: 0.3s ease-in-out all;
+  svg {
+    transition: 0.3s ease-in-out all;
+    fill: var(--blue);
+  }
+  @media (min-width: 750px) {
+    width: 3.5rem;
+    height: 3.5rem;
+    background: transparent;
+    svg {
+      fill: var(--blue);
+    }
+    &:hover {
+      background: ${(props) => (props.bg ? `${props.bg}` : "var(--blue)")};
+      svg {
+      }
+    }
+  }
+  @media (min-width: 1200px) {
+    background: transparent;
+    svg {
+      fill: var(--blue);
+    }
+    &:hover {
+      background: ${(props) => (props.bg ? `${props.bg}` : "var(--blue)")};
+      svg {
+        fill: var(--background);
+      }
+    }
+  }
+`;

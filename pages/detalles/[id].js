@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { connect } from "react-redux";
 import { NextSeo, ProductJsonLd } from "next-seo";
@@ -17,6 +17,7 @@ import {
 //Components
 import { HeartEmpty } from "../../components/IconsSVG/HeartEmpty";
 import { HeartFull } from "../../components/IconsSVG/HeartFull";
+import { Whatsapp } from "../../components/IconsSVG/Whatsapp";
 import PreviewItem from "../../components/Preview-Item/PreviewItem";
 
 // Styles
@@ -42,12 +43,13 @@ import {
   RelatedArticles,
   RelatedTitle,
   PreviewItemContainer,
+  LinkIcon,
 } from "../../styles/detalles/style";
 
 export const getServerSideProps = async ({ params }) => {
   // Solicita los datos del articulo principal
   const responseDetails = await fetch(
-    `https://materialesvasquezhnos.com.mx/api/detalles/${params.id}`
+    `${process.env.NEXT_PUBLIC_URL}/api/detalles/${params.id}`
   );
   const { data: product } = await responseDetails.json();
   // Solicita articulos relacionados por nombre
@@ -93,6 +95,7 @@ const ProductPage = (props) => {
     setIitemsIliked,
     setDeleteFavorite,
   } = props;
+  const [currentUrl, setCurrentUrl] = useState("");
 
   // Hook que verifica si el producto esta entre los favoritos
   const [yesItIsMineLike] = useMyItems(product.articulo_id, itemsIliked);
@@ -124,10 +127,19 @@ const ProductPage = (props) => {
   });
 
   useEffect(async () => {
-    const response = await fetch(`/api/detalles/${product.articulo_id}`);
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_URL}/api/detalles/${product.articulo_id}`
+    );
     const { data } = await response.json();
 
     console.log("data: ", data[0]);
+  }, []);
+
+  useEffect(() => {
+    if (window) {
+      console.log(window.location);
+      setCurrentUrl(window.location);
+    }
   }, []);
 
   return (
@@ -253,6 +265,18 @@ const ProductPage = (props) => {
             )}
           </Info>
         </MainInfo>
+        {currentUrl !== "" && (
+          <LinkIcon
+            href={`https://api.whatsapp.com/send?phone=522288366283&text=Hola,%20quisiera%20obtener%20m%C3%A1s%20informaci%C3%B3n%20sobre%20este%20art%C3%ADculo%20:%20${currentUrl}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Enlace a Twitter"
+            bg="#25d366"
+          >
+            <Whatsapp width="3rem" />
+            Pregunta por este artículo
+          </LinkIcon>
+        )}
         {related.length > 0 && (
           <RelatedArticles>
             <RelatedTitle>Relacionados</RelatedTitle>

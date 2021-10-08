@@ -77,6 +77,39 @@ export const SubLineLink = styled.div`
   }
 `;
 
+export const Arrow = styled.div`
+  width: 1rem;
+  height: 1rem;
+  position: absolute;
+  right: 0;
+  bottom: 1.5rem;
+  transform: rotate(270deg);
+  transition: 0.3s ease-in-out all;
+  &:after {
+    content: "\\25BC";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    font-size: 1rem;
+    line-height: 1rem;
+    color: var(--blue);
+    text-align: center;
+  }
+
+  @media (min-width: 1200px) {
+    width: 0.8rem;
+    height: 0.8rem;
+    right: -1px;
+    bottom: 0;
+    transform: rotate(0);
+    &:after {
+      font-size: 0.8rem;
+      line-height: 0.8rem;
+      color: var(--yellow);
+    }
+  }
+`;
+
 export const LiStyled = styled.li`
   width: 100%;
   height: fit-content;
@@ -95,16 +128,25 @@ export const LiStyled = styled.li`
       visibility: visible;
       max-height: 70vh;
     }
+    ${Arrow} {
+      transform: rotate(180deg);
+    }
   }
 
   @media (min-width: 1200px) {
     justify-content: center;
     align-items: center;
     overflow: visible;
+    &:hover {
+      ${Arrow} {
+        transform: rotate(180deg);
+      }
+    }
   }
 `;
 
 export const SubLiStyled = styled.li`
+  width: 75%;
   margin: 0.2rem 0;
   display: flex;
   justify-content: flex-start;
@@ -142,36 +184,6 @@ export const AnchorStyled = styled.a`
     color: var(--background);
     white-space: nowrap;
     font-size: 1.4rem;
-  }
-`;
-
-export const Arrow = styled.div`
-  width: 1rem;
-  height: 1rem;
-  position: absolute;
-  right: 0;
-  bottom: 0.2rem;
-  &:after {
-    content: "\\21E9";
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    font-size: 1rem;
-    line-height: 1rem;
-    color: var(--blue);
-    text-align: center;
-  }
-
-  @media (min-width: 1200px) {
-    width: 0.8rem;
-    height: 0.8rem;
-    right: -1px;
-    bottom: 0;
-    &:after {
-      font-size: 0.8rem;
-      line-height: 0.8rem;
-      color: var(--yellow);
-    }
   }
 `;
 

@@ -3,8 +3,9 @@ import Link from "next/link";
 import fetch from "isomorphic-unfetch";
 
 // Components
+import { Whatsapp } from "../IconsSVG/Whatsapp";
 import { Instagram } from "../IconsSVG/Instagram";
-import { Twitter } from "../IconsSVG/Twitter";
+// import { Twitter } from "../IconsSVG/Twitter";
 import { Facebook } from "../IconsSVG/Facebook";
 import MenuSection from "../Menu-Section/MenuSection";
 
@@ -65,13 +66,13 @@ const MainMenu = ({ isOpen, handleOpen }) => {
         </LinkIcon>
 
         <LinkIcon
-          href="https://twitter.com/materialesvh"
+          href="https://api.whatsapp.com/send?phone=522288366283&text=Hola,%20quisiera%20obtener%20m%C3%A1s%20informaci%C3%B3n%20sobre%20este%20art%C3%ADculo"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Enlace a Twitter"
-          bg="#1DA1F2"
+          bg="#25d366"
         >
-          <Twitter width="75%" />
+          <Whatsapp width="75%" />
         </LinkIcon>
 
         <LinkIcon

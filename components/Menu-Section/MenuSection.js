@@ -50,7 +50,7 @@ const MenuSection = ({ name, category_id, handleOpen }) => {
       >
         <AnchorStyled>{name}</AnchorStyled>
       </Link>
-      {/* {subCategories.length > 0 && <Arrow />} */}
+      {subCategories.length > 0 && <Arrow />}
       {subCategories.length === 0 && <LineLink />}
       {subCategories.length > 0 && (
         <SubCategorieContainer>

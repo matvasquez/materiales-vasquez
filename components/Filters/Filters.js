@@ -117,15 +117,7 @@ const Filter = ({
                             : false
                         }
                       />
-                      {/* <Link
-                        href={`/categoria/${category.sub_category.replace(
-                          / /gi,
-                          "-"
-                        )}`}
-                        passHref
-                      > */}
                       <CategoriesName>{category.sub_category}</CategoriesName>
-                      {/* </Link> */}
                     </CategoriesList>
                   ))}
                 </CategoriesContainer>
