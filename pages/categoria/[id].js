@@ -21,14 +21,14 @@ export async function getServerSideProps({ params }) {
   console.log(":::--------------------------------------------------------:::");
   console.log("params.id: ", params.id.replace(/ /gi, "-"));
   console.log(
-    `http://localhost:3000/api/related-by-category/${params.id.replace(
+    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/${params.id.replace(
       / /gi,
       "-"
     )}?first=1&last=20`
   );
 
   const response = await fetch(
-    `http://localhost:3000/api/related-by-category/${params.id.replace(
+    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/${params.id.replace(
       / /gi,
       "-"
     )}?first=1&last=20`
