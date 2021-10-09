@@ -29,7 +29,9 @@ export default async function getSubCategoriesBySection(req, res) {
       FROM ARTGIRO AS c
       LEFT OUTER JOIN ARTGIRO2 AS sc
           ON c.CLAVEGIR = sc.CLAVEGIR
-      WHERE c.DESGIR = '${req.query.id.replace(/-/gi, " ")}'`
+      WHERE c.DESGIR = '${req.query.id
+        .replace(/-/gi, " ")
+        .replace(/enne/gi, "Ñ")}'`
     );
 
     result &&

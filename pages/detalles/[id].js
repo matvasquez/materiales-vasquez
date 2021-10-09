@@ -126,15 +126,6 @@ const ProductPage = (props) => {
     maximumFractionDigits: 2,
   });
 
-  useEffect(async () => {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_URL}/api/detalles/${product.articulo_id}`
-    );
-    const { data } = await response.json();
-
-    console.log("data: ", data[0]);
-  }, []);
-
   useEffect(() => {
     if (window) {
       setCurrentUrl(window.location);

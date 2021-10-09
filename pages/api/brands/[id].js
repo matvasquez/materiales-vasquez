@@ -28,7 +28,8 @@ export default async function getBrands(req, res) {
       .replace(/-/g, " ")
       .replace(/space/g, " ")
       .replace(/slash/gi, "/")
-      .replace(/'/gi, "''");
+      .replace(/'/gi, "''")
+      .replace(/enne/gi, "Ñ");
 
     const result = await rest.executeQuery(
       `SELECT DISTINCT RTRIM(m.DESC_MARCA) AS marca

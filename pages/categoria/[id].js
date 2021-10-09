@@ -18,24 +18,34 @@ import {
 } from "../../styles/categoria/style";
 
 export async function getServerSideProps({ params }) {
-  console.log("params.id: ", params.id);
+  console.log(":::--------------------------------------------------------:::");
+  console.log("params.id: ", params.id.replace(/ /gi, "-"));
+  console.log(
+    `http://localhost:3000/api/related-by-category/${params.id.replace(
+      / /gi,
+      "-"
+    )}?first=1&last=20`
+  );
 
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/${params.id
-      .replace(/ /gi, "-")
-      .replace(/Ñ/gi, "enne")}?first=1&last=20`
+    `http://localhost:3000/api/related-by-category/${params.id.replace(
+      / /gi,
+      "-"
+    )}?first=1&last=20`
   );
   const { data: products } = await response.json();
 
   const responseSubcategories = await fetch(
-    `${
-      process.env.NEXT_PUBLIC_URL
-    }/api/categories/by-section/${params.id.replace(/ /gi, "-")}`
+    `${process.env.NEXT_PUBLIC_URL}/api/categories/by-section/${params.id
+      .replace(/ /gi, "-")
+      .replace(/Ñ/gi, "&#209;")}`
   );
   const { data: subCategories } = await responseSubcategories.json();
 
   const responseBrands = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/brands/${params.id.replace(/ /gi, "-")}`
+    `${process.env.NEXT_PUBLIC_URL}/api/brands/${params.id
+      .replace(/ /gi, "-")
+      .replace(/Ñ/gi, "&#209;")}`
   );
   const { brands } = await responseBrands.json();
 
@@ -85,12 +95,8 @@ const Categories = (props) => {
       selectCategories || "todas"
     }&first=0&last=${maxPrice.replace(/e/gi, "") || 100000}`;
 
-    console.log(queryUrl);
-
     const response = await fetch(queryUrl);
     const { data } = await response.json();
-
-    console.log(data);
 
     if (data) {
       setResetItemsLoaded();
@@ -113,23 +119,25 @@ const Categories = (props) => {
     setOpenFilters(false);
   };
 
-  // useEffect(async () => {
-  //   const response = await fetch(
-  //     `/api/related-by-category/BAÑOS?first=1&last=20`
-  //   );
-  //   const { data: products } = await response.json();
-  //   console.log("products: ", products);
+  useEffect(async () => {
+    if (title === "BAÑOS") {
+      const response = await fetch(
+        `/api/related-by-category/BAÑOS?first=1&last=20`
+      );
+      const { data: products } = await response.json();
+      console.log("products: ", products);
 
-  //   const responseSubcategories = await fetch(
-  //     `/api/categories/by-section/BAÑOS`
-  //   );
-  //   const { data: subCategories } = await responseSubcategories.json();
-  //   console.log("subCategories: ", subCategories);
+      const responseSubcategories = await fetch(
+        `/api/categories/by-section/BAÑOS`
+      );
+      const { data: subCategories } = await responseSubcategories.json();
+      console.log("subCategories: ", subCategories);
 
-  //   const responseBrands = await fetch(`/api/brands/BAÑOS`);
-  //   const { brands } = await responseBrands.json();
-  //   console.log("brands: ", brands);
-  // }, []);
+      const responseBrands = await fetch(`/api/brands/BAÑOS`);
+      const { brands } = await responseBrands.json();
+      console.log("brands: ", brands);
+    }
+  }, [title]);
 
   return (
     <>
