@@ -21,31 +21,36 @@ export async function getServerSideProps({ params }) {
   console.log(":::--------------------------------------------------------:::");
   console.log("params.id: ", params.id.replace(/ /gi, "-"));
   console.log(
-    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/${params.id.replace(
-      / /gi,
-      "-"
-    )}?first=1&last=20`
+    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/${params.id
+      .replace(/ /gi, "-")
+      .replace(/Ñ/gi, "enne")}?first=1&last=20`
   );
 
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/${params.id.replace(
-      / /gi,
-      "-"
-    )}?first=1&last=20`
+    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/${params.id
+      .replace(/ /gi, "-")
+      .replace(/Ñ/gi, "enne")}?first=1&last=20`,
+    {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json; charset=utf-8",
+      },
+    }
   );
   const { data: products } = await response.json();
 
   const responseSubcategories = await fetch(
     `${process.env.NEXT_PUBLIC_URL}/api/categories/by-section/${params.id
       .replace(/ /gi, "-")
-      .replace(/Ñ/gi, "&#209;")}`
+      .replace(/Ñ/gi, "enne")}`
   );
   const { data: subCategories } = await responseSubcategories.json();
 
   const responseBrands = await fetch(
     `${process.env.NEXT_PUBLIC_URL}/api/brands/${params.id
       .replace(/ /gi, "-")
-      .replace(/Ñ/gi, "&#209;")}`
+      .replace(/Ñ/gi, "enne")}`
   );
   const { brands } = await responseBrands.json();
 
@@ -122,18 +127,18 @@ const Categories = (props) => {
   useEffect(async () => {
     if (title === "BAÑOS") {
       const response = await fetch(
-        `/api/related-by-category/BAÑOS?first=1&last=20`
+        `/api/related-by-category/BAenneOS?first=1&last=20`
       );
       const { data: products } = await response.json();
       console.log("products: ", products);
 
       const responseSubcategories = await fetch(
-        `/api/categories/by-section/BAÑOS`
+        `/api/categories/by-section/BAenneOS`
       );
       const { data: subCategories } = await responseSubcategories.json();
       console.log("subCategories: ", subCategories);
 
-      const responseBrands = await fetch(`/api/brands/BAÑOS`);
+      const responseBrands = await fetch(`/api/brands/BAenneOS`);
       const { brands } = await responseBrands.json();
       console.log("brands: ", brands);
     }
