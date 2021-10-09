@@ -1,3 +1,4 @@
+import { rest } from "../../../lib/connection";
 import Cors from "cors";
 import initMiddleware from "../../../lib/init-middleware";
 
@@ -6,13 +7,6 @@ const cors = initMiddleware(
     methods: ["GET"],
   })
 );
-
-const rest = new (require("rest-mssql-nodejs"))({
-  user: process.env.NEXT_PUBLIC_USER,
-  password: process.env.NEXT_PUBLIC_PASSWORD,
-  server: process.env.NEXT_PUBLIC_HOST,
-  database: process.env.NEXT_PUBLIC_DATABASE,
-});
 
 export default async function getProductsByCategorie(req, res) {
   // http://localhost:3000/api/related-by-category/ELECTRICO?first=1&last=20
@@ -53,9 +47,7 @@ export default async function getProductsByCategorie(req, res) {
   ) AS articles_with_row_nums
   WHERE row_id BETWEEN ${req.query.first || 1} AND ${req.query.last || 6};`;
 
-  console.log("====================================");
-  console.log(queryByCategorie);
-  console.log("====================================");
+  const result = await rest.executeQuery(queryByCategorie);
 
   setTimeout(async () => {
     const result = await rest.executeQuery(queryByCategorie);
@@ -67,5 +59,5 @@ export default async function getProductsByCategorie(req, res) {
         total: result.data[0].length,
         data: result.data[0],
       });
-  }, 1000);
+  }, 800);
 }

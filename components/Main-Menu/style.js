@@ -16,7 +16,7 @@ export const NavStyled = styled.nav`
   position: absolute;
   top: 0;
   left: ${(props) => (props.open ? "0" : "-100%")};
-  z-index: 200000;
+  z-index: 20000;
   transition: 0.3s ease-in-out all;
   @media (min-width: 750px) {
     padding: 5rem;
@@ -34,7 +34,7 @@ export const NavStyled = styled.nav`
     position: fixed;
     top: 8rem;
     left: calc(50% - 47.5vw);
-    z-index: 1003;
+    z-index: 1000;
   }
 `;
 

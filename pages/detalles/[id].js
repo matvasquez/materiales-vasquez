@@ -65,10 +65,9 @@ export const getServerSideProps = async ({ params }) => {
   const responseRelatedByCategory = await fetch(
     `${
       process.env.NEXT_PUBLIC_URL
-    }/api/related-by-category/${product[0].category.replace(
-      / /gi,
-      "-"
-    )}?first=1&last=6`
+    }/api/related-by-category/${product[0].category
+      .replace(/ /gi, "-")
+      .replace(/Ñ/gi, "enne")}?first=1&last=6`
   );
   const { data: relatedCategory } = await responseRelatedByCategory.json();
 
@@ -257,7 +256,7 @@ const ProductPage = (props) => {
         </MainInfo>
         {currentUrl !== "" && (
           <LinkIcon
-            href={`https://api.whatsapp.com/send?phone=522288366283&text=Hola,%20quisiera%20obtener%20m%C3%A1s%20informaci%C3%B3n%20sobre%20este%20art%C3%ADculo%20:%20${currentUrl}`}
+            href={`https://api.whatsapp.com/send?phone=522288366283&text=Hola,%20quisiera%20obtener%20m%C3%A1s%20informaci%C3%B3n%20sobre%20este%20art%C3%ADculo:%20${currentUrl}`}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Enlace a Twitter"

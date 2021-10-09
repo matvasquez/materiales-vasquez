@@ -42,5 +42,5 @@ export default async function getNewProducts(req, res) {
         total: result.data[0].length,
         brands: result.data[0],
       });
-  }, 1000);
+  }, 800);
 }

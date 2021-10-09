@@ -354,10 +354,10 @@ export function useShippingCost(zipCode, subTotal) {
       setCost(75);
     } else if (zipCode.length >= 5) {
       setCost(75);
-      setDeliveryCities(["Xalapa", "Coatepec", "Banderilla"]);
-      alert(
-        `Para este código postal comunícate al 22 88 36 62 83 y te brindaremos la información para tu envío`
-      );
+      setDeliveryCities(["contact"]);
+      // alert(
+      //   `Para este código postal comunícate al 22 88 36 62 83 y te brindaremos la información para tu envío`
+      // );
     } else {
       setCost(50);
       setDeliveryCities(["Xalapa", "Coatepec", "Banderilla"]);

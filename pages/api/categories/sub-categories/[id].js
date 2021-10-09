@@ -1,3 +1,4 @@
+import { rest } from "../../../../lib/connection";
 import Cors from "cors";
 import initMiddleware from "../../../../lib/init-middleware";
 
@@ -6,13 +7,6 @@ const cors = initMiddleware(
     methods: ["GET"],
   })
 );
-
-const rest = new (require("rest-mssql-nodejs"))({
-  user: process.env.NEXT_PUBLIC_USER,
-  password: process.env.NEXT_PUBLIC_PASSWORD,
-  server: process.env.NEXT_PUBLIC_HOST,
-  database: process.env.NEXT_PUBLIC_DATABASE,
-});
 
 export default async function getSubCategories(req, res) {
   // Run cors
@@ -25,7 +19,9 @@ export default async function getSubCategories(req, res) {
   setTimeout(async () => {
     const result = await rest.executeQuery(
       `SELECT RTRIM(CLAVEGIR2) AS id, RTRIM(DESC_GIR2) AS name FROM ARTGIRO2 
-      WHERE CLAVEGIR = '${req.query.id}'`
+      WHERE CLAVEGIR = '${req.query.id
+        .replace(/-/gi, " ")
+        .replace(/enne/gi, "Ñ")}'`
     );
 
     result &&
@@ -35,5 +31,5 @@ export default async function getSubCategories(req, res) {
         total: result.data[0].length,
         data: result.data[0],
       });
-  }, 1000);
+  }, 800);
 }

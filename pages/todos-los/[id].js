@@ -19,6 +19,13 @@ export async function getServerSideProps({ params }) {
     const { data } = await responseSectionPrice.json();
     products = await data;
   } else {
+    console.log(
+      `${process.env.NEXT_PUBLIC_URL}/api/products-by-name/${params.id
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/s$/g, "")
+        .toUpperCase()}?first=1&last=20`
+    );
     const responseSection = await fetch(
       `${process.env.NEXT_PUBLIC_URL}/api/products-by-name/${params.id
         .normalize("NFD")

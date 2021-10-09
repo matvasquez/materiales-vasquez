@@ -19,19 +19,16 @@ import {
 
 export async function getServerSideProps({ params }) {
   const response = await fetch(
-    `${
-      process.env.NEXT_PUBLIC_URL
-    }/api/related-by-subcategory/${params.cat.replace(
-      /-/gi,
-      " "
-    )}?first=1&last=20`
+    `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/${params.cat
+      .replace(/-/gi, " ")
+      .replace(/Ñ/gi, "enne")}?first=1&last=20`
   );
   const { data: products } = await response.json();
 
   const responseBrands = await fetch(
-    `${
-      process.env.NEXT_PUBLIC_URL
-    }/api/brands-sub-categories/${params.cat.replace(/ /gi, "-")}`
+    `${process.env.NEXT_PUBLIC_URL}/api/brands-sub-categories/${params.cat
+      .replace(/ /gi, "-")
+      .replace(/Ñ/gi, "enne")}`
   );
   const { brands } = await responseBrands.json();
 

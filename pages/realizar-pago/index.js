@@ -11,6 +11,7 @@ import debounce from "just-debounce-it";
 import PaymentItemPreview from "../../components/Payment-Item-Preview/PaymentItemPreview";
 import PreviewItem from "../../components/Preview-Item/PreviewItem";
 import PasarelaDePagos from "../../components/Pasarela-de-pagos/PasarelaDePagos";
+import Alert from "../../components/Alert";
 
 // Styled-Components
 import {
@@ -38,7 +39,6 @@ import {
   ShippingInvoice,
   InputRFC,
   SelectCFDI,
-  // BuyButton,
   MyListOfItems,
   CostDetails,
   CostContainer,
@@ -93,6 +93,9 @@ const MakePayment = (props) => {
   // Activa la animación de carga en el botón de Cargar más
   const [load, setLoad] = useState(false);
 
+  // Estado del modal de notificacio
+  const [modalOpen, setModalOpen] = useState(false);
+
   const [related, setRelated] = useState([]);
 
   const formFiserv = useRef(null);
@@ -105,6 +108,10 @@ const MakePayment = (props) => {
   useEffect(() => {
     setShippingCost(cost);
   }, [cost]);
+
+  useEffect(() => {
+    deliveryCities[0] === "contact" ? setModalOpen(true) : setModalOpen(false);
+  }, [deliveryCities]);
 
   useEffect(() => {
     if (shoppingCartPrices.length > 0) {
@@ -494,7 +501,11 @@ const MakePayment = (props) => {
               </CostContainer>
             </CostDetails>
           </FormStyled>
-          <PasarelaDePagos shippingCost={shippingCost} subTotal={subTotal} />
+          <PasarelaDePagos
+            shippingCost={shippingCost}
+            subTotal={subTotal}
+            pay={deliveryCities[0] === "contact" ? false : true}
+          />
         </BuyersData>
 
         {related.length > 0 && (
@@ -514,6 +525,14 @@ const MakePayment = (props) => {
           </RelatedArticles>
         )}
       </MainStiled>
+      {modalOpen && (
+        <Alert
+          isOpen={modalOpen}
+          handleClose={setModalOpen}
+          cart={myCart}
+          zipCode={zipCode}
+        />
+      )}
     </>
   );
 };

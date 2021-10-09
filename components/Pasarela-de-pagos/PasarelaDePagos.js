@@ -17,7 +17,7 @@ import { SuspensoryPoints } from "../../components/Loaders/SuspensoryPoints";
 // Styled-Components
 import { FormStyled, BuyButton, Iframe } from "./style";
 
-const PasarelaDePagos = ({ shippingCost, subTotal }) => {
+const PasarelaDePagos = ({ shippingCost, subTotal, pay }) => {
   const [load, setLoad] = useState(false);
   const [show, setShow] = useState(false);
   const [urlWebsite, setUrlWebsite] = useState("http://localhost:3000");
@@ -127,9 +127,13 @@ const PasarelaDePagos = ({ shippingCost, subTotal }) => {
           value="#fcd783"
         />
         {!show && (
-          <BuyButton type="submit">
-            {load ? <SuspensoryPoints /> : "Pagar"}
-          </BuyButton>
+          <>
+            {pay && (
+              <BuyButton type="submit">
+                {load ? <SuspensoryPoints /> : "Pagar"}
+              </BuyButton>
+            )}
+          </>
         )}
       </FormStyled>
     </>
