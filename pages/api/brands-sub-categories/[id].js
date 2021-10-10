@@ -8,7 +8,7 @@ const cors = initMiddleware(
   })
 );
 
-export default async function getBrands(req, res) {
+export default async function getBrandsSubCategories(req, res) {
   // http://localhost:3000/api/brands/ELECTRICO
   // Run cors
   await cors(req, res);
@@ -22,17 +22,16 @@ export default async function getBrands(req, res) {
       .replace(/-/g, " ")
       .replace(/space/g, " ")
       .replace(/slash/gi, "/")
-      .replace(/'/gi, "''")
-      .replace(/enne/gi, "Ñ");
+      .replace(/'/gi, "''");
 
     const result = await rest.executeQuery(
       `SELECT DISTINCT RTRIM(m.DESC_MARCA) AS marca
       FROM MARCAS AS m
       LEFT OUTER JOIN ARTICULO AS a
           ON m.CVE_MARCA = a.CVE_MARCA
-      LEFT OUTER JOIN ARTGIRO AS g
-          ON a.CLAVEGIR = g.CLAVEGIR
-      WHERE g.DESGIR = '${query}' AND a.HABVTAS = '';`
+      LEFT OUTER JOIN ARTGIRO2 AS g2
+          ON a.CLAVEGIR2 = g2.CLAVEGIR2
+      WHERE g2.DESC_GIR2 = '${query}' AND a.HABVTAS = '';`
     );
 
     result &&

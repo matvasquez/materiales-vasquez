@@ -80,7 +80,6 @@ const Header = ({ carIsOpen, itemsIliked }) => {
   };
 
   const disableScroll = () => {
-    console.log("disableScroll");
     let x = window.scrollX;
     let y = window.scrollY;
     window.onscroll = function () {
@@ -98,24 +97,10 @@ const Header = ({ carIsOpen, itemsIliked }) => {
       window.removeEventListener("scroll", disableScroll);
     };
   }, [isOpen, searchResults]);
-  // useEffect(() => {
-  //   if (isOpen || searchResults.length > 0) {
-  //     // document.body.style.position = "fixed";
-  //     document.body.style.maxHeight = "100vh";
-  //     document.body.style.overflow = "hidden";
-  //   } else {
-  //     // document.body.style.position = "initial";
-  //     document.body.style.maxHeight = "initial";
-  //     document.body.style.overflow = "visible";
-  //   }
-  // }, [isOpen, searchResults]);
-
-  // console.log("searchResults: ", searchResults);
 
   return (
     <>
       <HeaderStyled zindex={carIsOpen}>
-        <MainMenu isOpen={isOpen} handleOpen={handleOpen} />
         <ButtonMenu
           handleClick={handleOpen}
           aria-label="Botón para abrir el menú lateral"
@@ -148,6 +133,7 @@ const Header = ({ carIsOpen, itemsIliked }) => {
           searchName={searchName}
         />
       )}
+      <MainMenu isOpen={isOpen} handleOpen={handleOpen} />
     </>
   );
 };

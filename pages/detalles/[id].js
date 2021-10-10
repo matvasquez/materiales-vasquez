@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { connect } from "react-redux";
 import { NextSeo, ProductJsonLd } from "next-seo";
@@ -17,6 +17,7 @@ import {
 //Components
 import { HeartEmpty } from "../../components/IconsSVG/HeartEmpty";
 import { HeartFull } from "../../components/IconsSVG/HeartFull";
+import { Whatsapp } from "../../components/IconsSVG/Whatsapp";
 import PreviewItem from "../../components/Preview-Item/PreviewItem";
 
 // Styles
@@ -42,6 +43,7 @@ import {
   RelatedArticles,
   RelatedTitle,
   PreviewItemContainer,
+  LinkIcon,
 } from "../../styles/detalles/style";
 
 export const getServerSideProps = async ({ params }) => {
@@ -50,8 +52,8 @@ export const getServerSideProps = async ({ params }) => {
     `${process.env.NEXT_PUBLIC_URL}/api/detalles/${params.id}`
   );
   const { data: product } = await responseDetails.json();
-
   // Solicita articulos relacionados por nombre
+
   const responseRelatedByName = await fetch(
     `${process.env.NEXT_PUBLIC_URL}/api/related-by-name/${product[0].name
       .split(" ")[0]
@@ -63,10 +65,9 @@ export const getServerSideProps = async ({ params }) => {
   const responseRelatedByCategory = await fetch(
     `${
       process.env.NEXT_PUBLIC_URL
-    }/api/related-by-category/${product[0].category.replace(
-      / /gi,
-      "-"
-    )}?first=1&last=6`
+    }/api/related-by-category/${product[0].category
+      .replace(/ /gi, "-")
+      .replace(/Ñ/gi, "enne")}?first=1&last=6`
   );
   const { data: relatedCategory } = await responseRelatedByCategory.json();
 
@@ -93,6 +94,7 @@ const ProductPage = (props) => {
     setIitemsIliked,
     setDeleteFavorite,
   } = props;
+  const [currentUrl, setCurrentUrl] = useState("");
 
   // Hook que verifica si el producto esta entre los favoritos
   const [yesItIsMineLike] = useMyItems(product.articulo_id, itemsIliked);
@@ -122,6 +124,12 @@ const ProductPage = (props) => {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
+
+  useEffect(() => {
+    if (window) {
+      setCurrentUrl(window.location);
+    }
+  }, []);
 
   return (
     <>
@@ -207,10 +215,24 @@ const ProductPage = (props) => {
               )}
             </Paragraph>
             <Categories>
-              Categoría
-              <Link href={`/categoria/${product.category}`} passHref>
+              Categorías
+              <Link
+                href={`/categoria/${product.category.replace(/ /gi, "-")}`}
+                passHref
+              >
                 <Category>{product.category}</Category>
-              </Link>
+              </Link>{" "}
+              {product.main_category && (
+                <Link
+                  href={`/categoria/${product.category.replace(
+                    / /gi,
+                    "-"
+                  )}/${product.main_category.replace(/ /gi, "-")}`}
+                  passHref
+                >
+                  <Category>{product.main_category}</Category>
+                </Link>
+              )}
             </Categories>
             <Sku>
               SKU: <Span>{product.articulo_id}</Span>
@@ -232,6 +254,18 @@ const ProductPage = (props) => {
             )}
           </Info>
         </MainInfo>
+        {currentUrl !== "" && (
+          <LinkIcon
+            href={`https://api.whatsapp.com/send?phone=522288366283&text=Hola,%20quisiera%20obtener%20m%C3%A1s%20informaci%C3%B3n%20sobre%20este%20art%C3%ADculo:%20${currentUrl}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Enlace a Twitter"
+            bg="#25d366"
+          >
+            <Whatsapp width="3rem" />
+            Pregunta por este artículo
+          </LinkIcon>
+        )}
         {related.length > 0 && (
           <RelatedArticles>
             <RelatedTitle>Relacionados</RelatedTitle>

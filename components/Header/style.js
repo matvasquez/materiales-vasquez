@@ -16,7 +16,7 @@ export const HeaderStyled = styled.header`
   top: 0;
   left: 0;
   right: 0;
-  z-index: ${(props) => (props.zindex ? 998 : 999)};
+  z-index: ${(props) => (props.zindex ? 998 : 1000)};
   @media (min-width: 750px) {
     padding: 2rem;
   }
@@ -55,8 +55,8 @@ export const LogoContainer = styled.a`
   @media (min-width: 1200px) {
     grid-column: 1 / span 1;
     grid-row: 1 / span 1;
-    width: 8rem;
-    height: 8rem;
+    width: 7rem;
+    height: 7rem;
     margin-right: 25%;
     ${(props) =>
       props.withScroll &&

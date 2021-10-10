@@ -6,7 +6,7 @@ import { useSession } from "next-auth/client";
 
 // Components
 import { Instagram } from "../IconsSVG/Instagram";
-import { Twitter } from "../IconsSVG/Twitter";
+import { Whatsapp } from "../IconsSVG/Whatsapp";
 import { Facebook } from "../IconsSVG/Facebook";
 
 // Stiled-Components
@@ -102,12 +102,12 @@ const Footer = ({ carIsEmpty }) => {
             </li>
             <li>
               <AnchorIcon
-                href="https://twitter.com/materialesvh"
+                href="https://api.whatsapp.com/send?phone=522288366283"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Enlace a Twitter"
               >
-                <Twitter width="90%" />
+                <Whatsapp width="90%" />
               </AnchorIcon>
             </li>
             <li>

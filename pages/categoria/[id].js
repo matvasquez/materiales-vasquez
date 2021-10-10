@@ -18,20 +18,38 @@ import {
 } from "../../styles/categoria/style";
 
 export async function getServerSideProps({ params }) {
-  console.log("params.id: ", params.id);
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/${params.id}?first=1&last=20`
+    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/${params.id
+      .replace(/ /gi, "-")
+      .replace(/Ñ/gi, "enne")}?first=1&last=20`,
+    {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json; charset=utf-8",
+      },
+    }
   );
   const { data: products } = await response.json();
 
+  const responseSubcategories = await fetch(
+    `${process.env.NEXT_PUBLIC_URL}/api/categories/by-section/${params.id
+      .replace(/ /gi, "-")
+      .replace(/Ñ/gi, "enne")}`
+  );
+  const { data: subCategories } = await responseSubcategories.json();
+
   const responseBrands = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/brands/${params.id}`
+    `${process.env.NEXT_PUBLIC_URL}/api/brands/${params.id
+      .replace(/ /gi, "-")
+      .replace(/Ñ/gi, "enne")}`
   );
   const { brands } = await responseBrands.json();
 
   return {
     props: {
       products,
+      subCategories,
       brands,
 
       title: `${params.id.replace(/-/gi, " ")}`,
@@ -42,6 +60,7 @@ export async function getServerSideProps({ params }) {
 const Categories = (props) => {
   const {
     products = [],
+    subCategories = [],
     brands = [],
 
     title,
@@ -50,6 +69,7 @@ const Categories = (props) => {
   const [openFilters, setOpenFilters] = useState(false);
   const [seeking, setSeeking] = useState(false);
   const [routeWithFilters, setRouteWithFilters] = useState(false);
+  const [resultsFilters, setResultsFilters] = useState(false);
   const [itemsLoaded, setItemsLoaded] = useState([]);
 
   const handleOpenFilters = () => {
@@ -64,22 +84,16 @@ const Categories = (props) => {
     setItemsLoaded(products);
   }, [products]);
 
-  const applyFilters = async (minPrice, maxPrice, selectedBrands) => {
+  const applyFilters = async (maxPrice, selectCategories, selectedBrands) => {
     setSeeking(true);
-    const brandsQuery = selectedBrands.map((brand) => `'${brand}'`);
 
-    const response = await fetch(
-      `${
-        process.env.NEXT_PUBLIC_URL
-      }/api/filters/(${brandsQuery.toString()})?categorie=${title.replace(
-        / /gi,
-        "-"
-      )}&first=${minPrice.replace(/e/gi, "") || 0}&last=${
-        maxPrice.replace(/e/gi, "") || 100000
-      }`
-    );
+    const brandsQuery = selectedBrands.map((brand) => `'${brand}'`);
+    let queryUrl = `/api/filters/(${brandsQuery.toString()})?categorie=${
+      selectCategories || "todas"
+    }&first=0&last=${maxPrice.replace(/e/gi, "") || 100000}`;
+
+    const response = await fetch(queryUrl);
     const { data } = await response.json();
-    console.log("data: ", data);
 
     if (data) {
       setResetItemsLoaded();
@@ -87,6 +101,12 @@ const Categories = (props) => {
       setSeeking(false);
       handleOpenFilters();
       setRouteWithFilters(true);
+    } else {
+      setSeeking(false);
+      setResultsFilters(true);
+      setTimeout(() => {
+        setResultsFilters(false);
+      }, 2000);
     }
   };
 
@@ -139,6 +159,7 @@ const Categories = (props) => {
 
       <main className={styles.MainStyle}>
         <Filter
+          categories={subCategories}
           brands={brands}
           isOpen={openFilters}
           handleOpenFilters={handleOpenFilters}
@@ -146,6 +167,7 @@ const Categories = (props) => {
           seeking={seeking}
           setRouteWithFilters={setRouteWithFilters}
           beforeFiltering={beforeFiltering}
+          resultsFilters={resultsFilters}
         />
         {itemsLoaded.length > 0 ? (
           <ArticlesSection

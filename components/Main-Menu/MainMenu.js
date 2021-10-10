@@ -3,9 +3,10 @@ import Link from "next/link";
 import fetch from "isomorphic-unfetch";
 
 // Components
+import { Whatsapp } from "../IconsSVG/Whatsapp";
 import { Instagram } from "../IconsSVG/Instagram";
-import { Twitter } from "../IconsSVG/Twitter";
 import { Facebook } from "../IconsSVG/Facebook";
+import MenuSection from "../Menu-Section/MenuSection";
 
 // Styled-Components
 import {
@@ -45,48 +46,43 @@ const MainMenu = ({ isOpen, handleOpen }) => {
         </LiStyled>
         {apartments &&
           apartments.map((menuItem) => (
-            <LiStyled key={menuItem.name} onClick={() => handleOpen()}>
-              <Link
-                href={`/categoria/${menuItem.name.replace(/ /gi, "-")}`}
-                passHref
-              >
-                <AnchorStyled>{menuItem.name}</AnchorStyled>
-              </Link>
-              <LineLink />
-            </LiStyled>
+            <MenuSection
+              key={menuItem.category_id}
+              {...menuItem}
+              handleOpen={handleOpen}
+            />
           ))}
-        <SocialIconsConatiner>
-          <LinkIcon
-            href="https://www.instagram.com/materialesvasquezhermanos/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Enlace a Instagram"
-            bg="radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%)"
-          >
-            <Instagram width="75%" />
-          </LinkIcon>
-
-          <LinkIcon
-            href="https://twitter.com/materialesvh"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Enlace a Twitter"
-            bg="#1DA1F2"
-          >
-            <Twitter width="75%" />
-          </LinkIcon>
-
-          <LinkIcon
-            href="https://www.facebook.com/materialesvasquezhnos"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Enlace a Facebook"
-            bg="#4267B2"
-          >
-            <Facebook width="75%" />
-          </LinkIcon>
-        </SocialIconsConatiner>
       </UlStyled>
+      <SocialIconsConatiner>
+        <LinkIcon
+          href="https://www.instagram.com/materialesvasquezhermanos/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Enlace a Instagram"
+          bg="radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%)"
+        >
+          <Instagram width="75%" />
+        </LinkIcon>
+
+        <LinkIcon
+          href="https://api.whatsapp.com/send?phone=522288366283"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Enlace a Twitter"
+        >
+          <Whatsapp width="75%" />
+        </LinkIcon>
+
+        <LinkIcon
+          href="https://www.facebook.com/materialesvasquezhnos"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Enlace a Facebook"
+          bg="#4267B2"
+        >
+          <Facebook width="75%" />
+        </LinkIcon>
+      </SocialIconsConatiner>
     </NavStyled>
   );
 };

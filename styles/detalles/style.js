@@ -103,6 +103,7 @@ export const Info = styled.div`
   }
   @media (min-width: 1200px) {
     width: 45%;
+    min-height: 30vh;
     margin: 0;
     position: initial;
   }
@@ -289,5 +290,43 @@ export const PreviewItemContainer = styled.div`
     width: 100%;
     grid-template-columns: repeat(6, 22%);
     grid-auto-rows: 35rem;
+  }
+`;
+
+export const LinkIcon = styled.a`
+  width: 100%;
+  height: 4rem;
+  padding: 0.3rem;
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--blue);
+  background: #25d366;
+  border-radius: 1.5rem;
+  cursor: pointer;
+  transition: 0.3s ease-in-out all;
+  border: 0.1rem solid #25d366;
+  svg {
+    transition: 0.3s ease-in-out all;
+    fill: var(--blue);
+  }
+  @media (min-width: 750px) {
+    width: 35%;
+    margin-left: auto;
+  }
+  @media (min-width: 1200px) {
+    width: fit-content;
+    padding: 0.3rem 1.5rem;
+    margin-right: 10%;
+    svg {
+      margin-right: 1rem;
+    }
+    &:hover {
+      background: var(--background);
+      border: 0.1rem solid var(--blue);
+    }
   }
 `;

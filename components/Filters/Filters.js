@@ -1,5 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
-import Link from "next/link";
+import React, { useEffect, useState } from "react";
 
 // Components
 import { Seeking } from "../Loaders/Seeking";
@@ -10,23 +9,26 @@ import {
   Conatiner,
   CloseButton,
   InputPriceContainer,
+  InputRangePrice,
+  BoxMinmax,
   InputPrice,
   FilterSection,
   SectionName,
-  BrandsContainer,
   CategoriesScroll,
   CategoriesContainer,
-  BrandsList,
   CategoriesList,
-  CategoriesAnchor,
-  BrandLabel,
-  BrandInput,
-  CheckMarck,
+  CheckInput,
+  CategoriesName,
   ButtonsContainer,
   ApplyFiltersButton,
   CleanFilters,
   LookingFor,
 } from "./style";
+
+const formatter = new Intl.NumberFormat("en-US", {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+});
 
 const Filter = ({
   brands,
@@ -37,20 +39,15 @@ const Filter = ({
   seeking,
   setRouteWithFilters,
   beforeFiltering,
+  resultsFilters,
 }) => {
-  // const [isOpen, setIsOpen] = useState(false);
-  const minimumPriceRef = useRef(null);
-  const maximumPriceRef = useRef(null);
-  const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [selectedBrands, setSelectedBrands] = useState([]);
+  const [selectCategories, setSelectCategories] = useState([]);
   const [disabled, setDisabled] = useState(true);
 
-  const handleChangeMinPrice = () => {
-    setMinPrice(minimumPriceRef.current.value);
-  };
-  const handleChangeMaxPrice = () => {
-    setMaxPrice(maximumPriceRef.current.value);
+  const handleChangeMaxPrice = (value) => {
+    setMaxPrice(value);
   };
 
   const handleChangeBrand = (brand) => {
@@ -61,44 +58,41 @@ const Filter = ({
     }
   };
 
+  const handleSelectCategorie = (categorie) => {
+    if (selectCategories.includes(categorie)) {
+      setSelectCategories(
+        selectCategories.filter((item) => item !== categorie)
+      );
+    } else {
+      setSelectCategories((selectCategories) => [
+        ...selectCategories,
+        categorie,
+      ]);
+    }
+  };
+
   const clearFilters = () => {
-    setMinPrice("");
     setMaxPrice("");
     setSelectedBrands([]);
+    setSelectCategories([]);
   };
 
   useEffect(() => {
-    if (minPrice === "" && maxPrice === "" && selectedBrands.length === 0) {
+    if (
+      maxPrice === "" &&
+      selectedBrands.length === 0 &&
+      selectCategories.length === 0
+    ) {
       setDisabled(true);
     } else {
       setDisabled(false);
     }
-  }, [minPrice, maxPrice, selectedBrands]);
+  }, [maxPrice, selectedBrands, selectCategories]);
 
   return (
     <SectionStyled open={isOpen}>
       <CloseButton onClick={() => handleOpenFilters()} />
       <Conatiner>
-        <FilterSection>
-          <SectionName>Rango de precio</SectionName>
-          <InputPriceContainer>
-            <InputPrice
-              type="number"
-              ref={minimumPriceRef}
-              onChange={() => handleChangeMinPrice()}
-              placeholder="Precio mínimo"
-              autoComplete="off"
-            />
-            <InputPrice
-              type="number"
-              ref={maximumPriceRef}
-              onChange={() => handleChangeMaxPrice()}
-              placeholder="Precio máximo"
-              autoComplete="off"
-            />
-          </InputPriceContainer>
-        </FilterSection>
-
         {categories && (
           <FilterSection>
             <SectionName>Ver por categoria</SectionName>
@@ -107,18 +101,23 @@ const Filter = ({
                 <CategoriesContainer columns={categories.length}>
                   {categories.map((category) => (
                     <CategoriesList
-                      key={category.category}
-                      onClick={() => handleOpenFilters()}
+                      key={category.sub_category}
+                      onClick={() =>
+                        handleSelectCategorie(
+                          category.sub_category.replace(/ /gi, "-")
+                        )
+                      }
                     >
-                      <Link
-                        href={`/categoria/${category.category.replace(
-                          / /gi,
-                          "-"
-                        )}`}
-                        passHref
-                      >
-                        <CategoriesAnchor>{category.category}</CategoriesAnchor>
-                      </Link>
+                      <CheckInput
+                        show={
+                          selectCategories.includes(
+                            category.sub_category.replace(/ /gi, "-")
+                          )
+                            ? true
+                            : false
+                        }
+                      />
+                      <CategoriesName>{category.sub_category}</CategoriesName>
                     </CategoriesList>
                   ))}
                 </CategoriesContainer>
@@ -127,56 +126,76 @@ const Filter = ({
           </FilterSection>
         )}
 
+        <SectionName>Precio</SectionName>
+        <InputPriceContainer>
+          <BoxMinmax>
+            <InputPrice>${formatter.format(maxPrice)}</InputPrice>
+          </BoxMinmax>
+          <InputRangePrice
+            type="range"
+            id="maximumPrice"
+            name="maximumPrice"
+            min="0"
+            max="10000"
+            step="100"
+            onChange={(e) => handleChangeMaxPrice(e.target.value)}
+          />
+        </InputPriceContainer>
+
         {brands && (
           <FilterSection>
             <SectionName>Filtrar por marca</SectionName>
             {brands && (
-              <BrandsContainer rows={brands.length}>
+              <CategoriesContainer rows={brands.length}>
                 {brands.map((brand) => (
-                  <BrandsList key={brand.marca}>
-                    <BrandLabel htmlFor={brand.marca}>{brand.marca}</BrandLabel>
-                    <BrandInput
-                      type="checkbox"
-                      id={brand.marca}
-                      onChange={() => handleChangeBrand(brand.marca)}
-                    />
-                    <CheckMarck
-                      style={
-                        selectedBrands.includes(brand.marca)
-                          ? { display: "block" }
-                          : { display: "none" }
+                  <CategoriesList
+                    key={brand.marca}
+                    onClick={() => handleChangeBrand(brand.marca)}
+                  >
+                    <CheckInput
+                      show={
+                        selectedBrands.includes(brand.marca.replace(/ /gi, "-"))
+                          ? true
+                          : false
                       }
                     />
-                  </BrandsList>
+                    <CategoriesName>{brand.marca}</CategoriesName>
+                  </CategoriesList>
                 ))}
-              </BrandsContainer>
+              </CategoriesContainer>
             )}
           </FilterSection>
         )}
-
-        {seeking && (
-          <LookingFor>
-            <Seeking />
-          </LookingFor>
-        )}
         <ButtonsContainer>
-          <CleanFilters
-            type="button"
-            disabled={disabled}
-            onClick={() => {
-              clearFilters();
-              setRouteWithFilters(false);
-              beforeFiltering();
-            }}
-          >
-            Limpiar filtros
-          </CleanFilters>
+          {!seeking && (
+            <CleanFilters
+              type="button"
+              disabled={disabled}
+              onClick={() => {
+                clearFilters();
+                setRouteWithFilters(false);
+                beforeFiltering();
+              }}
+            >
+              Limpiar filtros
+            </CleanFilters>
+          )}
           <ApplyFiltersButton
             type="button"
             disabled={disabled}
-            onClick={() => applyFilters(minPrice, maxPrice, selectedBrands)}
+            onClick={() =>
+              applyFilters(maxPrice, selectCategories, selectedBrands)
+            }
+            search={seeking}
+            resultsFilters={resultsFilters}
           >
-            Aplicar filtros
+            {seeking ? (
+              <LookingFor>
+                <Seeking />
+              </LookingFor>
+            ) : (
+              <>{resultsFilters ? "Sin resultados" : "Aplicar filtros"}</>
+            )}
           </ApplyFiltersButton>
         </ButtonsContainer>
       </Conatiner>

@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const NavStyled = styled.nav`
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   padding: 4rem 1rem 2rem;
   display: flex;
   justify-content: center;
@@ -13,10 +13,10 @@ export const NavStyled = styled.nav`
   background-attachment: fixed;
   background-size: cover;
   background-attachment: fixed;
-  position: fixed;
+  position: absolute;
   top: 0;
   left: ${(props) => (props.open ? "0" : "-100%")};
-  z-index: 200000;
+  z-index: 20000;
   transition: 0.3s ease-in-out all;
   @media (min-width: 750px) {
     padding: 5rem;
@@ -24,16 +24,17 @@ export const NavStyled = styled.nav`
     background-color: rgb(0 20 76 / 85%);
   }
   @media (min-width: 1200px) {
-    grid-column: 1 / span 3;
-    grid-row: 2 / span 1;
-    position: initial;
-    width: 100%;
+    width: 95vw;
     height: fit-content;
+    min-height: 1rem;
     padding: 0;
     justify-content: center;
     align-items: center;
-    border-radius: 1.5rem;
-    z-index: 200;
+    border-radius: 1rem;
+    position: fixed;
+    top: 8rem;
+    left: calc(50% - 47.5vw);
+    z-index: 1000;
   }
 `;
 
@@ -77,26 +78,27 @@ export const CloseButton = styled.button`
 export const UlStyled = styled.ul`
   width: 90%;
   height: 90%;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: ${(props) => props.rows && `repeat(${props.rows}, 1fr)`};
-  justify-content: stretch;
-  align-content: start;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+
   @media (min-width: 750px) {
     width: 50%;
     height: 100%;
+    min-height: 50vh;
     padding: 1rem;
-    grid-template-rows: ${(props) =>
-      props.rows && `repeat(${props.rows - 1}, 1fr)`};
-    grid-gap: 0.5rem;
+    justify-content: space-between;
     background-color: var(--background);
     border-radius: 2rem;
   }
   @media (min-width: 1200px) {
     width: 100%;
     height: fit-content;
+    min-height: 1rem;
     padding: 0 1rem;
-    display: flex;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
     background-color: var(--blue);
@@ -118,20 +120,21 @@ export const LineLink = styled.div`
 `;
 
 export const LiStyled = styled.li`
-  margin: 0.2rem 0;
+  margin: 0.4rem 0;
   display: flex;
   justify-content: flex-start;
   align-items: center;
   border-radius: 0;
   overflow: hidden;
   position: relative;
-  :hover {
+  &:hover {
     ${LineLink} {
       width: 100%;
     }
   }
   @media (min-width: 1200px) {
     justify-content: center;
+    overflow: visible;
   }
 `;
 
@@ -157,17 +160,21 @@ export const AnchorStyled = styled.a`
   }
 `;
 
-export const SocialIconsConatiner = styled.li`
-  width: 80%;
+export const SocialIconsConatiner = styled.div`
+  width: 60%;
   margin: 1rem auto;
-  display: flex;
+  display: none;
   justify-content: space-between;
   align-items: center;
+  position: absolute;
+  bottom: 4rem;
+
   @media (min-width: 750px) {
     width: fit-content;
     height: 30rem;
-    position: absolute;
+    display: flex;
     flex-direction: column;
+    position: absolute;
     right: 20%;
     top: calc(50% - 10rem);
   }
@@ -175,8 +182,8 @@ export const SocialIconsConatiner = styled.li`
     width: 10%;
     height: fit-content;
     flex-direction: row;
-    right: 10%;
-    top: 1rem;
+    right: 7%;
+    top: -6.5rem;
   }
 `;
 

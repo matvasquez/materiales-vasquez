@@ -19,7 +19,7 @@ export const NotFound = styled.div`
     top: 8rem;
   }
   @media (min-width: 1200px) {
-    top: 19rem;
+    top: 12rem;
   }
 `;
 

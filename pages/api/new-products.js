@@ -54,7 +54,7 @@ export default async function getNewProducts(req, res) {
         total: result.data[0].length,
         data: result.data[0],
       });
-  }, 1000);
+  }, 800);
 }
 
 // Agregando las categorias

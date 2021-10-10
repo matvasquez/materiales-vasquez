@@ -3,38 +3,52 @@ import { NextSeo, LocalBusinessJsonLd } from "next-seo";
 import fetch from "isomorphic-unfetch";
 
 // Components
-import ArticlesSection from "../components/Articles-Section/index";
-import Filter from "../components/Filters/Filters";
+import ArticlesSection from "../../../components/Articles-Section/index";
+import Filter from "../../../components/Filters/Filters";
 
 // Styles
-import styles from "../styles/components/Main.module.css";
+import styles from "../../../styles/components/Main.module.css";
+// Styled-Components
+import {
+  SectionEmpty,
+  TitleSection,
+  EmptyContainer,
+  TextEmpty,
+  ClearFilters,
+} from "../../../styles/categoria/style";
 
-export async function getServerSideProps(context) {
-  const responseSection = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/new-products?first=1&last=20`
+export async function getServerSideProps({ params }) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/${params.cat
+      .replace(/-/gi, " ")
+      .replace(/Ñ/gi, "enne")}?first=1&last=20`
   );
-  const { data: newProducts } = await responseSection.json();
+  const { data: products } = await response.json();
 
   const responseBrands = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/brands-tienda`
+    `${process.env.NEXT_PUBLIC_URL}/api/brands-sub-categories/${params.cat
+      .replace(/ /gi, "-")
+      .replace(/Ñ/gi, "enne")}`
   );
   const { brands } = await responseBrands.json();
 
-  // const responseCategories = await fetch(
-  //   `${process.env.NEXT_PUBLIC_URL}/api/categories/all-categories`
-  // );
-  // const { data: categories } = await responseCategories.json();
-
   return {
     props: {
-      newProducts,
+      products,
       brands,
+
+      title: `${params.cat.replace(/-/gi, " ")}`,
     }, // se pasarán al componente de la página como props
   };
 }
 
-const Store = (props) => {
-  const { newProducts, brands, categories = [] } = props;
+const Categories = (props) => {
+  const {
+    products = [],
+    brands = [],
+
+    title,
+  } = props;
 
   const [openFilters, setOpenFilters] = useState(false);
   const [seeking, setSeeking] = useState(false);
@@ -46,13 +60,13 @@ const Store = (props) => {
     setOpenFilters(!openFilters);
   };
 
-  useEffect(() => {
-    setItemsLoaded(newProducts);
-  }, [newProducts]);
-
   const setResetItemsLoaded = () => {
     setItemsLoaded([]);
   };
+
+  useEffect(() => {
+    setItemsLoaded(products);
+  }, [products]);
 
   const applyFilters = async (maxPrice, selectCategories, selectedBrands) => {
     setSeeking(true);
@@ -60,14 +74,14 @@ const Store = (props) => {
     const brandsQuery = selectedBrands.map((brand) => `'${brand}'`);
     let queryUrl = `${
       process.env.NEXT_PUBLIC_URL
-    }/api/filters/(${brandsQuery.toString()})?categorie=&first=0&last=${
-      maxPrice.replace(/e/gi, "") || 100000
-    }`;
+    }/api/filters/(${brandsQuery.toString()})?categorie=${
+      selectCategories || "todas"
+    }&first=0&last=${maxPrice.replace(/e/gi, "") || 100000}`;
 
     const response = await fetch(queryUrl);
     const { data } = await response.json();
 
-    if (data.length > 0) {
+    if (data) {
       setResetItemsLoaded();
       setItemsLoaded(data);
       setSeeking(false);
@@ -84,20 +98,20 @@ const Store = (props) => {
 
   const beforeFiltering = () => {
     setResetItemsLoaded();
-    setItemsLoaded(newProducts);
+    setItemsLoaded(products);
     setOpenFilters(false);
   };
 
   return (
     <>
       <NextSeo
-        title={`Tienda | Materiales Vasquez Hermanos`}
-        description={`Encuentra los mejores productos en nuestra tienda`}
+        title={`${title} | Materiales Vasquez Hermanos`}
+        description={`Amplia gama de productos de nuestra categoría ${title}`}
         canonical="https://www.materialesvasquezhnos.com.mx/"
         openGraph={{
-          url: `https://www.materialesvasquezhnos.com.mx/tienda`,
-          title: `Nuestra Tienda | Materiales Vasquez Hermanos`,
-          description: `Encuentra los mejores productos en nuestra tienda`,
+          url: `https://www.materialesvasquezhnos.com.mx/${title}`,
+          title: `Categoría ${title} | Materiales Vasquez Hermanos`,
+          description: `Amplia gama de productos de nuestra categoría ${title}`,
           images: [
             {
               url: "https://res.cloudinary.com/duibtuerj/image/upload/v1630083340/brand/meta-image_rcclee.jpg",
@@ -116,8 +130,8 @@ const Store = (props) => {
       />
       <LocalBusinessJsonLd
         type="HomeGoodsStore"
-        name="Tienda | Materiales Vasquez Hermanos"
-        description="Encuentra los mejores productos en nuestra tienda"
+        name="Materiales Vasquez Hermanos"
+        description="Amplia gama de productos para obra negra, ferretería, muebles, y artículos para el hogar"
         url="https://www.materialesvasquezhnos.com.mx/"
         telephone="+522288401919"
         address={{
@@ -132,7 +146,6 @@ const Store = (props) => {
       <main className={styles.MainStyle}>
         <Filter
           brands={brands}
-          // categories={categories}
           isOpen={openFilters}
           handleOpenFilters={handleOpenFilters}
           applyFilters={applyFilters}
@@ -141,19 +154,31 @@ const Store = (props) => {
           beforeFiltering={beforeFiltering}
           resultsFilters={resultsFilters}
         />
-        {itemsLoaded.length > 0 && (
+        {itemsLoaded.length > 0 ? (
           <ArticlesSection
-            title="Tienda"
+            title={title}
             products={itemsLoaded}
             route={true}
             showFilters={true}
             routeWithFilters={routeWithFilters}
             handleOpenFilters={handleOpenFilters}
           />
+        ) : (
+          <SectionEmpty>
+            <TitleSection>{title}</TitleSection>
+            <EmptyContainer>
+              <TextEmpty>Sección Vacía</TextEmpty>
+            </EmptyContainer>
+            {routeWithFilters && (
+              <ClearFilters type="button" onClick={() => beforeFiltering()}>
+                Quitar filtros
+              </ClearFilters>
+            )}
+          </SectionEmpty>
         )}
       </main>
     </>
   );
 };
 
-export default Store;
+export default Categories;

@@ -20,7 +20,6 @@ const main = async (body) => {
 
 export const sendEmail = (order) => {
   const message = order;
-  console.log("message: ", message);
   const bodyOfMessageToClient = {
     receiver: message.shippingEmail,
     subject: "Recibo de compra desde Materiales Vasquez Hermanos",
@@ -502,8 +501,8 @@ export const sendEmail = (order) => {
   // matvasquezh@gmail.com
 
   const bodyOfMessageToCompany = {
-    // receiver: `${process.env.NEXT_PUBLIC_MAIL_SMTP}`,
-    receiver: `poncianogl@hotmail.com`,
+    receiver: `${process.env.NEXT_PUBLIC_MAIL_SMTP}`,
+    // receiver: `poncianogl@hotmail.com`,
     subject: `Nueva compra ${message.date}`,
     html: `<!DOCTYPE html>
     <html>

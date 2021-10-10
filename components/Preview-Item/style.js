@@ -118,13 +118,6 @@ export const ArticleStyled = styled.article`
   justify-content: space-between;
   align-items: center;
 
-  /* display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 7fr 1fr 1fr 1fr;
-  grid-gap: 0.5rem;
-  justify-items: center;
-  align-items: center; */
-
   border-radius: 1.5rem;
   cursor: pointer;
   overflow: hidden;
