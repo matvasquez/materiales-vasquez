@@ -37,6 +37,7 @@ const MenuSection = ({ name, category_id, handleOpen }) => {
               subCategories.length > 0 ? console.log("Click") : handleOpen()
           : () => handleOpen()
       }
+      columns={subCategories.length > 25 ? true : false}
     >
       <Link
         href={
@@ -53,7 +54,9 @@ const MenuSection = ({ name, category_id, handleOpen }) => {
       {subCategories.length > 0 && <Arrow />}
       {subCategories.length === 0 && <LineLink />}
       {subCategories.length > 0 && (
-        <SubCategorieContainer>
+        <SubCategorieContainer
+          columns={subCategories.length > 25 ? true : false}
+        >
           <Circle />
           <CircleBottom />
           {subCategories.map((sub) => (

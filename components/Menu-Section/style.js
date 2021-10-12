@@ -27,6 +27,12 @@ export const SubCategorieContainer = styled.ul`
     top: 108%;
     left: 0;
     z-index: 1;
+    ${(props) =>
+      props.columns &&
+      `
+          width: 60rem;
+          left: -100%;
+        `}
   }
 `;
 
@@ -126,7 +132,7 @@ export const LiStyled = styled.li`
     }
     ${SubCategorieContainer} {
       visibility: visible;
-      max-height: 70vh;
+      max-height: 300vh;
     }
     ${Arrow} {
       transform: rotate(180deg);
@@ -136,10 +142,27 @@ export const LiStyled = styled.li`
   @media (min-width: 1200px) {
     justify-content: center;
     align-items: center;
-    overflow: visible;
+    /* overflow: visible; */
     &:hover {
       ${Arrow} {
         transform: rotate(180deg);
+      }
+      ${SubCategorieContainer} {
+        ${(props) =>
+          props.columns
+            ? `
+            left: -100%;
+            width: 60rem;
+            max-height: 85vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 0 0.5rem;
+            visibility: visible;
+        `
+            : `
+        visibility: visible;
+      max-height: 150vh;
+    `}
       }
     }
   }

@@ -107,6 +107,7 @@ const Filter = ({
                           category.sub_category.replace(/ /gi, "-")
                         )
                       }
+                      text={category.sub_category.length > 27 ? true : false}
                     >
                       <CheckInput
                         show={
@@ -117,7 +118,11 @@ const Filter = ({
                             : false
                         }
                       />
-                      <CategoriesName>{category.sub_category}</CategoriesName>
+                      <CategoriesName
+                        text={category.sub_category.length > 27 ? true : false}
+                      >
+                        {category.sub_category}
+                      </CategoriesName>
                     </CategoriesList>
                   ))}
                 </CategoriesContainer>

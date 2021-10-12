@@ -20,7 +20,7 @@ export const Item = styled.div`
   img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
     position: absolute;
     top: 0;
     bottom: 0;
@@ -36,12 +36,14 @@ export const Item = styled.div`
   }
   @media (min-width: 750px) {
     height: 35rem;
-    img {
-      object-fit: cover;
-    }
   }
   @media (min-width: 1200px) {
+    height: 50rem;
     border-radius: 2rem;
+    a {
+      padding-bottom: 3rem;
+      align-items: flex-end;
+    }
   }
 `;
 
@@ -57,6 +59,13 @@ export const Filter = styled.div`
   top: 0;
   left: 0;
   z-index: 2;
+  @media (min-width: 1200px) {
+    background: linear-gradient(
+      129deg,
+      rgba(18, 89, 230, 0) 0.02%,
+      var(--blue) 78%
+    );
+  }
 `;
 
 export const Text = styled.p`
@@ -88,7 +97,7 @@ export const Text = styled.p`
     padding: 1rem;
     font-size: 6rem;
     font-weight: 700;
-    margin-right: 5rem;
+    margin-right: 4rem;
     border-radius: 1rem;
   }
 `;

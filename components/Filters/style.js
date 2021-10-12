@@ -75,9 +75,6 @@ export const InputPriceContainer = styled.div`
   ::placeholder {
     color: var(--blue);
   }
-  @media (min-width: 1200px) {
-    width: 100%;
-  }
 `;
 
 export const InputRangePrice = styled.input`
@@ -164,7 +161,6 @@ export const FilterSection = styled.section`
   @media (min-width: 750px) {
   }
   @media (min-width: 1200px) {
-    width: 95%;
     margin: 1.5rem auto;
   }
 `;
@@ -269,6 +265,25 @@ export const CategoriesContainer = styled.ul`
   align-items: flex-start;
 `;
 
+export const CategoriesName = styled.a`
+  width: 95%;
+  margin-left: 1rem;
+  white-space: nowrap;
+  color: var(--blue);
+  cursor: pointer;
+  position: relative;
+  transform: translate(0, 0);
+  transition: 0.3s ease-in-out all;
+  ${(props) =>
+    props.text &&
+    `
+      width: 81%;
+        position: absolute;
+        margin-left: 2rem;
+        overflow: hidden;
+      `}
+`;
+
 export const CategoriesList = styled.li`
   width: 100%;
   padding: 0.4rem 0.6rem;
@@ -278,10 +293,23 @@ export const CategoriesList = styled.li`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  transition: 0.3s ease-in-out all;
   &:hover {
-    border: 0.1rem solid var(--blue);
-    background-color: rgb(0 20 76 / 25%);
+    border: 0.1rem solid var(--background);
+    background-color: rgb(255 255 255 / 50%);
+    position: relative;
+    ${CategoriesName} {
+      overflow: visible;
+      ${(props) =>
+        props.text &&
+        `
+        width: 100%;
+        padding: 0.4rem;
+        margin: 0;
+        background-color: var(--white);
+        border-radius: 0.5rem;
+        transform: translate(-0.5rem, -2rem);
+      `}
+    }
   }
 `;
 
@@ -307,14 +335,6 @@ export const CheckInput = styled.div`
       width: 1.6rem;
       border-radius: 50%;      
       `}
-`;
-
-export const CategoriesName = styled.a`
-  width: 100%;
-  margin-left: 1rem;
-  white-space: nowrap;
-  color: var(--blue);
-  cursor: pointer;
 `;
 
 export const ApplyFiltersButton = styled.button`

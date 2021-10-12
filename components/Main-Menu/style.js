@@ -24,7 +24,7 @@ export const NavStyled = styled.nav`
     background-color: rgb(0 20 76 / 85%);
   }
   @media (min-width: 1200px) {
-    width: 95vw;
+    width: 99vw;
     height: fit-content;
     min-height: 1rem;
     padding: 0;
@@ -33,7 +33,7 @@ export const NavStyled = styled.nav`
     border-radius: 1rem;
     position: fixed;
     top: 8rem;
-    left: calc(50% - 47.5vw);
+    left: calc(50% - 49.5vw);
     z-index: 1000;
   }
 `;
