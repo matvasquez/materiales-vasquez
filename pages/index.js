@@ -12,28 +12,30 @@ import Brands from "../components/Brands/Brands";
 // Styles
 import styles from "../styles/components/Main.module.css";
 
-// export async function getServerSideProps() {
-//   // const responseSlider = await fetch(`http://localhost:3000/api/slider`);
-//   // const { data: sliderItems } = await responseSlider.json();
+export async function getServerSideProps() {
+  const responseSlider = await fetch(
+    `${process.env.NEXT_PUBLIC_URL}/api/slider`
+  );
+  const { data: sliderItems } = await responseSlider.json();
 
-//   // const getMainSections = await fetch(
-//   //   `http://localhost:3000/api/main-sections`
-//   // );
-//   // const { sections } = await getMainSections.json();
+  const getMainSections = await fetch(
+    `${process.env.NEXT_PUBLIC_URL}/api/main-sections`
+  );
+  const { sections } = await getMainSections.json();
 
-//   return {
-//     props: {
-//       sliderItems,
-//       sections,
-//       products: [],
-//     }, // se pasarán al componente de la página como props
-//   };
-// }
+  return {
+    props: {
+      sliderItems,
+      sections,
+      products: [],
+    }, // se pasarán al componente de la página como props
+  };
+}
 
 const HomePage = (props) => {
   const {
-    // sliderItems,
-    // sections,
+    sliderItems,
+    sections,
     products,
 
     itemsIliked,
@@ -47,33 +49,21 @@ const HomePage = (props) => {
   }, [itemsIliked]);
 
   // :::::::::::::::::::::::::::::::::::::::::::
-  const [sliderItems, setSliderItems] = useState([]);
-  const [sections, setSections] = useState([]);
 
-  useEffect(async () => {
-    const responseSlider = await fetch(`/api/slider`);
-    const { data: sliderItems } = await responseSlider.json();
-    setSliderItems(sliderItems);
-
-    const getMainSections = await fetch(`/api/main-sections`);
-    const { sections: data } = await getMainSections.json();
-    setSections(data);
-  }, []);
-
-  useEffect(() => {
-    if (sections.length > 0) {
-      sections.forEach(async (section) => {
-        console.log(section.title);
-        const response = await fetch(
-          `/api/related-by-subcategory/${section.title
-            .replace(/-/gi, " ")
-            .replace(/Ñ/gi, "enne")}?first=1&last=8`
-        );
-        const { data } = await response.json();
-        console.log(section.title, data);
-      });
-    }
-  }, [sections]);
+  // useEffect(() => {
+  //   if (sections.length > 0) {
+  //     sections.forEach(async (section) => {
+  //       console.log(section.title);
+  //       const response = await fetch(
+  //         `/api/related-by-subcategory/${section.title
+  //           .replace(/-/gi, " ")
+  //           .replace(/Ñ/gi, "enne")}?first=1&last=8`
+  //       );
+  //       const { data } = await response.json();
+  //       console.log(section.title, data);
+  //     });
+  //   }
+  // }, [sections]);
 
   return (
     <>
