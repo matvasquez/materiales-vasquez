@@ -250,7 +250,7 @@ const MakePayment = (props) => {
   // Limita el numero de llamados a las funciones de
   // enviar mail y cambiar de pagina
   const handlePurchase = debounce(async (e, elementArr) => {
-    // forwardForm(e.data, elementArr);
+    forwardForm(e.data, elementArr);
     handleSubmit(e);
   }, 3000);
 
