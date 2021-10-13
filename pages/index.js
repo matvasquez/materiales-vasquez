@@ -6,54 +6,34 @@ import { connect } from "react-redux";
 // Components
 import Slider from "../components/Slider/Slider";
 import ArticlesLiked from "../components/Articles-Liked/ArticlesLiked";
-import ArticlesSection from "../components/Articles-Section/index";
+import HomeSection from "../components/Home-Sections/index";
 import Brands from "../components/Brands/Brands";
 
 // Styles
 import styles from "../styles/components/Main.module.css";
 
-// Globales
-const first_section = "LAMPARA";
-const second_section = "200";
+// export async function getServerSideProps() {
+//   // const responseSlider = await fetch(`http://localhost:3000/api/slider`);
+//   // const { data: sliderItems } = await responseSlider.json();
 
-export async function getServerSideProps() {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/new-products`
-  );
-  const { data: newProducts } = await response.json();
+//   // const getMainSections = await fetch(
+//   //   `http://localhost:3000/api/main-sections`
+//   // );
+//   // const { sections } = await getMainSections.json();
 
-  const responseSection = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/products-by-name/${first_section}?first=1&last=8`
-  );
-  const { data: productsByName } = await responseSection.json();
-
-  const responseSectionPrice = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/products-by-price/${second_section}?first=1&last=8`
-  );
-  const { data: productsByPrice } = await responseSectionPrice.json();
-
-  return {
-    props: {
-      products: [
-        {
-          title: "Productos Nuevos",
-          productlist: newProducts,
-        },
-        {
-          title: "lámparas",
-          productlist: productsByName,
-        },
-        {
-          title: `Menos de ${second_section.toLowerCase()}`,
-          productlist: productsByPrice,
-        },
-      ],
-    }, // se pasarán al componente de la página como props
-  };
-}
+//   return {
+//     props: {
+//       sliderItems,
+//       sections,
+//       products: [],
+//     }, // se pasarán al componente de la página como props
+//   };
+// }
 
 const HomePage = (props) => {
   const {
+    // sliderItems,
+    // sections,
     products,
 
     itemsIliked,
@@ -65,6 +45,35 @@ const HomePage = (props) => {
       ? setThereAreItemsThatIlike(true)
       : setThereAreItemsThatIlike(false);
   }, [itemsIliked]);
+
+  // :::::::::::::::::::::::::::::::::::::::::::
+  const [sliderItems, setSliderItems] = useState([]);
+  const [sections, setSections] = useState([]);
+
+  useEffect(async () => {
+    const responseSlider = await fetch(`/api/slider`);
+    const { data: sliderItems } = await responseSlider.json();
+    setSliderItems(sliderItems);
+
+    const getMainSections = await fetch(`/api/main-sections`);
+    const { sections: data } = await getMainSections.json();
+    setSections(data);
+  }, []);
+
+  useEffect(() => {
+    if (sections.length > 0) {
+      sections.forEach(async (section) => {
+        console.log(section.title);
+        const response = await fetch(
+          `/api/related-by-subcategory/${section.title
+            .replace(/-/gi, " ")
+            .replace(/Ñ/gi, "enne")}?first=1&last=8`
+        );
+        const { data } = await response.json();
+        console.log(section.title, data);
+      });
+    }
+  }, [sections]);
 
   return (
     <>
@@ -109,7 +118,7 @@ const HomePage = (props) => {
       />
 
       <main className={styles.MainHome}>
-        <Slider />
+        <Slider sliderItems={sliderItems} />
         {thereAreItemsThatIlike && (
           <>
             {itemsIliked.length > 0 && (
@@ -119,12 +128,8 @@ const HomePage = (props) => {
             )}
           </>
         )}
-        {products.map((section) => (
-          <ArticlesSection
-            key={section.title}
-            title={section.title}
-            products={section.productlist}
-          />
+        {sections.map((section, i) => (
+          <HomeSection key={section.title} title={section.title} first={i} />
         ))}
         <Brands />
       </main>

@@ -9,14 +9,8 @@ export const SliderItem = ({ text, image }) => {
     <Item>
       <Link href="#" passHref>
         <a aria-label={`Ver más sobre ${text}`}>
-          {text != "" && (
-            <>
-              <Text>{text}</Text>
-              <Filter />
-            </>
-          )}
           <img
-            src={image}
+            src={`data:image/jpg;base64,${image}`}
             width={1024}
             height={600}
             alt={`Imagen de ${text}`}

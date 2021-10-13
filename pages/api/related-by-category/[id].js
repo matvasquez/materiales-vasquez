@@ -31,8 +31,6 @@ export default async function getProductsByCategorie(req, res) {
       ON a.CLAVEGIR = g.CLAVEGIR
   LEFT OUTER JOIN ARTGIRO2 AS g2
       ON a.CLAVEGIR2 = g2.CLAVEGIR2
-  LEFT OUTER JOIN CAT_CLAS AS c
-      ON a.CVE_CLAS = c.CVE_CLAS
   LEFT OUTER JOIN IMAGENES AS i
       ON a.CLAVEART = i.CAMPO1
   LEFT OUTER JOIN ART_ALM AS s
@@ -43,7 +41,7 @@ export default async function getProductsByCategorie(req, res) {
       /enne/gi,
       "Ñ"
     )}' AND a.HABVTAS = '' AND l.NO_LISTAP = '001' AND i.IMAGEN IS NOT NULL AND s.CVEALM IN ('0020','0007','0018','0014','0015','0002','0008','0023','0017','0028','0027')
-  GROUP BY a.CLAVEART, a.DESC_BREVE, a.DESCRIBEAR, l.PREC_IVA1, a.CVE_CLAS, g.DESGIR, a.CLAVEGIR, g2.DESC_GIR2, i.IMAGEN, a.FECHA_ALTA
+  GROUP BY a.CLAVEART, a.DESC_BREVE, a.DESCRIBEAR, l.PREC_IVA1, g.DESGIR, a.CLAVEGIR, g2.DESC_GIR2, i.IMAGEN, a.FECHA_ALTA
   ) AS articles_with_row_nums
   WHERE row_id BETWEEN ${req.query.first || 1} AND ${req.query.last || 6};`;
 
