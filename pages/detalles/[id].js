@@ -48,9 +48,8 @@ import {
 
 export const getServerSideProps = async ({ params }) => {
   // Solicita los datos del articulo principal
-  // `${process.env.NEXT_PUBLIC_URL}/api/detalles/${params.id}`
   const responseDetails = await fetch(
-    `http://localhost:3000/api/detalles-initial/${params.id}`
+    `${process.env.NEXT_PUBLIC_URL}/api/detalles-initial/${params.id}`
   );
   const { data: product } = await responseDetails.json();
 
@@ -139,15 +138,15 @@ const ProductPage = (props) => {
   // console.log("product: ", product);
 
   // :::::::::::::::::::::::::::::::::::::::::::::
-  useEffect(async () => {
-    // Solicita los datos iniciales
-    const responseRelatedByName = await fetch(
-      `/api/detalles-initial/${product.articulo_id
-        .replace(/ /gi, "space")
-        .replace(/\//gi, "slash")}`
-    );
-    const { data } = await responseRelatedByName.json();
-  }, []);
+  // useEffect(async () => {
+  //   // Solicita los datos iniciales
+  //   const responseRelatedByName = await fetch(
+  //     `/api/detalles-initial/${product.articulo_id
+  //       .replace(/ /gi, "space")
+  //       .replace(/\//gi, "slash")}`
+  //   );
+  //   const { data } = await responseRelatedByName.json();
+  // }, []);
 
   // :::::::::::::::::::::::::::::::::::::::::::::
 
