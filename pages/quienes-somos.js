@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
 
 // Styled-Components
@@ -13,6 +13,27 @@ import {
 } from "../styles/quienes-somos/style";
 
 const AboutUs = () => {
+  // :::::::::::::::::::::::::::::::::::::::::::::
+  useEffect(async () => {
+    // Solicita los datos iniciales
+    const responseRelatedByName = await fetch(
+      `/api/detalles-initial/${product.articulo_id
+        .replace(/ /gi, "space")
+        .replace(/\//gi, "slash")}`
+    );
+    const { data } = await responseRelatedByName.json();
+  }, []);
+
+  // :::::::::::::::::::::::::::::::::::::::::::::
+
+  // :::::::::::::::::::::::::::::::::::::::::::::
+  useEffect(async () => {
+    const response = await fetch(`/api/categories/all-categories`);
+    const { data } = await response.json();
+  }, []);
+
+  // :::::::::::::::::::::::::::::::::::::::::::::
+
   return (
     <>
       <Head>

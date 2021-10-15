@@ -48,34 +48,33 @@ import {
 
 export const getServerSideProps = async ({ params }) => {
   // Solicita los datos del articulo principal
+  // `${process.env.NEXT_PUBLIC_URL}/api/detalles/${params.id}`
   const responseDetails = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/detalles/${params.id}`
+    `http://localhost:3000/api/detalles-initial/${params.id}`
   );
   const { data: product } = await responseDetails.json();
+
   // Solicita articulos relacionados por nombre
+  // const responseRelatedByName = await fetch(
+  //   `${process.env.NEXT_PUBLIC_URL}/api/related-by-name/${product[0].name
+  //     .split(" ")[0]
+  //     .replace(/\//gi, "slash")}?first=1&last=6`
+  // );
+  // const { data: related } = await responseRelatedByName.json();
 
-  const responseRelatedByName = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/related-by-name/${product[0].name
-      .split(" ")[0]
-      .replace(/\//gi, "slash")}?first=1&last=6`
-  );
-  const { data: related } = await responseRelatedByName.json();
-
-  // Solicita articulos relacionados por categoria
-  const responseRelatedByCategory = await fetch(
-    `${
-      process.env.NEXT_PUBLIC_URL
-    }/api/related-by-category/${product[0].category
-      .replace(/ /gi, "-")
-      .replace(/Ñ/gi, "enne")}?first=1&last=6`
-  );
-  const { data: relatedCategory } = await responseRelatedByCategory.json();
+  // // Solicita articulos relacionados por categoria
+  // const responseRelatedByCategory = await fetch(
+  //   `${
+  //     process.env.NEXT_PUBLIC_URL
+  //   }/api/related-by-category/${product[0].category
+  //     .replace(/ /gi, "-")
+  //     .replace(/Ñ/gi, "enne")}?first=1&last=6`
+  // );
+  // const { data: relatedCategory } = await responseRelatedByCategory.json();
 
   return {
     props: {
       product: product[0],
-      related: related,
-      relatedCategory: relatedCategory,
     },
   };
 };
@@ -83,8 +82,6 @@ export const getServerSideProps = async ({ params }) => {
 const ProductPage = (props) => {
   const {
     product,
-    related = [],
-    relatedCategory = [],
 
     myCart,
     itemsIliked,
@@ -94,6 +91,13 @@ const ProductPage = (props) => {
     setIitemsIliked,
     setDeleteFavorite,
   } = props;
+  // Articulos relacionados por nombre
+  const [related, setRelated] = useState([]);
+  // Articulos relacionados por categoria
+  const [relatedCategory, setRelatedCategory] = useState([]);
+  // Categorias del articulo
+  const [categories, setCategories] = useState([]);
+
   const [currentUrl, setCurrentUrl] = useState("");
 
   // Hook que verifica si el producto esta entre los favoritos
@@ -130,6 +134,59 @@ const ProductPage = (props) => {
       setCurrentUrl(window.location);
     }
   }, []);
+
+  // :::::::::::::::::::::::::::::::::::::::::::::
+  // console.log("product: ", product);
+
+  // :::::::::::::::::::::::::::::::::::::::::::::
+  useEffect(async () => {
+    // Solicita los datos iniciales
+    const responseRelatedByName = await fetch(
+      `/api/detalles-initial/${product.articulo_id
+        .replace(/ /gi, "space")
+        .replace(/\//gi, "slash")}`
+    );
+    const { data } = await responseRelatedByName.json();
+  }, []);
+
+  // :::::::::::::::::::::::::::::::::::::::::::::
+
+  useEffect(async () => {
+    // Solicita los nombres de las categorias a las que pertenece
+    const responseRelatedByName = await fetch(
+      `/api/detalles-categories/${product.articulo_id
+        .replace(/ /gi, "space")
+        .replace(/\//gi, "slash")}`
+    );
+    const { data: categories } = await responseRelatedByName.json();
+    setCategories(categories);
+  }, [product]);
+
+  useEffect(async () => {
+    // Solicita articulos relacionados por nombre
+    const responseRelatedByName = await fetch(
+      `/api/related-by-name/${product.name
+        .split(" ")[0]
+        .replace(/\//gi, "slash")}?first=1&last=6`
+    );
+    const { data: related } = await responseRelatedByName.json();
+    setRelated(related);
+  }, [product]);
+
+  useEffect(async () => {
+    // Solicita articulos relacionados por categoria
+    if (categories.length > 0) {
+      const responseRelatedByCategory = await fetch(
+        `/api/related-by-category/${categories[0].category
+          .replace(/ /gi, "-")
+          .replace(/Ñ/gi, "enne")}?first=1&last=6`
+      );
+      const { data: relatedCategory } = await responseRelatedByCategory.json();
+      setRelatedCategory(relatedCategory);
+    }
+  }, [categories]);
+
+  // :::::::::::::::::::::::::::::::::::::::::::::
 
   return (
     <>
@@ -220,26 +277,31 @@ const ProductPage = (props) => {
                 <>{stock <= 0 ? "Sin existencias" : "Consultando..."}</>
               )}
             </Paragraph>
-            <Categories>
-              Categorías
-              <Link
-                href={`/categoria/${product.category.replace(/ /gi, "-")}`}
-                passHref
-              >
-                <Category>{product.category}</Category>
-              </Link>{" "}
-              {product.main_category && (
+            {categories.length > 0 && (
+              <Categories>
+                Categorías
                 <Link
-                  href={`/categoria/${product.category.replace(
+                  href={`/categoria/${categories[0].category.replace(
                     / /gi,
                     "-"
-                  )}/${product.main_category.replace(/ /gi, "-")}`}
+                  )}`}
                   passHref
                 >
-                  <Category>{product.main_category}</Category>
-                </Link>
-              )}
-            </Categories>
+                  <Category>{categories[0].category}</Category>
+                </Link>{" "}
+                {categories[0].main_category && (
+                  <Link
+                    href={`/categoria/${categories[0].main_category.replace(
+                      / /gi,
+                      "-"
+                    )}/${categories[0].main_category.replace(/ /gi, "-")}`}
+                    passHref
+                  >
+                    <Category>{categories[0].main_category}</Category>
+                  </Link>
+                )}
+              </Categories>
+            )}
             <Sku>
               SKU: <Span>{product.articulo_id}</Span>
             </Sku>
