@@ -138,6 +138,7 @@ export const BoxMinmax = styled.div`
   padding: 1rem;
   margin-bottom: 2.5rem;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   border: 0.2rem solid var(--blue);
@@ -147,6 +148,10 @@ export const BoxMinmax = styled.div`
 export const InputPrice = styled.p`
   font-size: 1.6rem;
   font-weight: 500;
+`;
+
+export const Max = styled.p`
+  font-size: 1rem;
 `;
 
 export const FilterSection = styled.section`

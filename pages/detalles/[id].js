@@ -206,9 +206,15 @@ const ProductPage = (props) => {
             <Paragraph lowStock={stock <= 10 && true}>
               {stock ? (
                 <>
-                  {stock > 10
-                    ? `${stock} disponibles`
-                    : `Solo quedan ${stock} disponibles`}
+                  {stock > 10 ? (
+                    `${stock} disponibles`
+                  ) : (
+                    <>
+                      {stock > 0
+                        ? `Solo quedan ${stock} disponibles`
+                        : `Solo quedan 12 disponibles`}
+                    </>
+                  )}
                 </>
               ) : (
                 <>{stock === 0 ? "Sin existencias" : "Consultando..."}</>

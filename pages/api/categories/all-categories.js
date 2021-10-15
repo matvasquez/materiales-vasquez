@@ -18,10 +18,13 @@ export default async function getAllCategories(req, res) {
   }
   setTimeout(async () => {
     const result = await rest.executeQuery(
-      `SELECT DISTINCT RTRIM(DESCRIBECO) AS category, DESCRIBECO AS category_id
-      FROM CAT_CLAS
-      ORDER BY DESCRIBECO ASC;`
+      `SELECT RTRIM(CLAVEGIR2) AS id, RTRIM(DESC_GIR2) AS name FROM ARTGIRO2`
     );
+    // const result = await rest.executeQuery(
+    //   `SELECT DISTINCT RTRIM(DESCRIBECO) AS category, DESCRIBECO AS category_id
+    //   FROM CAT_CLAS
+    //   ORDER BY DESCRIBECO ASC;`
+    // );
 
     result &&
       res.status(200).json({

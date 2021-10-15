@@ -12,7 +12,7 @@ import Brands from "../components/Brands/Brands";
 // Styles
 import styles from "../styles/components/Main.module.css";
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const responseSlider = await fetch(
     `${process.env.NEXT_PUBLIC_URL}/api/slider`
   );
@@ -27,7 +27,6 @@ export async function getServerSideProps() {
     props: {
       sliderItems,
       sections,
-      products: [],
     }, // se pasarán al componente de la página como props
   };
 }
@@ -36,7 +35,6 @@ const HomePage = (props) => {
   const {
     sliderItems,
     sections,
-    products,
 
     itemsIliked,
   } = props;
@@ -47,23 +45,6 @@ const HomePage = (props) => {
       ? setThereAreItemsThatIlike(true)
       : setThereAreItemsThatIlike(false);
   }, [itemsIliked]);
-
-  // :::::::::::::::::::::::::::::::::::::::::::
-
-  // useEffect(() => {
-  //   if (sections.length > 0) {
-  //     sections.forEach(async (section) => {
-  //       console.log(section.title);
-  //       const response = await fetch(
-  //         `/api/related-by-subcategory/${section.title
-  //           .replace(/-/gi, " ")
-  //           .replace(/Ñ/gi, "enne")}?first=1&last=8`
-  //       );
-  //       const { data } = await response.json();
-  //       console.log(section.title, data);
-  //     });
-  //   }
-  // }, [sections]);
 
   return (
     <>

@@ -69,6 +69,7 @@ const MainMenu = ({ isOpen, handleOpen }) => {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Enlace a Twitter"
+          bg="#25d366"
         >
           <Whatsapp width="75%" />
         </LinkIcon>

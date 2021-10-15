@@ -9,7 +9,7 @@ import Filter from "../components/Filters/Filters";
 // Styles
 import styles from "../styles/components/Main.module.css";
 
-export async function getServerSideProps(context) {
+export async function getStaticProps() {
   const responseSection = await fetch(
     `${process.env.NEXT_PUBLIC_URL}/api/new-products?first=1&last=20`
   );

@@ -12,6 +12,7 @@ import {
   InputRangePrice,
   BoxMinmax,
   InputPrice,
+  Max,
   FilterSection,
   SectionName,
   CategoriesScroll,
@@ -135,6 +136,7 @@ const Filter = ({
         <InputPriceContainer>
           <BoxMinmax>
             <InputPrice>${formatter.format(maxPrice)}</InputPrice>
+            <Max>max</Max>
           </BoxMinmax>
           <InputRangePrice
             type="range"

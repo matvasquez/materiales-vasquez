@@ -17,18 +17,29 @@ import {
   ClearFilters,
 } from "../../styles/categoria/style";
 
-export async function getServerSideProps({ params }) {
+export const getStaticPaths = async () => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_URL}/api/categories/main-menu`
+  );
+  const { data } = await response.json();
+
+  const paths = data.map(({ name }) => ({
+    params: {
+      id: name.replace(/ /gi, "-"),
+    },
+  }));
+
+  return {
+    paths,
+    fallback: false,
+  };
+};
+
+export const getStaticProps = async ({ params }) => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/${params.id
       .replace(/ /gi, "-")
-      .replace(/Ñ/gi, "enne")}?first=1&last=20`,
-    {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json; charset=utf-8",
-      },
-    }
+      .replace(/Ñ/gi, "enne")}?first=1&last=20`
   );
   const { data: products } = await response.json();
 
@@ -55,7 +66,7 @@ export async function getServerSideProps({ params }) {
       title: `${params.id.replace(/-/gi, " ")}`,
     }, // se pasarán al componente de la página como props
   };
-}
+};
 
 const Categories = (props) => {
   const {

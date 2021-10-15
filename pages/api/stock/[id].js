@@ -30,7 +30,7 @@ export default async function getStockOfAProduct(req, res) {
     .replace(
       /slash/gi,
       "/"
-    )}' AND a.HABVTAS = '' AND l.NO_LISTAP = '001' AND s.CVEALM IN ('0020','0007','0018','0014','0015','0002','0008','0023','0017','0028','0027')`;
+    )}' AND a.HABVTAS = '' AND l.NO_LISTAP = '001' AND s.CVEALM IN ('0020','0007','0018','0014','0015','0002','0008','0023','0017','0028','0027', '0021')`;
   // console.log("Stock :", query);
 
   setTimeout(async () => {
