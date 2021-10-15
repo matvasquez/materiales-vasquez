@@ -217,7 +217,7 @@ const ProductPage = (props) => {
                   )}
                 </>
               ) : (
-                <>{stock === 0 ? "Sin existencias" : "Consultando..."}</>
+                <>{stock <= 0 ? "Sin existencias" : "Consultando..."}</>
               )}
             </Paragraph>
             <Categories>

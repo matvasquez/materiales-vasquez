@@ -36,24 +36,31 @@ export const getStaticPaths = async () => {
 };
 
 export const getStaticProps = async ({ params }) => {
+  const categorie = params.id
+    .replace(/á/g, "aacento")
+    .replace(/é/g, "eacento")
+    .replace(/í/g, "iacento")
+    .replace(/ó/g, "oacento")
+    .replace(/ú/g, "uacento")
+    .replace(/Á/g, "Aacento")
+    .replace(/É/g, "Eacento")
+    .replace(/Í/g, "Iacento")
+    .replace(/Ó/g, "Oacento")
+    .replace(/Ú/g, "Uacento")
+    .replace(/Ñ/g, "enne");
+
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/${params.id
-      .replace(/ /gi, "-")
-      .replace(/Ñ/gi, "enne")}?first=1&last=20`
+    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/${categorie}?first=1&last=20`
   );
   const { data: products } = await response.json();
 
   const responseSubcategories = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/categories/by-section/${params.id
-      .replace(/ /gi, "-")
-      .replace(/Ñ/gi, "enne")}`
+    `${process.env.NEXT_PUBLIC_URL}/api/categories/by-section/${categorie}`
   );
   const { data: subCategories } = await responseSubcategories.json();
 
   const responseBrands = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/brands/${params.id
-      .replace(/ /gi, "-")
-      .replace(/Ñ/gi, "enne")}`
+    `${process.env.NEXT_PUBLIC_URL}/api/brands/${categorie}`
   );
   const { brands } = await responseBrands.json();
 
