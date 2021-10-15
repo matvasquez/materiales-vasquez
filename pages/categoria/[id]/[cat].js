@@ -176,16 +176,27 @@ const mainCategories = [
 // };
 
 export async function getServerSideProps({ params }) {
+  console.log(
+    `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/${params.cat
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/s$/g, "")
+      .replace(/Ñ/gi, "enne")}?first=1&last=20`
+  );
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/${params.cat
-      .replace(/-/gi, " ")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/s$/g, "")
       .replace(/Ñ/gi, "enne")}?first=1&last=20`
   );
   const { data: products } = await response.json();
 
   const responseBrands = await fetch(
     `${process.env.NEXT_PUBLIC_URL}/api/brands-sub-categories/${params.cat
-      .replace(/ /gi, "-")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/s$/g, "")
       .replace(/Ñ/gi, "enne")}`
   );
   const { brands } = await responseBrands.json();
@@ -244,7 +255,9 @@ const Categories = (props) => {
         data.map(async ({ name }) => {
           const response = await fetch(
             `/api/related-by-subcategory/${name
-              .replace(/-/gi, " ")
+              .normalize("NFD")
+              .replace(/[\u0300-\u036f]/g, "")
+              .replace(/s$/g, "")
               .replace(/Ñ/gi, "enne")}?first=1&last=20`
           );
           const { data: products } = await response.json();
