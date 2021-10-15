@@ -175,11 +175,22 @@ const mainCategories = [
 //   };
 // };
 
+// Export encountered errors on following paths:
+// 	/categoria/COCINA/PLÁSTICOS
+// 	/categoria/FERRETERIA/CABLES-ELÉCTRICOS
+// 	/categoria/FERRETERIA/CARPINTERÍA
+// 	/categoria/FERRETERIA/ELÉCTRONICA
+// 	/categoria/FERRETERIA/FERRETERÍA-GENERAL
+// 	/categoria/FERRETERIA/TUBERÍA
+// 	/categoria/HOGAR/DECORACION
+// 	/categoria/HOGAR/VENTILACION-Y-CALEFACCIÓN
+
 export async function getServerSideProps({ params }) {
   console.log(
     `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/${params.cat
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
+      .replace(/ /gi, "-")
       .replace(/s$/g, "")
       .replace(/Ñ/gi, "enne")}?first=1&last=20`
   );
@@ -187,6 +198,7 @@ export async function getServerSideProps({ params }) {
     `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/${params.cat
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
+      .replace(/ /gi, "-")
       .replace(/s$/g, "")
       .replace(/Ñ/gi, "enne")}?first=1&last=20`
   );
@@ -196,6 +208,7 @@ export async function getServerSideProps({ params }) {
     `${process.env.NEXT_PUBLIC_URL}/api/brands-sub-categories/${params.cat
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
+      .replace(/ /gi, "-")
       .replace(/s$/g, "")
       .replace(/Ñ/gi, "enne")}`
   );
@@ -257,6 +270,7 @@ const Categories = (props) => {
             `/api/related-by-subcategory/${name
               .normalize("NFD")
               .replace(/[\u0300-\u036f]/g, "")
+              .replace(/ /gi, "-")
               .replace(/s$/g, "")
               .replace(/Ñ/gi, "enne")}?first=1&last=20`
           );
