@@ -193,11 +193,6 @@ export async function getStaticProps({ params }) {
     .replace(/Ú/g, "Uacento")
     .replace(/Ñ/g, "enne");
 
-  console.log("====================================");
-  console.log(
-    `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/${categorie}?first=1&last=20`
-  );
-  console.log("====================================");
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/${categorie}?first=1&last=20`
   );
@@ -280,45 +275,49 @@ const Categories = (props) => {
 
   // :::::::::::::::::::::::::::::::::::::::::::::
 
-  useEffect(async () => {
-    mainCategories.map(async ({ category_id, name }) => {
-      const response = await fetch(
-        `/api/categories/sub-categories/${category_id}`
-      );
-      const { data } = await response.json();
-      // console.log(name, data);
+  // useEffect(async () => {
+  //   mainCategories.map(async ({ category_id }) => {
+  //     const response = await fetch(
+  //       `/api/categories/sub-categories/${category_id}`
+  //     );
+  //     const { data } = await response.json();
+  //     // console.log(name, data);
 
-      if (data) {
-        data.map(async ({ name }) => {
-          const categorie = name
-            .replace(/á/g, "aacento")
-            .replace(/é/g, "eacento")
-            .replace(/í/g, "iacento")
-            .replace(/ó/g, "oacento")
-            .replace(/ú/g, "uacento")
-            .replace(/Á/g, "Aacento")
-            .replace(/É/g, "Eacento")
-            .replace(/Í/g, "Iacento")
-            .replace(/Ó/g, "Oacento")
-            .replace(/Ú/g, "Uacento")
-            .replace(/Ñ/gi, "enne");
-          const response = await fetch(
-            `/api/related-by-subcategory/${categorie}?first=1&last=2`
-          );
-          const { data: products } = await response.json();
-          console.log(
-            `/api/related-by-subcategory/${categorie}?first=1&last=2`
-          );
-          console.log(name, products);
+  //     if (data) {
+  //       data.map(async ({ name }) => {
+  //         const categorie = name
+  //           .replace(/á/g, "aacento")
+  //           .replace(/é/g, "eacento")
+  //           .replace(/í/g, "iacento")
+  //           .replace(/ó/g, "oacento")
+  //           .replace(/ú/g, "uacento")
+  //           .replace(/Á/g, "Aacento")
+  //           .replace(/É/g, "Eacento")
+  //           .replace(/Í/g, "Iacento")
+  //           .replace(/Ó/g, "Oacento")
+  //           .replace(/Ú/g, "Uacento")
+  //           .replace(/Ñ/gi, "enne");
+  //         const response = await fetch(
+  //           `/api/related-by-subcategory/${categorie}?first=1&last=3`
+  //         );
+  //         const { data: products } = await response.json();
 
-          const responseBrands = await fetch(
-            `/api/brands-sub-categories/${categorie}`
-          );
-          const { brands } = await responseBrands.json();
-        });
-      }
-    });
-  }, []);
+  //         const responseBrands = await fetch(
+  //           `/api/brands-sub-categories/${categorie}`
+  //         );
+  //         const { brands } = await responseBrands.json();
+
+  //         console.log("====================================");
+  //         console.log({
+  //           name,
+  //           products,
+  //           brands,
+  //         });
+  //         console.log("====================================");
+  //       });
+  //     }
+  //   });
+  // }, []);
 
   // :::::::::::::::::::::::::::::::::::::::::::::
 

@@ -16,20 +16,6 @@ import {
 } from "./style";
 
 const HomeSection = ({ title, products, link, first }) => {
-  // const HomeSection = ({ title, first }) => {
-  //   const [products, setProducts] = useState([]);
-
-  //   useEffect(async () => {
-  //     const response = await fetch(
-  //       `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/${title
-  //         .replace(/-/gi, " ")
-  //         .replace(/Ñ/gi, "enne")}?first=1&last=8`
-  //     );
-  //     const { data } = await response.json();
-
-  //     setProducts(data);
-  //   }, [title]);
-
   return (
     <>
       {products.length > 0 ? (

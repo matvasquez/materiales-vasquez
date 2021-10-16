@@ -25,7 +25,7 @@ export default async function getSlidersData(req, res) {
     FROM ARTICULO AS a
     LEFT OUTER JOIN IMAGENES AS i
         ON a.CLAVEART = i.CAMPO1
-    WHERE a.CLAVEART IN ('SLIDER1', 'SLIDER2', 'SLIDER3')
+    WHERE a.CLAVEART IN ('SLIDER1', 'SLIDER2', 'SLIDER3') AND i.IMAGEN IS NOT NULL
     ORDER BY a.FECHA_ALTA DESC`);
 
     result &&

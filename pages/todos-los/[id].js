@@ -71,57 +71,6 @@ export async function getStaticProps({ params }) {
 
 const AllSections = (props) => {
   const { products, title, description } = props;
-  // const [openFilters, setOpenFilters] = useState(false);
-  // const [seeking, setSeeking] = useState(false);
-  // const [routeWithFilters, setRouteWithFilters] = useState(false);
-  // const [itemsLoaded, setItemsLoaded] = useState([]);
-
-  // useEffect(() => {
-  //   setItemsLoaded(products);
-  // }, []);
-
-  // const handleOpenFilters = () => {
-  //   setOpenFilters(!openFilters);
-  // };
-
-  // const setResetItemsLoaded = () => {
-  //   setItemsLoaded([]);
-  // };
-
-  // useEffect(() => {
-  //   setItemsLoaded(products);
-  // }, [products]);
-
-  // const applyFilters = async (minPrice, maxPrice, selectedBrands) => {
-  //   setSeeking(true);
-  //   const brandsQuery = selectedBrands.map((brand) => `'${brand}'`);
-
-  //   const response = await fetch(
-  //     `${
-  //       process.env.NEXT_PUBLIC_URL
-  //     }/api/filters/(${brandsQuery.toString()})?categorie=${title.replace(
-  //       / /gi,
-  //       "-"
-  //     )}&first=${minPrice.replace(/e/gi, "") || 0}&last=${
-  //       maxPrice.replace(/e/gi, "") || 100000
-  //     }`
-  //   );
-  //   const { data } = await response.json();
-
-  //   if (data) {
-  //     setResetItemsLoaded();
-  //     setItemsLoaded(data);
-  //     setSeeking(false);
-  //     handleOpenFilters();
-  //     setRouteWithFilters(true);
-  //   }
-  // };
-
-  // const beforeFiltering = () => {
-  //   setResetItemsLoaded();
-  //   setItemsLoaded(products);
-  //   setOpenFilters(false);
-  // };
 
   return (
     <>

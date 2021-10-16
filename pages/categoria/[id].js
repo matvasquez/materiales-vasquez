@@ -31,7 +31,7 @@ export const getStaticPaths = async () => {
 
   paths.push({
     params: {
-      id: "LO-MÁS-VENDIDO",
+      id: "LO-MÁS-VENDIDOS",
     },
   });
 
@@ -143,33 +143,47 @@ const Categories = (props) => {
   // :::::::::::::::::::::::::::::::::::::::::::::
 
   // useEffect(async () => {
-  //   mainCategories.map(async ({ category_id, name }) => {
-  //     const response = await fetch(
-  //       `/api/categories/sub-categories/${category_id}`
-  //     );
-  //     const { data } = await response.json();
-  //     // console.log(name, data);
+  //   const response = await fetch(
+  //     `${process.env.NEXT_PUBLIC_URL}/api/categories/main-menu`
+  //   );
+  //   const { data } = await response.json();
 
-  //     if (data) {
-  //       data.map(async ({ name }) => {
-  //         const response = await fetch(
-  //           `/api/related-by-category/${name
-  //             .replace(/'á'/gi, "a")
-  //             .replace(/'é'/gi, "e")
-  //             .replace(/'í'/gi, "i")
-  //             .replace(/'ó'/gi, "o")
-  //             .replace(/'ú'/gi, "u")
-  //             .replace(/'Á'/gi, "A")
-  //             .replace(/'É'/gi, "E")
-  //             .replace(/'Í'/gi, "I")
-  //             .replace(/'Ó'/gi, "O")
-  //             .replace(/'Ú'/gi, "Ú")
-  //             .replace(/Ñ/gi, "enne")}?first=1&last=2`
-  //         );
-  //         const { data: products } = await response.json();
-  //         // console.log(name, products);
-  //       });
-  //     }
+  //   data.map(async ({ name }) => {
+  //     const categorie = name
+  //       .replace(/ /g, "-")
+  //       .replace(/á/g, "aacento")
+  //       .replace(/é/g, "eacento")
+  //       .replace(/í/g, "iacento")
+  //       .replace(/ó/g, "oacento")
+  //       .replace(/ú/g, "uacento")
+  //       .replace(/Á/g, "Aacento")
+  //       .replace(/É/g, "Eacento")
+  //       .replace(/Í/g, "Iacento")
+  //       .replace(/Ó/g, "Oacento")
+  //       .replace(/Ú/g, "Uacento")
+  //       .replace(/Ñ/g, "enne");
+
+  //     const response = await fetch(
+  //       `/api/related-by-category/${categorie}?first=1&last=3`
+  //     );
+  //     const { data: products } = await response.json();
+
+  //     const responseSubcategories = await fetch(
+  //       `/api/categories/by-section/${categorie}`
+  //     );
+  //     const { data: subCategories } = await responseSubcategories.json();
+
+  //     const responseBrands = await fetch(`/api/brands/${categorie}`);
+  //     const { brands } = await responseBrands.json();
+
+  //     console.log("====================================");
+  //     console.log({
+  //       name,
+  //       products,
+  //       subCategories,
+  //       brands,
+  //     });
+  //     console.log("====================================");
   //   });
   // }, []);
   // :::::::::::::::::::::::::::::::::::::::::::::

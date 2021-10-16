@@ -117,17 +117,14 @@ const ProductPage = (props) => {
   }, []);
 
   // :::::::::::::::::::::::::::::::::::::::::::::
-  // console.log("product: ", product);
-
-  // :::::::::::::::::::::::::::::::::::::::::::::
   // useEffect(async () => {
   //   // Solicita los datos iniciales
-  //   const responseRelatedByName = await fetch(
-  //     `/api/detalles-initial/${product.articulo_id
-  //       .replace(/ /gi, "space")
-  //       .replace(/\//gi, "slash")}`
-  //   );
+  //   const responseRelatedByName = await fetch(`/api/detalles-initial/AL`);
   //   const { data } = await responseRelatedByName.json();
+
+  //   console.log("====================================");
+  //   console.log(data);
+  //   console.log("====================================");
   // }, []);
 
   // :::::::::::::::::::::::::::::::::::::::::::::
