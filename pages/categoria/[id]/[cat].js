@@ -195,11 +195,11 @@ export async function getStaticProps({ params }) {
 
   console.log("====================================");
   console.log(
-    `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/${categorie}?first=1&last=30`
+    `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/${categorie}?first=1&last=20`
   );
   console.log("====================================");
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/${categorie}?first=1&last=30`
+    `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/${categorie}?first=1&last=20`
   );
   const { data: products } = await response.json();
 
