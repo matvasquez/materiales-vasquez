@@ -53,24 +53,6 @@ export const getServerSideProps = async ({ params }) => {
   );
   const { data: product } = await responseDetails.json();
 
-  // Solicita articulos relacionados por nombre
-  // const responseRelatedByName = await fetch(
-  //   `${process.env.NEXT_PUBLIC_URL}/api/related-by-name/${product[0].name
-  //     .split(" ")[0]
-  //     .replace(/\//gi, "slash")}?first=1&last=6`
-  // );
-  // const { data: related } = await responseRelatedByName.json();
-
-  // // Solicita articulos relacionados por categoria
-  // const responseRelatedByCategory = await fetch(
-  //   `${
-  //     process.env.NEXT_PUBLIC_URL
-  //   }/api/related-by-category/${product[0].category
-  //     .replace(/ /gi, "-")
-  //     .replace(/Ñ/gi, "enne")}?first=1&last=6`
-  // );
-  // const { data: relatedCategory } = await responseRelatedByCategory.json();
-
   return {
     props: {
       product: product[0],

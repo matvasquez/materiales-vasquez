@@ -12,16 +12,70 @@ import Brands from "../components/Brands/Brands";
 // Styles
 import styles from "../styles/components/Main.module.css";
 
+// g.DESGIR = 'LO MÁS VENDIDOS'
+// g2.DESC_GIR2 = 'ILUMINACION'
+// g.DESGIR = 'FERRETERIA'
+// g2.DESC_GIR2 = 'PUERTAS Y VENTANAS'
+// g2.DESC_GIR2 = 'VENTILACION Y CALEFACCIÓN'
+
 export async function getStaticProps() {
   const responseSlider = await fetch(
     `${process.env.NEXT_PUBLIC_URL}/api/slider`
   );
   const { data: sliderItems } = await responseSlider.json();
 
-  const getMainSections = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/main-sections`
+  const responsebestsellers = await fetch(
+    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/LO-MAacentoS-VENDIDOS?first=1&last=16`
   );
-  const { sections } = await getMainSections.json();
+  const { data: bestsellers } = await responsebestsellers.json();
+
+  const responselighting = await fetch(
+    `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/ILUMINACION?first=1&last=8`
+  );
+  const { data: lighting } = await responselighting.json();
+
+  const responsehardware = await fetch(
+    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/FERRETERIA?first=1&last=8`
+  );
+  const { data: hardware } = await responsehardware.json();
+
+  const responsedoors = await fetch(
+    `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/PUERTAS-Y-VENTANAS?first=1&last=8`
+  );
+  const { data: doors } = await responsedoors.json();
+
+  const responseventilation = await fetch(
+    `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/VENTILACION Y CALEFACCIOacentoN?first=1&last=8`
+  );
+  const { data: ventilation } = await responseventilation.json();
+
+  const sections = [
+    {
+      title: "LO MÁS VENDIDO",
+      products: bestsellers,
+      link: "/categoria/LO-MÁS-VENDIDO",
+    },
+    {
+      title: "ILUMINACIÓN",
+      products: lighting,
+      link: "/categoria/HOGAR/ILUMINACION",
+    },
+    {
+      title: "FERRETERIA",
+      products: hardware,
+      link: "/categoria/FERRETERIA",
+    },
+    {
+      title: "PUERTAS Y VENTANAS",
+      products: doors,
+      link: "/categoria/HOGAR/PUERTAS-Y-VENTANAS",
+    },
+    {
+      title: "VENTILACIÓN",
+      products: ventilation,
+      link: "/categoria/HOGAR/VENTILACION-Y-CALEFACCIÓN",
+    },
+  ];
 
   return {
     props: {
@@ -100,7 +154,12 @@ const HomePage = (props) => {
           </>
         )}
         {sections.map((section, i) => (
-          <HomeSection key={section.title} title={section.title} first={i} />
+          <HomeSection
+            key={section.title}
+            title={section.title}
+            {...section}
+            first={i}
+          />
         ))}
         <Brands />
       </main>

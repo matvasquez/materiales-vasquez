@@ -29,6 +29,12 @@ export const getStaticPaths = async () => {
     },
   }));
 
+  paths.push({
+    params: {
+      id: "LO-MÁS-VENDIDO",
+    },
+  });
+
   return {
     paths,
     fallback: false,
@@ -50,7 +56,7 @@ export const getStaticProps = async ({ params }) => {
     .replace(/Ñ/g, "enne");
 
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/${categorie}?first=1&last=20`
+    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/${categorie}?first=1&last=40`
   );
   const { data: products } = await response.json();
 

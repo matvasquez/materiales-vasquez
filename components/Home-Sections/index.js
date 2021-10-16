@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Link from "next/link";
 
 // Components
@@ -15,20 +15,7 @@ import {
   TextEmptyContainer,
 } from "./style";
 
-const HomeSection = ({ title, first }) => {
-  const [products, setProducts] = useState([]);
-
-  useEffect(async () => {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/${title
-        .replace(/-/gi, " ")
-        .replace(/Ñ/gi, "enne")}?first=1&last=8`
-    );
-    const { data } = await response.json();
-
-    setProducts(data);
-  }, [title]);
-
+const HomeSection = ({ title, products, link, first }) => {
   return (
     <>
       {products.length > 0 ? (
@@ -43,9 +30,11 @@ const HomeSection = ({ title, first }) => {
               />
             ))}
           </ItemsContainer>
-          <Link href="#" passHref>
-            <ButtonMore>Ver todos</ButtonMore>
-          </Link>
+          {products.length >= 8 && (
+            <Link href={link} passHref>
+              <ButtonMore>Ver todos</ButtonMore>
+            </Link>
+          )}
         </SectionStyled>
       ) : (
         <>

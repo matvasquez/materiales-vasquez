@@ -9,7 +9,27 @@ import Filter from "../../components/Filters/Filters";
 // Styles
 import styles from "../../styles/components/Main.module.css";
 
-export async function getServerSideProps({ params }) {
+const rutes = ["lámparas", "Menos-de-200"];
+
+export const getStaticPaths = async () => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_URL}/api/categories/main-menu`
+  );
+  const { data } = await response.json();
+
+  const paths = data.map(({ name }) => ({
+    params: {
+      id: name.replace(/ /gi, "-"),
+    },
+  }));
+
+  return {
+    paths: [{ params: { id: "LAMPARA" } }, { params: { id: "Menos-de-200" } }],
+    fallback: false,
+  };
+};
+
+export async function getStaticProps({ params }) {
   let products;
 
   if (params.id === "Menos-de-200") {
@@ -19,13 +39,6 @@ export async function getServerSideProps({ params }) {
     const { data } = await responseSectionPrice.json();
     products = await data;
   } else {
-    console.log(
-      `${process.env.NEXT_PUBLIC_URL}/api/products-by-name/${params.id
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/s$/g, "")
-        .toUpperCase()}?first=1&last=20`
-    );
     const responseSection = await fetch(
       `${process.env.NEXT_PUBLIC_URL}/api/products-by-name/${params.id
         .normalize("NFD")

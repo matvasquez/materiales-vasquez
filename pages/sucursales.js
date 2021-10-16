@@ -41,7 +41,7 @@ const branches = [
       "https://res.cloudinary.com/duibtuerj/image/upload/v1630682646/brand/tiendas/Banderilla.jpg",
     phone: "2288401919",
     extent: ["853"],
-    email: "erreteria_banderilla@grupovasquez.com.mx",
+    email: "ferreteria_banderilla@grupovasquez.com.mx",
     hours: ["8:00", "19:00", "15:00"], // Apertura - Cierre - Cierre Sabados
     location: "https://goo.gl/maps/dUS5r4sraKLZQsA49",
   },
@@ -53,7 +53,7 @@ const branches = [
       "https://res.cloudinary.com/duibtuerj/image/upload/v1630682681/brand/tiendas/Margarita-Olivo.jpg",
     phone: "2288401919",
     extent: ["828"],
-    email: "recepcion@grupovasquez.com.mx",
+    email: "ventas3@grupovasquez.com.mx",
     hours: ["8:00", "19:00", "15:00"], // Apertura - Cierre - Cierre Sabados
     location: "https://goo.gl/maps/fmwY4dVusMrRGycV6",
   },
@@ -76,7 +76,7 @@ const branches = [
       "https://res.cloudinary.com/duibtuerj/image/upload/v1630682787/brand/tiendas/Revoluci%C3%B3n.jpg",
     phone: "2288401919",
     extent: ["863"],
-    email: "cotiza.mundo@grupovasquez.com.mx",
+    email: "ventas.revolucion@grupovasquez.com.mx",
     hours: ["8:00", "19:00", "15:00"], // Apertura - Cierre - Cierre Sabados
     location: "https://goo.gl/maps/UDum4sLi7jyuTm7W7",
   },
