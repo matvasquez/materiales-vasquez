@@ -193,6 +193,11 @@ export async function getStaticProps({ params }) {
     .replace(/Ú/g, "Uacento")
     .replace(/Ñ/g, "enne");
 
+  console.log("====================================");
+  console.log(
+    `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/${categorie}?first=1&last=40`
+  );
+  console.log("====================================");
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/${categorie}?first=1&last=40`
   );
@@ -285,36 +290,29 @@ const Categories = (props) => {
 
       if (data) {
         data.map(async ({ name }) => {
+          const categorie = name
+            .replace(/á/g, "aacento")
+            .replace(/é/g, "eacento")
+            .replace(/í/g, "iacento")
+            .replace(/ó/g, "oacento")
+            .replace(/ú/g, "uacento")
+            .replace(/Á/g, "Aacento")
+            .replace(/É/g, "Eacento")
+            .replace(/Í/g, "Iacento")
+            .replace(/Ó/g, "Oacento")
+            .replace(/Ú/g, "Uacento")
+            .replace(/Ñ/gi, "enne");
           const response = await fetch(
-            `/api/related-by-subcategory/${name
-              .replace(/'á'/gi, "a")
-              .replace(/'é'/gi, "e")
-              .replace(/'í'/gi, "i")
-              .replace(/'ó'/gi, "o")
-              .replace(/'ú'/gi, "u")
-              .replace(/'Á'/gi, "A")
-              .replace(/'É'/gi, "E")
-              .replace(/'Í'/gi, "I")
-              .replace(/'Ó'/gi, "O")
-              .replace(/'Ú'/gi, "Ú")
-              .replace(/Ñ/gi, "enne")}?first=1&last=2`
+            `/api/related-by-subcategory/${categorie}?first=1&last=2`
           );
           const { data: products } = await response.json();
-          // console.log(name, products);
+          console.log(
+            `/api/related-by-subcategory/${categorie}?first=1&last=2`
+          );
+          console.log(name, products);
 
           const responseBrands = await fetch(
-            `/api/brands-sub-categories/${name
-              .replace(/'á'/gi, "a")
-              .replace(/'é'/gi, "e")
-              .replace(/'í'/gi, "i")
-              .replace(/'ó'/gi, "o")
-              .replace(/'ú'/gi, "u")
-              .replace(/'Á'/gi, "A")
-              .replace(/'É'/gi, "E")
-              .replace(/'Í'/gi, "I")
-              .replace(/'Ó'/gi, "O")
-              .replace(/'Ú'/gi, "Ú")
-              .replace(/Ñ/gi, "enne")}`
+            `/api/brands-sub-categories/${categorie}`
           );
           const { brands } = await responseBrands.json();
         });

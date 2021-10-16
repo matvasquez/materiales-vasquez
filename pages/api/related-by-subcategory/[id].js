@@ -9,7 +9,7 @@ const cors = initMiddleware(
 );
 
 export default async function getProductsByCategorie(req, res) {
-  // http://localhost:3000/api/related-by-category/ELECTRICO?first=1&last=20
+  // http://localhost:3000/api/related-by-subcategory/LONAS?first=1&last=20
   // Run cors
   await cors(req, res);
 
