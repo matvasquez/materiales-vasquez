@@ -76,7 +76,6 @@ const Header = ({ carIsOpen, itemsIliked }) => {
   const handleClick = () => {
     setHidden(!hidden);
     input.current.focus();
-    // input.current.select();
   };
 
   const disableScroll = () => {

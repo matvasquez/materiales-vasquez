@@ -9,27 +9,7 @@ import Filter from "../../components/Filters/Filters";
 // Styles
 import styles from "../../styles/components/Main.module.css";
 
-const rutes = ["lámparas", "Menos-de-200"];
-
-export const getStaticPaths = async () => {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/categories/main-menu`
-  );
-  const { data } = await response.json();
-
-  const paths = data.map(({ name }) => ({
-    params: {
-      id: name.replace(/ /gi, "-"),
-    },
-  }));
-
-  return {
-    paths: [{ params: { id: "LAMPARA" } }, { params: { id: "Menos-de-200" } }],
-    fallback: false,
-  };
-};
-
-export async function getStaticProps({ params }) {
+export async function getServerSideProps({ params }) {
   let products;
 
   if (params.id === "Menos-de-200") {
@@ -49,11 +29,6 @@ export async function getStaticProps({ params }) {
     const { data } = await responseSection.json();
     products = await data;
   }
-
-  // const responseBrands = await fetch(
-  //   `${process.env.NEXT_PUBLIC_URL}/api/brands/${products[0].category}`
-  // );
-  // const { brands } = await responseBrands.json();
 
   return {
     props: {
@@ -113,23 +88,13 @@ const AllSections = (props) => {
         }}
       />
 
-      <main className={styles.MainHome}>
-        {/* <Filter
-          brands={brands}
-          isOpen={openFilters}
-          handleOpenFilters={handleOpenFilters}
-          applyFilters={applyFilters}
-          seeking={seeking}
-          setRouteWithFilters={setRouteWithFilters}
-          beforeFiltering={beforeFiltering}
-        /> */}
+      <main className={styles.MainEvery}>
         {products.length > 0 && (
           <ArticlesSection
             title={title.replace(/-/gi, " ")}
             products={products}
             route={true}
             showFilters={false}
-            // handleOpenFilters={handleOpenFilters}
           />
         )}
       </main>

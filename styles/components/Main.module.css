@@ -18,6 +18,16 @@
   align-items: center;
 }
 
+.MainEvery {
+  width: 100%;
+  padding: 1rem;
+  margin-top: 4.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
 .ItemsIlikedSection {
   width: 100%;
   display: flex;
@@ -48,6 +58,11 @@
   .MainHome {
     padding: 2rem 1rem;
     margin-top: 12rem;
+  }
+
+  .MainEvery {
+    width: 90%;
+    margin: 12rem auto 0;
   }
 
   .ItemsIlikedSection {
