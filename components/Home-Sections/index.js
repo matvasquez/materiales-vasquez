@@ -15,20 +15,20 @@ import {
   TextEmptyContainer,
 } from "./style";
 
-// const HomeSection = ({ title, products, link, first }) => {
-const HomeSection = ({ title, first }) => {
-  const [products, setProducts] = useState([]);
+const HomeSection = ({ title, products, link, first }) => {
+  // const HomeSection = ({ title, first }) => {
+  //   const [products, setProducts] = useState([]);
 
-  useEffect(async () => {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/${title
-        .replace(/-/gi, " ")
-        .replace(/Ñ/gi, "enne")}?first=1&last=8`
-    );
-    const { data } = await response.json();
+  //   useEffect(async () => {
+  //     const response = await fetch(
+  //       `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/${title
+  //         .replace(/-/gi, " ")
+  //         .replace(/Ñ/gi, "enne")}?first=1&last=8`
+  //     );
+  //     const { data } = await response.json();
 
-    setProducts(data);
-  }, [title]);
+  //     setProducts(data);
+  //   }, [title]);
 
   return (
     <>
@@ -44,14 +44,11 @@ const HomeSection = ({ title, first }) => {
               />
             ))}
           </ItemsContainer>
-          <Link href="#" passHref>
-            <ButtonMore>Ver todos</ButtonMore>
-          </Link>
-          {/* {products.length >= 8 && (
+          {products.length >= 8 && (
             <Link href={link} passHref>
               <ButtonMore>Ver todos</ButtonMore>
             </Link>
-          )} */}
+          )}
         </SectionStyled>
       ) : (
         <>

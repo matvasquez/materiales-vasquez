@@ -56,7 +56,7 @@ export const getStaticProps = async ({ params }) => {
     .replace(/Ñ/g, "enne");
 
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/${categorie}?first=1&last=40`
+    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/${categorie}?first=1&last=30`
   );
   const { data: products } = await response.json();
 
