@@ -22,10 +22,10 @@ export const Conatiner = styled.div`
 `;
 
 export const Point = styled.div`
-  width: 1rem;
-  height: 1rem;
+  width: ${(props) => (props.bg ? `0.6rem` : `1rem`)};
+  height: ${(props) => (props.bg ? `0.6rem` : `1rem`)};
   border-radius: 50%;
-  background-color: var(--blue);
+  background-color: ${(props) => (props.bg ? `var(--yellow)` : `var(--blue)`)};
   animation: ${load} 0.5s ease-in-out
     ${(props) => props.delay && `${props.delay}s`} infinite alternate;
 `;

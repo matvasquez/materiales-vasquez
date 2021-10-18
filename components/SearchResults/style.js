@@ -13,7 +13,7 @@ export const NotFound = styled.div`
   position: absolute;
   top: 4.5rem;
   left: 0;
-  z-index: 1100;
+  z-index: 999;
   box-shadow: 0 10px 11px 0 rgba(0, 20, 76, 0.5);
   @media (min-width: 750px) {
     top: 8rem;
@@ -25,20 +25,23 @@ export const NotFound = styled.div`
 
 export const Container = styled.div`
   width: 100vw;
-  height: calc(100vh - 4.5rem);
+  min-height: calc(100vh - 4.5rem);
   padding: 1rem 1rem 4rem 1rem;
   background-color: var(--background);
-  border-top: 0.5rem solid var(--blue);
-  border-bottom: 0.5rem solid var(--blue);
+  /* border-top: 0.5rem solid var(--blue);
+  border-bottom: 0.5rem solid var(--blue); */
 
-  position: fixed;
+  border-radius: 0 0 2rem 2rem;
+  box-shadow: 0 10px 11px 0 rgba(0, 20, 76, 0.5);
+
+  position: absolute;
   top: 4.5rem;
   left: 0;
-  z-index: 1100;
+  z-index: 999;
 
   @media (min-width: 750px) {
     width: 95vw;
-    height: calc(60vh - 4.5rem);
+    min-height: calc(50vh - 4.5rem);
     padding: 2rem;
     top: 6rem;
     left: calc(50% - 47.5vw);
@@ -47,6 +50,7 @@ export const Container = styled.div`
     border-radius: 0 0 2rem 2rem;
   }
   @media (min-width: 1200px) {
+    position: fixed;
     width: 50vw;
     height: calc(65vh - 4.5rem);
     top: 11rem;
@@ -61,16 +65,11 @@ export const SearchResultContainer = styled.div`
 
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 0.5fr;
+  grid-template-rows: repeat(9, 1fr);
   grid-gap: 1rem;
-  overflow-y: scroll;
-
-  ::-webkit-scrollbar {
-    display: none;
-  }
   @media (min-width: 750px) {
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 1fr 1fr 1fr 0.5fr;
+    grid-template-rows: repeat(5, 1fr);
     grid-gap: 2rem;
   }
 `;
@@ -96,10 +95,15 @@ export const LoadMoreButton = styled.div`
     height: 100%;
     color: var(--blue);
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   @media (min-width: 750px) {
     grid-column: 1 / span 2;
     width: 50%;
-    margin: 5rem auto 2rem;
+    padding: 1rem;
+    font-size: 1.8rem;
+    margin: 2rem auto;
   }
 `;

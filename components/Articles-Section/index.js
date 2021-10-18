@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { uploadMoreItems } from "../../utils/uploadMoreItems";
-import { useRouter } from "next/router";
 
 // Components
 import PreviewItem from "../Preview-Item/PreviewItem";
@@ -26,43 +25,24 @@ const ArticlesSection = ({
   showFilters,
   routeWithFilters,
   handleOpenFilters,
+  ruteLoadMore,
 }) => {
   // Activa la animación de carga en el botón de Cargar más
   const [load, setLoad] = useState(false);
   // Reemplaza el botón de Cargar más por Son todos los productos
   const [noMore, setNoMore] = useState(false);
   const [itemsLoaded, setItemsLoaded] = useState([]);
-  const router = useRouter();
 
   const updateItems = (items) => {
     setItemsLoaded(itemsLoaded.concat(items));
-    // setItemsLoaded((itemsLoaded) => [...itemsLoaded, items]);
   };
 
   useEffect(() => {
     setItemsLoaded(products);
   }, [products]);
 
-  // Determina a que ruta de la API hacer la consulta
-  const searchTitle = () => {
-    if (router.pathname.slice(0, 11) === "/todos-los/") {
-      if (router.query.id === "Menos-de-200") {
-        return "products-by-price/200";
-      } else {
-        return `products-by-name/${router.query.id}`;
-      }
-    } else if (router.pathname.slice(0, 11) === "/tienda") {
-      return "new-products";
-    } else {
-      return `related-by-category/${title.replace(/ /gi, "-")}`;
-    }
-  };
-
   const handleClick = () => {
     setLoad(true);
-    setTimeout(() => {
-      setLoad(false);
-    }, 3000);
   };
 
   return (
@@ -93,24 +73,29 @@ const ArticlesSection = ({
         <>
           {!routeWithFilters && (
             <>
-              {noMore || products.length < 20 ? (
+              {noMore ? (
                 <NoMoreText>Son todos los productos</NoMoreText>
               ) : (
-                <LoadMoreButton
-                  type="button"
-                  onClick={() => {
-                    uploadMoreItems(
-                      searchTitle(),
-                      itemsLoaded.length + 1,
-                      itemsLoaded.length + 20,
-                      updateItems,
-                      setNoMore
-                    );
-                    handleClick();
-                  }}
-                >
-                  {load ? <SuspensoryPoints /> : "Cargar más"}
-                </LoadMoreButton>
+                <>
+                  {products.length >= 20 && (
+                    <LoadMoreButton
+                      type="button"
+                      onClick={() => {
+                        uploadMoreItems(
+                          `${ruteLoadMore}/?first=${
+                            itemsLoaded.length + 1
+                          }&last=${itemsLoaded.length + 20}`,
+                          updateItems,
+                          setNoMore,
+                          setLoad
+                        );
+                        handleClick();
+                      }}
+                    >
+                      {load ? <SuspensoryPoints /> : "Cargar más"}
+                    </LoadMoreButton>
+                  )}
+                </>
               )}
             </>
           )}

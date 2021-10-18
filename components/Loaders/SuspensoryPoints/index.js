@@ -1,12 +1,12 @@
 // Styled-Components
 import { Conatiner, Point } from "./style";
 
-export const SuspensoryPoints = () => {
+export const SuspensoryPoints = ({ bg }) => {
   return (
     <Conatiner>
-      <Point />
-      <Point delay={0.1} />
-      <Point delay={0.2} />
+      <Point bg={bg} />
+      <Point bg={bg} delay={0.1} />
+      <Point bg={bg} delay={0.2} />
     </Conatiner>
   );
 };

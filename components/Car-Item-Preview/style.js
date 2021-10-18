@@ -19,7 +19,6 @@ export const CartItem = styled.div`
   width: 100%;
   margin: 1rem auto;
   display: grid;
-  /* grid-template-columns: 1fr 0.5fr 3fr 1fr; */
   grid-template-columns: 0.7fr 0.5fr 3fr 1fr;
   grid-column-gap: 0.5rem;
   justify-items: center;

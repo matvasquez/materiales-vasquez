@@ -188,7 +188,7 @@ export const SubLiStyled = styled.li`
 `;
 
 export const AnchorStyled = styled.a`
-  width: fit-content;
+  width: 100%;
   height: 100%;
   padding: 1rem;
   display: flex;

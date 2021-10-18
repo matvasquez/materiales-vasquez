@@ -269,7 +269,7 @@ const ProductPage = (props) => {
                 </Link>{" "}
                 {categories[0].main_category && (
                   <Link
-                    href={`/categoria/${categories[0].main_category.replace(
+                    href={`/categoria/${categories[0].category.replace(
                       / /gi,
                       "-"
                     )}/${categories[0].main_category.replace(/ /gi, "-")}`}

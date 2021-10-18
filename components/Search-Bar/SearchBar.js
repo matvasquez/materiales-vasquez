@@ -5,9 +5,17 @@ import { MagnifierIcon } from "../IconsSVG/MagnifierIcon";
 import { Seeking } from "../Loaders/Seeking";
 
 // Styled-Components
-import { InputSearch, InputStyled, IconContainer } from "./style";
+import { InputSearch, InputStyled, IconContainer, ClearSearch } from "./style";
 
-const SearchBar = ({ handleSearch, hidden, input, handleClick, seeking }) => {
+const SearchBar = ({
+  handleSearch,
+  hidden,
+  input,
+  handleClick,
+  seeking,
+  deleteText,
+  reset,
+}) => {
   return (
     <InputSearch hidden={hidden}>
       <InputStyled
@@ -21,12 +29,29 @@ const SearchBar = ({ handleSearch, hidden, input, handleClick, seeking }) => {
               .toString()
               .normalize("NFD")
               .replace(/[\u0300-\u036f]/g, "")
-              .replace(/s$/g, "")
           )
         }
       />
       <IconContainer onClick={handleClick} hidden={hidden}>
-        {seeking ? <Seeking /> : <MagnifierIcon />}
+        {seeking ? (
+          <Seeking />
+        ) : (
+          <>
+            {deleteText ? (
+              <ClearSearch
+                type="button"
+                onClick={() => {
+                  console.log(input.current.value);
+                  input.current.value = "";
+                  reset();
+                }}
+                aria-label="Borrar busqueda"
+              ></ClearSearch>
+            ) : (
+              <MagnifierIcon />
+            )}
+          </>
+        )}
       </IconContainer>
     </InputSearch>
   );

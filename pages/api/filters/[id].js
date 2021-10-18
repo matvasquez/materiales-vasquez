@@ -37,22 +37,22 @@ export default async function getDetailsProduct(req, res) {
   LEFT OUTER JOIN MARCAS AS m
       ON a.CVE_MARCA = m.CVE_MARCA
   WHERE a.HABVTAS = '' AND g2.DESC_GIR2 IN ${
-    req.query.categorie === ""
+    req.query.categorie === "()"
       ? `(SELECT RTRIM(DESC_GIR2) AS name FROM ARTGIRO2)`
-      : `('${req.query.categorie.replace(/-/gi, " ")}')`
+      : `${req.query.categorie}`
   } AND ${
-    req.query.id == "()"
-      ? `EXISTS (SELECT DISTINCT RTRIM(m.DESC_MARCA) AS marca, m.DESC_MARCA
+    req.query.id === "()"
+      ? `EXISTS (SELECT DISTINCT RTRIM(m.DESC_MARCA) AS marca
       FROM MARCAS AS m
       LEFT OUTER JOIN ARTICULO AS a
           ON m.CVE_MARCA = a.CVE_MARCA
-      LEFT OUTER JOIN CAT_CLAS AS c
-          ON a.CVE_CLAS = c.CVE_CLAS
+      LEFT OUTER JOIN ARTGIRO AS g
+          ON a.CLAVEGIR = g.CLAVEGIR
       WHERE a.HABVTAS = '')`
       : `m.DESC_MARCA IN ${req.query.id}`
   } AND l.PREC_IVA1 BETWEEN ${req.query.first || 0} AND ${
     req.query.last || 100000
-  } AND l.NO_LISTAP = '001' AND i.IMAGEN IS NOT NULL AND s.CVEALM IN ('0020','0007','0018','0014','0015','0002','0008','0023','0017','0028','0027')
+  } AND l.NO_LISTAP = '001' AND i.IMAGEN IS NOT NULL AND s.CVEALM IN ('0020','0007','0018','0014','0015','0002','0008','0023','0017','0028','0027', '0021')
   GROUP BY a.CLAVEART, a.DESC_BREVE, a.DESCRIBEAR, l.PREC_IVA1, m.DESC_MARCA, g2.DESC_GIR2, a.CLAVEGIR, g.DESGIR, i.IMAGEN, a.FECHA_ALTA
 ) AS articles_with_row_nums
 WHERE row_id BETWEEN 1 AND 20;`;

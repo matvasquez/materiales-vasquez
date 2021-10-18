@@ -2,15 +2,16 @@ import styled from "styled-components";
 
 export const SectionStyled = styled.section`
   width: 100vw;
-  height: 100vh;
-  padding: 1rem 1rem 2rem 1rem;
+  min-height: 100vh;
+  padding: 1rem 1rem 6rem 1rem;
   background-color: var(--background);
-  position: fixed;
+  border-radius: 0 0 2rem 2rem;
+  position: absolute;
   top: 0;
   left: ${(props) => (props.open ? "0" : "-100%")};
-  overflow-y: scroll;
   z-index: 200000;
   transition: 0.3s ease-in-out all;
+  box-shadow: 0 10px 11px 0 rgba(0, 20, 76, 0.5);
   @media (min-width: 1200px) {
     grid-column: 1 / span 1;
     position: initial;
@@ -21,6 +22,8 @@ export const SectionStyled = styled.section`
     align-items: center;
     z-index: 200;
     overflow: hidden;
+    border-radius: 0;
+    box-shadow: none;
   }
 `;
 
@@ -268,6 +271,17 @@ export const CategoriesContainer = styled.ul`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+  @media (min-width: 750px) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1rem;
+  }
+  @media (min-width: 1200px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
 `;
 
 export const CategoriesName = styled.a`
@@ -298,15 +312,17 @@ export const CategoriesList = styled.li`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  &:hover {
-    border: 0.1rem solid var(--background);
-    background-color: rgb(255 255 255 / 50%);
-    position: relative;
-    ${CategoriesName} {
-      overflow: visible;
-      ${(props) =>
-        props.text &&
-        `
+
+  @media (min-width: 1200px) {
+    &:hover {
+      border: 0.1rem solid var(--background);
+      position: relative;
+      background-color: rgb(255 255 255 / 50%);
+      ${CategoriesName} {
+        overflow: visible;
+        ${(props) =>
+          props.text &&
+          `
         width: 100%;
         padding: 0.4rem;
         margin: 0;
@@ -314,6 +330,7 @@ export const CategoriesList = styled.li`
         border-radius: 0.5rem;
         transform: translate(-0.5rem, -2rem);
       `}
+      }
     }
   }
 `;

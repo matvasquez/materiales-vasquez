@@ -4,7 +4,6 @@ import fetch from "isomorphic-unfetch";
 
 // Components
 import ArticlesSection from "../../components/Articles-Section/index";
-import Filter from "../../components/Filters/Filters";
 
 // Styles
 import styles from "../../styles/components/Main.module.css";
@@ -95,6 +94,7 @@ const AllSections = (props) => {
             products={products}
             route={true}
             showFilters={false}
+            routeWithFilters={true}
           />
         )}
       </main>

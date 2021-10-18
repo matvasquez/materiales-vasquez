@@ -2,18 +2,20 @@
 // con el boton "cargar mas"
 import fetch from "isomorphic-unfetch";
 
-const main = async (query, start, end, aupdateItem, setNoMore) => {
-  const response = await fetch(`/api/${query}?first=${start}&last=${end}`);
+const main = async (rute, updateItems, setNoMore, setLoad) => {
+  const response = await fetch(rute);
   const { data: products } = await response.json();
 
-  products !== undefined && aupdateItem(products);
-  if (products === undefined) {
-    setNoMore(true);
-  } else if (products.length < 20 || products === undefined) {
+  if (products.length > 0) {
+    updateItems(products);
+  }
+
+  if (products.length < 20) {
     setNoMore(true);
   }
+  setLoad(false);
 };
 
-export const uploadMoreItems = (query, start, end, aupdateItem, setNoMore) => {
-  main(query, start, end, aupdateItem, setNoMore);
+export const uploadMoreItems = (rute, updateItems, setNoMore, setLoad) => {
+  main(rute, updateItems, setNoMore, setLoad);
 };

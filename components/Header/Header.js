@@ -26,11 +26,21 @@ const Header = ({ carIsOpen, itemsIliked }) => {
   const [session, loading] = useSession();
   const [searchResults, setSearchResults] = useState([]);
   const [noResults, setNoResults] = useState(false);
+  const [noResultsText, setnoResultsText] = useState(
+    "No encontré nada con ese nombre"
+  );
   const [seeking, setSeeking] = useState(false);
   const [searchName, setSearchName] = useState("");
+  const [deleteText, setDeleteText] = useState(false);
 
   const handleOpen = () => {
     window.innerWidth < 1100 && setIsOpen(!isOpen);
+  };
+
+  const reset = () => {
+    setSearchResults([]);
+    setSeeking(false);
+    setDeleteText(false);
   };
 
   const searchProduct = debounce(async (value) => {
@@ -38,36 +48,43 @@ const Header = ({ carIsOpen, itemsIliked }) => {
     const signal = controller.signal;
 
     if (value !== "") {
-      // Activa la animacion de busqueda
-      setSeeking(true);
-      // Solicita articulos relacionados por nombre
-      const responseRelatedByName = await fetch(
-        `${
-          process.env.NEXT_PUBLIC_URL
-        }/api/related-by-name/${value.toUpperCase()}?first=1&last=6`,
-        { signal }
-      );
-      const { data } = await responseRelatedByName.json();
-      if (data.length > 0) {
-        setSearchResults(data);
-        setNoResults(false);
-        // Desactiva la animacion de busqueda
-        setSeeking(false);
-        // Actualiza el valor de búsqueda para ofrecer más resultados
-        setSearchName(value.toUpperCase());
+      if (value.length >= 4) {
+        // Activa la animacion de busqueda
+        setSeeking(true);
+        // Solicita articulos relacionados por nombre
+        const responseRelatedByName = await fetch(
+          `/api/related-by-name/${value
+            .replace(/s$/g, "")
+            .toUpperCase()}?first=1&last=8`,
+          { signal }
+        );
+        const { data } = await responseRelatedByName.json();
+
+        if (data.length > 0) {
+          setSearchResults(data);
+          setNoResults(false);
+          // Desactiva la animacion de busqueda
+          setSeeking(false);
+          // Actualiza el valor de búsqueda para ofrecer más resultados
+          setSearchName(value.replace(/s$/g, "").toUpperCase());
+        } else {
+          controller.abort();
+          setNoResults(true);
+          reset();
+        }
+
+        setDeleteText(true);
       } else {
-        controller.abort();
-        setSearchResults([]);
+        reset();
         setNoResults(true);
-        setSeeking(false);
+        setnoResultsText("El texto es muy corto");
       }
     } else {
       controller.abort();
-      setSearchResults([]);
+      reset();
       setNoResults(false);
-      setSeeking(false);
     }
-  }, 1000);
+  }, 1500);
 
   const handleSearch = (value) => {
     searchProduct(value);
@@ -78,24 +95,24 @@ const Header = ({ carIsOpen, itemsIliked }) => {
     input.current.focus();
   };
 
-  const disableScroll = () => {
-    let x = window.scrollX;
-    let y = window.scrollY;
-    window.onscroll = function () {
-      window.scrollTo(x, y);
-    };
-  };
+  // const disableScroll = () => {
+  //   let x = window.scrollX;
+  //   let y = window.scrollY;
+  //   window.onscroll = function () {
+  //     window.scrollTo(x, y);
+  //   };
+  // };
 
-  useEffect(() => {
-    if (isOpen || searchResults.length > 0) {
-      window.addEventListener("scroll", disableScroll);
-    } else {
-      window.onscroll = null;
-    }
-    return () => {
-      window.removeEventListener("scroll", disableScroll);
-    };
-  }, [isOpen, searchResults]);
+  // useEffect(() => {
+  //   if (isOpen || searchResults.length > 0) {
+  //     window.addEventListener("scroll", disableScroll);
+  //   } else {
+  //     window.onscroll = null;
+  //   }
+  //   return () => {
+  //     window.removeEventListener("scroll", disableScroll);
+  //   };
+  // }, [isOpen, searchResults]);
 
   return (
     <>
@@ -119,6 +136,8 @@ const Header = ({ carIsOpen, itemsIliked }) => {
           input={input}
           handleClick={handleClick}
           seeking={seeking}
+          deleteText={deleteText}
+          reset={reset}
         />
         {loading ? null : (
           <ImageLogInContainer session={session} itemsIliked={itemsIliked} />
@@ -128,6 +147,7 @@ const Header = ({ carIsOpen, itemsIliked }) => {
         <SearchResults
           searchResults={searchResults}
           noResults={noResults}
+          text={noResultsText}
           clear={setSearchResults}
           searchName={searchName}
         />

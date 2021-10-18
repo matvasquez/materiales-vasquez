@@ -55,6 +55,7 @@ export const InputStyled = styled.input`
   ::placeholder {
     color: var(--text);
     font-size: 1.4rem;
+    opacity: 0.8;
   }
   ${(props) =>
     props.hidden &&
@@ -87,6 +88,28 @@ export const IconContainer = styled.div`
     width: 1.5rem;
     height: 1.5rem;
   `}
+
+  @media (min-width: 1200px) {
+    width: 2rem;
+    height: 2rem;
+  }
+`;
+
+export const ClearSearch = styled.div`
+  width: 1.7rem;
+  height: 1.7rem;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:after {
+    content: "\\2715";
+    font-size: 1.8rem;
+    color: var(--red);
+    line-height: 1.8rem;
+    text-align: center;
+  }
 
   @media (min-width: 1200px) {
     width: 2rem;

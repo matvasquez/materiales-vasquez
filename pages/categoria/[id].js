@@ -5,12 +5,14 @@ import fetch from "isomorphic-unfetch";
 // Components
 import ArticlesSection from "../../components/Articles-Section/index";
 import Filter from "../../components/Filters/Filters";
+import { AddNewProducts } from "../../components/IconsSVG/AddNewProducts";
 
 // Styles
 import styles from "../../styles/components/Main.module.css";
 // Styled-Components
 import {
   SectionEmpty,
+  GoToTopButton,
   TitleSection,
   EmptyContainer,
   TextEmpty,
@@ -95,6 +97,7 @@ const Categories = (props) => {
   const [routeWithFilters, setRouteWithFilters] = useState(false);
   const [resultsFilters, setResultsFilters] = useState(false);
   const [itemsLoaded, setItemsLoaded] = useState([]);
+  const [showButton, setShowButton] = useState(false);
 
   const handleOpenFilters = () => {
     setOpenFilters(!openFilters);
@@ -111,10 +114,15 @@ const Categories = (props) => {
   const applyFilters = async (maxPrice, selectCategories, selectedBrands) => {
     setSeeking(true);
 
-    const brandsQuery = selectedBrands.map((brand) => `'${brand}'`);
-    let queryUrl = `/api/filters/(${brandsQuery.toString()})?categorie=${
-      selectCategories || "todas"
-    }&first=0&last=${maxPrice.replace(/e/gi, "") || 100000}`;
+    const categories = selectCategories
+      .map((categorie) => `'${categorie}'`)
+      .toString();
+
+    const brandsQuery = selectedBrands.map((brand) => `'${brand}'`).toString();
+
+    let queryUrl = `/api/filters/(${brandsQuery})?categorie=(${categories})&first=0&last=${
+      maxPrice.replace(/e/gi, "") || 100000
+    }`;
 
     const response = await fetch(queryUrl);
     const { data } = await response.json();
@@ -139,6 +147,19 @@ const Categories = (props) => {
     setItemsLoaded(products);
     setOpenFilters(false);
   };
+
+  // Scroll
+
+  const handleScroll = () => {
+    window.scrollY > 8000 && setShowButton(true);
+    window.scrollY < 3000 && setShowButton(false);
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // :::::::::::::::::::::::::::::::::::::::::::::
 
@@ -229,6 +250,12 @@ const Categories = (props) => {
         }}
       />
 
+      {showButton && (
+        <GoToTopButton
+          type="button"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        />
+      )}
       <main className={styles.MainStyle}>
         <Filter
           categories={subCategories}
@@ -249,12 +276,26 @@ const Categories = (props) => {
             showFilters={true}
             routeWithFilters={routeWithFilters}
             handleOpenFilters={handleOpenFilters}
+            ruteLoadMore={`/api/related-by-category/${title
+              .replace(/ /g, "-")
+              .replace(/á/g, "aacento")
+              .replace(/é/g, "eacento")
+              .replace(/í/g, "iacento")
+              .replace(/ó/g, "oacento")
+              .replace(/ú/g, "uacento")
+              .replace(/Á/g, "Aacento")
+              .replace(/É/g, "Eacento")
+              .replace(/Í/g, "Iacento")
+              .replace(/Ó/g, "Oacento")
+              .replace(/Ú/g, "Uacento")
+              .replace(/Ñ/g, "enne")}`}
           />
         ) : (
           <SectionEmpty>
             <TitleSection>{title}</TitleSection>
             <EmptyContainer>
-              <TextEmpty>Sección Vacía</TextEmpty>
+              <AddNewProducts />
+              <TextEmpty>Pronto tendremos productos aquí</TextEmpty>
             </EmptyContainer>
             {routeWithFilters && (
               <ClearFilters type="button" onClick={() => beforeFiltering()}>

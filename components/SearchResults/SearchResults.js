@@ -12,7 +12,13 @@ import {
   LoadMoreButton,
 } from "./style";
 
-const SearchResults = ({ searchResults, noResults, clear, searchName }) => {
+const SearchResults = ({
+  searchResults,
+  noResults,
+  text,
+  clear,
+  searchName,
+}) => {
   return (
     <>
       {searchResults.length > 0 && (
@@ -22,18 +28,22 @@ const SearchResults = ({ searchResults, noResults, clear, searchName }) => {
               <Results key={result.articulo_id} {...result} clear={clear} />
             ))}
             {searchName !== "" && (
-              <LoadMoreButton onClick={() => clear([])}>
-                <Link href={`/todos-los/${searchName}`}>
-                  <a>Ver más</a>
-                </Link>
-              </LoadMoreButton>
+              <>
+                {searchResults.length === 8 && (
+                  <LoadMoreButton onClick={() => clear([])}>
+                    <Link href={`/todos-los/${searchName}`}>
+                      <a>Ver más</a>
+                    </Link>
+                  </LoadMoreButton>
+                )}
+              </>
             )}
           </SearchResultContainer>
         </Container>
       )}
       {noResults && (
         <NotFound>
-          <p>No encontré nada con ese nombre</p>
+          <p>{text}</p>
         </NotFound>
       )}
     </>

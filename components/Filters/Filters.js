@@ -157,7 +157,9 @@ const Filter = ({
                 {brands.map((brand) => (
                   <CategoriesList
                     key={brand.marca}
-                    onClick={() => handleChangeBrand(brand.marca)}
+                    onClick={() =>
+                      handleChangeBrand(brand.marca.replace(/ /gi, "-"))
+                    }
                   >
                     <CheckInput
                       show={

@@ -10,6 +10,7 @@ import Link from "next/link";
 import { useGetStock } from "../../hooks/useGetStock";
 
 // Components
+import { Seeking } from "../Loaders/Seeking";
 
 // Styled-Components
 import {
@@ -57,35 +58,37 @@ const CarItemPreview = ({
     setTotalPrice(parseFloat(price) * quantity);
   }, [price, quantity]);
 
+  // Crea las opciones de cantidad que se puede seleccionar
+  // de acuero al inventario real en tienda
+  // añade como ultima opcion "Eliminar"
+  const generateOptions = (max) => {
+    setQuantityInInventory([]);
+    for (let i = 1; i <= stock && i <= max; i++) {
+      setQuantityInInventory((quantityInInventory) => [
+        ...quantityInInventory,
+        i,
+      ]);
+    }
+    setQuantityInInventory((quantityInInventory) => [
+      ...quantityInInventory,
+      "Eliminar",
+    ]);
+  };
+
+  useEffect(() => {
+    if (stock) {
+      if (stock > 50 && stock <= 100) {
+        generateOptions(60);
+      } else {
+        generateOptions(20);
+      }
+    }
+  }, [stock]);
+
   // Captura la cantidad de el mismo producto
   useEffect(() => {
     setQuantity(initialQuantity);
   }, [initialQuantity]);
-
-  // Crea las opciones de cantidad que se puede seleccionar
-  // de acuero al inventario real en tienda
-  // añade como ultima opcion "Eliminar"
-  useEffect(() => {
-    if (stock) {
-      setQuantityInInventory([]);
-      for (let i = 1; i <= stock && i <= 20; i++) {
-        setQuantityInInventory((quantityInInventory) => [
-          ...quantityInInventory,
-          i,
-        ]);
-      }
-      setQuantityInInventory((quantityInInventory) => [
-        ...quantityInInventory,
-        "Eliminar",
-      ]);
-    } else {
-      setQuantityInInventory([]);
-      setQuantityInInventory((quantityInInventory) => [
-        ...quantityInInventory,
-        "Eliminar",
-      ]);
-    }
-  }, [stock]);
 
   // Actualiza el array con los precios, para aplicar un reduce y optener el total
   const updateListPrices = (selected, totalPrice) => {
@@ -102,24 +105,33 @@ const CarItemPreview = ({
   };
 
   const handleChange = () => {
+    // Optiene el valor del select (la cantidad de prosuctos seleccionados)
     const selected = selectQ.current.value;
-    setQuantity(parseFloat(selected));
-    updateListPrices(selected, parseFloat(totalPrice));
-    handleUpdateQuantity(articulo_id, parseFloat(selected));
 
-    if (selectQ.current.value === "Eliminar") {
+    // Verifica si la ioción seleccionada es "Eliminar"
+    if (selected === "Eliminar") {
+      // Verifica si es el ultimo elemento del carrito
       if (changeCart) {
+        // Vacia el carrito
         setEmptyCart();
       }
+      // Remueve el elemento seleccionado del carrito
       setRemovedFromCart(articulo_id);
 
+      // Verifica que el precio este en la lista de precios (la cuenta de todos los precios)
       if (shoppingCartPrices.includes(parseFloat(totalPrice))) {
+        // Si esta en la lista lo elimina
         const newsPrices = shoppingCartPrices.filter(
           (element) => element !== parseFloat(totalPrice)
         );
 
         setUpdatePrices(newsPrices);
       }
+    } else {
+      // Si no está lo agrega
+      setQuantity(parseFloat(selected));
+      updateListPrices(selected, parseFloat(totalPrice));
+      handleUpdateQuantity(articulo_id, parseFloat(selected));
     }
   };
 
@@ -145,31 +157,26 @@ const CarItemPreview = ({
             </Link>
           </ImageContainer>
           <SelectContainer>
-            <SelectValue>
-              {quantity > 1 ? selectQ.current.value : quantity}
-            </SelectValue>
-            <SelectStyled ref={selectQ} onChange={(e) => handleChange(e)}>
-              {quantity > 1 ? (
-                <>
-                  <option value={quantity}>{quantity}</option>
-                  {quantityInInventory &&
-                    quantityInInventory.map((value) => (
-                      <option key={value * parseFloat(price)} value={value}>
-                        {value}
-                      </option>
-                    ))}
-                </>
-              ) : (
-                <>
-                  {quantityInInventory &&
-                    quantityInInventory.map((value) => (
-                      <option key={value} value={value}>
-                        {value}
-                      </option>
-                    ))}
-                </>
-              )}
-            </SelectStyled>
+            {quantityInInventory.length > 0 ? (
+              <>
+                <SelectValue>{initialQuantity}</SelectValue>
+                <SelectStyled ref={selectQ} onChange={(e) => handleChange(e)}>
+                  {quantityInInventory.map((value, i) => (
+                    <option
+                      selected={i === 0 ? true : quantity === i + 1 && true}
+                      key={value * parseFloat(price)}
+                      value={value}
+                    >
+                      {value}
+                    </option>
+                  ))}
+                </SelectStyled>
+              </>
+            ) : (
+              <div>
+                <Seeking bg={true} />
+              </div>
+            )}
           </SelectContainer>
           <NameContainer onClick={closeCart}>
             <Link

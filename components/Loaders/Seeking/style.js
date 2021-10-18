@@ -35,7 +35,8 @@ export const Cricle = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 0.1rem solid var(--blue);
+  border: 0.1rem solid
+    ${(props) => (props.bg ? `rgb(255 201 71 / 50%)` : `var(--blue)`)};
   border-top: 0.1rem solid transparent;
   border-left: 0.1rem solid transparent;
   border-radius: 50%;

@@ -1,6 +1,6 @@
 .MainStyle {
   width: 100%;
-  padding: 1rem;
+  padding: 1rem 1rem 0;
   margin-top: 4.5rem;
   display: flex;
   flex-direction: column;
