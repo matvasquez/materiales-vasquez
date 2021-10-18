@@ -70,6 +70,7 @@ const Header = ({ carIsOpen, itemsIliked }) => {
         } else {
           controller.abort();
           setNoResults(true);
+          setnoResultsText("No encontré nada con ese nombre");
           reset();
         }
 
@@ -123,7 +124,7 @@ const Header = ({ carIsOpen, itemsIliked }) => {
         />
         <Link href="/" passHref>
           <LogoContainer
-            style={{ display: hidden ? "none" : null }}
+            activateSearch={hidden}
             aria-label="Inicio"
             itemProp="logo"
           >

@@ -31,7 +31,7 @@ const MainMenu = ({ isOpen, handleOpen }) => {
   }, []);
 
   return (
-    <NavStyled open={isOpen}>
+    <NavStyled open={isOpen} id="Main-Menu">
       <CloseButton
         type="button"
         onClick={() => handleOpen()}

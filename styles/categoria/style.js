@@ -18,6 +18,7 @@ export const SectionEmpty = styled.section`
     min-height: 65vh;
   }
   @media (min-width: 1200px) and (orientation: landscape) {
+    width: 40vw;
     min-height: 35vh;
   }
 `;

@@ -70,10 +70,8 @@ body::-webkit-scrollbar {
   border: none;
 }
 
-header {
-  display: none;
-}
-
-footer {
+header,
+footer,
+nav {
   display: none;
 }

@@ -59,10 +59,9 @@ export const LogoContainer = styled.a`
     height: 7rem;
     margin-right: 25%;
     ${(props) =>
-      props.withScroll &&
+      props.activateSearch &&
       `
-      width: 5rem;
-      height: 5rem;
-    `}
+    display: flex;
+  `}
   }
 `;

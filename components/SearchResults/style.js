@@ -16,7 +16,10 @@ export const NotFound = styled.div`
   z-index: 999;
   box-shadow: 0 10px 11px 0 rgba(0, 20, 76, 0.5);
   @media (min-width: 750px) {
+    width: 30rem;
     top: 8rem;
+    left: calc(50% - 15rem);
+    border-radius: 1rem;
   }
   @media (min-width: 1200px) {
     top: 12rem;
@@ -28,8 +31,6 @@ export const Container = styled.div`
   min-height: calc(100vh - 4.5rem);
   padding: 1rem 1rem 4rem 1rem;
   background-color: var(--background);
-  /* border-top: 0.5rem solid var(--blue);
-  border-bottom: 0.5rem solid var(--blue); */
 
   border-radius: 0 0 2rem 2rem;
   box-shadow: 0 10px 11px 0 rgba(0, 20, 76, 0.5);
@@ -45,17 +46,13 @@ export const Container = styled.div`
     padding: 2rem;
     top: 6rem;
     left: calc(50% - 47.5vw);
-    box-shadow: 0 10px 11px 0 rgba(0, 20, 76, 0.5);
-    border: none;
     border-radius: 0 0 2rem 2rem;
   }
   @media (min-width: 1200px) {
     position: fixed;
     width: 50vw;
-    height: calc(65vh - 4.5rem);
     top: 11rem;
     left: calc(50% - 25vw);
-    border: none;
   }
 `;
 
@@ -70,7 +67,7 @@ export const SearchResultContainer = styled.div`
   @media (min-width: 750px) {
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(5, 1fr);
-    grid-gap: 2rem;
+    grid-gap: 1rem;
   }
 `;
 
