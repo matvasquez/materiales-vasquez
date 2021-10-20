@@ -70,18 +70,6 @@ export const getStaticPaths = async () => {
 
   return {
     paths: [
-      { params: { id: "ACABADOS", cat: "IMPERMEABILIZANTES" } },
-      { params: { id: "ACABADOS", cat: "ACELERANTES" } },
-      { params: { id: "ACABADOS", cat: "ADHESIVOS-Y-BOQUILLAS" } },
-      { params: { id: "ACABADOS", cat: "FILTROS" } },
-      { params: { id: "ACABADOS", cat: "MALLAS-Y-CENAFAS" } },
-      { params: { id: "ACABADOS", cat: "MOLDURAS" } },
-      { params: { id: "ACABADOS", cat: "MUROS-Y-FACHADAS" } },
-      { params: { id: "ACABADOS", cat: "PERFILES" } },
-      { params: { id: "ACABADOS", cat: "PIEDRAS-DECORATIVAS" } },
-      { params: { id: "ACABADOS", cat: "PISOS-CERAMICOS" } },
-      { params: { id: "ACABADOS", cat: "PISOS-PORCELANATOS" } },
-      { params: { id: "ACABADOS", cat: "VITROBLOCK" } },
       { params: { id: "MATERIALES-PARA-CONSTRUCCION", cat: "ACERO" } },
       { params: { id: "MATERIALES-PARA-CONSTRUCCION", cat: "AGREGADOS" } },
       {
@@ -93,6 +81,14 @@ export const getStaticPaths = async () => {
       { params: { id: "MATERIALES-PARA-CONSTRUCCION", cat: "LAMINAS" } },
       { params: { id: "MATERIALES-PARA-CONSTRUCCION", cat: "POLVOS" } },
       { params: { id: "MATERIALES-PARA-CONSTRUCCION", cat: "SELLADORES" } },
+      {
+        params: {
+          id: "MATERIALES-PARA-CONSTRUCCION",
+          cat: "MOLDES-Y-MOLDURAS",
+        },
+      },
+
+      { params: { id: "COCINA", cat: "COCINA" } },
       { params: { id: "COCINA", cat: "CAMPANA" } },
       { params: { id: "COCINA", cat: "CUBIERTAS" } },
       { params: { id: "COCINA", cat: "FREGADERO" } },
@@ -101,11 +97,34 @@ export const getStaticPaths = async () => {
       { params: { id: "COCINA", cat: "MANTELES" } },
       { params: { id: "COCINA", cat: "MEZCLADORA" } },
       { params: { id: "COCINA", cat: "PARRILLA" } },
+      { params: { id: "COCINA", cat: "CRISTALERÍA" } },
       { params: { id: "COCINA", cat: "PLÁSTICOS" } },
       { params: { id: "COCINA", cat: "SARTENES" } },
       { params: { id: "COCINA", cat: "TARJAS" } },
       { params: { id: "COCINA", cat: "UTENSILIOS" } },
       { params: { id: "COCINA", cat: "VAJILLAS" } },
+      { params: { id: "COCINA", cat: "ELECTRODOMÉSTICOS" } },
+      { params: { id: "COCINA", cat: "BATERIAS,-OLLAS-Y-CACEROLAS" } },
+      { params: { id: "COCINA", cat: "TERMOS-Y-BOTELLAS" } },
+
+      { params: { id: "HOGAR", cat: "HOGAR" } },
+      { params: { id: "HOGAR", cat: "ALBERCAS" } },
+      { params: { id: "HOGAR", cat: "BASCULAS" } },
+      { params: { id: "HOGAR", cat: "CAMARAS-DE-SEGURIDAD" } },
+      { params: { id: "HOGAR", cat: "DECORACION" } },
+      { params: { id: "HOGAR", cat: "ILUMINACION" } },
+      { params: { id: "HOGAR", cat: "JARDINERIA" } },
+      { params: { id: "HOGAR", cat: "LAVADORAS-Y-SECADORAS" } },
+      { params: { id: "HOGAR", cat: "LAVANDERIA" } },
+      { params: { id: "HOGAR", cat: "LIMPIEZA" } },
+      { params: { id: "HOGAR", cat: "LINEA-BLANCA" } },
+      { params: { id: "HOGAR", cat: "MASCOTAS" } },
+      { params: { id: "HOGAR", cat: "MUEBLES" } },
+      { params: { id: "HOGAR", cat: "ORGANIZADORES" } },
+      { params: { id: "HOGAR", cat: "PUERTAS-Y-VENTANAS" } },
+      { params: { id: "HOGAR", cat: "VENTILACION-Y-CALEFACCIÓN" } },
+      { params: { id: "HOGAR", cat: "ESPEJOS-Y-BOTIQUINES" } },
+
       { params: { id: "BAÑOS", cat: "ACCESORIOS-PARA-BAÑOS" } },
       { params: { id: "BAÑOS", cat: "CALENTADORES" } },
       { params: { id: "BAÑOS", cat: "CANCELES-Y-CABINAS" } },
@@ -114,6 +133,7 @@ export const getStaticPaths = async () => {
       { params: { id: "BAÑOS", cat: "LAVABOS-Y-OVALINES" } },
       { params: { id: "BAÑOS", cat: "REGADERAS" } },
       { params: { id: "BAÑOS", cat: "SANITARIOS" } },
+
       { params: { id: "FERRETERIA", cat: "MOLDURAS" } },
       { params: { id: "FERRETERIA", cat: "ADHESIVOS-Y-CINTAS" } },
       { params: { id: "FERRETERIA", cat: "ALBAÑILERIA" } },
@@ -161,23 +181,21 @@ export const getStaticPaths = async () => {
       { params: { id: "FERRETERIA", cat: "TORNILLERIA" } },
       { params: { id: "FERRETERIA", cat: "SOPORTES" } },
       { params: { id: "FERRETERIA", cat: "TINACOS-Y-CISTERNAS" } },
+      { params: { id: "FERRETERIA", cat: "MALLAS-Y-GALVANIZADOS" } },
       { params: { id: "FERRETERIA", cat: "TUBERÍA" } },
-      { params: { id: "HOGAR", cat: "HOGAR" } },
-      { params: { id: "HOGAR", cat: "ALBERCAS" } },
-      { params: { id: "HOGAR", cat: "BASCULAS" } },
-      { params: { id: "HOGAR", cat: "CAMARAS-DE-SEGURIDAD" } },
-      { params: { id: "HOGAR", cat: "DECORACION" } },
-      { params: { id: "HOGAR", cat: "ILUMINACION" } },
-      { params: { id: "HOGAR", cat: "JARDINERIA" } },
-      { params: { id: "HOGAR", cat: "LAVADORAS-Y-SECADORAS" } },
-      { params: { id: "HOGAR", cat: "LAVANDERIA" } },
-      { params: { id: "HOGAR", cat: "LIMPIEZA" } },
-      { params: { id: "HOGAR", cat: "LINEA-BLANCA" } },
-      { params: { id: "HOGAR", cat: "MASCOTAS" } },
-      { params: { id: "HOGAR", cat: "MUEBLES" } },
-      { params: { id: "HOGAR", cat: "ORGANIZADORES" } },
-      { params: { id: "HOGAR", cat: "PUERTAS-Y-VENTANAS" } },
-      { params: { id: "HOGAR", cat: "VENTILACION-Y-CALEFACCIÓN" } },
+
+      { params: { id: "ACABADOS", cat: "IMPERMEABILIZANTES" } },
+      { params: { id: "ACABADOS", cat: "ACELERANTES" } },
+      { params: { id: "ACABADOS", cat: "ADHESIVOS-Y-BOQUILLAS" } },
+      { params: { id: "ACABADOS", cat: "FILTROS" } },
+      { params: { id: "ACABADOS", cat: "MALLAS-Y-CENAFAS" } },
+      { params: { id: "ACABADOS", cat: "MOLDURAS" } },
+      { params: { id: "ACABADOS", cat: "MUROS-Y-FACHADAS" } },
+      { params: { id: "ACABADOS", cat: "PERFILES" } },
+      { params: { id: "ACABADOS", cat: "PIEDRAS-DECORATIVAS" } },
+      { params: { id: "ACABADOS", cat: "PISOS-CERAMICOS" } },
+      { params: { id: "ACABADOS", cat: "PISOS-PORCELANATOS" } },
+      { params: { id: "ACABADOS", cat: "VITROBLOCK" } },
     ],
     fallback: false,
   };
@@ -298,49 +316,49 @@ const Categories = (props) => {
 
   // :::::::::::::::::::::::::::::::::::::::::::::
 
-  // useEffect(async () => {
-  //   mainCategories.map(async ({ category_id }) => {
-  //     const response = await fetch(
-  //       `/api/categories/sub-categories/${category_id}`
-  //     );
-  //     const { data } = await response.json();
-  //     // console.log(name, data);
+  useEffect(async () => {
+    mainCategories.map(async ({ category_id }) => {
+      const response = await fetch(
+        `/api/categories/sub-categories/${category_id}`
+      );
+      const { data } = await response.json();
+      // console.log(name, data);
 
-  //     if (data) {
-  //       data.map(async ({ name }) => {
-  //         const categorie = name
-  //           .replace(/á/g, "aacento")
-  //           .replace(/é/g, "eacento")
-  //           .replace(/í/g, "iacento")
-  //           .replace(/ó/g, "oacento")
-  //           .replace(/ú/g, "uacento")
-  //           .replace(/Á/g, "Aacento")
-  //           .replace(/É/g, "Eacento")
-  //           .replace(/Í/g, "Iacento")
-  //           .replace(/Ó/g, "Oacento")
-  //           .replace(/Ú/g, "Uacento")
-  //           .replace(/Ñ/gi, "enne");
-  //         const response = await fetch(
-  //           `/api/related-by-subcategory/${categorie}?first=1&last=3`
-  //         );
-  //         const { data: products } = await response.json();
+      if (data) {
+        data.map(async ({ name }) => {
+          const categorie = name
+            .replace(/á/g, "aacento")
+            .replace(/é/g, "eacento")
+            .replace(/í/g, "iacento")
+            .replace(/ó/g, "oacento")
+            .replace(/ú/g, "uacento")
+            .replace(/Á/g, "Aacento")
+            .replace(/É/g, "Eacento")
+            .replace(/Í/g, "Iacento")
+            .replace(/Ó/g, "Oacento")
+            .replace(/Ú/g, "Uacento")
+            .replace(/Ñ/gi, "enne");
+          const response = await fetch(
+            `/api/related-by-subcategory/${categorie}?first=1&last=3`
+          );
+          const { data: products } = await response.json();
 
-  //         const responseBrands = await fetch(
-  //           `/api/brands-sub-categories/${categorie}`
-  //         );
-  //         const { brands } = await responseBrands.json();
+          const responseBrands = await fetch(
+            `/api/brands-sub-categories/${categorie}`
+          );
+          const { brands } = await responseBrands.json();
 
-  //         console.log("====================================");
-  //         console.log({
-  //           name,
-  //           products,
-  //           brands,
-  //         });
-  //         console.log("====================================");
-  //       });
-  //     }
-  //   });
-  // }, []);
+          console.log("====================================");
+          console.log({
+            name,
+            products,
+            brands,
+          });
+          console.log("====================================");
+        });
+      }
+    });
+  }, []);
 
   // :::::::::::::::::::::::::::::::::::::::::::::
 

@@ -102,65 +102,65 @@ const HomePage = (props) => {
 
   // :::::::::::::::::::::::::::::::::::::::::::::
 
-  // useEffect(async () => {
-  //   const responseSlider = await fetch(`/api/slider`);
-  //   const { data: sliderItems } = await responseSlider.json();
+  useEffect(async () => {
+    const responseSlider = await fetch(`/api/slider`);
+    const { data: sliderItems } = await responseSlider.json();
 
-  //   const responsebestsellers = await fetch(
-  //     `/api/related-by-category/LO-MAacentoS-VENDIDOS?first=1&last=16`
-  //   );
-  //   const { data: bestsellers } = await responsebestsellers.json();
+    const responsebestsellers = await fetch(
+      `/api/related-by-category/LO-MAacentoS-VENDIDOS?first=1&last=16`
+    );
+    const { data: bestsellers } = await responsebestsellers.json();
 
-  //   const responselighting = await fetch(
-  //     `/api/related-by-subcategory/ILUMINACION?first=1&last=8`
-  //   );
-  //   const { data: lighting } = await responselighting.json();
+    const responselighting = await fetch(
+      `/api/related-by-subcategory/ILUMINACION?first=1&last=8`
+    );
+    const { data: lighting } = await responselighting.json();
 
-  //   const responsehardware = await fetch(
-  //     `/api/related-by-category/FERRETERIA?first=1&last=8`
-  //   );
-  //   const { data: hardware } = await responsehardware.json();
+    const responsehardware = await fetch(
+      `/api/related-by-category/FERRETERIA?first=1&last=8`
+    );
+    const { data: hardware } = await responsehardware.json();
 
-  //   const responsedoors = await fetch(
-  //     `/api/related-by-subcategory/PUERTAS-Y-VENTANAS?first=1&last=8`
-  //   );
-  //   const { data: doors } = await responsedoors.json();
+    const responsedoors = await fetch(
+      `/api/related-by-subcategory/PUERTAS-Y-VENTANAS?first=1&last=8`
+    );
+    const { data: doors } = await responsedoors.json();
 
-  //   const responseventilation = await fetch(
-  //     `/api/related-by-subcategory/VENTILACION Y CALEFACCIOacentoN?first=1&last=8`
-  //   );
-  //   const { data: ventilation } = await responseventilation.json();
+    const responseventilation = await fetch(
+      `/api/related-by-subcategory/VENTILACION Y CALEFACCIOacentoN?first=1&last=8`
+    );
+    const { data: ventilation } = await responseventilation.json();
 
-  //   const useEffectSections = [
-  //     {
-  //       title: "LO MÁS VENDIDO",
-  //       products: bestsellers,
-  //       link: "/categoria/LO-MÁS-VENDIDO",
-  //     },
-  //     {
-  //       title: "ILUMINACIÓN",
-  //       products: lighting,
-  //       link: "/categoria/HOGAR/ILUMINACION",
-  //     },
-  //     {
-  //       title: "FERRETERIA",
-  //       products: hardware,
-  //       link: "/categoria/FERRETERIA",
-  //     },
-  //     {
-  //       title: "PUERTAS Y VENTANAS",
-  //       products: doors,
-  //       link: "/categoria/HOGAR/PUERTAS-Y-VENTANAS",
-  //     },
-  //     {
-  //       title: "VENTILACIÓN",
-  //       products: ventilation,
-  //       link: "/categoria/HOGAR/VENTILACION-Y-CALEFACCIÓN",
-  //     },
-  //   ];
+    const useEffectSections = [
+      {
+        title: "LO MÁS VENDIDO",
+        products: bestsellers,
+        link: "/categoria/LO-MÁS-VENDIDO",
+      },
+      {
+        title: "ILUMINACIÓN",
+        products: lighting,
+        link: "/categoria/HOGAR/ILUMINACION",
+      },
+      {
+        title: "FERRETERIA",
+        products: hardware,
+        link: "/categoria/FERRETERIA",
+      },
+      {
+        title: "PUERTAS Y VENTANAS",
+        products: doors,
+        link: "/categoria/HOGAR/PUERTAS-Y-VENTANAS",
+      },
+      {
+        title: "VENTILACIÓN",
+        products: ventilation,
+        link: "/categoria/HOGAR/VENTILACION-Y-CALEFACCIÓN",
+      },
+    ];
 
-  //   console.log("useEffectSections: ", useEffectSections);
-  // }, []);
+    console.log("useEffectSections: ", useEffectSections);
+  }, []);
 
   // :::::::::::::::::::::::::::::::::::::::::::::
 
