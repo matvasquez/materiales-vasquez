@@ -278,9 +278,9 @@ const MakePayment = (props) => {
       };
       setPurchasingData(orderFail);
     }
-    // setTimeout(() => {
-    //   window.location.href = e.data.redirectURL;
-    // }, 500);
+    setTimeout(() => {
+      window.location.href = e.data.redirectURL;
+    }, 500);
   };
 
   // Código de pasarela de pagos
@@ -301,7 +301,7 @@ const MakePayment = (props) => {
       // document.newForm.appendChild(input);
       document.getElementById("newForm").appendChild(input);
     }
-    document.getElementById("newForm").submit();
+    // document.getElementById("newForm").submit();
   }
 
   // Limita el numero de llamados a las funciones de
