@@ -20,14 +20,11 @@ const loader = ({ src, width, quality }) => {
 
 const Alert = ({ isOpen, handleClose, cart, zipCode }) => {
   const [productsList, setProductsList] = useState([]);
-  console.log("cart: ", cart);
-  console.log("zipCode: ", zipCode);
 
   useEffect(() => {
     let ids = cart.map((item) => item.articulo_id);
     setProductsList(ids);
   }, [cart]);
-  console.log("productsList: ", productsList);
 
   return (
     <Modal

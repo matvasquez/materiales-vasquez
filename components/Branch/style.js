@@ -83,19 +83,17 @@ export const Anchor = styled.a`
 
 export const ButtonsContainer = styled.div`
   width: 100%;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 3rem;
+  grid-gap: 1 rem;
+  justify-items: center;
   align-items: center;
 `;
 
 export const AnchorButton = styled.a`
-  width: 25%;
-  height: 2.5rem;
-  padding: 0.4rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: var(--blue);
-  background-color: var(--yellow);
-  border-radius: 0.5rem;
+  cursor: pointer;
 `;

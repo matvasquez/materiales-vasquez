@@ -43,10 +43,12 @@ export const FormStyled = styled.form`
   @media (min-width: 750px) {
     background-color: var(--white);
     border-radius: 1.5rem;
+    margin: 1rem 0;
   }
   @media (min-width: 1200px) {
     width: 80%;
     padding: 5rem 1rem;
+    margin: 0;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 2rem;
@@ -61,23 +63,18 @@ export const FormStyled = styled.form`
 export const ShippingAddress = styled.div`
   width: 100%;
   padding: 3rem 1rem 1rem;
-  margin: 0.5rem auto;
-  /* display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center; */
+  margin: 1rem auto 0;
 
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 1rem;
 
   background-color: var(--white);
-  border-radius: 1rem;
-  /* transform: translateY(-1rem); */
+  border-radius: ${(props) => (props.invoice ? `1rem 1rem 0 0` : `1rem`)};
+  transition: 0.3s ease-in-out all;
   @media (min-width: 750px) {
     width: 90%;
     grid-template-columns: repeat(3, 1fr);
-    /* grid-template-rows: repeat(5, min-content); */
   }
   @media (min-width: 1200px) {
     grid-column: 2 / span 1;
@@ -94,6 +91,57 @@ export const Subtitle = styled.p`
     grid-row: 1 / span 1;
     text-align: center;
   }
+`;
+
+// ____________________________________
+
+export const PickUpConatiner = styled.div`
+  grid-column: 1 / span 2;
+  width: 100%;
+  padding: 1rem;
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  background-color: var(--white);
+  transition: 0.3s ease-in-out all;
+
+  p {
+    width: 100%;
+    margin: 1rem 0;
+    text-align: center;
+  }
+
+  span {
+    font-weight: 700;
+    font-size: 1.8rem;
+  }
+  @media (min-width: 750px) {
+    grid-column: 1 / span 3;
+    width: 90%;
+  }
+  @media (min-width: 1200px) {
+    grid-column: 1 / span 3;
+    grid-row: 3 / span 1;
+  }
+`;
+
+export const PickUpLink = styled.a`
+  width: 60%;
+  padding: 0.5rem;
+  margin: 1rem auto;
+  background-color: var(--yellow);
+  color: var(--blue);
+  font-size: 1.6rem;
+  font-weight: 700;
+  text-align: center;
+  border-radius: 2rem;
+  outline: none;
+  border: none;
+  cursor: pointer;
 `;
 
 export const InputBase = styled.input`
@@ -136,7 +184,7 @@ export const PhoneNumber = styled(InputBase)`
 `;
 
 export const SelectCity = styled.select`
-  grid-column: 2 / span 1;
+  grid-column: 1 / span 2;
   width: 100%;
   margin: 1rem auto;
   font-size: 1.4rem;
@@ -155,12 +203,6 @@ export const SelectCity = styled.select`
   }
 `;
 
-// export const Street = styled(InputBase)`
-//   @media (min-width: 750px) {
-//     grid-column: 1 / span 2;
-//   }
-// `;
-
 // ----------------------------------------------
 
 export const ShippingData = styled(ShippingAddress)`
@@ -169,9 +211,6 @@ export const ShippingData = styled(ShippingAddress)`
   grid-gap: 1rem;
   @media (min-width: 750px) {
     width: 90%;
-    /* ${InputBase} {
-      width: 45%;
-    } */
   }
   @media (min-width: 1200px) {
     grid-column: 1 / span 1;
@@ -273,6 +312,7 @@ export const FreeShippingText = styled.p`
 `;
 
 export const InvoiceQuestion = styled.div`
+  grid-column: 1 / span 2;
   width: 100%;
   padding-left: 0.5rem;
   margin: 0.5rem auto;
@@ -307,6 +347,7 @@ export const Invoice = styled.label`
     top: calc(50% - 0.6rem);
     left: -2.5rem;
     transition: 0.3s ease-in-out all;
+    cursor: pointer;
     ${(props) =>
       props.bg
         ? `
@@ -320,6 +361,19 @@ export const Invoice = styled.label`
 
 // ----------------------------------------------
 
+export const PickUpQuestion = styled(InvoiceQuestion)`
+  grid-row: 1 / span 1;
+
+  @media (min-width: 1200px) {
+    grid-column: 1 / span 3;
+    grid-row: 2 / span 1;
+  }
+`;
+export const PickUpInput = styled(InvoiceInput)``;
+export const PickUp = styled(Invoice)``;
+
+// ----------------------------------------------
+
 export const SelectCFDI = styled(SelectCity)`
   @media (min-width: 750px) {
     grid-row: 1 / span 1;
@@ -328,7 +382,6 @@ export const SelectCFDI = styled(SelectCity)`
 
 export const ShippingInvoice = styled(ShippingAddress)`
   margin: 0;
-  /* transform: translateY(-2.5rem); */
   transition: 0.3s ease-in-out all;
   border-radius: 0 0 1rem 1rem;
   ${(props) =>
@@ -362,7 +415,6 @@ export const ShippingInvoice = styled(ShippingAddress)`
     flex-wrap: wrap;
     justify-content: flex-start;
     align-items: flex-start;
-    /* transform: translateY(0); */
     input {
       width: 45%;
     }
@@ -384,7 +436,7 @@ export const InputRFC = styled(InputBase)`
 export const MyListOfItems = styled.section`
   width: 100%;
   padding: 1rem;
-  margin: 1rem auto;
+  margin: 1rem auto 0;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;

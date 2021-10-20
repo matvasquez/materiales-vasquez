@@ -242,6 +242,7 @@ export const NotAvailable = styled.p`
 export const RelatedArticles = styled.section`
   width: 100%;
   margin: 4rem 0;
+  position: relative;
   @media (min-width: 1000px) {
     width: 95%;
   }
@@ -256,6 +257,58 @@ export const RelatedTitle = styled.h4`
   font-size: 2rem;
   span {
     text-transform: capitalize;
+  }
+`;
+
+export const ScrollLeft = styled.button`
+  display: none;
+
+  @media (min-width: 1100px) {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    border: 0.1rem solid rgb(0 20 76 / 10%);
+    background-color: rgb(0 20 76 / 5%);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: absolute;
+    bottom: calc(50% - 4rem);
+    left: -2%;
+    z-index: 1000;
+    transition: 0.3s ease-in-out all;
+    cursor: w-resize;
+
+    /* &:after {
+      content: "\\21E7";
+      font-size: 2.5rem;
+      color: rgb(0 20 76 / 15%);
+      line-height: 2.5rem;
+      text-align: center;
+      transition: 0.3s ease-in-out all;
+      transform: rotate(270deg);
+    } */
+    &:hover {
+      height: 14rem;
+      border-radius: 1rem;
+      border: 0.1rem solid rgb(255 201 71 / 40%);
+      background-color: rgb(255 201 71 / 20%);
+      transform: scale(1.6);
+      bottom: calc(50% - 8rem);
+      /* &:after {
+        color: rgb(255 201 71 / 50%);
+      } */
+    }
+  }
+`;
+
+export const ScrollRight = styled(ScrollLeft)`
+  left: 99%;
+  cursor: e-resize;
+  &:after {
+    transform: rotate(90deg);
   }
 `;
 

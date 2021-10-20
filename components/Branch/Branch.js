@@ -76,7 +76,7 @@ const Branch = ({
             rel="noopener noreferrer"
             itemProp="telephone"
           >
-            <Smartphone width="1.8rem" />
+            <Smartphone width="2.2rem" />
           </AnchorButton>
           <AnchorButton
             href={`mailto:${email}?subject=Sitio%20Web&body=Hola%20me%20podr%C3%ADan%20dar%20m%C3%A1s%20informaci%C3%B3n%20sobre`}
@@ -84,7 +84,7 @@ const Branch = ({
             rel="noopener noreferrer"
             itemProp="email"
           >
-            <Email height="1.3rem" />
+            <Email width="2.2rem" />
           </AnchorButton>
           <AnchorButton
             href={location}
@@ -92,7 +92,7 @@ const Branch = ({
             rel="noopener noreferrer"
             itemProp="hasMap"
           >
-            <Location width="1.8rem" />
+            <Location width="2.2rem" />
           </AnchorButton>
         </ButtonsContainer>
       </InfoContainer>

@@ -24,6 +24,11 @@ import {
   Subtitle,
   DataSubtitle,
   InputBase,
+  PickUpQuestion,
+  PickUpInput,
+  PickUp,
+  PickUpConatiner,
+  PickUpLink,
   ZipCode,
   InputSameName,
   PhoneNumber,
@@ -83,6 +88,8 @@ const MakePayment = (props) => {
   });
 
   const [subTotal, setSubTotal] = useState(0);
+  const pickUpCheck = useRef(null);
+  const [pickUp, setPickUp] = useState(false);
   const [city, setCity] = useState("Xalapa");
   const [zipCode, setZipCode] = useState("");
   const [shippingCost, setShippingCost] = useState(50);
@@ -144,6 +151,10 @@ const MakePayment = (props) => {
     paymentForm.current.reset();
   }, [myCart]);
 
+  useEffect(() => {
+    pickUp ? setZipCode("pickUp") : setZipCode("");
+  }, [pickUp]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoad(true);
@@ -170,18 +181,26 @@ const MakePayment = (props) => {
         purchaseAmount: e.data.elementArr[11].value,
         terminatedCard: e.data.elementArr[27].value.slice(-4),
 
+        // orderNumber: "C-bba45713-623c-4025-bf3b-fdc90271d9e7",
+        // approvalCode: "Y:441417:4577812666:PPXX:808537",
+        // purchaseAmount: "3000",
+        // terminatedCard: "456",
+
         shippingName: newOrder.get("shippingName"),
         shippingLastName: newOrder.get("shippingLastName"),
 
         phoneNumber: newOrder.get("phoneNumber"),
         shippingEmail: newOrder.get("shippingEmail"),
 
-        addressState: newOrder.get("addressState"),
-        addressCP: newOrder.get("addressCP"),
-        addressCity: newOrder.get("addressCity"),
-        addressStreet: newOrder.get("addressStreet"),
-        addressNumber: newOrder.get("addressNumber"),
-        addressReferences: newOrder.get("addressReferences"),
+        shippingData: !pickUp ? "Dirección de envío" : "Recoger en tienda",
+        addressState: !pickUp ? newOrder.get("addressState") : "",
+        addressCP: !pickUp ? newOrder.get("addressCP") : "",
+        addressCity: !pickUp ? newOrder.get("addressCity") : "",
+        addressStreet: !pickUp ? newOrder.get("addressStreet") : "",
+        addressNumber: !pickUp ? newOrder.get("addressNumber") : "",
+        addressReferences: !pickUp
+          ? newOrder.get("addressReferences")
+          : "Recoger en tienda",
 
         requiredInvoice: "Datos para facturación",
         invoiceRFC: newOrder.get("invoiceRFC"),
@@ -202,7 +221,6 @@ const MakePayment = (props) => {
         products: myCart,
       };
 
-      // console.log("order: ", order);
       setPurchasingData(order);
 
       sendEmail(order);
@@ -320,7 +338,11 @@ const MakePayment = (props) => {
             onSubmit={handleSubmit}
           >
             <ShippingData>
-              <DataSubtitle>¿A quién se lo enviamos?</DataSubtitle>
+              {!pickUp ? (
+                <DataSubtitle>¿A quién se lo enviamos?</DataSubtitle>
+              ) : (
+                <DataSubtitle>¿Quien hace la compra?</DataSubtitle>
+              )}
               <InputSameName
                 type="text"
                 name="shippingName"
@@ -355,66 +377,105 @@ const MakePayment = (props) => {
                 A este correo enviaremos tu comprobante de compra
               </ProofOfPurchase>
             </ShippingData>
-            <ShippingAddress>
-              <Subtitle>¿A dónde lo enviamos?</Subtitle>
-              <InputBase
-                type="text"
-                name="addressState"
-                placeholder="Estado"
-                maxLength="30"
-                required
-              />
-              <ZipCode
-                type="text"
-                name="addressCP"
-                inputMode="numeric"
-                placeholder="Código Postal"
-                value={zipCode}
-                onChange={(e) =>
-                  handleChange(
-                    e.target.value.replace(/\D/g, "").trim(),
-                    setZipCode
-                  )
-                }
-                maxLength="7"
-                required
-              />
-              <SelectCity
-                name="addressCity"
-                defaultValue="Xalapa"
-                onChange={(e) => handleChange(e.target.value, setCity)}
-                required
-              >
-                {deliveryCities.map((city) => (
-                  <option key={city} value={city}>
-                    {city}
-                  </option>
-                ))}
-              </SelectCity>
-              <FreeShippingText>
-                Envío gratis en Xalapa a partir de $200
-              </FreeShippingText>
-              <InputBase
-                type="text"
-                name="addressStreet"
-                placeholder="Calle"
-                maxLength="40"
-                required
-              />
-              <InputBase
-                type="text"
-                name="addressNumber"
-                inputMode="numeric"
-                placeholder="Numero"
-                maxLength="4"
-                required
-              />
-              <References
-                name="addressReferences"
-                placeholder="Referencias"
-                maxLength="350"
-                required
-              />
+            <ShippingAddress invoice={invoiceRequired}>
+              {!pickUp && <Subtitle>¿A dónde lo enviamos?</Subtitle>}
+              <PickUpQuestion>
+                <PickUpInput
+                  type="checkbox"
+                  id="pickUp"
+                  name="pickUp"
+                  ref={pickUpCheck}
+                  onChange={() => setPickUp(!pickUp)}
+                />
+                <PickUp htmlFor="pickUp" bg={pickUp}>
+                  Prefiero recogerlo en tienda
+                </PickUp>
+              </PickUpQuestion>
+              {!pickUp ? (
+                <>
+                  <InputBase
+                    type="text"
+                    name="addressState"
+                    placeholder="Estado"
+                    maxLength="30"
+                    required
+                  />
+                  <ZipCode
+                    type="text"
+                    name="addressCP"
+                    inputMode="numeric"
+                    placeholder="Código Postal"
+                    value={zipCode}
+                    onChange={(e) =>
+                      handleChange(
+                        e.target.value.replace(/\D/g, "").trim(),
+                        setZipCode
+                      )
+                    }
+                    maxLength="7"
+                    required
+                  />
+                  <SelectCity
+                    name="addressCity"
+                    defaultValue="Xalapa"
+                    onChange={(e) => handleChange(e.target.value, setCity)}
+                    required
+                  >
+                    {deliveryCities.map((city) => (
+                      <option key={city} value={city}>
+                        {city}
+                      </option>
+                    ))}
+                  </SelectCity>
+                  <FreeShippingText>
+                    Envío gratis en Xalapa a partir de $200
+                  </FreeShippingText>
+                  <InputBase
+                    type="text"
+                    name="addressStreet"
+                    placeholder="Calle"
+                    maxLength="40"
+                    required
+                  />
+                  <InputBase
+                    type="text"
+                    name="addressNumber"
+                    inputMode="numeric"
+                    placeholder="Numero"
+                    maxLength="4"
+                    required
+                  />
+                  <References
+                    name="addressReferences"
+                    placeholder="Referencias"
+                    maxLength="350"
+                    required
+                  />
+                </>
+              ) : (
+                <PickUpConatiner>
+                  <p>
+                    Podrás recoger tu pedido en la sucursal{" "}
+                    <span>Lázaro Cárdenas</span>
+                  </p>
+                  <p>
+                    Av. Lázaro Cárdenas N.274 Col. Encinal c.p 91180 Xalapa,
+                    Veracruz
+                  </p>
+                  <PickUpLink
+                    href="https://goo.gl/maps/CS4JgsBKMByXvEHt5"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    itemProp="hasMap"
+                  >
+                    Ver ubicación
+                  </PickUpLink>
+                  <p>
+                    Nos pondremos en contacto contigo para coordinar tu entrega
+                  </p>
+                </PickUpConatiner>
+              )}
+
               <InvoiceQuestion>
                 <InvoiceInput
                   type="checkbox"
@@ -500,6 +561,7 @@ const MakePayment = (props) => {
                 />
               </CostContainer>
             </CostDetails>
+            {/* <button type="submit">Enviar</button> */}
           </FormStyled>
           <PasarelaDePagos
             shippingCost={shippingCost}

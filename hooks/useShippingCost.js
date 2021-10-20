@@ -341,23 +341,27 @@ export function useShippingCost(zipCode, subTotal) {
   const [cost, setCost] = useState(0);
 
   useEffect(() => {
-    if (zipCodesXalapa.includes(zipCode)) {
-      setDeliveryCities(["Xalapa"]);
-      if (subTotal > 200) {
+    if (zipCode.length >= 5) {
+      if (zipCodesXalapa.includes(zipCode)) {
+        if (subTotal > 200) {
+          setCost(0);
+        } else {
+          setCost(50);
+        }
+        setDeliveryCities(["Xalapa"]);
+      } else if (zipCodesCoatepec.includes(zipCode)) {
+        setDeliveryCities(["Coatepec"]);
+        setCost(75);
+      } else if (zipCodesBanderilla.includes(zipCode)) {
+        setDeliveryCities(["Banderilla"]);
+        setCost(75);
+      } else if (zipCode === "pickUp") {
         setCost(0);
+        setDeliveryCities(["Xalapa", "Coatepec", "Banderilla"]);
+      } else {
+        setCost(75);
+        setDeliveryCities(["contact"]);
       }
-    } else if (zipCodesCoatepec.includes(zipCode)) {
-      setDeliveryCities(["Coatepec"]);
-      setCost(75);
-    } else if (zipCodesBanderilla.includes(zipCode)) {
-      setDeliveryCities(["Banderilla"]);
-      setCost(75);
-    } else if (zipCode.length >= 5) {
-      setCost(75);
-      setDeliveryCities(["contact"]);
-      // alert(
-      //   `Para este código postal comunícate al 22 88 36 62 83 y te brindaremos la información para tu envío`
-      // );
     } else {
       setCost(50);
       setDeliveryCities(["Xalapa", "Coatepec", "Banderilla"]);

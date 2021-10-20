@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { connect } from "react-redux";
 import { NextSeo, ProductJsonLd } from "next-seo";
@@ -41,6 +41,8 @@ import {
   ButtonStyled,
   NotAvailable,
   RelatedArticles,
+  ScrollLeft,
+  ScrollRight,
   RelatedTitle,
   PreviewItemContainer,
   LinkIcon,
@@ -88,6 +90,9 @@ const ProductPage = (props) => {
   // Hook que solicita el Stock
   const [stock] = useGetStock(product.articulo_id);
 
+  const containerRelated = useRef(null);
+  const containerRelatedCategories = useRef(null);
+
   // Envia al Carrito y a la lista de precios
   const handleSetCart = () => {
     setMyCart({ ...product, initialQuantity: 1 });
@@ -115,6 +120,15 @@ const ProductPage = (props) => {
       setCurrentUrl(window.location);
     }
   }, []);
+
+  // Scroll Horizontal artículos relacionados
+  const scroll = (related, scrollOffset) => {
+    if (related) {
+      containerRelated.current.scrollLeft += scrollOffset;
+    } else {
+      containerRelatedCategories.current.scrollLeft += scrollOffset;
+    }
+  };
 
   // :::::::::::::::::::::::::::::::::::::::::::::
   // useEffect(async () => {
@@ -315,7 +329,9 @@ const ProductPage = (props) => {
         {related.length > 0 && (
           <RelatedArticles>
             <RelatedTitle>Relacionados</RelatedTitle>
-            <PreviewItemContainer>
+            <ScrollLeft type="button" onClick={() => scroll(true, -450)} />
+            <ScrollRight type="button" onClick={() => scroll(true, 450)} />
+            <PreviewItemContainer ref={containerRelated}>
               <>
                 {related.map((article) => (
                   <PreviewItem
@@ -330,11 +346,10 @@ const ProductPage = (props) => {
         )}
         {relatedCategory.length > 0 && (
           <RelatedArticles>
-            <RelatedTitle>
-              Puede que te interese{" "}
-              {/* <span>{product.category.toLowerCase()}</span> */}
-            </RelatedTitle>
-            <PreviewItemContainer>
+            <RelatedTitle>Puede que te interese </RelatedTitle>
+            <ScrollLeft type="button" onClick={() => scroll(false, -450)} />
+            <ScrollRight type="button" onClick={() => scroll(false, 450)} />
+            <PreviewItemContainer ref={containerRelatedCategories}>
               <>
                 {relatedCategory.map((article) => (
                   <PreviewItem

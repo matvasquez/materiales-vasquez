@@ -26,7 +26,7 @@ const branches = [
     address:
       "Av. Lázaro Cárdenas N.13 Col. Badillo c.p 91180 Xalapa, Veracruz, México.",
     photo:
-      "https://res.cloudinary.com/duibtuerj/image/upload/v1630682602/brand/tiendas/Home-Center.jpg",
+      "https://res.cloudinary.com/duibtuerj/image/upload/v1634687366/brand/tiendas/homcenter1_gibctf.jpg",
     phone: "2288401919",
     extent: ["855"],
     email: "caja.homecenter@grupovasquez.com.mx",
@@ -61,7 +61,7 @@ const branches = [
     branch: "Castillo",
     address: "Carretera Xalapa - El Castillo N.2615 Xalapa, Veracruz, México.",
     photo:
-      "https://res.cloudinary.com/duibtuerj/image/upload/v1630682744/brand/tiendas/Castillo.jpg",
+      "https://res.cloudinary.com/duibtuerj/image/upload/v1634687364/brand/tiendas/CASTILLO_wvricm.jpg",
     phone: "2288401919",
     extent: ["893"],
     email: "ventas.castillo@grupovasquez.com.mx",
@@ -73,7 +73,7 @@ const branches = [
     address:
       "Av. Atenas Veracruzana N.1906 Col. Revolución CP.91100 Xalapa, Veracruz, México.",
     photo:
-      "https://res.cloudinary.com/duibtuerj/image/upload/v1630682787/brand/tiendas/Revoluci%C3%B3n.jpg",
+      "https://res.cloudinary.com/duibtuerj/image/upload/v1634687368/brand/tiendas/REVOLUCION_ldsxcf.jpg",
     phone: "2288401919",
     extent: ["863"],
     email: "ventas.revolucion@grupovasquez.com.mx",

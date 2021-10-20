@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Item = styled.div`
   width: 100%;
-  height: 17rem;
+  height: 10rem;
   margin: 0 auto;
   display: flex;
   justify-content: center;
@@ -14,7 +14,7 @@ export const Item = styled.div`
     justify-content: right;
     align-items: center;
     position: relative;
-    border-radius: 1.5rem;
+    border-radius: 1rem;
     overflow: hidden;
   }
   img {
@@ -29,16 +29,19 @@ export const Item = styled.div`
     z-index: 1;
   }
   @media (min-width: 350px) {
-    height: 20rem;
+    height: 12rem;
   }
   @media (min-width: 500px) {
-    height: 25rem;
+    height: 18rem;
   }
   @media (min-width: 750px) {
-    height: 35rem;
+    height: 25rem;
+  }
+  @media (min-width: 1000px) {
+    height: 32rem;
   }
   @media (min-width: 1200px) {
-    height: 50rem;
+    height: 48rem;
     border-radius: 2rem;
     a {
       padding-bottom: 3rem;
