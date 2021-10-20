@@ -260,7 +260,6 @@ const MakePayment = (props) => {
       input.setAttribute("name", element.name);
       input.setAttribute("value", element.value);
       document.newForm.appendChild(input);
-      // document.getElementById("newForm").appendChild(input);
     }
     document.getElementById("newForm").submit();
   }
@@ -273,7 +272,7 @@ const MakePayment = (props) => {
   }, 3000);
 
   const receiveMessage = (e) => {
-    if (e.origin != "https://test.ipg-online.com") {
+    if (e.origin != "https://www2.ipg-online.com") {
       return;
     }
     let elementArr = e.data.elementArr;

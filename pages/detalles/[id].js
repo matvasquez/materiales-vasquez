@@ -329,8 +329,12 @@ const ProductPage = (props) => {
         {related.length > 0 && (
           <RelatedArticles>
             <RelatedTitle>Relacionados</RelatedTitle>
-            <ScrollLeft type="button" onClick={() => scroll(true, -450)} />
-            <ScrollRight type="button" onClick={() => scroll(true, 450)} />
+            {related.length > 4 && (
+              <>
+                <ScrollLeft type="button" onClick={() => scroll(true, -450)} />
+                <ScrollRight type="button" onClick={() => scroll(true, 450)} />
+              </>
+            )}
             <PreviewItemContainer ref={containerRelated}>
               <>
                 {related.map((article) => (
@@ -347,8 +351,12 @@ const ProductPage = (props) => {
         {relatedCategory.length > 0 && (
           <RelatedArticles>
             <RelatedTitle>Puede que te interese </RelatedTitle>
-            <ScrollLeft type="button" onClick={() => scroll(false, -450)} />
-            <ScrollRight type="button" onClick={() => scroll(false, 450)} />
+            {relatedCategory.length > 4 && (
+              <>
+                <ScrollLeft type="button" onClick={() => scroll(false, -450)} />
+                <ScrollRight type="button" onClick={() => scroll(false, 450)} />
+              </>
+            )}
             <PreviewItemContainer ref={containerRelatedCategories}>
               <>
                 {relatedCategory.map((article) => (

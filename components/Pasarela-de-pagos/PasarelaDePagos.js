@@ -9,8 +9,6 @@ import sjcl from "sjcl";
 // Tarjeta para errores
 // 4004430000000007
 
-// "start": "cross-env NODE_ENV=production node server.js",
-
 // Components
 import { SuspensoryPoints } from "../../components/Loaders/SuspensoryPoints";
 
@@ -67,7 +65,7 @@ const PasarelaDePagos = ({ shippingCost, subTotal, pay }) => {
       <FormStyled
         method="POST"
         target="myFrame"
-        action="https://test.ipg-online.com/connect/gateway/processing"
+        action={process.env.NEXT_PUBLIC_URL_FORM}
         onSubmit={handleSubmitPayment}
       >
         <input type="hidden" name="checkoutoption" value="simpleform" />
