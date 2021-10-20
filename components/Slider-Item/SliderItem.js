@@ -5,7 +5,6 @@ import Link from "next/link";
 import { Item, Text, Filter } from "./style";
 
 export const SliderItem = ({ text, image, link }) => {
-  console.log("link: ", link);
   return (
     <Item>
       <a href={link ? link : "#"} aria-label={`Ver más sobre ${text}`}>

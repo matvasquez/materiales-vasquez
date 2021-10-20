@@ -131,15 +131,15 @@ const ProductPage = (props) => {
   };
 
   // :::::::::::::::::::::::::::::::::::::::::::::
-  useEffect(async () => {
-    // Solicita los datos iniciales
-    const responseRelatedByName = await fetch(`/api/detalles-initial/AL`);
-    const { data } = await responseRelatedByName.json();
+  // useEffect(async () => {
+  //   // Solicita los datos iniciales
+  //   const responseRelatedByName = await fetch(`/api/detalles-initial/AL`);
+  //   const { data } = await responseRelatedByName.json();
 
-    console.log("====================================");
-    console.log(data);
-    console.log("====================================");
-  }, []);
+  //   console.log("====================================");
+  //   console.log(data);
+  //   console.log("====================================");
+  // }, []);
 
   // :::::::::::::::::::::::::::::::::::::::::::::
 
