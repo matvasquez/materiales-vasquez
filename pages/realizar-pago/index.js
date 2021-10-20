@@ -92,6 +92,7 @@ const MakePayment = (props) => {
   const [pickUp, setPickUp] = useState(false);
   const [city, setCity] = useState("Xalapa");
   const [zipCode, setZipCode] = useState("");
+  const [referencesText, setReferencesText] = useState("");
   const [shippingCost, setShippingCost] = useState(50);
   const [invoiceRequired, setInvoiceRequired] = useState(false);
   const paymentForm = useRef(null);
@@ -103,9 +104,54 @@ const MakePayment = (props) => {
   // Estado del modal de notificacio
   const [modalOpen, setModalOpen] = useState(false);
 
-  const [related, setRelated] = useState([]);
+  // Retira de la vista el formulario principal- despues de click en el boton pagar
+  const [showForm, setShowForm] = useState(true);
 
-  const formFiserv = useRef(null);
+  // Comprovacion de datos minimos necesarios
+  const [name, setName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [mail, setMail] = useState("");
+
+  const [rfc, setRfc] = useState("");
+  const [reazon, setReazon] = useState("");
+  const [invoicePhone, setInvoicePhone] = useState("");
+  const [invoiceMail, setInvoiceMail] = useState("");
+
+  const [formReady, setFormReady] = useState(false);
+
+  useEffect(() => {
+    if (name !== "" && lastName !== "" && phone !== "" && mail !== "") {
+      if (invoiceRequired) {
+        if (
+          rfc !== "" &&
+          reazon !== "" &&
+          invoicePhone !== "" &&
+          invoiceMail !== ""
+        ) {
+          setFormReady(true);
+        } else {
+          setFormReady(false);
+        }
+      } else {
+        setFormReady(true);
+      }
+    } else {
+      setFormReady(false);
+    }
+  }, [
+    name,
+    lastName,
+    phone,
+    mail,
+    invoiceRequired,
+    rfc,
+    reazon,
+    invoicePhone,
+    invoiceMail,
+  ]);
+
+  // const [related, setRelated] = useState([]);
 
   useEffect(() => {
     setCloseCart();
@@ -135,17 +181,17 @@ const MakePayment = (props) => {
   };
 
   // Solicita articulos relacionados por nombre
-  useEffect(async () => {
-    if (myCart.length > 0) {
-      const responseRelatedByName = await fetch(
-        `/api/related-by-name/${myCart[myCart.length - 1].name
-          .split(" ")[0]
-          .replace(/\//gi, "slash")}?first=1&last=4`
-      );
-      const { data: related } = await responseRelatedByName.json();
-      setRelated(related);
-    }
-  }, [myCart]);
+  // useEffect(async () => {
+  //   if (myCart.length > 0) {
+  //     const responseRelatedByName = await fetch(
+  //       `/api/related-by-name/${myCart[myCart.length - 1].name
+  //         .split(" ")[0]
+  //         .replace(/\//gi, "slash")}?first=1&last=4`
+  //     );
+  //     const { data: related } = await responseRelatedByName.json();
+  //     setRelated(related);
+  //   }
+  // }, [myCart]);
 
   useEffect(() => {
     paymentForm.current.reset();
@@ -153,6 +199,9 @@ const MakePayment = (props) => {
 
   useEffect(() => {
     pickUp ? setZipCode("pickUp") : setZipCode("");
+    pickUp
+      ? setReferencesText("Prefiero recogerlo en tienda")
+      : setReferencesText("");
   }, [pickUp]);
 
   const handleSubmit = (e) => {
@@ -181,28 +230,20 @@ const MakePayment = (props) => {
         purchaseAmount: e.data.elementArr[11].value,
         terminatedCard: e.data.elementArr[27].value.slice(-4),
 
-        // orderNumber: "C-bba45713-623c-4025-bf3b-fdc90271d9e7",
-        // approvalCode: "Y:441417:4577812666:PPXX:808537",
-        // purchaseAmount: "3000",
-        // terminatedCard: "456",
-
         shippingName: newOrder.get("shippingName"),
         shippingLastName: newOrder.get("shippingLastName"),
 
         phoneNumber: newOrder.get("phoneNumber"),
         shippingEmail: newOrder.get("shippingEmail"),
 
-        shippingData: !pickUp ? "Dirección de envío" : "Recoger en tienda",
-        addressState: !pickUp ? newOrder.get("addressState") : "",
-        addressCP: !pickUp ? newOrder.get("addressCP") : "",
-        addressCity: !pickUp ? newOrder.get("addressCity") : "",
-        addressStreet: !pickUp ? newOrder.get("addressStreet") : "",
-        addressNumber: !pickUp ? newOrder.get("addressNumber") : "",
-        addressReferences: !pickUp
-          ? newOrder.get("addressReferences")
-          : "Recoger en tienda",
+        addressState: newOrder.get("addressState"),
+        addressCP: newOrder.get("addressCP"),
+        addressCity: newOrder.get("addressCity"),
+        addressStreet: newOrder.get("addressStreet"),
+        addressNumber: newOrder.get("addressNumber"),
+        addressReferences: newOrder.get("referencesText"),
 
-        requiredInvoice: "Datos para facturación",
+        requiredInvoice: newOrder.get("invoiceRequiredInput"),
         invoiceRFC: newOrder.get("invoiceRFC"),
         invoiceCompanyName: newOrder.get("invoiceCompanyName"),
         cfdi: newOrder.get("cfdi"),
@@ -212,15 +253,13 @@ const MakePayment = (props) => {
         subTotal: shoppingCartPrices.reduce(
           (accumulator, currentValue) => accumulator + currentValue
         ),
-        shippingCost: shippingCost,
-        total:
-          shoppingCartPrices.reduce(
-            (accumulator, currentValue) => accumulator + currentValue
-          ) + shippingCost,
+        shippingCost: newOrder.get("shippingCost"),
+        total: newOrder.get("totalCost"),
 
         products: myCart,
       };
 
+      console.log(order);
       setPurchasingData(order);
 
       sendEmail(order);
@@ -239,9 +278,9 @@ const MakePayment = (props) => {
       };
       setPurchasingData(orderFail);
     }
-    setTimeout(() => {
-      window.location.href = e.data.redirectURL;
-    }, 500);
+    // setTimeout(() => {
+    //   window.location.href = e.data.redirectURL;
+    // }, 500);
   };
 
   // Código de pasarela de pagos
@@ -259,7 +298,8 @@ const MakePayment = (props) => {
       input.setAttribute("type", "hidden");
       input.setAttribute("name", element.name);
       input.setAttribute("value", element.value);
-      document.newForm.appendChild(input);
+      // document.newForm.appendChild(input);
+      document.getElementById("newForm").appendChild(input);
     }
     document.getElementById("newForm").submit();
   }
@@ -267,16 +307,20 @@ const MakePayment = (props) => {
   // Limita el numero de llamados a las funciones de
   // enviar mail y cambiar de pagina
   const handlePurchase = debounce(async (e, elementArr) => {
-    forwardForm(e.data, elementArr);
     handleSubmit(e);
+    forwardForm(e.data, elementArr);
   }, 3000);
 
   const receiveMessage = (e) => {
-    if (e.origin != "https://www2.ipg-online.com") {
+    if (
+      e.origin === "https://www2.ipg-online.com" ||
+      e.origin === "https://test.ipg-online.com"
+    ) {
+      let elementArr = e.data.elementArr;
+      handlePurchase(e, elementArr);
+    } else {
       return;
     }
-    let elementArr = e.data.elementArr;
-    handlePurchase(e, elementArr);
   };
 
   useEffect(() => {
@@ -328,7 +372,6 @@ const MakePayment = (props) => {
       />
       <MainStiled>
         <MainTitle>Realizar Pago</MainTitle>
-        <div ref={formFiserv}></div>
 
         <BuyersData>
           <FormStyled
@@ -336,7 +379,7 @@ const MakePayment = (props) => {
             id="customerDataForm"
             onSubmit={handleSubmit}
           >
-            <ShippingData>
+            <ShippingData showForm={showForm}>
               {!pickUp ? (
                 <DataSubtitle>¿A quién se lo enviamos?</DataSubtitle>
               ) : (
@@ -348,6 +391,7 @@ const MakePayment = (props) => {
                 placeholder="Nombre/s"
                 maxLength="30"
                 required
+                onChange={(e) => setName(e.target.value.toString().trim())}
               />
               <InputSameName
                 type="text"
@@ -355,6 +399,7 @@ const MakePayment = (props) => {
                 placeholder="Apellidos"
                 maxLength="30"
                 required
+                onChange={(e) => setLastName(e.target.value.toString().trim())}
               />
               <PhoneNumber
                 type="tel"
@@ -364,6 +409,7 @@ const MakePayment = (props) => {
                 inputMode="numeric"
                 pattern="[0-9]{10}"
                 required
+                onChange={(e) => setPhone(e.target.value.toString().trim())}
               />
               <InputEmail
                 type="email"
@@ -371,12 +417,13 @@ const MakePayment = (props) => {
                 placeholder="Correo Electrónico"
                 maxLength="30"
                 required
+                onChange={(e) => setMail(e.target.value.toString().trim())}
               />
               <ProofOfPurchase>
                 A este correo enviaremos tu comprobante de compra
               </ProofOfPurchase>
             </ShippingData>
-            <ShippingAddress invoice={invoiceRequired}>
+            <ShippingAddress invoice={invoiceRequired} showForm={showForm}>
               {!pickUp && <Subtitle>¿A dónde lo enviamos?</Subtitle>}
               <PickUpQuestion>
                 <PickUpInput
@@ -445,10 +492,14 @@ const MakePayment = (props) => {
                     required
                   />
                   <References
-                    name="addressReferences"
+                    name="referencesText"
                     placeholder="Referencias"
                     maxLength="350"
                     required
+                    value={referencesText}
+                    onChange={(e) =>
+                      handleChange(e.target.value.toString(), setReferencesText)
+                    }
                   />
                 </>
               ) : (
@@ -472,6 +523,33 @@ const MakePayment = (props) => {
                   <p>
                     Nos pondremos en contacto contigo para coordinar tu entrega
                   </p>
+
+                  <input
+                    type="hidden"
+                    name="addressState"
+                    value={""}
+                    readOnly
+                  />
+                  <input type="hidden" name="addressCP" value={""} readOnly />
+                  <input type="hidden" name="addressCity" value={""} readOnly />
+                  <input
+                    type="hidden"
+                    name="addressStreet"
+                    value={""}
+                    readOnly
+                  />
+                  <input
+                    type="hidden"
+                    name="addressNumber"
+                    value={""}
+                    readOnly
+                  />
+                  <input
+                    type="hidden"
+                    name="referencesText"
+                    value={referencesText}
+                    readOnly
+                  />
                 </PickUpConatiner>
               )}
 
@@ -489,18 +567,30 @@ const MakePayment = (props) => {
                 </Invoice>
               </InvoiceQuestion>
             </ShippingAddress>
-            <ShippingInvoice hide={invoiceRequired}>
+            <ShippingInvoice hide={invoiceRequired} showForm={showForm}>
+              <input
+                type="hidden"
+                name="invoiceRequiredInput"
+                value={
+                  invoiceRequired
+                    ? "Datos para facturación"
+                    : "No Requiere factura"
+                }
+                readOnly
+              />
               <InputRFC
                 type="text"
                 name="invoiceRFC"
                 placeholder="RFC"
                 maxLength="13"
+                onChange={(e) => setRfc(e.target.value.toString().trim())}
               />
               <InputRFC
                 type="text"
                 name="invoiceCompanyName"
                 placeholder="Razón Social"
                 maxLength="50"
+                onChange={(e) => setReazon(e.target.value.toString().trim())}
               />
               <InputBase
                 type="tel"
@@ -509,12 +599,18 @@ const MakePayment = (props) => {
                 maxLength="10"
                 inputMode="numeric"
                 pattern="[0-9]{10}"
+                onChange={(e) =>
+                  setInvoicePhone(e.target.value.toString().trim())
+                }
               />
               <InputEmail
                 type="email"
                 name="invoiceShippingEmail"
                 placeholder="Correo Electrónico"
                 maxLength="30"
+                onChange={(e) =>
+                  setInvoiceMail(e.target.value.toString().trim())
+                }
               />
               <SelectCFDI name="cfdi" required>
                 {cfdis.map((cfdi) => (
@@ -525,13 +621,13 @@ const MakePayment = (props) => {
               </SelectCFDI>
             </ShippingInvoice>
             {myCart && (
-              <MyListOfItems>
+              <MyListOfItems showForm={showForm}>
                 {myCart.map((item) => (
                   <PaymentItemPreview key={item.articulo_id} {...item} />
                 ))}
               </MyListOfItems>
             )}
-            <CostDetails invoice={invoiceRequired}>
+            <CostDetails invoice={invoiceRequired} showForm={showForm}>
               <CostContainer>
                 <p>Subtotal:</p>
                 <InputCost
@@ -543,18 +639,28 @@ const MakePayment = (props) => {
               </CostContainer>
               <CostContainer>
                 <p>Costo de envío:</p>
+                <input
+                  type="hidden"
+                  name="shippingCost"
+                  value={shippingCost}
+                  readOnly
+                />
                 <InputCost
                   type="text"
-                  name="shippingCost"
                   value={`$${formatter.format(shippingCost)}`}
                   readOnly
                 />
               </CostContainer>
               <CostContainer>
                 <p>Total:</p>
+                <input
+                  type="hidden"
+                  name="totalCost"
+                  value={shippingCost + subTotal}
+                  readOnly
+                />
                 <InputCost
                   type="text"
-                  name="shippingCost"
                   value={`$${formatter.format(shippingCost + subTotal)}`}
                   readOnly
                 />
@@ -566,10 +672,12 @@ const MakePayment = (props) => {
             shippingCost={shippingCost}
             subTotal={subTotal}
             pay={deliveryCities[0] === "contact" ? false : true}
+            setShowForm={setShowForm}
+            formReady={formReady}
           />
         </BuyersData>
 
-        {related.length > 0 && (
+        {/* {related.length > 0 && (
           <RelatedArticles>
             <RelatedTitle>Puede que te interese</RelatedTitle>
             <PreviewItemContainer>
@@ -584,7 +692,7 @@ const MakePayment = (props) => {
               </>
             </PreviewItemContainer>
           </RelatedArticles>
-        )}
+        )} */}
       </MainStiled>
       {modalOpen && (
         <Alert

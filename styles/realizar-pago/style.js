@@ -65,13 +65,13 @@ export const ShippingAddress = styled.div`
   padding: 3rem 1rem 1rem;
   margin: 1rem auto 0;
 
-  display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 1rem;
 
   background-color: var(--white);
   border-radius: ${(props) => (props.invoice ? `1rem 1rem 0 0` : `1rem`)};
   transition: 0.3s ease-in-out all;
+  ${(props) => (props.showForm ? `display: grid;` : `display: none;`)}
   @media (min-width: 750px) {
     width: 90%;
     grid-template-columns: repeat(3, 1fr);
@@ -215,7 +215,7 @@ export const ShippingData = styled(ShippingAddress)`
   @media (min-width: 1200px) {
     grid-column: 1 / span 1;
     grid-row: 1 / span 1;
-    display: grid;
+    ${(props) => (props.showForm ? `display: grid;` : `display: none;`)}
     grid-template-columns: 1fr 1fr;
     grid-template-rows: min-content;
     grid-gap: 1rem;
@@ -291,6 +291,9 @@ export const References = styled.textarea`
   @media (min-width: 750px) {
     grid-column: 1 / span 3;
   }
+  @media (min-width: 1200px) {
+    grid-row: 6 / span 1;
+  }
 `;
 
 export const FreeShippingText = styled.p`
@@ -306,8 +309,10 @@ export const FreeShippingText = styled.p`
   justify-content: center;
   align-items: center;
   @media (min-width: 750px) {
-    grid-column: 2 / span 2;
+    grid-column: 1 / span 3;
     grid-row: 5 / span 1;
+    padding: 0.2rem 0.5rem;
+    cursor: default;
   }
 `;
 
@@ -322,7 +327,7 @@ export const InvoiceQuestion = styled.div`
   cursor: pointer;
   @media (min-width: 750px) {
     grid-column: 1 / span 1;
-    grid-row: 5 / span 1;
+    grid-row: 7 / span 1;
   }
 `;
 
@@ -410,7 +415,7 @@ export const ShippingInvoice = styled(ShippingAddress)`
     grid-row: 2 / span 1;
     height: initial;
     padding-top: 1rem;
-    display: flex;
+    ${(props) => (props.showForm ? `display: flex;` : `display: none;`)}
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: flex-start;
@@ -443,6 +448,7 @@ export const MyListOfItems = styled.section`
   align-items: center;
   background-color: var(--white);
   border-radius: 1rem;
+  ${(props) => (props.showForm ? `display: flex;` : `display: none;`)}
   @media (min-width: 750px) {
     width: 90%;
   }
@@ -477,10 +483,14 @@ export const BuyButton = styled.button`
 `;
 
 export const CostDetails = styled(MyListOfItems)`
+  display: flex;
   margin-top: 1rem;
   @media (min-width: 1200px) {
-    grid-column: 1 / span 1;
     grid-row: 2 / span 1;
+    ${(props) =>
+      props.showForm
+        ? `grid-column: 1 / span 1;`
+        : `width: 30%; grid-column: 1 / span 2;`}
   }
 `;
 

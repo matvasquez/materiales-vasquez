@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Item = styled.div`
   width: 100%;
-  height: 10rem;
+  height: 15rem;
   margin: 0 auto;
   display: flex;
   justify-content: center;
@@ -29,19 +29,19 @@ export const Item = styled.div`
     z-index: 1;
   }
   @media (min-width: 350px) {
-    height: 12rem;
-  }
-  @media (min-width: 500px) {
     height: 18rem;
   }
-  @media (min-width: 750px) {
+  @media (min-width: 500px) {
     height: 25rem;
   }
-  @media (min-width: 1000px) {
+  @media (min-width: 750px) {
     height: 32rem;
   }
+  @media (min-width: 1000px) {
+    height: 40rem;
+  }
   @media (min-width: 1200px) {
-    height: 48rem;
+    height: 52rem;
     border-radius: 2rem;
     a {
       padding-bottom: 3rem;

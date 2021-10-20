@@ -15,7 +15,13 @@ import { SuspensoryPoints } from "../../components/Loaders/SuspensoryPoints";
 // Styled-Components
 import { FormStyled, BuyButton, Iframe } from "./style";
 
-const PasarelaDePagos = ({ shippingCost, subTotal, pay }) => {
+const PasarelaDePagos = ({
+  shippingCost,
+  subTotal,
+  pay,
+  setShowForm,
+  formReady,
+}) => {
   const [load, setLoad] = useState(false);
   const [show, setShow] = useState(false);
   const [urlWebsite, setUrlWebsite] = useState("http://localhost:3000");
@@ -54,6 +60,7 @@ const PasarelaDePagos = ({ shippingCost, subTotal, pay }) => {
   const handleSubmitPayment = () => {
     setLoad(true);
     setShow(true);
+    setShowForm(false);
     setTimeout(() => {
       setLoad(false);
     }, 3000);
@@ -127,7 +134,7 @@ const PasarelaDePagos = ({ shippingCost, subTotal, pay }) => {
         {!show && (
           <>
             {pay && (
-              <BuyButton type="submit">
+              <BuyButton type="submit" disabled={!formReady}>
                 {load ? <SuspensoryPoints /> : "Pagar"}
               </BuyButton>
             )}

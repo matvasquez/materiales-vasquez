@@ -31,5 +31,5 @@ export default async function getMainCategories(req, res) {
         data: result.data[0],
       });
     }
-  }, 800);
+  }, 1000);
 }

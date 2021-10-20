@@ -30,6 +30,11 @@ export const BuyButton = styled.button`
   outline: none;
   border: none;
   cursor: pointer;
+  &:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+
   @media (min-width: 750px) {
     width: 80%;
     margin: 2rem auto;

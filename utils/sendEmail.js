@@ -292,7 +292,7 @@ export const sendEmail = (order) => {
                                     <table width="100%" align="left" border="0" cellpadding="0" cellspacing="0" width="100%" >
                                         <tr width="100%">
                                             <td width="100%" align="left" valign="top" class="mobile-center" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 600; border: 2px solid #00144c;">
-                                                ${message.shippingData}
+                                            Dirección de envío
                                             </td>
                                         </tr>
                                         <tr width="100%">
@@ -390,14 +390,14 @@ export const sendEmail = (order) => {
                                             ? `
                                             <tr width="100%">
                                                 <td width="50%" align="left" valign="top" class="mobile-center" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; border: 2px solid #00144c;">
-                                                    ${message.invoiceRFC}
+                                                ${message.requiredInvoice}
                                                 </td>
                                             </tr>
                                             `
                                             : `
                                               <tr width="100%">
                                                 <td width="100%" align="left" valign="top" class="mobile-center" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 600; border: 2px solid #00144c;">
-                                                    Dirección de facturación
+                                                ${message.requiredInvoice}
                                                 </td>
                                               </tr>
                                               <tr width="100%">
@@ -500,7 +500,8 @@ export const sendEmail = (order) => {
   // matvasquezh@gmail.com
 
   const bodyOfMessageToCompany = {
-    receiver: `${process.env.NEXT_PUBLIC_MAIL_SMTP}`,
+    // receiver: `ventasweb@grupovasquez.com.mx, poncianogl@hotmail.com`,
+    receiver: `${process.env.NEXT_PUBLIC_MAIL_SMTP}, ventasweb@grupovasquez.com.mx`,
     // receiver: `poncianogl@hotmail.com`,
     subject: `Nueva compra ${message.date}`,
     html: `<!DOCTYPE html>
@@ -691,9 +692,7 @@ export const sendEmail = (order) => {
                                 <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #e7e7e7;" bgcolor="#e7e7e7">
                                     <tr width="70%">
                                         <td width="60%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 600; line-height: 14px; padding: 5px 0; color: #00144c;">
-                                            <p style="margin: 5px 0; color: #00144c; text-decoration: none; text-transform: capitalize; cursor: pointer;">${
-                                              message.shippingData
-                                            }</p>
+                                            <p style="margin: 5px 0; color: #00144c; text-decoration: none; text-transform: capitalize; cursor: pointer;">Dirección de envío</p>
                                         </td>
                                     </tr>
                                 </table>
