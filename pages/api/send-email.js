@@ -11,6 +11,8 @@ export default async function sentEmail(req, res) {
   const messageSubject = req.body.subject;
   const messageHtml = req.body.html;
 
+  console.log(messageReceiver);
+
   const transporter = nodemailer.createTransport({
     host: process.env.NEXT_PUBLIC_MAIL_HOST,
     port: 587,
