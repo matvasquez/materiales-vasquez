@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Link from "next/link";
 import fetch from "isomorphic-unfetch";
 
@@ -16,21 +16,9 @@ import {
   Arrow,
 } from "./style";
 
-const MenuSection = ({ name, category_id, handleOpen }) => {
-  const [subCategories, setSubCategories] = useState([]);
-
-  useEffect(async () => {
-    const response = await fetch(
-      `/api/categories/sub-categories/${category_id}`
-    );
-    const { data } = await response.json();
-
-    setSubCategories(data);
-  }, []);
-
+const MenuSection = ({ handleOpen, subCategories }) => {
   return (
     <LiStyled
-      key={category_id}
       onClick={
         window.innerWidth <= 770
           ? () =>
@@ -44,12 +32,12 @@ const MenuSection = ({ name, category_id, handleOpen }) => {
           window.innerWidth <= 770
             ? subCategories.length > 0
               ? `#`
-              : `/categoria/${name.replace(/ /gi, "-")}`
-            : `/categoria/${name.replace(/ /gi, "-")}`
+              : `/categoria/${subCategories[0].categorie.replace(/ /gi, "-")}`
+            : `/categoria/${subCategories[0].categorie.replace(/ /gi, "-")}`
         }
         passHref
       >
-        <AnchorStyled>{name}</AnchorStyled>
+        <AnchorStyled>{subCategories[0].categorie}</AnchorStyled>
       </Link>
       {subCategories.length > 0 && <Arrow />}
       {subCategories.length === 0 && <LineLink />}
@@ -62,13 +50,13 @@ const MenuSection = ({ name, category_id, handleOpen }) => {
           {subCategories.map((sub) => (
             <SubLiStyled key={sub.id} onClick={() => handleOpen()}>
               <Link
-                href={`/categoria/${name.replace(
+                href={`/categoria/${subCategories[0].categorie.replace(
                   / /gi,
                   "-"
-                )}/${sub.name.replace(/ /gi, "-")}`}
+                )}/${sub.subcategorie.replace(/ /gi, "-")}`}
                 passHref
               >
-                <SubAnchorStyled>{sub.name}</SubAnchorStyled>
+                <SubAnchorStyled>{sub.subcategorie}</SubAnchorStyled>
               </Link>
               <SubLineLink />
             </SubLiStyled>

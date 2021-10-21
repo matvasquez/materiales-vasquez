@@ -17,14 +17,16 @@ export default async function getAllCategories(req, res) {
       .json({ message: "Lo sentimos, sólo aceptamos solicitudes GET" });
   }
   setTimeout(async () => {
-    const result = await rest.executeQuery(
-      `SELECT RTRIM(CLAVEGIR2) AS id, RTRIM(DESC_GIR2) AS name FROM ARTGIRO2`
-    );
     // const result = await rest.executeQuery(
-    //   `SELECT DISTINCT RTRIM(DESCRIBECO) AS category, DESCRIBECO AS category_id
-    //   FROM CAT_CLAS
-    //   ORDER BY DESCRIBECO ASC;`
+    //   `SELECT RTRIM(CLAVEGIR2) AS id, RTRIM(DESC_GIR2) AS name FROM ARTGIRO2`
     // );
+    const result = await rest.executeQuery(
+      `SELECT RTRIM(l.DESGIR) AS categorie, RTRIM(s.DESC_GIR2) AS subcategorie, RTRIM(s.CLAVEGIR2) AS id
+      FROM ARTGIRO AS l
+      RIGHT JOIN  ARTGIRO2 AS s
+          ON s.CLAVEGIR = l.CLAVEGIR
+      WHERE l.CO1 = '1'`
+    );
 
     result &&
       res.status(200).json({

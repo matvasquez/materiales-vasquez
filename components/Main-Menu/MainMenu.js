@@ -20,7 +20,7 @@ import {
   LinkIcon,
 } from "./style";
 
-const MainMenu = ({ isOpen, handleOpen }) => {
+const MainMenu = ({ isOpen, handleOpen, categories }) => {
   const [apartments, setapartments] = useState([]);
 
   useEffect(async () => {
@@ -44,14 +44,20 @@ const MainMenu = ({ isOpen, handleOpen }) => {
           </Link>
           <LineLink />
         </LiStyled>
-        {apartments &&
-          apartments.map((menuItem) => (
-            <MenuSection
-              key={menuItem.category_id}
-              {...menuItem}
-              handleOpen={handleOpen}
-            />
-          ))}
+        {categories.length > 0 && (
+          <>
+            {categories.map((menuItem) => {
+              console.log("menuItem: ", menuItem);
+              return (
+                <MenuSection
+                  key={menuItem[0].categorie}
+                  subCategories={menuItem}
+                  handleOpen={handleOpen}
+                />
+              );
+            })}
+          </>
+        )}
       </UlStyled>
       <SocialIconsConatiner>
         <LinkIcon

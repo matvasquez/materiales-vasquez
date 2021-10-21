@@ -27,6 +27,7 @@ export const SubCategorieContainer = styled.ul`
     top: 108%;
     left: 0;
     z-index: 1;
+    overflow: hidden;
     ${(props) =>
       props.columns &&
       `

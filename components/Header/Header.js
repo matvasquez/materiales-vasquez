@@ -33,6 +33,32 @@ const Header = ({ carIsOpen, itemsIliked }) => {
   const [searchName, setSearchName] = useState("");
   const [deleteText, setDeleteText] = useState(false);
 
+  // ------------------------------
+
+  const [menuCategories, setMenuCategories] = useState([]);
+
+  useEffect(async () => {
+    const response = await fetch(`/api/categories/all-categories`);
+    const { data } = await response.json();
+
+    setMenuCategories(data);
+  }, []);
+
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    let names = menuCategories.map((item) => item.categorie);
+
+    let result = names.filter((item, index) => names.indexOf(item) === index);
+
+    let menu = result.map((item) =>
+      menuCategories.filter((itemCat) => itemCat.categorie === item)
+    );
+    setCategories(menu);
+  }, [menuCategories]);
+
+  // ------------------------------
+
   const handleOpen = () => {
     window.innerWidth < 1100 && setIsOpen(!isOpen);
   };
@@ -153,7 +179,11 @@ const Header = ({ carIsOpen, itemsIliked }) => {
           searchName={searchName}
         />
       )}
-      <MainMenu isOpen={isOpen} handleOpen={handleOpen} />
+      <MainMenu
+        isOpen={isOpen}
+        handleOpen={handleOpen}
+        categories={categories}
+      />
     </>
   );
 };

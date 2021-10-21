@@ -4,6 +4,7 @@ import fetch from "isomorphic-unfetch";
 import { connect } from "react-redux";
 
 // Components
+import MainMenu from "../components/Main-Menu/MainMenu";
 import Slider from "../components/Slider/Slider";
 import ArticlesLiked from "../components/Articles-Liked/ArticlesLiked";
 import HomeSection from "../components/Home-Sections/index";
@@ -23,6 +24,11 @@ export async function getStaticProps() {
     `${process.env.NEXT_PUBLIC_URL}/api/slider`
   );
   const { data: sliderItems } = await responseSlider.json();
+
+  // const responseCategories = await fetch(
+  //   `http://localhost:3000/api/categories/all-categories`
+  // );
+  // const { data: menuCategories } = await responseCategories.json();
 
   const responsebestsellers = await fetch(
     `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/LO-MAacentoS-VENDIDOS?first=1&last=16`
