@@ -25,10 +25,10 @@ export async function getStaticProps() {
   );
   const { data: sliderItems } = await responseSlider.json();
 
-  const responsebestsellers = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/LO-MAacentoS-VENDIDOS?first=1&last=20`
-  );
-  const { data: bestsellers } = await responsebestsellers.json();
+  // const responsebestsellers = await fetch(
+  //   `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/LO-MAacentoS-VENDIDOS?first=1&last=20`
+  // );
+  // const { data: bestsellers } = await responsebestsellers.json();
 
   const responseMATERIALES = await fetch(
     `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/MATERIALES-PARA-CONSTRUCCION?first=1&last=20`
@@ -40,15 +40,15 @@ export async function getStaticProps() {
   );
   const { data: acavados } = await responseACABADOS.json(); // Oacento
 
-  // const responseBAÑOS = await fetch(
-  //   `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/BAenneOS?first=1&last=20`
-  // );
-  // const { data: bannos } = await responseBAÑOS.json();
+  const responseBAÑOS = await fetch(
+    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/BAenneOS?first=1&last=20`
+  );
+  const { data: bannos } = await responseBAÑOS.json();
 
-  // const responsehardware = await fetch(
-  //   `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/FERRETERIA?first=1&last=20`
-  // );
-  // const { data: hardware } = await responsehardware.json();
+  const responsehardware = await fetch(
+    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/FERRETERIA?first=1&last=20`
+  );
+  const { data: hardware } = await responsehardware.json();
 
   // const responsehome = await fetch(
   //   `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/HOGAR?first=1&last=20`
@@ -62,10 +62,6 @@ export async function getStaticProps() {
 
   const sections = [
     {
-      title: "LO MÁS VENDIDO",
-      products: bestsellers,
-    },
-    {
       title: "MATERIALES PARA CONSTRUCCION",
       products: materiales,
     },
@@ -73,14 +69,14 @@ export async function getStaticProps() {
       title: "ACABADOS",
       products: acavados,
     },
-    // {
-    //   title: "BAÑOS",
-    //   products: bannos,
-    // },
-    // {
-    //   title: "FERRETERIA",
-    //   products: hardware,
-    // },
+    {
+      title: "BAÑOS",
+      products: bannos,
+    },
+    {
+      title: "FERRETERIA",
+      products: hardware,
+    },
     // {
     //   title: "HOGAR",
     //   products: home,
