@@ -31,32 +31,32 @@ export async function getStaticProps() {
   // const { data: bestsellers } = await responsebestsellers.json();
 
   const responseMATERIALES = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/MATERIALES-PARA-CONSTRUCCION?first=1&last=20`
+    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/MATERIALES-PARA-CONSTRUCCION?first=1&last=16`
   );
   const { data: materiales } = await responseMATERIALES.json();
 
   const responseACABADOS = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/ACABADOS?first=1&last=20`
+    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/ACABADOS?first=1&last=16`
   );
   const { data: acavados } = await responseACABADOS.json(); // Oacento
 
   const responseBAÑOS = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/BAenneOS?first=1&last=20`
+    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/BAenneOS?first=1&last=16`
   );
   const { data: bannos } = await responseBAÑOS.json();
 
   const responsehardware = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/FERRETERIA?first=1&last=20`
+    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/FERRETERIA?first=1&last=16`
   );
   const { data: hardware } = await responsehardware.json();
 
   // const responsehome = await fetch(
-  //   `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/HOGAR?first=1&last=20`
+  //   `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/HOGAR?first=1&last=16`
   // );
   // const { data: home } = await responsehome.json();
 
   // const responseKITCHEN = await fetch(
-  //   `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/COCINA?first=1&last=20`
+  //   `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/COCINA?first=1&last=16`
   // );
   // const { data: kitchen } = await responseKITCHEN.json();
 

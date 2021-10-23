@@ -33,12 +33,12 @@ const categories = [
   {
     name: "FERRETERIA",
   },
-  {
-    name: "HOGAR",
-  },
-  {
-    name: "COCINA",
-  },
+  // {
+  //   name: "HOGAR",
+  // },
+  // {
+  //   name: "COCINA",
+  // },
 ];
 
 const MainMenu = ({ isOpen, handleOpen }) => {
