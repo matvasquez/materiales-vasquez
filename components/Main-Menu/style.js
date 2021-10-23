@@ -3,17 +3,13 @@ import styled from "styled-components";
 export const NavStyled = styled.nav`
   width: 100vw;
   min-height: 100vh;
-  padding: 4rem 1rem 2rem;
+  padding: 4rem 1rem 8rem;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
   align-items: flex-start;
   background-color: var(--background);
-  background-attachment: fixed;
-  background-size: cover;
-  background-attachment: fixed;
-  background-size: cover;
-  background-attachment: fixed;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: ${(props) => (props.open ? "0" : "-100%")};
   z-index: 20000;
@@ -76,8 +72,9 @@ export const CloseButton = styled.button`
 `;
 
 export const UlStyled = styled.ul`
-  width: 90%;
+  width: 100%;
   height: 90%;
+  margin-top: 4rem;
 
   display: flex;
   flex-direction: column;
@@ -85,7 +82,7 @@ export const UlStyled = styled.ul`
   align-items: flex-start;
 
   @media (min-width: 750px) {
-    width: 50%;
+    width: 60%;
     height: 100%;
     min-height: 50vh;
     padding: 1rem;
@@ -97,7 +94,8 @@ export const UlStyled = styled.ul`
     width: 100%;
     height: fit-content;
     min-height: 1rem;
-    padding: 0 1rem;
+    padding: 0.5rem 1rem;
+    margin: 0;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
@@ -120,7 +118,8 @@ export const LineLink = styled.div`
 `;
 
 export const LiStyled = styled.li`
-  margin: 0.4rem 0;
+  width: 100%;
+  margin: 1rem 0;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -133,19 +132,20 @@ export const LiStyled = styled.li`
     }
   }
   @media (min-width: 1200px) {
+    margin: 0.2rem 0;
     justify-content: center;
     overflow: visible;
   }
 `;
 
 export const AnchorStyled = styled.a`
-  width: fit-content;
+  width: 100%;
   height: 100%;
   padding: 1rem;
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   font-weight: 500;
   color: var(--blue);
   background: none;
@@ -160,23 +160,20 @@ export const AnchorStyled = styled.a`
   }
 `;
 
-export const SocialIconsConatiner = styled.div`
+export const SocialIconsConatiner = styled.li`
   width: 60%;
   margin: 1rem auto;
-  display: none;
+  display: flex;
   justify-content: space-between;
   align-items: center;
-  position: absolute;
-  bottom: 4rem;
 
   @media (min-width: 750px) {
     width: fit-content;
     height: 30rem;
-    display: flex;
     flex-direction: column;
     position: absolute;
     right: 20%;
-    top: calc(50% - 10rem);
+    top: 20rem;
   }
   @media (min-width: 1200px) {
     width: 10%;
@@ -203,8 +200,8 @@ export const LinkIcon = styled.a`
     fill: var(--background);
   }
   @media (min-width: 750px) {
-    width: 3.5rem;
-    height: 3.5rem;
+    width: 4.5rem;
+    height: 4.5rem;
     background: transparent;
     svg {
       fill: var(--background);
@@ -216,6 +213,8 @@ export const LinkIcon = styled.a`
     }
   }
   @media (min-width: 1200px) {
+    width: 3.5rem;
+    height: 3.5rem;
     background: transparent;
     svg {
       fill: var(--blue);

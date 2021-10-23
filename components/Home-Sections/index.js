@@ -15,11 +15,11 @@ import {
   TextEmptyContainer,
 } from "./style";
 
-const HomeSection = ({ title, products, link, first }) => {
+const HomeSection = ({ title, products, first }) => {
   return (
     <>
       {products.length > 0 ? (
-        <SectionStyled>
+        <SectionStyled id={title.replace(/ /g, "-").replace(/Ñ/g, "enne")}>
           <TitleSection>{title}</TitleSection>
           <ItemsContainer>
             {products.map((product, i) => (
@@ -30,11 +30,6 @@ const HomeSection = ({ title, products, link, first }) => {
               />
             ))}
           </ItemsContainer>
-          {products.length >= 8 && (
-            <Link href={link} passHref>
-              <ButtonMore>Ver todos</ButtonMore>
-            </Link>
-          )}
         </SectionStyled>
       ) : (
         <>

@@ -39,7 +39,6 @@ export const ButtonStyled = styled.button`
   outline: none;
   cursor: pointer;
   transition: 0.3s ease-in-out all;
-  ${(props) => (props.showButton ? `opacity: 1;` : `opacity: 0;`)}
   @media (min-width: 750px) {
     width: 3rem;
     height: 3rem;

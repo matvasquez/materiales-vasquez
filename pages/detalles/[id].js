@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
-import Link from "next/link";
 import { connect } from "react-redux";
 import { NextSeo, ProductJsonLd } from "next-seo";
 import fetch from "isomorphic-unfetch";
 import { useMyItems } from "../../hooks/useMyItems";
 import { useGetStock } from "../../hooks/useGetStock";
+import { useRouter } from "next/router";
 
 //Actions
 import {
@@ -74,6 +74,7 @@ const ProductPage = (props) => {
     setIitemsIliked,
     setDeleteFavorite,
   } = props;
+  const router = useRouter();
   // Articulos relacionados por nombre
   const [related, setRelated] = useState([]);
   // Articulos relacionados por categoria
@@ -88,7 +89,7 @@ const ProductPage = (props) => {
   // Hook que verifica si el producto esta en el carrito
   const [yesItIsMineCart] = useMyItems(product.articulo_id, myCart);
   // Hook que solicita el Stock
-  const [stock] = useGetStock(product.articulo_id);
+  const [stock] = useGetStock(router.query.id);
 
   const containerRelated = useRef(null);
   const containerRelatedCategories = useRef(null);
@@ -266,32 +267,13 @@ const ProductPage = (props) => {
                   )}
                 </>
               ) : (
-                <>{stock <= 0 ? "Sin existencias" : "Consultando..."}</>
+                <>{stock === 0 ? "Sin existencias" : "Consultando..."}</>
               )}
             </Paragraph>
             {categories.length > 0 && (
               <Categories>
-                Categorías
-                <Link
-                  href={`/categoria/${categories[0].category.replace(
-                    / /gi,
-                    "-"
-                  )}`}
-                  passHref
-                >
-                  <Category>{categories[0].category}</Category>
-                </Link>{" "}
-                {categories[0].main_category && (
-                  <Link
-                    href={`/categoria/${categories[0].category.replace(
-                      / /gi,
-                      "-"
-                    )}/${categories[0].main_category.replace(/ /gi, "-")}`}
-                    passHref
-                  >
-                    <Category>{categories[0].main_category}</Category>
-                  </Link>
-                )}
+                Categorías <Category>{categories[0].category}</Category>{" "}
+                <Category>{categories[0].main_category}</Category>
               </Categories>
             )}
             <Sku>

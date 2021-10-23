@@ -24,7 +24,7 @@
     "rest-mssql-nodejs": "^1.0.10",
     "sjcl": "^1.0.8",
     "styled-components": "^5.3.1",
-    "tedious": "^11.4.0"
+    "tedious": "^11.8.0"
   },
   "devDependencies": {
     "algoliasearch": "^4.10.5",

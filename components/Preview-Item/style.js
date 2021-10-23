@@ -35,16 +35,6 @@ export const Name = styled.p`
   `}
 `;
 
-export const Price = styled(Name)`
-  font-size: 1.6rem;
-  font-weight: 700;
-  ${(props) =>
-    props.isRelated &&
-    `
-    font-size: 1.2rem;
-  `}
-`;
-
 export const ButtonsContainer = styled.div`
   width: 95%;
   /* padding: 0 0.5rem; */
@@ -66,6 +56,17 @@ export const ButtonLike = styled.button`
     `
     width: 1.5rem;
     height: 1.5rem;
+  `}
+`;
+
+export const Price = styled(Name)`
+  width: fit-content;
+  font-size: 1.8rem;
+  font-weight: 700;
+  ${(props) =>
+    props.isRelated &&
+    `
+    font-size: 1.2rem;
   `}
 `;
 

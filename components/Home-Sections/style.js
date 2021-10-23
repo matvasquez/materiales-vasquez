@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const SectionStyled = styled.section`
   width: 100%;
-  padding: 0.5rem 0;
+  padding-top: 6rem;
   margin: 2rem 0 3rem;
   text-align: right;
 
@@ -13,11 +13,13 @@ export const SectionStyled = styled.section`
 
   @media (min-width: 750px) {
     width: 95%;
+    padding-top: 8rem;
   }
 
   @media (min-width: 1200px) {
     grid-column: 2 / span 1;
     width: 100%;
+    padding-top: 14rem;
   }
 `;
 

@@ -16,7 +16,7 @@ export function useGetStock(id) {
       .catch((error) => {
         console.log("Error: ", error);
       });
-  }, []);
+  }, [id]);
 
   return [stock];
 }

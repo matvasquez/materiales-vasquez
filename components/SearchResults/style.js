@@ -66,8 +66,8 @@ export const SearchResultContainer = styled.div`
   grid-gap: 1rem;
   @media (min-width: 750px) {
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(5, 1fr);
-    grid-gap: 1rem;
+    grid-template-rows: repeat(4, 1fr);
+    grid-gap: 1.5rem;
   }
 `;
 

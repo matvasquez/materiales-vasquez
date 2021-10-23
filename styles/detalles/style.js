@@ -20,6 +20,7 @@ export const MainInfo = styled.section`
   @media (min-width: 1200px) {
     width: 80%;
     height: fit-content;
+    min-height: 55vh;
     margin: 2rem auto;
     padding: 1rem;
     flex-direction: row;
@@ -170,7 +171,7 @@ export const Categories = styled.div`
   align-items: center;
 `;
 
-export const Category = styled.a`
+export const Category = styled.span`
   margin: 0 0.5rem;
   color: var(--yellow);
   font-weight: 500;

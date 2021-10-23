@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from "react-redux";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { useSession } from "next-auth/client";
 
 // Components
 import { Instagram } from "../IconsSVG/Instagram";
@@ -26,7 +25,6 @@ import {
 
 const Footer = ({ carIsEmpty }) => {
   const { pathname } = useRouter();
-  const [session, loading] = useSession();
 
   return (
     <FooterStyled carIsEmpty={pathname != "/realizar-pago" && carIsEmpty}>
@@ -37,16 +35,6 @@ const Footer = ({ carIsEmpty }) => {
             <Li>
               <Link href="/sucursales" passHref>
                 <Anchor>Sucursales y horarios</Anchor>
-              </Link>
-            </Li>
-            {/* <Li>
-              <Link href="#" passHref>
-                <Anchor>Déjanos tu opinión</Anchor>
-              </Link>
-            </Li> */}
-            <Li>
-              <Link href="/registro-de-usuario" passHref>
-                <Anchor>{session ? "Ver mi perfil" : "Iniciar sesión"}</Anchor>
               </Link>
             </Li>
           </ul>

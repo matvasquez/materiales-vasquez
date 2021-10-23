@@ -58,9 +58,8 @@ export const ItemsContainer = styled.section`
   width: 100%;
   min-height: 50vh;
   display: grid;
-  /* grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); */
   grid-template-columns: 45vw 45vw;
-  grid-auto-rows: 27rem;
+  grid-auto-rows: 25rem;
   grid-gap: 1rem;
   justify-items: center;
   align-items: center;

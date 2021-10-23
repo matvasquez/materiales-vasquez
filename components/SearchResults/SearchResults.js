@@ -38,6 +38,10 @@ const SearchResults = ({
     };
   }, [searchResults, searchName]);
 
+  useEffect(() => {
+    window.innerWidth < 1100 && window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [searchResults]);
+
   return (
     <>
       {searchResults.length > 0 && (
@@ -46,17 +50,6 @@ const SearchResults = ({
             {searchResults.map((result) => (
               <Results key={result.articulo_id} {...result} clear={clear} />
             ))}
-            {searchName !== "" && (
-              <>
-                {searchResults.length === 8 && (
-                  <LoadMoreButton onClick={() => clear([])}>
-                    <Link href={`/todos-los/${searchName}`}>
-                      <a>Ver más</a>
-                    </Link>
-                  </LoadMoreButton>
-                )}
-              </>
-            )}
           </SearchResultContainer>
         </Container>
       )}

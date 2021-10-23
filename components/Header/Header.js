@@ -1,7 +1,7 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import { connect } from "react-redux";
-import { useSession } from "next-auth/client";
 import fetch from "isomorphic-unfetch";
 import debounce from "just-debounce-it";
 
@@ -13,17 +13,16 @@ import MainMenu from "../Main-Menu/MainMenu";
 import { Logo } from "../IconsSVG/Logo";
 import { ButtonMenu } from "../ButtonMenu/ButtonMenu";
 import SearchBar from "../Search-Bar/SearchBar";
-import ImageLogInContainer from "../ImageLogInContainer/ImageLogInContainer";
 import SearchResults from "../SearchResults/SearchResults";
 
 // Stiled-Components
 import { HeaderStyled, LogoContainer } from "./style";
 
 const Header = ({ carIsOpen, itemsIliked }) => {
+  const router = useRouter();
   const [hidden, setHidden] = useState(false);
   const input = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
-  const [session, loading] = useSession();
   const [searchResults, setSearchResults] = useState([]);
   const [noResults, setNoResults] = useState(false);
   const [noResultsText, setnoResultsText] = useState(
@@ -32,32 +31,6 @@ const Header = ({ carIsOpen, itemsIliked }) => {
   const [seeking, setSeeking] = useState(false);
   const [searchName, setSearchName] = useState("");
   const [deleteText, setDeleteText] = useState(false);
-
-  // ------------------------------
-
-  const [menuCategories, setMenuCategories] = useState([]);
-
-  useEffect(async () => {
-    const response = await fetch(`/api/categories/all-categories`);
-    const { data } = await response.json();
-
-    setMenuCategories(data);
-  }, []);
-
-  const [categories, setCategories] = useState([]);
-
-  useEffect(() => {
-    let names = menuCategories.map((item) => item.categorie);
-
-    let result = names.filter((item, index) => names.indexOf(item) === index);
-
-    let menu = result.map((item) =>
-      menuCategories.filter((itemCat) => itemCat.categorie === item)
-    );
-    setCategories(menu);
-  }, [menuCategories]);
-
-  // ------------------------------
 
   const handleOpen = () => {
     window.innerWidth < 1100 && setIsOpen(!isOpen);
@@ -111,7 +84,7 @@ const Header = ({ carIsOpen, itemsIliked }) => {
       reset();
       setNoResults(false);
     }
-  }, 1500);
+  }, 1000);
 
   const handleSearch = (value) => {
     searchProduct(value);
@@ -121,25 +94,6 @@ const Header = ({ carIsOpen, itemsIliked }) => {
     setHidden(!hidden);
     input.current.focus();
   };
-
-  // const disableScroll = () => {
-  //   let x = window.scrollX;
-  //   let y = window.scrollY;
-  //   window.onscroll = function () {
-  //     window.scrollTo(x, y);
-  //   };
-  // };
-
-  // useEffect(() => {
-  //   if (isOpen || searchResults.length > 0) {
-  //     window.addEventListener("scroll", disableScroll);
-  //   } else {
-  //     window.onscroll = null;
-  //   }
-  //   return () => {
-  //     window.removeEventListener("scroll", disableScroll);
-  //   };
-  // }, [isOpen, searchResults]);
 
   return (
     <>
@@ -166,9 +120,6 @@ const Header = ({ carIsOpen, itemsIliked }) => {
           deleteText={deleteText}
           reset={reset}
         />
-        {loading ? null : (
-          <ImageLogInContainer session={session} itemsIliked={itemsIliked} />
-        )}
       </HeaderStyled>
       {searchResults && (
         <SearchResults
@@ -179,11 +130,9 @@ const Header = ({ carIsOpen, itemsIliked }) => {
           searchName={searchName}
         />
       )}
-      <MainMenu
-        isOpen={isOpen}
-        handleOpen={handleOpen}
-        categories={categories}
-      />
+      {router.pathname === "/" && (
+        <MainMenu isOpen={isOpen} handleOpen={handleOpen} />
+      )}
     </>
   );
 };

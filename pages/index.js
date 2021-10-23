@@ -4,7 +4,6 @@ import fetch from "isomorphic-unfetch";
 import { connect } from "react-redux";
 
 // Components
-import MainMenu from "../components/Main-Menu/MainMenu";
 import Slider from "../components/Slider/Slider";
 import ArticlesLiked from "../components/Articles-Liked/ArticlesLiked";
 import HomeSection from "../components/Home-Sections/index";
@@ -12,6 +11,7 @@ import Brands from "../components/Brands/Brands";
 
 // Styles
 import styles from "../styles/components/Main.module.css";
+import { GoToTopButton } from "../styles/Inicio/style";
 
 // g.DESGIR = 'LO MÁS VENDIDOS'
 // g2.DESC_GIR2 = 'ILUMINACION'
@@ -25,61 +25,69 @@ export async function getStaticProps() {
   );
   const { data: sliderItems } = await responseSlider.json();
 
-  // const responseCategories = await fetch(
-  //   `http://localhost:3000/api/categories/all-categories`
-  // );
-  // const { data: menuCategories } = await responseCategories.json();
-
   const responsebestsellers = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/LO-MAacentoS-VENDIDOS?first=1&last=16`
+    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/LO-MAacentoS-VENDIDOS?first=1&last=28`
   );
   const { data: bestsellers } = await responsebestsellers.json();
 
-  const responselighting = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/ILUMINACION?first=1&last=8`
+  const responseMATERIALES = await fetch(
+    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/MATERIALES-PARA-CONSTRUCCION?first=1&last=28`
   );
-  const { data: lighting } = await responselighting.json();
+  const { data: materiales } = await responseMATERIALES.json();
+
+  const responseACABADOS = await fetch(
+    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/ACABADOS?first=1&last=28`
+  );
+  const { data: acavados } = await responseACABADOS.json(); // Oacento
+
+  const responseBAÑOS = await fetch(
+    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/BAenneOS?first=1&last=28`
+  );
+  const { data: bannos } = await responseBAÑOS.json();
 
   const responsehardware = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/FERRETERIA?first=1&last=8`
+    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/FERRETERIA?first=1&last=28`
   );
   const { data: hardware } = await responsehardware.json();
 
-  const responsedoors = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/PUERTAS-Y-VENTANAS?first=1&last=8`
+  const responsehome = await fetch(
+    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/HOGAR?first=1&last=28`
   );
-  const { data: doors } = await responsedoors.json();
+  const { data: home } = await responsehome.json();
 
-  const responseventilation = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/VENTILACION Y CALEFACCIOacentoN?first=1&last=8`
+  const responseKITCHEN = await fetch(
+    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/COCINA?first=1&last=28`
   );
-  const { data: ventilation } = await responseventilation.json();
+  const { data: kitchen } = await responseKITCHEN.json();
 
   const sections = [
     {
       title: "LO MÁS VENDIDO",
       products: bestsellers,
-      link: "/categoria/LO-MÁS-VENDIDOS",
     },
     {
-      title: "ILUMINACIÓN",
-      products: lighting,
-      link: "/categoria/HOGAR/ILUMINACION",
+      title: "MATERIALES PARA CONSTRUCCION",
+      products: materiales,
+    },
+    {
+      title: "ACABADOS",
+      products: acavados,
+    },
+    {
+      title: "BAÑOS",
+      products: bannos,
     },
     {
       title: "FERRETERIA",
       products: hardware,
-      link: "/categoria/FERRETERIA",
     },
     {
-      title: "PUERTAS Y VENTANAS",
-      products: doors,
-      link: "/categoria/HOGAR/PUERTAS-Y-VENTANAS",
+      title: "HOGAR",
+      products: home,
     },
     {
-      title: "VENTILACIÓN",
-      products: ventilation,
-      link: "/categoria/HOGAR/VENTILACION-Y-CALEFACCIÓN",
+      title: "COCINA",
+      products: kitchen,
     },
   ];
 
@@ -87,7 +95,7 @@ export async function getStaticProps() {
     props: {
       sliderItems,
       sections,
-    }, // se pasarán al componente de la página como props
+    },
   };
 }
 
@@ -99,6 +107,7 @@ const HomePage = (props) => {
     itemsIliked,
   } = props;
   const [thereAreItemsThatIlike, setThereAreItemsThatIlike] = useState(false);
+  const [showButton, setShowButton] = useState(false);
 
   useEffect(() => {
     itemsIliked.length > 0
@@ -106,69 +115,18 @@ const HomePage = (props) => {
       : setThereAreItemsThatIlike(false);
   }, [itemsIliked]);
 
-  // :::::::::::::::::::::::::::::::::::::::::::::
+  // Scroll
 
-  // useEffect(async () => {
-  //   const responseSlider = await fetch(`/api/slider`);
-  //   const { data: sliderItems } = await responseSlider.json();
+  const handleScroll = () => {
+    window.scrollY > 5000 && setShowButton(true);
+    window.scrollY < 3000 && setShowButton(false);
+  };
 
-  //   const responsebestsellers = await fetch(
-  //     `/api/related-by-category/LO-MAacentoS-VENDIDOS?first=1&last=16`
-  //   );
-  //   const { data: bestsellers } = await responsebestsellers.json();
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
 
-  //   const responselighting = await fetch(
-  //     `/api/related-by-subcategory/ILUMINACION?first=1&last=8`
-  //   );
-  //   const { data: lighting } = await responselighting.json();
-
-  //   const responsehardware = await fetch(
-  //     `/api/related-by-category/FERRETERIA?first=1&last=8`
-  //   );
-  //   const { data: hardware } = await responsehardware.json();
-
-  //   const responsedoors = await fetch(
-  //     `/api/related-by-subcategory/PUERTAS-Y-VENTANAS?first=1&last=8`
-  //   );
-  //   const { data: doors } = await responsedoors.json();
-
-  //   const responseventilation = await fetch(
-  //     `/api/related-by-subcategory/VENTILACION Y CALEFACCIOacentoN?first=1&last=8`
-  //   );
-  //   const { data: ventilation } = await responseventilation.json();
-
-  //   const useEffectSections = [
-  //     {
-  //       title: "LO MÁS VENDIDO",
-  //       products: bestsellers,
-  //       link: "/categoria/LO-MÁS-VENDIDO",
-  //     },
-  //     {
-  //       title: "ILUMINACIÓN",
-  //       products: lighting,
-  //       link: "/categoria/HOGAR/ILUMINACION",
-  //     },
-  //     {
-  //       title: "FERRETERIA",
-  //       products: hardware,
-  //       link: "/categoria/FERRETERIA",
-  //     },
-  //     {
-  //       title: "PUERTAS Y VENTANAS",
-  //       products: doors,
-  //       link: "/categoria/HOGAR/PUERTAS-Y-VENTANAS",
-  //     },
-  //     {
-  //       title: "VENTILACIÓN",
-  //       products: ventilation,
-  //       link: "/categoria/HOGAR/VENTILACION-Y-CALEFACCIÓN",
-  //     },
-  //   ];
-
-  //   console.log("useEffectSections: ", useEffectSections);
-  // }, []);
-
-  // :::::::::::::::::::::::::::::::::::::::::::::
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <>
@@ -212,6 +170,12 @@ const HomePage = (props) => {
         }}
       />
 
+      {showButton && (
+        <GoToTopButton
+          type="button"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        />
+      )}
       <main className={styles.MainHome}>
         <Slider sliderItems={sliderItems} />
         {thereAreItemsThatIlike && (
@@ -224,12 +188,7 @@ const HomePage = (props) => {
           </>
         )}
         {sections.map((section, i) => (
-          <HomeSection
-            key={section.title}
-            title={section.title}
-            {...section}
-            first={i}
-          />
+          <HomeSection key={section.title} {...section} first={i} />
         ))}
         <Brands />
       </main>

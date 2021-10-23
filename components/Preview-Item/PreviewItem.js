@@ -64,7 +64,7 @@ const PreviewItem = (props) => {
   // Hook que verifica si el producto esta en el carrito
   const [yesItIsMineCart] = useMyItems(articulo_id, myCart);
   // Consulta el stock
-  const [stock] = useGetStock(articulo_id);
+  // const [stock] = useGetStock(articulo_id);
 
   // Envia al Carrito y a la lista de precios
   const handleSetCart = () => {
@@ -111,7 +111,6 @@ const PreviewItem = (props) => {
         </AnchorStyled>
       </Link>
       <Name>{name.toLowerCase()}</Name>
-      <Price>${formatter.format(price)}</Price>
       <ButtonsContainer>
         <ButtonLike
           type="button"
@@ -120,15 +119,7 @@ const PreviewItem = (props) => {
         >
           <>{yesItIsMineLike ? <HeartFull /> : <HeartEmpty />}</>
         </ButtonLike>
-        {stock !== "" && (
-          <ButtonAdd
-            type="button"
-            inMyCArt={yesItIsMineCart}
-            onClick={yesItIsMineCart ? () => setOpenCart() : handleSetCart}
-          >
-            {yesItIsMineCart ? "Ver el carrito" : "Añadir al carrito"}
-          </ButtonAdd>
-        )}
+        <Price>${formatter.format(price)}</Price>
       </ButtonsContainer>
     </ArticleStyled>
   );

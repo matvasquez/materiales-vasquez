@@ -20,16 +20,28 @@ import {
   LinkIcon,
 } from "./style";
 
-const MainMenu = ({ isOpen, handleOpen, categories }) => {
-  const [apartments, setapartments] = useState([]);
+const categories = [
+  {
+    name: "MATERIALES PARA CONSTRUCCION",
+  },
+  {
+    name: "ACABADOS",
+  },
+  {
+    name: "BAÑOS",
+  },
+  {
+    name: "FERRETERIA",
+  },
+  {
+    name: "HOGAR",
+  },
+  {
+    name: "COCINA",
+  },
+];
 
-  useEffect(async () => {
-    const response = await fetch("/api/categories/main-menu");
-    const { data } = await response.json();
-
-    setapartments(data);
-  }, []);
-
+const MainMenu = ({ isOpen, handleOpen }) => {
   return (
     <NavStyled open={isOpen} id="Main-Menu">
       <CloseButton
@@ -37,25 +49,22 @@ const MainMenu = ({ isOpen, handleOpen, categories }) => {
         onClick={() => handleOpen()}
         aria-label="Botón cerrar menú"
       ></CloseButton>
-      <UlStyled rows={apartments.length + 2}>
-        <LiStyled onClick={() => handleOpen()}>
-          <Link href={`/tienda`} passHref>
-            <AnchorStyled>TODOS LOS PRODUCTOS</AnchorStyled>
-          </Link>
-          <LineLink />
-        </LiStyled>
+      <UlStyled rows={categories.length + 1}>
         {categories.length > 0 && (
           <>
-            {categories.map((menuItem) => {
-              console.log("menuItem: ", menuItem);
-              return (
-                <MenuSection
-                  key={menuItem[0].categorie}
-                  subCategories={menuItem}
-                  handleOpen={handleOpen}
-                />
-              );
-            })}
+            {categories.map((menuItem) => (
+              <LiStyled key={menuItem.name} onClick={() => handleOpen()}>
+                <Link
+                  href={`#${menuItem.name
+                    .replace(/ /g, "-")
+                    .replace(/Ñ/g, "enne")}`}
+                  passHref
+                >
+                  <AnchorStyled>{menuItem.name}</AnchorStyled>
+                </Link>
+                <LineLink />
+              </LiStyled>
+            ))}
           </>
         )}
       </UlStyled>
