@@ -165,12 +165,12 @@ export const ArticleStyled = styled.article`
           right: 0;
         }
         ${Price} {
-          font-size: 3rem;
+          font-size: 2rem;
           font-weight: 700;
           text-align: center;
-          position: absolute;
-          right: 1rem;
-          top: 60%;
+          position: relative;
+          right: 0;
+          top: 0;
         }
         ${ButtonsContainer} {
           width: 40%;
@@ -197,15 +197,14 @@ export const ArticleStyled = styled.article`
       if (props.different === 3) {
         return `
         grid-column: auto / span 1;
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: 7fr 1fr 1fr 1fr;
-        grid-gap: 0.5rem;
-        justify-items: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
         align-items: center;
         ${AnchorStyled} {
           width: 100%;
-          height: 100%;
+          height: 60%;
+          margin: 0;
           display: flex;
           justify-content: center;
           align-items: center;
@@ -214,14 +213,19 @@ export const ArticleStyled = styled.article`
           width: 100%;
           text-align: left;
           text-transform: capitalize;
+          font-weight: 400;
+          font-size: 1.8rem
           color: var(--text);
           position: initial;
         }
         ${Price} {
-          font-size: 1.6rem;
+          width: fit-content;
+          font-size: 2rem;
           font-weight: 700;
-          text-align: left;
-          position: initial;
+          text-align: center;
+          position: relative;
+          right: 0;
+          top: 0;
         }
         ${ButtonsContainer} {
           width: 100%;
@@ -265,12 +269,12 @@ export const ArticleStyled = styled.article`
           right: 0;
         }
         ${Price} {
-          font-size: 3rem;
+          font-size: 2rem;
           font-weight: 700;
           text-align: center;
-          position: absolute;
-          right: 1rem;
-          top: 60%;
+          position: relative;
+          right: 0;
+          top: 0;
         }
         ${ButtonsContainer} {
           width: 40%;
