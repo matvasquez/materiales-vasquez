@@ -1,36 +1,42 @@
 import styled from "styled-components";
 
-export const GoToTopButton = styled.button`
-  width: 4rem;
-  height: 4rem;
-  border-radius: 50%;
-  border: 0.1rem solid rgb(0 20 76 / 40%);
-  background-color: rgb(0 20 76 / 20%);
+export const MainStyled = styled.main`
+  width: 100%;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+`;
 
+export const FirstSection = styled.div`
+  width: 100%;
+  margin: 1rem 0;
   display: flex;
   justify-content: center;
   align-items: center;
+`;
 
-  position: fixed;
-  bottom: 15rem;
-  right: 1rem;
-  z-index: 1000;
-  transition: 0.3s ease-in-out all;
-  cursor: pointer;
+export const Total = styled.span`
+  font-size: 1.6rem;
+  font-weight: 700;
+`;
 
-  &:after {
-    content: "\\21E7";
-    font-size: 2.5rem;
-    color: rgb(0 20 76 / 60%);
-    line-height: 2.5rem;
-    text-align: center;
-    transition: 0.3s ease-in-out all;
+export const Section = styled.section`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  @media (min-width: 1000px) {
+    margin: 3rem 0;
   }
-  &:hover {
-    border: 0.1rem solid rgb(255 201 71 / 70%);
-    background-color: rgb(255 201 71 / 40%);
-    &:after {
-      transform: translateY(-3.5rem);
-    }
+`;
+
+export const TitleSection = styled.h3`
+  font-size: 1.6rem;
+  font-weight: 700;
+  @media (min-width: 1000px) {
+    font-size: 2rem;
   }
 `;

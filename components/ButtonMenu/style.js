@@ -1,28 +1,11 @@
 import styled from "styled-components";
 
-export const LineOne = styled.div`
+export const Line = styled.div`
   width: 2rem;
   height: 0.2rem;
   background-color: var(--blue);
   border-radius: 0.1rem;
   transition: all 0.3s ease-in-out;
-  @media (min-width: 750px) {
-    width: 3rem;
-  }
-`;
-
-export const LineTwo = styled(LineOne)`
-  width: 1.5rem;
-  @media (min-width: 750px) {
-    width: 2rem;
-  }
-`;
-
-export const LineThree = styled(LineOne)`
-  width: 1rem;
-  @media (min-width: 750px) {
-    width: 1.5rem;
-  }
 `;
 
 export const ButtonStyled = styled.button`
@@ -33,7 +16,7 @@ export const ButtonStyled = styled.button`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  align-items: flex-start;
+  align-items: center;
   background: none;
   border: none;
   outline: none;

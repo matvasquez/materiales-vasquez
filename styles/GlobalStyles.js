@@ -1,33 +1,34 @@
 import { createGlobalStyle } from "styled-components";
-//import kreditTTF from "../public/fonts/kredit/kredit.ttf";
 
 export const GlobalStyles = createGlobalStyle`
-
-    
     :root {
-    --background: #E6E6E6;
-    --blue: #00144C;
+    ${"" /* --background: #e6e6e6; */}
+    --blue: #00144c;
     --red: #912126;
-    --text: #00144C;
-    --yellow: #FFC947;
+    --text: #00144c;
+    --yellow: #ffc947;
     --white: #ffffff;
+
+    --background: #ffffff;
+    --gray: #434343;
     }
 
     html {
-        font-size: 62.5%;
+      font-size: 62.5%;
+  scroll-behavior: smooth;
     }
 
     * {
-        margin: 0;
-        padding: 0;
-        -moz-box-sizing: border-box;
-        -webkit-box-sizing: border-box;
-        box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
     }
 
     a {
-        text-decoration: none;
-        cursor: pointer;
+      text-decoration: none;
+      cursor: pointer;
     }
 
     h1,
@@ -38,25 +39,28 @@ export const GlobalStyles = createGlobalStyle`
     li,
     ol,
     p {
-        list-style: none;
-        margin: 0;
-        padding: 0;
+      list-style: none;
+      margin: 0;
+      padding: 0;
     }
 
     body {
-        font-family: 'Roboto', sans-serif;
-        font-size: 1.4rem;
-        font-weight: 400;
-        color: var(--text);
-        background-color: var(--background);
+      font-family: "Roboto", sans-serif;
+      font-size: 1.4rem;
+      font-weight: 400;
+      color: var(--text);
+      background-color: var(--background);
 
-        transition: ease-in-out 0.3s all;
-        scrollbar-width: none;
-        ::-webkit-scrollbar {
-          display: none;
-        }
+      transition: ease-in-out 0.3s all;
+      scrollbar-width: none;
     }
-`;
+
+    @media print {
+        body {
+          background-color: var(--white);
+        }
+      }
+    `;
 
 export const theme = {
   colors: {

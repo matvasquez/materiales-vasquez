@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 // Styled-Components
-import { ButtonStyled, LineOne, LineTwo, LineThree } from "./style";
+import { ButtonStyled, Line } from "./style";
 
 export const ButtonMenu = ({ handleClick }) => {
   return (
@@ -10,9 +10,9 @@ export const ButtonMenu = ({ handleClick }) => {
         handleClick();
       }}
     >
-      <LineOne />
-      <LineTwo />
-      <LineThree />
+      <Line />
+      <Line />
+      <Line />
     </ButtonStyled>
   );
 };

@@ -14,12 +14,14 @@ export const NavStyled = styled.nav`
   left: ${(props) => (props.open ? "0" : "-100%")};
   z-index: 20000;
   transition: 0.3s ease-in-out all;
-  @media (min-width: 750px) {
+  /* @media (min-width: 750px) {
     padding: 5rem;
     justify-content: flex-start;
     background-color: rgb(0 20 76 / 85%);
-  }
-  @media (min-width: 1200px) {
+  } */
+  @media (min-width: 1000px) {
+    grid-column: 1 / span 3;
+    grid-row: 2 / span 1;
     width: 99vw;
     height: fit-content;
     min-height: 1rem;
@@ -27,10 +29,10 @@ export const NavStyled = styled.nav`
     justify-content: center;
     align-items: center;
     border-radius: 1rem;
-    position: fixed;
-    top: 8rem;
+    position: initial;
+    /* top: 8rem;
     left: calc(50% - 49.5vw);
-    z-index: 1000;
+    z-index: 1000; */
   }
 `;
 
@@ -145,8 +147,9 @@ export const AnchorStyled = styled.a`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  font-size: 1.8rem;
+  font-size: 1.4rem;
   font-weight: 500;
+  text-transform: capitalize;
   color: var(--blue);
   background: none;
   cursor: pointer;

@@ -1,31 +1,25 @@
-const { Connection, Request } = require("tedious");
-// // import { rest } from "../../lib/connection";
-import Cors from "cors";
-import initMiddleware from "../../lib/init-middleware";
+const CosmosClient = require("@azure/cosmos").CosmosClient;
+import config from "../../lib/config-cosmos";
 
-const cors = initMiddleware(
-  Cors({
-    methods: ["GET"],
-  })
-);
+// const { Connection, Request } = require("tedious");
 
-// Create connection to database
-const config = {
-  authentication: {
-    options: {
-      userName: "ponce",
-      password: "com20k%%-",
-    },
-    type: "default",
-  },
-  server: "materiales-vasquez.database.windows.net",
-  options: {
-    database: "Materiales Vasquez",
-    encrypt: true,
-  },
-};
+// // Create connection to database
+// const config = {
+//   authentication: {
+//     options: {
+//       userName: "ponce",
+//       password: "com20k%%-",
+//     },
+//     type: "default",
+//   },
+//   server: "materiales-vasquez.database.windows.net",
+//   options: {
+//     database: "Materiales Vasquez",
+//     encrypt: true,
+//   },
+// };
 
-export default function getAllCategories(req, res) {
+export default async function getAllCategories(req, res) {
   // Run cors
   // await cors(req, res);
   if (req.method !== "GET") {
@@ -34,59 +28,74 @@ export default function getAllCategories(req, res) {
       .json({ message: "Lo sentimos, sólo aceptamos solicitudes GET" });
   }
 
-  const queryDatabase = () => {
-    let data = [];
-    const request = new Request(`SELECT * FROM MENU`, (err, rowCount) => {
-      if (err) {
-        console.error(err.message);
-      } else {
-        console.log(`${rowCount} row(s) returned`);
-      }
+  const { endpoint, key } = config;
+
+  const client = new CosmosClient({ endpoint, key });
+  const databaseID = client.database("articulos");
+  const containerID = databaseID.container("categories");
+
+  if (endpoint) {
+    const querySpec = {
+      query: "SELECT * FROM c",
+    };
+
+    const { resources: items } = await containerID.items
+      .query(querySpec)
+      .fetchAll();
+
+    // return { CosmoData: items };
+
+    res.status(200).json({
+      name: "All Categories",
+      method: req.method,
+      data: items,
     });
+  }
 
-    request.on("row", (columns) => {
-      let row = {};
-      columns.forEach((column) => {
-        row[column.metadata.colName] = column.value;
-      });
+  // :::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-      data.push(row);
-      // console.log("row: ", row);
-    });
+  // const queryDatabase = () => {
+  //   const request = new Request(`SELECT * FROM MENU`, (err, rowCount) => {
+  //     if (err) {
+  //       console.error(err.message);
+  //     } else {
+  //       console.log(`${rowCount} row(s) returned`);
+  //     }
+  //   });
 
-    connection.execSql(request);
-    return data;
-  };
+  //   connection.execSql(request);
 
-  const connection = new Connection(config);
+  //   let counter = 1;
+  //   let response = {};
 
-  connection.on("connect", (err) => {
-    if (err) {
-      console.error(err.message);
-    } else {
-      let result = queryDatabase();
-      console.log("result: ", result);
-    }
-  });
+  //   request.on("row", (columns) => {
+  //     response[counter] = {};
+  //     columns.forEach((column) => {
+  //       // console.log(`${column.metadata.colName} : ${column.value}`);
+  //       response[counter][column.metadata.colName] = column.value;
+  //     });
+  //     counter += 1;
+  //   });
 
-  connection.connect();
+  //   return response;
+  // };
 
-  res.status(200).json({
-    name: "All Categories",
-    method: req.method,
-    // total: result.data[0].length,
-    // data: queryDatabase,
-  });
+  // const connection = new Connection(config);
+
+  // connection.on("connect", (err) => {
+  //   if (err) {
+  //     console.error(err.message);
+  //   } else {
+  //     console.log(`connect`);
+  //     let result = queryDatabase();
+  //     console.log(result);
+  //   }
+  // });
+
+  // connection.connect();
+
+  // res.status(200).json({
+  //   name: "All Categories",
+  //   method: req.method,
+  // });
 }
-
-// setTimeout(async () => {
-//   const result = await rest.executeQuery(`SELECT * FROM MENU`);
-
-//   result &&
-//     res.status(200).json({
-//       name: "All Categories",
-//       method: req.method,
-//       // total: result.data[0].length,
-//       // data: result.data[0],
-//     });
-// }, 1000);

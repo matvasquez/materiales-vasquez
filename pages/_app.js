@@ -12,8 +12,10 @@ import * as ga from "../lib/ga";
 
 import { loadState, saveState } from "../utils/saveLocalStorage";
 
+import { ThemeProvider } from "styled-components";
+import { GlobalStyles, theme } from "../styles/GlobalStyles";
 import Layout from "../components/Layout/index";
-import "../styles/GlobalStyles.css";
+// import "../styles/GlobalStyles.css";
 
 const MyApp = ({ Component, pageProps }) => {
   // Google Analytics
@@ -76,9 +78,12 @@ const MyApp = ({ Component, pageProps }) => {
             content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=5"
           />
         </Head>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <GlobalStyles />
+        <ThemeProvider theme={theme}>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </ThemeProvider>
       </Provider>
     </>
   );

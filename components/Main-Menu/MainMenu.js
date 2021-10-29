@@ -20,28 +20,48 @@ import {
   LinkIcon,
 } from "./style";
 
-const categories = [
-  {
-    name: "MATERIALES PARA CONSTRUCCION",
-  },
-  {
-    name: "ACABADOS",
-  },
-  {
-    name: "BAÑOS",
-  },
-  {
-    name: "FERRETERIA",
-  },
-  {
-    name: "HOGAR",
-  },
-  {
-    name: "COCINA",
-  },
-];
+// const categories = [
+//   {
+//     name: "MATERIALES PARA CONSTRUCCION",
+//   },
+//   {
+//     name: "ACABADOS",
+//   },
+//   {
+//     name: "BAÑOS",
+//   },
+//   {
+//     name: "FERRETERIA",
+//   },
+//   {
+//     name: "HOGAR",
+//   },
+//   {
+//     name: "COCINA",
+//   },
+// ];
 
 const MainMenu = ({ isOpen, handleOpen }) => {
+  const [allCAtegories, setallCAtegories] = useState([]);
+  const [mainCategories, setMainCategories] = useState([]);
+
+  // Consulta las categorias
+  useEffect(async () => {
+    const response = await fetch(`/api/menu`);
+    const { data } = await response.json();
+    setallCAtegories(data);
+  }, []);
+
+  // Filtra las categorias principales
+  useEffect(() => {
+    const cat = allCAtegories.map((item) => item.categorie);
+
+    let result = cat.filter((item, index) => {
+      return cat.indexOf(item) === index;
+    });
+    setMainCategories(result);
+  }, [allCAtegories]);
+
   return (
     <NavStyled open={isOpen} id="Main-Menu">
       <CloseButton
@@ -49,8 +69,29 @@ const MainMenu = ({ isOpen, handleOpen }) => {
         onClick={() => handleOpen()}
         aria-label="Botón cerrar menú"
       ></CloseButton>
-      <UlStyled rows={categories.length + 1}>
-        {categories.length > 0 && (
+      <UlStyled rows={mainCategories.length + 1}>
+        {mainCategories.length > 0 && (
+          <>
+            {mainCategories.map((categorie) => {
+              let sub = allCAtegories.filter(
+                (item) => item.categorie === categorie
+              );
+              return (
+                <LiStyled key={categorie} onClick={() => handleOpen()}>
+                  <Link
+                    href={`/categoria/${categorie.replace(/ /g, "-")}`}
+                    passHref
+                  >
+                    <AnchorStyled>{categorie.toLocaleLowerCase()}</AnchorStyled>
+                  </Link>
+                  <LineLink />
+                  {sub.length > 0 && <div>+</div>}
+                </LiStyled>
+              );
+            })}
+          </>
+        )}
+        {/* {categories.length > 0 && (
           <>
             {categories.map((menuItem) => (
               <LiStyled key={menuItem.name} onClick={() => handleOpen()}>
@@ -66,7 +107,7 @@ const MainMenu = ({ isOpen, handleOpen }) => {
               </LiStyled>
             ))}
           </>
-        )}
+        )} */}
       </UlStyled>
       <SocialIconsConatiner>
         <LinkIcon
