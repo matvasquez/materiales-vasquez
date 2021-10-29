@@ -53,27 +53,27 @@ export const getServerSideProps = async ({ params }) => {
       .query(`SELECT TOP 10 * FROM c WHERE c.category = "FERRETERIA"`)
       .fetchAll();
 
-    const { resources: home } = await containerID.items
-      .query(`SELECT TOP 10 * FROM c WHERE c.category = "HOGAR"`)
-      .fetchAll();
+    // const { resources: home } = await containerID.items
+    //   .query(`SELECT TOP 10 * FROM c WHERE c.category = "HOGAR"`)
+    //   .fetchAll();
 
-    const { resources: kitchen } = await containerID.items
-      .query(`SELECT TOP 10 * FROM c WHERE c.category = "COCINA"`)
-      .fetchAll();
+    // const { resources: kitchen } = await containerID.items
+    //   .query(`SELECT TOP 10 * FROM c WHERE c.category = "COCINA"`)
+    //   .fetchAll();
 
-    const { resources: bathrooms } = await containerID.items
-      .query(`SELECT TOP 10 * FROM c WHERE c.category = "BAÑOS"`)
-      .fetchAll();
+    // const { resources: bathrooms } = await containerID.items
+    //   .query(`SELECT TOP 10 * FROM c WHERE c.category = "BAÑOS"`)
+    //   .fetchAll();
 
     return {
       props: {
         // BestSellers: items,
         Materiales: materiales,
-        FerrItems: ferr,
-        HomeItems: home,
-        KitchenItems: kitchen,
         FinishesItems: finishes,
-        BathroomsItems: bathrooms,
+        FerrItems: ferr,
+        // HomeItems: home,
+        // KitchenItems: kitchen,
+        // BathroomsItems: bathrooms,
       },
     };
   }
@@ -82,11 +82,11 @@ export const getServerSideProps = async ({ params }) => {
 export default function HomePage({
   // BestSellers,
   Materiales,
-  FerrItems,
-  HomeItems,
-  KitchenItems,
   FinishesItems,
-  BathroomsItems,
+  FerrItems,
+  // HomeItems,
+  // KitchenItems,
+  // BathroomsItems,
 }) {
   return (
     <MainStyled>
@@ -119,7 +119,7 @@ export default function HomePage({
           <HomeSection items={FerrItems} />
         </Section>
       )}
-      {HomeItems.length > 0 && (
+      {/* {HomeItems.length > 0 && (
         <Section>
           <TitleSection>HOGAR</TitleSection>
           <HomeSection items={HomeItems} />
@@ -136,7 +136,7 @@ export default function HomePage({
           <TitleSection>BAÑOS</TitleSection>
           <HomeSection items={BathroomsItems} />
         </Section>
-      )}
+      )} */}
     </MainStyled>
   );
 }
