@@ -130,7 +130,6 @@ export default function HomePage({
 }) {
   return (
     <MainStyled>
-      <h1>Generando API</h1>
       <FirstSection>
         Total de articulos en esta página:{" "}
         <Total>

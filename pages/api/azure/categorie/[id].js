@@ -16,7 +16,7 @@ export default async function getAllCategories(req, res) {
 
   if (endpoint) {
     const querySpec = {
-      query: `SELECT TOP 20 * FROM c WHERE c.category = "${req.query.id.replace(
+      query: `SELECT TOP 8 * FROM c WHERE c.category = "${req.query.id.replace(
         /-/gi,
         " "
       )}"`,
