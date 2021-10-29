@@ -30,8 +30,6 @@ const formatter = new Intl.NumberFormat("en-US", {
 });
 
 const HomeSection = ({ items }) => {
-  console.log("items: ", items);
-
   return (
     <ItemsContainer>
       {items.map(

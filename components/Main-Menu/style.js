@@ -140,7 +140,7 @@ export const LiStyled = styled.li`
   }
 `;
 
-export const AnchorStyled = styled.a`
+export const AnchorStyled = styled.p`
   width: 100%;
   height: 100%;
   padding: 1rem;
