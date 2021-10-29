@@ -41,28 +41,28 @@ export const getServerSideProps = async ({ params }) => {
 
     const { resources: materiales } = await containerID.items
       .query(
-        `SELECT TOP 20 * FROM c WHERE c.category = "MATERIALES PARA CONSTRUCCION"`
+        `SELECT TOP 10 * FROM c WHERE c.category = "MATERIALES PARA CONSTRUCCION"`
       )
       .fetchAll();
 
     const { resources: finishes } = await containerID.items
-      .query(`SELECT TOP 20 * FROM c WHERE c.category = "ACABADOS"`)
+      .query(`SELECT TOP 10 * FROM c WHERE c.category = "ACABADOS"`)
       .fetchAll();
 
     const { resources: ferr } = await containerID.items
-      .query(`SELECT TOP 20 * FROM c WHERE c.category = "FERRETERIA"`)
+      .query(`SELECT TOP 10 * FROM c WHERE c.category = "FERRETERIA"`)
       .fetchAll();
 
     const { resources: home } = await containerID.items
-      .query(`SELECT TOP 20 * FROM c WHERE c.category = "HOGAR"`)
+      .query(`SELECT TOP 10 * FROM c WHERE c.category = "HOGAR"`)
       .fetchAll();
 
     const { resources: kitchen } = await containerID.items
-      .query(`SELECT TOP 20 * FROM c WHERE c.category = "COCINA"`)
+      .query(`SELECT TOP 10 * FROM c WHERE c.category = "COCINA"`)
       .fetchAll();
 
     const { resources: bathrooms } = await containerID.items
-      .query(`SELECT TOP 20 * FROM c WHERE c.category = "BAÑOS"`)
+      .query(`SELECT TOP 10 * FROM c WHERE c.category = "BAÑOS"`)
       .fetchAll();
 
     return {
@@ -78,56 +78,6 @@ export const getServerSideProps = async ({ params }) => {
     };
   }
 };
-
-// HomePage.getInitialProps = async function () {
-//   const { endpoint, key } = config;
-
-//   const client = new CosmosClient({ endpoint, key });
-//   const databaseID = client.database("articulos");
-//   const containerID = databaseID.container("articulos_mv");
-
-//   if (endpoint) {
-//     // const { resources: items } = await containerID.items
-//     //   .query(`SELECT TOP 20 * FROM c WHERE c.best_seller = "TRUE"`)
-//     //   .fetchAll();
-
-//     const { resources: materiales } = await containerID.items
-//       .query(
-//         `SELECT TOP 20 * FROM c WHERE c.category = "MATERIALES PARA CONSTRUCCION"`
-//       )
-//       .fetchAll();
-
-//     const { resources: finishes } = await containerID.items
-//       .query(`SELECT TOP 20 * FROM c WHERE c.category = "ACABADOS"`)
-//       .fetchAll();
-
-//     const { resources: ferr } = await containerID.items
-//       .query(`SELECT TOP 20 * FROM c WHERE c.category = "FERRETERIA"`)
-//       .fetchAll();
-
-//     const { resources: home } = await containerID.items
-//       .query(`SELECT TOP 20 * FROM c WHERE c.category = "HOGAR"`)
-//       .fetchAll();
-
-//     const { resources: kitchen } = await containerID.items
-//       .query(`SELECT TOP 20 * FROM c WHERE c.category = "COCINA"`)
-//       .fetchAll();
-
-//     const { resources: bathrooms } = await containerID.items
-//       .query(`SELECT TOP 20 * FROM c WHERE c.category = "BAÑOS"`)
-//       .fetchAll();
-
-//     return {
-//       // BestSellers: items,
-//       Materiales: materiales,
-//       FerrItems: ferr,
-//       HomeItems: home,
-//       KitchenItems: kitchen,
-//       FinishesItems: finishes,
-//       BathroomsItems: bathrooms,
-//     };
-//   }
-// };
 
 export default function HomePage({
   // BestSellers,
