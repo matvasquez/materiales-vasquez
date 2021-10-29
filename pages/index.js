@@ -28,96 +28,96 @@ import {
 // g2.DESC_GIR2 = 'VENTILACION Y CALEFACCIÓN'
 
 export const getServerSideProps = async ({ params }) => {
-  // const { endpoint, key } = config;
+  const { endpoint, key } = config;
 
-  // const client = new CosmosClient({ endpoint, key });
-  // const databaseID = client.database("articulos");
-  // const containerID = databaseID.container("articulos_mv");
+  const client = new CosmosClient({ endpoint, key });
+  const databaseID = client.database("articulos");
+  const containerID = databaseID.container("articulos_mv");
 
-  // if (endpoint) {
-  //   // const { resources: items } = await containerID.items
-  //   //   .query(`SELECT TOP 20 * FROM c WHERE c.best_seller = "TRUE"`)
-  //   //   .fetchAll();
+  if (endpoint) {
+    // const { resources: items } = await containerID.items
+    //   .query(`SELECT TOP 20 * FROM c WHERE c.best_seller = "TRUE"`)
+    //   .fetchAll();
 
-  //   const { resources: materiales } = await containerID.items
-  //     .query(
-  //       `SELECT TOP 10 * FROM c WHERE c.category = "MATERIALES PARA CONSTRUCCION"`
-  //     )
-  //     .fetchAll();
+    const { resources: materiales } = await containerID.items
+      .query(
+        `SELECT TOP 8 * FROM c WHERE c.category = "MATERIALES PARA CONSTRUCCION"`
+      )
+      .fetchAll();
 
-  //   const { resources: finishes } = await containerID.items
-  //     .query(`SELECT TOP 10 * FROM c WHERE c.category = "ACABADOS"`)
-  //     .fetchAll();
+    const { resources: finishes } = await containerID.items
+      .query(`SELECT TOP 8 * FROM c WHERE c.category = "ACABADOS"`)
+      .fetchAll();
 
-  //   const { resources: ferr } = await containerID.items
-  //     .query(`SELECT TOP 10 * FROM c WHERE c.category = "FERRETERIA"`)
-  //     .fetchAll();
+    const { resources: ferr } = await containerID.items
+      .query(`SELECT TOP 8 * FROM c WHERE c.category = "FERRETERIA"`)
+      .fetchAll();
 
-  //   // const { resources: home } = await containerID.items
-  //   //   .query(`SELECT TOP 10 * FROM c WHERE c.category = "HOGAR"`)
-  //   //   .fetchAll();
+    const { resources: home } = await containerID.items
+      .query(`SELECT TOP 8 * FROM c WHERE c.category = "HOGAR"`)
+      .fetchAll();
 
-  //   // const { resources: kitchen } = await containerID.items
-  //   //   .query(`SELECT TOP 10 * FROM c WHERE c.category = "COCINA"`)
-  //   //   .fetchAll();
+    const { resources: kitchen } = await containerID.items
+      .query(`SELECT TOP 8 * FROM c WHERE c.category = "COCINA"`)
+      .fetchAll();
 
-  //   // const { resources: bathrooms } = await containerID.items
-  //   //   .query(`SELECT TOP 10 * FROM c WHERE c.category = "BAÑOS"`)
-  //   //   .fetchAll();
+    const { resources: bathrooms } = await containerID.items
+      .query(`SELECT TOP 8 * FROM c WHERE c.category = "BAÑOS"`)
+      .fetchAll();
 
-  //   return {
-  //     props: {
-  //       // BestSellers: items,
-  //       Materiales: materiales,
-  //       FinishesItems: finishes,
-  //       FerrItems: ferr,
-  //       // HomeItems: home,
-  //       // KitchenItems: kitchen,
-  //       // BathroomsItems: bathrooms,
-  //     },
-  //   };
-  // }
+    return {
+      props: {
+        // BestSellers: items,
+        MaterialesItems: materiales,
+        FinishesItems: finishes,
+        FerrItems: ferr,
+        HomeItems: home,
+        KitchenItems: kitchen,
+        BathroomsItems: bathrooms,
+      },
+    };
+  }
 
-  const responseMateriales = await fetch(
-    `https://tests-materiales-vasquez-kohl.vercel.app/api/azure/categorie/MATERIALES-PARA-CONSTRUCCION`
-  );
-  const { data: MaterialesItems } = await responseMateriales.json();
-
-  const responseFinishes = await fetch(
-    `https://tests-materiales-vasquez-kohl.vercel.app/api/azure/categorie/ACABADOS`
-  );
-  const { data: FinishesItems } = await responseFinishes.json();
-
-  const responseFerr = await fetch(
-    `https://tests-materiales-vasquez-kohl.vercel.app/api/azure/categorie/FERRETERIA`
-  );
-  const { data: FerrItems } = await responseFerr.json();
-
-  const responseHome = await fetch(
-    `https://tests-materiales-vasquez-kohl.vercel.app/api/azure/categorie/HOGAR`
-  );
-  const { data: HomeItems } = await responseHome.json();
-
-  const responseKitchen = await fetch(
-    `https://tests-materiales-vasquez-kohl.vercel.app/api/azure/categorie/COCINA`
-  );
-  const { data: KitchenItems } = await responseKitchen.json();
-
-  // const responseBathrooms = await fetch(
-  //   `https://tests-materiales-vasquez-kohl.vercel.app/api/azure/categorie/BAÑOS`
+  // const responseMateriales = await fetch(
+  //   `https://tests-materiales-vasquez-kohl.vercel.app/api/azure/categorie/MATERIALES-PARA-CONSTRUCCION`
   // );
-  // const { data: bathrooms } = await responseBathrooms.json();
+  // const { data: MaterialesItems } = await responseMateriales.json();
 
-  return {
-    props: {
-      MaterialesItems,
-      FinishesItems,
-      FerrItems,
-      HomeItems,
-      KitchenItems,
-      // BathroomsItems: bathrooms,
-    },
-  };
+  // const responseFinishes = await fetch(
+  //   `https://tests-materiales-vasquez-kohl.vercel.app/api/azure/categorie/ACABADOS`
+  // );
+  // const { data: FinishesItems } = await responseFinishes.json();
+
+  // const responseFerr = await fetch(
+  //   `https://tests-materiales-vasquez-kohl.vercel.app/api/azure/categorie/FERRETERIA`
+  // );
+  // const { data: FerrItems } = await responseFerr.json();
+
+  // const responseHome = await fetch(
+  //   `https://tests-materiales-vasquez-kohl.vercel.app/api/azure/categorie/HOGAR`
+  // );
+  // const { data: HomeItems } = await responseHome.json();
+
+  // const responseKitchen = await fetch(
+  //   `https://tests-materiales-vasquez-kohl.vercel.app/api/azure/categorie/COCINA`
+  // );
+  // const { data: KitchenItems } = await responseKitchen.json();
+
+  // // const responseBathrooms = await fetch(
+  // //   `https://tests-materiales-vasquez-kohl.vercel.app/api/azure/categorie/BAÑOS`
+  // // );
+  // // const { data: bathrooms } = await responseBathrooms.json();
+
+  // return {
+  //   props: {
+  //     MaterialesItems,
+  //     FinishesItems,
+  //     FerrItems,
+  //     HomeItems,
+  //     KitchenItems,
+  //     // BathroomsItems: bathrooms,
+  //   },
+  // };
 };
 
 export default function HomePage({
@@ -130,7 +130,7 @@ export default function HomePage({
 }) {
   return (
     <MainStyled>
-      <FirstSection>
+      {/* <FirstSection>
         Total de articulos en esta página:{" "}
         <Total>
           {MaterialesItems.length +
@@ -139,7 +139,7 @@ export default function HomePage({
             HomeItems.length +
             KitchenItems.length}
         </Total>
-      </FirstSection>
+      </FirstSection> */}
       {MaterialesItems.length > 0 && (
         <Section>
           <TitleSection>MATERIALES PARA CONSTRUCCION</TitleSection>

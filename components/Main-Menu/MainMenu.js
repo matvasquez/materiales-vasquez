@@ -78,12 +78,12 @@ const MainMenu = ({ isOpen, handleOpen }) => {
               );
               return (
                 <LiStyled key={categorie} onClick={() => handleOpen()}>
-                  {/* <Link
+                  <Link
                     href={`/categoria/${categorie.replace(/ /g, "-")}`}
                     passHref
-                  > */}
-                  <AnchorStyled>{categorie.toLocaleLowerCase()}</AnchorStyled>
-                  {/* </Link> */}
+                  >
+                    <AnchorStyled>{categorie.toLocaleLowerCase()}</AnchorStyled>
+                  </Link>
                   <LineLink />
                   {sub.length > 0 && <div>+</div>}
                 </LiStyled>
