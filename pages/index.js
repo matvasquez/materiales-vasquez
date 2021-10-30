@@ -61,9 +61,9 @@ export const getServerSideProps = async ({ params }) => {
       .query(`SELECT TOP 8 * FROM c WHERE c.category = "COCINA"`)
       .fetchAll();
 
-    const { resources: bathrooms } = await containerID.items
-      .query(`SELECT TOP 8 * FROM c WHERE c.category = "BAÑOS"`)
-      .fetchAll();
+    // const { resources: bathrooms } = await containerID.items
+    //   .query(`SELECT TOP 8 * FROM c WHERE c.category = "BAÑOS"`)
+    //   .fetchAll();
 
     return {
       props: {
@@ -73,7 +73,7 @@ export const getServerSideProps = async ({ params }) => {
         FerrItems: ferr,
         HomeItems: home,
         KitchenItems: kitchen,
-        BathroomsItems: bathrooms,
+        // BathroomsItems: bathrooms,
       },
     };
   }
@@ -127,7 +127,7 @@ export default function HomePage({
   FerrItems,
   HomeItems,
   KitchenItems,
-  BathroomsItems,
+  // BathroomsItems,
 }) {
   return (
     <MainStyled>
@@ -177,12 +177,12 @@ export default function HomePage({
           <HomeSection items={KitchenItems} />
         </Section>
       )}
-      {BathroomsItems.length > 0 && (
+      {/* {BathroomsItems.length > 0 && (
         <Section>
           <TitleSection>BAÑOS</TitleSection>
           <HomeSection items={BathroomsItems} />
         </Section>
-      )}
+      )} */}
     </MainStyled>
   );
 }
