@@ -25,7 +25,7 @@ import {
 // g2.DESC_GIR2 = 'PUERTAS Y VENTANAS'
 // g2.DESC_GIR2 = 'VENTILACION Y CALEFACCIÓN'
 
-export const getServerSideProps = async ({ params }) => {
+export const getServerSideProps = async () => {
   const { endpoint, key } = config;
 
   const client = new CosmosClient({ endpoint, key });
@@ -56,11 +56,11 @@ export const getServerSideProps = async ({ params }) => {
       )
       .fetchAll();
 
-    const { resources: ventilation } = await containerID.items
-      .query(
-        `SELECT TOP 8 * FROM c WHERE c.main_category = "VENTILACION Y CALEFACCIÓN"`
-      )
-      .fetchAll();
+    // const { resources: ventilation } = await containerID.items
+    //   .query(
+    //     `SELECT TOP 8 * FROM c WHERE c.main_category = "VENTILACION Y CALEFACCIÓN"`
+    //   )
+    //   .fetchAll();
 
     return {
       props: {
@@ -69,7 +69,7 @@ export const getServerSideProps = async ({ params }) => {
         LightingItems: lighting,
         FerrItems: ferr,
         DoorsItems: doors,
-        VentilationItems: ventilation,
+        // VentilationItems: ventilation,
       },
     };
   }
@@ -81,7 +81,7 @@ export default function HomePage({
   LightingItems,
   DoorsItems,
   FerrItems,
-  VentilationItems,
+  // VentilationItems,
 }) {
   return (
     <MainStyled>
@@ -110,12 +110,12 @@ export default function HomePage({
           <HomeSection items={DoorsItems} />
         </Section>
       )}
-      {VentilationItems.length > 0 && (
+      {/* {VentilationItems.length > 0 && (
         <Section>
           <TitleSection>VENTILACIÓN Y CALEFACCIÓN</TitleSection>
           <HomeSection items={VentilationItems} />
         </Section>
-      )}
+      )} */}
     </MainStyled>
   );
 }
