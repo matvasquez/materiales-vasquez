@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
-import ShoppingCart from "../Shopping-Cart/ShoppingCart";
 import { useRouter } from "next/router";
 
 const Layout = ({ children, myCart }) => {
@@ -19,13 +18,6 @@ const Layout = ({ children, myCart }) => {
       <Header />
       {children}
       <Footer />
-      {pathname !== "/realizar-pago" && (
-        <>
-          {pathname !== "/pago-error" && (
-            <>{myCart.length > 0 && <ShoppingCart />}</>
-          )}
-        </>
-      )}
     </>
   );
 };

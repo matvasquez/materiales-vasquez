@@ -8,9 +8,7 @@ import { connect } from "react-redux";
 
 // Components
 import Slider from "../components/Slider/Slider";
-import ArticlesLiked from "../components/Articles-Liked/ArticlesLiked";
 import HomeSection from "../components/Home-Sections/index";
-import Brands from "../components/Brands/Brands";
 
 // Styles
 import {
@@ -33,130 +31,71 @@ export const getServerSideProps = async ({ params }) => {
   const client = new CosmosClient({ endpoint, key });
   const databaseID = client.database("articulos");
   const containerID = databaseID.container("articulos_mv");
+  const slidersID = databaseID.container("sliders");
 
   if (endpoint) {
+    const { resources: sliders } = await slidersID.items
+      .query(`SELECT * FROM c`)
+      .fetchAll();
+
     const { resources: items } = await containerID.items
       .query(`SELECT TOP 8 * FROM c WHERE c.best_seller = "TRUE"`)
       .fetchAll();
 
-    const { resources: materiales } = await containerID.items
-      .query(
-        `SELECT TOP 8 * FROM c WHERE c.category = "MATERIALES PARA CONSTRUCCION"`
-      )
-      .fetchAll();
-
-    const { resources: finishes } = await containerID.items
-      .query(`SELECT TOP 8 * FROM c WHERE c.category = "ACABADOS"`)
+    const { resources: lighting } = await containerID.items
+      .query(`SELECT TOP 8 * FROM c WHERE c.main_category = "ILUMINACION"`)
       .fetchAll();
 
     const { resources: ferr } = await containerID.items
       .query(`SELECT TOP 8 * FROM c WHERE c.category = "FERRETERIA"`)
       .fetchAll();
 
-    const { resources: home } = await containerID.items
-      .query(`SELECT TOP 8 * FROM c WHERE c.category = "HOGAR"`)
+    const { resources: doors } = await containerID.items
+      .query(
+        `SELECT TOP 8 * FROM c WHERE c.main_category = "PUERTAS Y VENTANAS"`
+      )
       .fetchAll();
 
-    const { resources: kitchen } = await containerID.items
-      .query(`SELECT TOP 8 * FROM c WHERE c.category = "COCINA"`)
+    const { resources: ventilation } = await containerID.items
+      .query(
+        `SELECT TOP 8 * FROM c WHERE c.main_category = "VENTILACION Y CALEFACCIÓN"`
+      )
       .fetchAll();
-
-    // const { resources: bathrooms } = await containerID.items
-    //   .query(`SELECT TOP 8 * FROM c WHERE c.category = "BAÑOS"`)
-    //   .fetchAll();
 
     return {
       props: {
+        SlidersItems: sliders,
         BestSellers: items,
-        MaterialesItems: materiales,
-        FinishesItems: finishes,
+        LightingItems: lighting,
         FerrItems: ferr,
-        HomeItems: home,
-        KitchenItems: kitchen,
-        // BathroomsItems: bathrooms,
+        DoorsItems: doors,
+        VentilationItems: ventilation,
       },
     };
   }
-
-  // const responseMateriales = await fetch(
-  //   `https://tests-materiales-vasquez-kohl.vercel.app/api/azure/categorie/MATERIALES-PARA-CONSTRUCCION`
-  // );
-  // const { data: MaterialesItems } = await responseMateriales.json();
-
-  // const responseFinishes = await fetch(
-  //   `https://tests-materiales-vasquez-kohl.vercel.app/api/azure/categorie/ACABADOS`
-  // );
-  // const { data: FinishesItems } = await responseFinishes.json();
-
-  // const responseFerr = await fetch(
-  //   `https://tests-materiales-vasquez-kohl.vercel.app/api/azure/categorie/FERRETERIA`
-  // );
-  // const { data: FerrItems } = await responseFerr.json();
-
-  // const responseHome = await fetch(
-  //   `https://tests-materiales-vasquez-kohl.vercel.app/api/azure/categorie/HOGAR`
-  // );
-  // const { data: HomeItems } = await responseHome.json();
-
-  // const responseKitchen = await fetch(
-  //   `https://tests-materiales-vasquez-kohl.vercel.app/api/azure/categorie/COCINA`
-  // );
-  // const { data: KitchenItems } = await responseKitchen.json();
-
-  // // const responseBathrooms = await fetch(
-  // //   `https://tests-materiales-vasquez-kohl.vercel.app/api/azure/categorie/BAÑOS`
-  // // );
-  // // const { data: bathrooms } = await responseBathrooms.json();
-
-  // return {
-  //   props: {
-  //     MaterialesItems,
-  //     FinishesItems,
-  //     FerrItems,
-  //     HomeItems,
-  //     KitchenItems,
-  //     // BathroomsItems: bathrooms,
-  //   },
-  // };
 };
 
 export default function HomePage({
+  SlidersItems,
   BestSellers,
-  MaterialesItems,
-  FinishesItems,
+  LightingItems,
+  DoorsItems,
   FerrItems,
-  HomeItems,
-  KitchenItems,
-  // BathroomsItems,
+  VentilationItems,
 }) {
   return (
     <MainStyled>
-      {/* <FirstSection>
-        Total de articulos en esta página:{" "}
-        <Total>
-          {MaterialesItems.length +
-            FinishesItems.length +
-            FerrItems.length +
-            HomeItems.length +
-            KitchenItems.length}
-        </Total>
-      </FirstSection> */}
+      {SlidersItems.length > 0 && <Slider sliderItems={SlidersItems} />}
       {BestSellers.length > 0 && (
         <Section>
           <TitleSection>LO MÁS VENDIDO</TitleSection>
           <HomeSection items={BestSellers} />
         </Section>
       )}
-      {MaterialesItems.length > 0 && (
+      {LightingItems.length > 0 && (
         <Section>
-          <TitleSection>MATERIALES PARA CONSTRUCCION</TitleSection>
-          <HomeSection items={MaterialesItems} />
-        </Section>
-      )}
-      {FinishesItems.length > 0 && (
-        <Section>
-          <TitleSection>ACABADOS</TitleSection>
-          <HomeSection items={FinishesItems} />
+          <TitleSection>ILUMINACIÓN</TitleSection>
+          <HomeSection items={LightingItems} />
         </Section>
       )}
       {FerrItems.length > 0 && (
@@ -165,24 +104,18 @@ export default function HomePage({
           <HomeSection items={FerrItems} />
         </Section>
       )}
-      {HomeItems.length > 0 && (
+      {DoorsItems.length > 0 && (
         <Section>
-          <TitleSection>HOGAR</TitleSection>
-          <HomeSection items={HomeItems} />
+          <TitleSection>PUERTAS Y VENTANAS</TitleSection>
+          <HomeSection items={DoorsItems} />
         </Section>
       )}
-      {KitchenItems.length > 0 && (
+      {VentilationItems.length > 0 && (
         <Section>
-          <TitleSection>COCINA</TitleSection>
-          <HomeSection items={KitchenItems} />
+          <TitleSection>VENTILACIÓN Y CALEFACCIÓN</TitleSection>
+          <HomeSection items={VentilationItems} />
         </Section>
       )}
-      {/* {BathroomsItems.length > 0 && (
-        <Section>
-          <TitleSection>BAÑOS</TitleSection>
-          <HomeSection items={BathroomsItems} />
-        </Section>
-      )} */}
     </MainStyled>
   );
 }

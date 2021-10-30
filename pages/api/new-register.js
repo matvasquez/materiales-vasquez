@@ -14,7 +14,7 @@ export default async function getAllCategories(req, res) {
 
   const client = new CosmosClient({ endpoint, key });
   const databaseID = client.database("articulos");
-  const containerID = databaseID.container("articulos_mv");
+  const containerID = databaseID.container("sliders");
   // const { containerID } = await databaseID.containers.createIfNotExists({
   //   id: "articulos_mv",
   // });

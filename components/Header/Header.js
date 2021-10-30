@@ -13,7 +13,6 @@ import MainMenu from "../Main-Menu/MainMenu";
 import { Logo } from "../IconsSVG/Logo";
 import { ButtonMenu } from "../ButtonMenu/ButtonMenu";
 import SearchBar from "../Search-Bar/SearchBar";
-import SearchResults from "../SearchResults/SearchResults";
 
 // Stiled-Components
 import { HeaderStyled, SearchAndButtonContainer, LogoContainer } from "./style";

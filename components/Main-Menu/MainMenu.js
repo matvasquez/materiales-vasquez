@@ -6,7 +6,6 @@ import fetch from "isomorphic-unfetch";
 import { Whatsapp } from "../IconsSVG/Whatsapp";
 import { Instagram } from "../IconsSVG/Instagram";
 import { Facebook } from "../IconsSVG/Facebook";
-import MenuSection from "../Menu-Section/MenuSection";
 
 // Styled-Components
 import {
@@ -19,27 +18,6 @@ import {
   SocialIconsConatiner,
   LinkIcon,
 } from "./style";
-
-// const categories = [
-//   {
-//     name: "MATERIALES PARA CONSTRUCCION",
-//   },
-//   {
-//     name: "ACABADOS",
-//   },
-//   {
-//     name: "BAÑOS",
-//   },
-//   {
-//     name: "FERRETERIA",
-//   },
-//   {
-//     name: "HOGAR",
-//   },
-//   {
-//     name: "COCINA",
-//   },
-// ];
 
 const MainMenu = ({ isOpen, handleOpen }) => {
   const [allCAtegories, setallCAtegories] = useState([]);

@@ -15,7 +15,6 @@ import { loadState, saveState } from "../utils/saveLocalStorage";
 import { ThemeProvider } from "styled-components";
 import { GlobalStyles, theme } from "../styles/GlobalStyles";
 import Layout from "../components/Layout/index";
-// import "../styles/GlobalStyles.css";
 
 const MyApp = ({ Component, pageProps }) => {
   // Google Analytics

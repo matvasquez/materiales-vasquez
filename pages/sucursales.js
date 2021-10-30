@@ -2,7 +2,6 @@ import React from "react";
 import { NextSeo, LocalBusinessJsonLd } from "next-seo";
 
 // Components
-import Branch from "../components/Branch/Branch";
 
 // Styled-Components
 import { MainStiled } from "../styles/sucursales/style";
@@ -124,9 +123,7 @@ const Sucursales = () => {
         }}
       />
       <MainStiled>
-        {branches.map((store) => (
-          <Branch key={store.address} {...store} />
-        ))}
+        <h1>Sucursales</h1>
       </MainStiled>
     </>
   );
