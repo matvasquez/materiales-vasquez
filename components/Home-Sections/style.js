@@ -3,16 +3,18 @@ import styled from "styled-components";
 export const ItemsContainer = styled.div`
   width: 100%;
   margin: 1rem auto;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1rem;
+  @media (min-width: 1000px) {
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 2rem;
+  }
 `;
 
 export const Item = styled.a`
-  width: 47%;
+  width: 100%;
   padding: 0.5rem;
-  margin: 1rem auto;
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 15rem 9rem;
@@ -23,7 +25,7 @@ export const Item = styled.a`
   box-shadow: 2px 2px 5px 1px #dcdcdc;
   cursor: pointer;
   @media (min-width: 1000px) {
-    width: 23%;
+    grid-template-rows: 30rem 8rem;
   }
 `;
 

@@ -35,9 +35,9 @@ export const getServerSideProps = async ({ params }) => {
   const containerID = databaseID.container("articulos_mv");
 
   if (endpoint) {
-    // const { resources: items } = await containerID.items
-    //   .query(`SELECT TOP 20 * FROM c WHERE c.best_seller = "TRUE"`)
-    //   .fetchAll();
+    const { resources: items } = await containerID.items
+      .query(`SELECT TOP 8 * FROM c WHERE c.best_seller = "TRUE"`)
+      .fetchAll();
 
     const { resources: materiales } = await containerID.items
       .query(
@@ -67,7 +67,7 @@ export const getServerSideProps = async ({ params }) => {
 
     return {
       props: {
-        // BestSellers: items,
+        BestSellers: items,
         MaterialesItems: materiales,
         FinishesItems: finishes,
         FerrItems: ferr,
@@ -121,12 +121,13 @@ export const getServerSideProps = async ({ params }) => {
 };
 
 export default function HomePage({
+  BestSellers,
   MaterialesItems,
   FinishesItems,
   FerrItems,
   HomeItems,
   KitchenItems,
-  // bathrooms,
+  BathroomsItems,
 }) {
   return (
     <MainStyled>
@@ -140,6 +141,12 @@ export default function HomePage({
             KitchenItems.length}
         </Total>
       </FirstSection> */}
+      {BestSellers.length > 0 && (
+        <Section>
+          <TitleSection>LO MÁS VENDIDO</TitleSection>
+          <HomeSection items={BestSellers} />
+        </Section>
+      )}
       {MaterialesItems.length > 0 && (
         <Section>
           <TitleSection>MATERIALES PARA CONSTRUCCION</TitleSection>
@@ -170,12 +177,12 @@ export default function HomePage({
           <HomeSection items={KitchenItems} />
         </Section>
       )}
-      {/* {BathroomsItems.length > 0 && (
+      {BathroomsItems.length > 0 && (
         <Section>
           <TitleSection>BAÑOS</TitleSection>
           <HomeSection items={BathroomsItems} />
         </Section>
-      )} */}
+      )}
     </MainStyled>
   );
 }

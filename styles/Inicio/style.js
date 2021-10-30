@@ -24,13 +24,13 @@ export const Total = styled.span`
 
 export const Section = styled.section`
   width: 100%;
+  &:not(:first-child) {
+    margin: 10rem 0 0;
+  }
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  @media (min-width: 1000px) {
-    margin: 3rem 0;
-  }
 `;
 
 export const TitleSection = styled.h3`
