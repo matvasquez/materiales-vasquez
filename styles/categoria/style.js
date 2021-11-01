@@ -15,6 +15,9 @@ export const Title = styled.h1`
   font-size: 1.8rem;
   font-weight: 500;
   text-transform: capitalize;
+  @media (min-width: 1000px) {
+    font-size: 2.5rem;
+  }
 `;
 
 // -------SectionEmpty

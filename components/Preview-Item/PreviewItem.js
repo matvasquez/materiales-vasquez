@@ -2,9 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 // import { useNearScreen } from "../../hooks/useNearScreen";
 import { useGetImage } from "../../hooks/useGetImage";
+import { useGetPrice } from "../../hooks/useGetPrice";
 
 // Components
 import { Loading } from "../Loaders/Loading";
+import { Consulting } from "../Loaders/Consulting";
 
 // Styled-Components
 import {
@@ -28,9 +30,10 @@ const formatter = new Intl.NumberFormat("en-US", {
   maximumFractionDigits: 2,
 });
 
-const PreviewItem = ({ articulo_id, name, category, main_category, price }) => {
+const PreviewItem = ({ articulo_id, name, category, main_category }) => {
   // const { show, element } = useNearScreen();
   const [image_url] = useGetImage(articulo_id);
+  const [price] = useGetPrice(articulo_id);
 
   return (
     <Link href={`/detalles/${articulo_id}`} passHref>
@@ -50,7 +53,11 @@ const PreviewItem = ({ articulo_id, name, category, main_category, price }) => {
         </ImageContainer>
         <ItemInfo>
           <ItemText>{name.toLocaleLowerCase()}</ItemText>
-          <ItemPrice>${formatter.format(price)}</ItemPrice>
+          {price !== "" ? (
+            <ItemPrice>${formatter.format(price)}</ItemPrice>
+          ) : (
+            <Consulting />
+          )}
           <Categoryes>
             {category && <Categorie>{category.toLocaleLowerCase()}</Categorie>}
             {main_category && (

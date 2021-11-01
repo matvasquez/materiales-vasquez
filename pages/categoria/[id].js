@@ -28,11 +28,7 @@ const Category = () => {
   return (
     <MainStyled>
       {id && <Title>{id.replace(/-/g, " ").toLowerCase()}</Title>}
-      {products.length > 0 && (
-        <section>
-          <CategorySection data={products} />
-        </section>
-      )}
+      {products.length > 0 && <CategorySection data={products} />}
     </MainStyled>
   );
 };

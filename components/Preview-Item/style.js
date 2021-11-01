@@ -45,6 +45,7 @@ export const ItemInfo = styled.div`
 export const ItemText = styled.p`
   width: 100%;
   font-size: 1.4rem;
+  text-align: left;
   text-transform: capitalize;
   color: var(--text);
   display: -webkit-box;

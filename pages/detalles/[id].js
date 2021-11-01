@@ -3,9 +3,11 @@ import Image from "next/image";
 import { useGetStock } from "../../hooks/useGetStock";
 import { useRouter } from "next/router";
 import { useGetImage } from "../../hooks/useGetImage";
+import { useGetPrice } from "../../hooks/useGetPrice";
 
 // Components
 import { Loading } from "../../components/Loaders/Loading";
+import { Consulting } from "../../components/Loaders/Consulting";
 import RelatedSecction from "../../components/Related-Secction/RelatedSecction";
 
 // Data
@@ -45,6 +47,7 @@ const ProductDetails = () => {
   const [infoReady, setInfoReady] = useState(false);
   const [image_url] = useGetImage(id || "");
   const [stock] = useGetStock(id || "");
+  const [price] = useGetPrice(id || "");
   // Relacionados
   const [relatedByName, setRelatedByName] = useState([]);
   const [relatedByCategory, setRelatedByCategory] = useState([]);
@@ -109,8 +112,13 @@ const ProductDetails = () => {
             </ImageContainer>
             <InfoContainer>
               <PriceContainer>
-                <Price>${formatter.format(product.price)} </Price>
+                {price !== "" ? (
+                  <Price>${formatter.format(price)} </Price>
+                ) : (
+                  <Consulting />
+                )}
               </PriceContainer>
+
               {stock !== "" && (
                 <Stock>
                   <span>{stock}</span> disponibles

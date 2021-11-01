@@ -96,6 +96,7 @@ export const Title = styled.h1`
 
 export const PriceContainer = styled.div`
   width: 100%;
+  min-height: 1.8rem;
   margin: 1rem 0;
   display: flex;
   justify-content: flex-start;
