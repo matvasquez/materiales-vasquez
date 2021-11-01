@@ -26,8 +26,8 @@ const Slider = ({ sliderItems }) => {
         loop={true}
       >
         {sliderItems &&
-          sliderItems.map(({ id, image, link, text }) => (
-            <SwiperSlide key={id}>
+          sliderItems.map(({ articulo_id, image, link, text }) => (
+            <SwiperSlide key={articulo_id}>
               <SliderItem>
                 <img src={`data:image/jpg;base64,${image}`} alt={text} />
               </SliderItem>

@@ -19,10 +19,40 @@ export const SubDirectory = styled.div`
   p {
     font-size: 1rem;
   }
+  @media (min-width: 1000px) {
+    width: 90%;
+    margin: 2rem auto;
+    p {
+      font-size: 1.2rem;
+    }
+  }
+`;
+
+export const Product = styled.section`
+  width: 100%;
+  min-height: 50vh;
+  padding: 0.5rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: min-content min-content;
+  grid-gap: 2rem;
+  justify-items: center;
+  align-items: start;
+  background-color: #efefef;
+  box-shadow: 2px 2px 5px 1px #dcdcdc;
+  cursor: pointer;
+  @media (min-width: 1000px) {
+    width: 90%;
+    margin: 0 auto;
+    background-color: #ffffff;
+    box-shadow: initial;
+  }
 `;
 
 export const ImageContainer = styled.div`
   width: 100%;
+  height: 100%;
+  min-height: 20vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -40,11 +70,28 @@ export const ImageContainer = styled.div`
   }
 `;
 
+export const InfoContainer = styled.div`
+  width: 100%;
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  @media (min-width: 1000px) {
+    width: 50%;
+    padding: 1rem;
+    background-color: #efefef;
+  }
+`;
+
 export const Title = styled.h1`
   margin: 1rem 0;
   font-size: 1.8rem;
   font-weight: 500;
   text-transform: capitalize;
+  @media (min-width: 1000px) {
+    font-size: 2.2rem;
+  }
 `;
 
 export const PriceContainer = styled.div`
@@ -61,26 +108,35 @@ export const PriceContainer = styled.div`
 export const Price = styled.p`
   font-size: 1.8rem;
   font-weight: 700;
-  del {
-    font-size: 1.4rem;
-    font-weight: 500;
-    opacity: 0.5;
-  }
-`;
-
-export const InfoContainer = styled.div`
-  width: 100%;
-  margin: 1rem 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
   @media (min-width: 1000px) {
-    width: 50%;
+    font-size: 2rem;
   }
 `;
 
 export const Sku = styled.p`
   margin: 1rem 0;
   font-weight: 500;
+`;
+
+export const RelatedSection = styled.section`
+  width: 100%;
+  margin: 4rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  h3 {
+    font-size: 1.6rem;
+    text-align: center;
+    margin: 1rem auto;
+  }
+  @media (min-width: 1000px) {
+    width: 90%;
+    margin: 4rem auto;
+    h3 {
+      font-size: 1.8rem;
+      text-align: left;
+      margin: 1rem 0;
+    }
+  }
 `;

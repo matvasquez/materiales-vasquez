@@ -1,17 +1,28 @@
-const CosmosClient = require("@azure/cosmos").CosmosClient;
-import config from "../../lib/config-cosmos";
+import { useState, useEffect } from "react";
 import Image from "next/image";
+import { useGetStock } from "../../hooks/useGetStock";
+import { useRouter } from "next/router";
+import { useGetImage } from "../../hooks/useGetImage";
+
+// Components
+import { Loading } from "../../components/Loaders/Loading";
+import RelatedSecction from "../../components/Related-Secction/RelatedSecction";
+
+// Data
+import { articulos } from "../../database/articulos";
 
 // Styled-Components
 import {
   MainStyled,
   SubDirectory,
+  Product,
   ImageContainer,
   Title,
   PriceContainer,
   Price,
   InfoContainer,
   Sku,
+  RelatedSection,
 } from "../../styles/detalles/style";
 
 // Formatear precio
@@ -25,59 +36,98 @@ const loader = ({ src, width, quality }) => {
   return `${src}?w=${width}&q=${quality || 75}`;
 };
 
-export const getServerSideProps = async ({ params }) => {
-  const id = params?.id;
+const ProductDetails = () => {
+  const router = useRouter();
+  const id = router.query.id;
+  const [product, setProduct] = useState({});
+  const [infoReady, setInfoReady] = useState(false);
+  const [image_url] = useGetImage(id || "");
+  // Relacionados
+  const [relatedByName, setRelatedByName] = useState([]);
+  const [relatedByCategory, setRelatedByCategory] = useState([]);
 
-  const { endpoint, key } = config;
+  useEffect(() => {
+    id === undefined && setInfoReady(false);
+  }, [id]);
 
-  const client = new CosmosClient({ endpoint, key });
-  const databaseID = client.database("articulos");
-  const containerID = databaseID.container("articulos_mv");
+  useEffect(() => {
+    if (articulos.length > 0 && id) {
+      const data = articulos.filter((item) => item.articulo_id === id);
+      setProduct(data[0]);
+      setInfoReady(true);
+    }
+  }, [id]);
 
-  if (endpoint) {
-    const { resources: product } = await containerID.items
-      .query(`SELECT TOP 1 * FROM c WHERE c.articulo_id = "${id}"`)
-      .fetchAll();
+  useEffect(() => {
+    // Solicita articulos relacionados por nombre
+    if (infoReady && product !== {}) {
+      const name = product.name.split(" ")[0];
+      const data = articulos.filter(
+        (item) => item.name.includes(name) && item.name !== product.name
+      );
+      setRelatedByName(data.slice(0, 12));
+    }
+  }, [id, product]);
 
-    return {
-      props: {
-        product: product[0],
-      },
-    };
-  }
-};
+  useEffect(() => {
+    // Solicita articulos relacionados por categoria
+    if (infoReady && product !== {}) {
+      const category = product.category;
+      const data = articulos.filter((item) => item.category === category);
+      setRelatedByCategory(data.slice(0, 12));
+    }
+  }, [id, product]);
 
-const ProductDetails = ({ product }) => {
   return (
     <MainStyled>
-      <Title>{product.name.toLowerCase()}</Title>
-      <SubDirectory>
-        <p>
-          /categoria/{product.category.replace(/ /gi, "-").toLowerCase()}/
-          {product.main_category &&
-            product.main_category.replace(/ /gi, "-").toLowerCase()}
-        </p>
-      </SubDirectory>
-      <ImageContainer>
-        <Image
-          loader={loader}
-          src={`data:image/jpg;base64,${product.image_url}`}
-          width={400}
-          height={400}
-          alt={`Fotografía de ${product.name.toLowerCase()}`}
-          placeholder="blurDataURL"
-        />
-      </ImageContainer>
-      <PriceContainer>
-        <Price>
-          ${formatter.format(product.price)}{" "}
-          {/* <del>${formatter.format(product.price * 1.2)}</del> */}
-        </Price>
-      </PriceContainer>
-      <InfoContainer>
-        <Sku>SKU: {product.articulo_id}</Sku>
-        <p>{product.description.toLowerCase()}</p>
-      </InfoContainer>
+      {infoReady ? (
+        <>
+          <Title>{product.name.toLowerCase()}</Title>
+          <SubDirectory>
+            <p>
+              /categoria/{product.category.replace(/ /gi, "-").toLowerCase()}/
+              {product.main_category &&
+                product.main_category.replace(/ /gi, "-").toLowerCase()}
+            </p>
+          </SubDirectory>
+          <Product>
+            <ImageContainer>
+              {image_url !== "" ? (
+                <Image
+                  loader={loader}
+                  src={`data:image/jpg;base64,${image_url}`}
+                  width={300}
+                  height={300}
+                  alt={`Fotografía de ${product.name}`}
+                />
+              ) : (
+                <Loading />
+              )}
+            </ImageContainer>
+            <InfoContainer>
+              <PriceContainer>
+                <Price>${formatter.format(product.price)} </Price>
+              </PriceContainer>
+              <p>{product.description.toLowerCase()}</p>
+              <Sku>SKU: {product.articulo_id}</Sku>
+            </InfoContainer>
+          </Product>
+          {relatedByName.length > 0 && (
+            <RelatedSection>
+              <h3>Relacionados</h3>
+              <RelatedSecction data={relatedByName} />
+            </RelatedSection>
+          )}
+          {relatedByCategory.length > 0 && (
+            <RelatedSection>
+              <h3>Puede que te interese</h3>
+              <RelatedSecction data={relatedByCategory} />
+            </RelatedSection>
+          )}
+        </>
+      ) : (
+        <h1>{id}</h1>
+      )}
     </MainStyled>
   );
 };

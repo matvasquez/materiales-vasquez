@@ -16,10 +16,10 @@ export default async function getAllCategories(req, res) {
 
   if (endpoint) {
     const querySpec = {
-      query: `SELECT TOP 8 * FROM c WHERE c.category = "${req.query.id.replace(
-        /-/gi,
-        " "
-      )}"`,
+      query: `SELECT *
+      FROM c 
+      WHERE c.main_category = "${req.query.id.replace(/-/gi, " ")}"
+      OFFSET 9 LIMIT 16`,
     };
 
     const { resources: items } = await containerID.items

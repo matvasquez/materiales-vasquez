@@ -1,56 +1,37 @@
-const CosmosClient = require("@azure/cosmos").CosmosClient;
-import config from "../../lib/config-cosmos";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
+// Data
+import { articulos } from "../../database/articulos";
+
 // Components
-import HomeSection from "../../components/Home-Sections";
+import CategorySection from "../../components/Category-Section/CategorySection";
 
 // Styles
-import {
-  MainStyled,
-  FirstSection,
-  Total,
-  Section,
-} from "../../styles/Inicio/style";
+import { MainStyled, Title } from "../../styles/categoria/style";
 
-export const getServerSideProps = async ({ params }) => {
-  const id = params?.id;
-
-  const { endpoint, key } = config;
-
-  const client = new CosmosClient({ endpoint, key });
-  const databaseID = client.database("articulos");
-  const containerID = databaseID.container("articulos_mv");
-
-  if (endpoint) {
-    const { resources: items } = await containerID.items
-      .query(
-        `SELECT TOP 50 * FROM c WHERE c.category = "${id.replace(/-/g, " ")}"`
-      )
-      .fetchAll();
-
-    return {
-      props: {
-        items,
-      },
-    };
-  }
-};
-
-const Category = ({ items }) => {
+const Category = () => {
   const router = useRouter();
-  const { id: Category } = router.query;
+  const id = router.query.id;
+
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    if (articulos.length > 0 && id) {
+      const data = articulos.filter(
+        (item) => item.category === id.replace(/-/g, " ")
+      );
+      setProducts(data.slice(0, 50));
+    }
+  }, [id]);
 
   return (
     <MainStyled>
-      <FirstSection>
-        Total de articulos: <Total>{items.length}</Total>
-      </FirstSection>
-      {items.length > 0 && (
-        <Section>
-          <h1>{Category.replace(/-/g, " ").toLocaleLowerCase()}</h1>
-          <HomeSection items={items} />
-        </Section>
+      {id && <Title>{id.replace(/-/g, " ").toLowerCase()}</Title>}
+      {products.length > 0 && (
+        <section>
+          <CategorySection data={products} />
+        </section>
       )}
     </MainStyled>
   );
