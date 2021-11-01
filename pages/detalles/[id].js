@@ -20,7 +20,9 @@ import {
   Title,
   PriceContainer,
   Price,
+  Stock,
   InfoContainer,
+  Description,
   Sku,
   RelatedSection,
 } from "../../styles/detalles/style";
@@ -42,6 +44,7 @@ const ProductDetails = () => {
   const [product, setProduct] = useState({});
   const [infoReady, setInfoReady] = useState(false);
   const [image_url] = useGetImage(id || "");
+  const [stock] = useGetStock(id || "");
   // Relacionados
   const [relatedByName, setRelatedByName] = useState([]);
   const [relatedByCategory, setRelatedByCategory] = useState([]);
@@ -108,7 +111,12 @@ const ProductDetails = () => {
               <PriceContainer>
                 <Price>${formatter.format(product.price)} </Price>
               </PriceContainer>
-              <p>{product.description.toLowerCase()}</p>
+              {stock !== "" && (
+                <Stock>
+                  <span>{stock}</span> disponibles
+                </Stock>
+              )}
+              <Description>{product.description.toLowerCase()}</Description>
               <Sku>SKU: {product.articulo_id}</Sku>
             </InfoContainer>
           </Product>

@@ -4,6 +4,7 @@ export function useGetImage(id) {
   const [image, setImage] = useState("");
   useEffect(async () => {
     if (id) {
+      setImage("");
       window
         .fetch(
           `/api/image/${id.replace(/ /gi, "space").replace(/\//gi, "slash")}`

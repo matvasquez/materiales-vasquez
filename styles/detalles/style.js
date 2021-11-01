@@ -113,6 +113,24 @@ export const Price = styled.p`
   }
 `;
 
+export const Stock = styled.p`
+  span {
+    font-size: 1.6rem;
+    font-weight: 700;
+  }
+  @media (min-width: 1000px) {
+    span {
+      font-size: 1.8rem;
+    }
+  }
+`;
+
+export const Description = styled.p`
+  margin: 1.5rem 0;
+  font-weight: 400;
+  text-transform: capitalize;
+`;
+
 export const Sku = styled.p`
   margin: 1rem 0;
   font-weight: 500;
