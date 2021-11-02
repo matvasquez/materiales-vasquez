@@ -5,7 +5,7 @@ export const Line = styled.div`
   height: 0.2rem;
   background-color: var(--blue);
   border-radius: 0.1rem;
-  transition: all 0.3s ease-in-out;
+  transition: 0.3s ease-in-out all;
 `;
 
 export const ButtonStyled = styled.button`

@@ -1,23 +1,11 @@
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
 import fetch from "isomorphic-unfetch";
 
 // Components
-import { Whatsapp } from "../IconsSVG/Whatsapp";
-import { Instagram } from "../IconsSVG/Instagram";
-import { Facebook } from "../IconsSVG/Facebook";
+import MainMenuSections from "../Main-Menu-Sections/MainMenuSections";
 
 // Styled-Components
-import {
-  NavStyled,
-  CloseButton,
-  UlStyled,
-  LiStyled,
-  AnchorStyled,
-  LineLink,
-  SocialIconsConatiner,
-  LinkIcon,
-} from "./style";
+import { NavStyled, CloseButton, UlStyled } from "./style";
 
 const MainMenu = ({ isOpen, handleOpen }) => {
   const [allCAtegories, setallCAtegories] = useState([]);
@@ -47,47 +35,24 @@ const MainMenu = ({ isOpen, handleOpen }) => {
         onClick={() => handleOpen()}
         aria-label="Botón cerrar menú"
       ></CloseButton>
-      <UlStyled rows={mainCategories.length + 1}>
-        {mainCategories.length > 0 && (
-          <>
-            {mainCategories.map((categorie) => {
-              let sub = allCAtegories.filter(
-                (item) => item.categorie === categorie
-              );
-              return (
-                <LiStyled key={categorie} onClick={() => handleOpen()}>
-                  <Link
-                    href={`/categoria/${categorie.replace(/ /g, "-")}`}
-                    passHref
-                  >
-                    <AnchorStyled>{categorie.toLocaleLowerCase()}</AnchorStyled>
-                  </Link>
-                  <LineLink />
-                  {sub.length > 0 && <div>+</div>}
-                </LiStyled>
-              );
-            })}
-          </>
-        )}
-        {/* {categories.length > 0 && (
-          <>
-            {categories.map((menuItem) => (
-              <LiStyled key={menuItem.name} onClick={() => handleOpen()}>
-                <Link
-                  href={`#${menuItem.name
-                    .replace(/ /g, "-")
-                    .replace(/Ñ/g, "enne")}`}
-                  passHref
-                >
-                  <AnchorStyled>{menuItem.name}</AnchorStyled>
-                </Link>
-                <LineLink />
-              </LiStyled>
-            ))}
-          </>
-        )} */}
-      </UlStyled>
-      <SocialIconsConatiner>
+      {mainCategories.length > 0 && (
+        <UlStyled rows={mainCategories.length + 1}>
+          {mainCategories.map((categorie) => {
+            let sub = allCAtegories.filter(
+              (item) => item.categorie === categorie
+            );
+            return (
+              <MainMenuSections
+                key={categorie}
+                categorie={categorie}
+                sub={sub.sort()}
+              />
+            );
+          })}
+        </UlStyled>
+      )}
+
+      {/* <SocialIconsConatiner>
         <LinkIcon
           href="https://www.instagram.com/materialesvasquezhermanos/"
           target="_blank"
@@ -117,7 +82,7 @@ const MainMenu = ({ isOpen, handleOpen }) => {
         >
           <Facebook width="75%" />
         </LinkIcon>
-      </SocialIconsConatiner>
+      </SocialIconsConatiner> */}
     </NavStyled>
   );
 };

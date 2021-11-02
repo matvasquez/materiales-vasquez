@@ -20,6 +20,7 @@ export const SearchAndButtonContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 9fr;
   grid-gap: 2rem;
+  position: relative;
   @media (min-width: 1000px) {
     grid-column: 1 / span 1;
   }

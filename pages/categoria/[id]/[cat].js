@@ -3,11 +3,11 @@ import { useRouter } from "next/router";
 import { NextSeo, LocalBusinessJsonLd } from "next-seo";
 
 // Data
-import { articulos } from "../../database/articulos";
+import { articulos } from "../../../database/articulos";
 
 // Components
-import CategorySection from "../../components/Category-Section/CategorySection";
-import { AddNewProducts } from "../../components/IconsSVG/AddNewProducts";
+import CategorySection from "../../../components/Category-Section/CategorySection";
+import { AddNewProducts } from "../../../components/IconsSVG/AddNewProducts";
 
 // Styles
 import {
@@ -15,40 +15,40 @@ import {
   Title,
   SectionEmpty,
   TextEmpty,
-} from "../../styles/categoria/style";
+} from "../../../styles/categoria/style";
 
 const Category = () => {
   const router = useRouter();
-  const id = router.query.id;
+  const cat = router.query.cat || "";
 
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    if (articulos.length > 0 && id) {
+    if (articulos.length > 0 && cat) {
       const data = articulos.filter(
-        (item) => item.category === id.replace(/-/g, " ")
+        (item) => item.main_category === cat.replace(/-/g, " ")
       );
       setProducts(data.slice(0, 50));
     }
-  }, [id]);
+  }, [cat]);
 
   return (
     <>
       <NextSeo
         title={`${
-          id ? id.replace(/-/g, " ") : "Categoría"
+          cat ? cat.replace(/-/g, " ") : "Categoría"
         } | Materiales Vasquez Hermanos`}
         description={`Amplia gama de productos ${
-          id && `de nuestra categoría ${id.replace(/-/g, " ")}`
+          cat && `de nuestra categoría ${cat.replace(/-/g, " ")}`
         }`}
         canonical="https://www.materialesvasquezhnos.com.mx/"
         openGraph={{
           url: `https://www.materialesvasquezhnos.com.mx/`,
           title: `Categoría ${
-            id && id.replace(/-/g, " ")
+            cat && cat.replace(/-/g, " ")
           } | Materiales Vasquez Hermanos`,
           description: `Amplia gama de productos ${
-            id && `de nuestra categoría ${id.replace(/-/g, " ")}`
+            cat && `de nuestra categoría ${cat.replace(/-/g, " ")}`
           }`,
           images: [
             {
@@ -82,7 +82,7 @@ const Category = () => {
       />
 
       <MainStyled>
-        {id && <Title>{id.replace(/-/g, " ").toLowerCase()}</Title>}
+        {cat && <Title>{cat.replace(/-/g, " ").toLowerCase()}</Title>}
         {products.length > 0 ? (
           <CategorySection data={products} />
         ) : (

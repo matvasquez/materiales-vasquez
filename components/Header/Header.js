@@ -1,9 +1,7 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { connect } from "react-redux";
-import fetch from "isomorphic-unfetch";
-import debounce from "just-debounce-it";
 
 //Actions
 import { setIitemsIliked } from "../../actions";
@@ -18,11 +16,17 @@ import SearchBar from "../Search-Bar/SearchBar";
 import { HeaderStyled, SearchAndButtonContainer, LogoContainer } from "./style";
 
 const Header = () => {
+  const router = useRouter();
+  const id = router.query.id;
   const [menuIsOpen, setMenuIsOpen] = useState(false);
 
   const handleOpen = () => {
     setMenuIsOpen(!menuIsOpen);
   };
+
+  useEffect(() => {
+    window.innerWidth < 1000 && setMenuIsOpen(false);
+  }, [id]);
 
   return (
     <HeaderStyled>
