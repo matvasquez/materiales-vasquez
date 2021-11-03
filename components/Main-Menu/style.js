@@ -13,6 +13,7 @@ export const NavStyled = styled.nav`
   top: 0;
   left: ${(props) => (props.open ? "0" : "-100%")};
   z-index: 999;
+  overflow-x: hidden;
   transition: 0.3s ease-in-out all;
   ${(props) => props.open && `box-shadow: 0.5rem 0.5rem 1rem 0.5rem #434343;`}
 

@@ -54,7 +54,6 @@ export const GlobalStyles = createGlobalStyle`
 
       transition: ease-in-out 0.3s all;
       scrollbar-width: none;
-      overflow-x: hidden;
     }
 
     @media print {
