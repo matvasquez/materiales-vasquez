@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const MainStyled = styled.main`
   width: 100%;
+  min-height: 40vh;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -38,4 +39,15 @@ export const TitleSection = styled.h3`
   @media (min-width: 1000px) {
     font-size: 2rem;
   }
+`;
+
+export const AuthSection = styled.section`
+  width: 100%;
+  min-height: 20vh;
+  max-height: 50vh;
+  margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 `;

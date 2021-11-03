@@ -16,6 +16,15 @@ import { ThemeProvider } from "styled-components";
 import { GlobalStyles, theme } from "../styles/GlobalStyles";
 import Layout from "../components/Layout/index";
 
+import initAuth from "../initAuth";
+import {
+  AuthAction,
+  useAuthUser,
+  withAuthUser,
+  withAuthUserTokenSSR,
+} from "next-firebase-auth";
+initAuth();
+
 const MyApp = ({ Component, pageProps }) => {
   // Google Analytics
   const router = useRouter();
@@ -36,6 +45,8 @@ const MyApp = ({ Component, pageProps }) => {
 
   const store = createStore(reducer, initialData);
   store.subscribe(() => saveState(store.getState()));
+
+  const AuthUser = useAuthUser();
 
   return (
     <>
@@ -79,7 +90,7 @@ const MyApp = ({ Component, pageProps }) => {
         </Head>
         <GlobalStyles />
         <ThemeProvider theme={theme}>
-          <Layout>
+          <Layout user={AuthUser}>
             <Component {...pageProps} />
           </Layout>
         </ThemeProvider>
@@ -88,4 +99,4 @@ const MyApp = ({ Component, pageProps }) => {
   );
 };
 
-export default MyApp;
+export default withAuthUser()(MyApp);

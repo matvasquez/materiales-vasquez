@@ -19,7 +19,7 @@ import {
   TitleMatch,
 } from "./style";
 
-const SearchBar = () => {
+const SearchBar = ({ user }) => {
   const router = useRouter();
   const id = router.query.id;
   const [searchText, setSearchText] = useState("");
@@ -92,7 +92,7 @@ const SearchBar = () => {
 
   return (
     <>
-      <InputContainer>
+      <InputContainer columns={user}>
         <InputSearch
           type="text"
           placeholder="Buscar producto..."

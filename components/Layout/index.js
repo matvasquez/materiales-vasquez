@@ -4,7 +4,7 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import { useRouter } from "next/router";
 
-const Layout = ({ children, myCart }) => {
+const Layout = ({ children, myCart, user }) => {
   const { pathname } = useRouter();
 
   // Regresa el scroll al remover el carrtio de compras
@@ -15,9 +15,9 @@ const Layout = ({ children, myCart }) => {
   }, [myCart]);
   return (
     <>
-      <Header />
+      <Header user={user} />
       {children}
-      <Footer />
+      <Footer user={user} />
     </>
   );
 };

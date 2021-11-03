@@ -66,23 +66,23 @@ const ProductDetails = () => {
 
   useEffect(() => {
     // Solicita articulos relacionados por nombre
-    if (infoReady && product !== {}) {
+    if (image_url !== "" && product !== {}) {
       const name = product.name.split(" ")[0];
       const data = articulos.filter(
         (item) => item.name.includes(name) && item.name !== product.name
       );
       setRelatedByName(data.slice(0, 12));
     }
-  }, [id, product]);
+  }, [id, product, image_url]);
 
   useEffect(() => {
     // Solicita articulos relacionados por categoria
-    if (infoReady && product !== {}) {
+    if (image_url !== "" && product !== {}) {
       const category = product.category;
       const data = articulos.filter((item) => item.category === category);
       setRelatedByCategory(data.slice(0, 12));
     }
-  }, [id, product]);
+  }, [id, product, image_url]);
 
   return (
     <MainStyled>

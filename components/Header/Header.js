@@ -11,14 +11,16 @@ import MainMenu from "../Main-Menu/MainMenu";
 import { Logo } from "../IconsSVG/Logo";
 import { ButtonMenu } from "../ButtonMenu/ButtonMenu";
 import SearchBar from "../Search-Bar/SearchBar";
+import HeaderProfile from "../Header-Profile/HeaderProfile";
 
 // Stiled-Components
 import { HeaderStyled, SearchAndButtonContainer, LogoContainer } from "./style";
 
-const Header = () => {
+const Header = ({ user }) => {
   const router = useRouter();
   const id = router.query.id;
   const [menuIsOpen, setMenuIsOpen] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
 
   const handleOpen = () => {
     setMenuIsOpen(!menuIsOpen);
@@ -28,6 +30,14 @@ const Header = () => {
     window.innerWidth < 1000 && setMenuIsOpen(false);
   }, [id]);
 
+  useEffect(() => {
+    if (router.pathname !== "/perfil" && user.email !== null) {
+      setShowProfile(true);
+    } else {
+      setShowProfile(false);
+    }
+  }, [router, user]);
+
   return (
     <HeaderStyled>
       <SearchAndButtonContainer>
@@ -35,7 +45,8 @@ const Header = () => {
           handleClick={handleOpen}
           aria-label="Botón para abrir el menú lateral"
         />
-        <SearchBar />
+        <SearchBar user={showProfile} />
+        {showProfile && <HeaderProfile {...user} />}
       </SearchAndButtonContainer>
       <Link href="/" passHref>
         <LogoContainer aria-label="Inicio" itemProp="logo">
@@ -55,6 +66,7 @@ const mapStateToProps = (state) => {
     itemsIliked: state.itemsIliked,
     carIsEmpty: state.carIsEmpty,
     carIsOpen: state.carIsOpen,
+    profile: state.profile,
   };
 };
 

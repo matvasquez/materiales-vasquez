@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 // Components
 import PreviewItem from "../Preview-Item/PreviewItem";
 
 // Styled-Components
-import { ItemsContainer } from "./style";
+import { ItemsContainer } from "../Home-Sections/style";
 
 const CategorySection = ({ data }) => {
   return (

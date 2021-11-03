@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 const CosmosClient = require("@azure/cosmos").CosmosClient;
 import config from "../lib/config-cosmos";
-import Image from "next/image";
 import { NextSeo, LocalBusinessJsonLd } from "next-seo";
 import fetch from "isomorphic-unfetch";
-import { connect } from "react-redux";
 
 // Data
 import { articulos } from "../database/articulos";
@@ -14,13 +12,7 @@ import Slider from "../components/Slider/Slider";
 import HomeSection from "../components/Home-Sections/index";
 
 // Styles
-import {
-  MainStyled,
-  FirstSection,
-  Total,
-  Section,
-  TitleSection,
-} from "../styles/Inicio/style";
+import { MainStyled, Section, TitleSection } from "../styles/Inicio/style";
 
 // g.DESGIR = 'LO MÁS VENDIDOS'
 // g2.DESC_GIR2 = 'ILUMINACION'

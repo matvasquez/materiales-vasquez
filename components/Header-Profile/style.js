@@ -1,24 +1,24 @@
 import styled from "styled-components";
 
-export const ProfileData = styled.section`
-  width: 100%;
-  padding: 1rem;
+export const ProfileContainer = styled.a`
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 0.1rem solid var(--blue);
+  border-radius: 50%;
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
+  overflow: hidden;
 `;
 
 export const ImageContainer = styled.div`
-  width: 10rem;
-  height: 10rem;
-  margin: 1rem;
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: #ffffff;
-  border-radius: 50%;
-  border: 0.2rem solid var(--blue);
+  border-radius: 0.5rem;
   overflow: hidden;
   img {
     width: 100%;

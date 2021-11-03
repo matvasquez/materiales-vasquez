@@ -12,7 +12,7 @@ export const NavStyled = styled.nav`
   position: absolute;
   top: 0;
   left: ${(props) => (props.open ? "0" : "-100%")};
-  z-index: 1000;
+  z-index: 999;
   transition: 0.3s ease-in-out all;
   ${(props) => props.open && `box-shadow: 0.5rem 0.5rem 1rem 0.5rem #434343;`}
 
@@ -87,7 +87,7 @@ export const UlStyled = styled.ul`
   }
   @media (min-width: 1000px) {
     width: 100%;
-    height: 3rem;
+    height: 4rem;
     min-height: 1rem;
     padding: 0;
     margin: 0;

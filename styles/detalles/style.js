@@ -20,7 +20,7 @@ export const SubDirectory = styled.div`
     font-size: 1rem;
   }
   @media (min-width: 1000px) {
-    width: 90%;
+    width: 80%;
     margin: 2rem auto;
     p {
       font-size: 1.2rem;
@@ -38,12 +38,14 @@ export const Product = styled.section`
   grid-gap: 2rem;
   justify-items: center;
   align-items: start;
+  border-radius: 0.5rem;
   background-color: #efefef;
   box-shadow: 2px 2px 5px 1px #dcdcdc;
-  cursor: pointer;
   @media (min-width: 1000px) {
-    width: 90%;
+    width: 80%;
     margin: 0 auto;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
     background-color: #ffffff;
     box-shadow: initial;
   }
@@ -64,8 +66,13 @@ export const ImageContainer = styled.div`
     height: 100%;
     object-fit: contain;
   }
+  @media (min-width: 750px) {
+    width: 70%;
+    min-height: 30vh;
+    border-radius: 1rem;
+  }
   @media (min-width: 1000px) {
-    width: 50%;
+    width: 100%;
     min-height: 40vh;
   }
 `;
@@ -77,8 +84,11 @@ export const InfoContainer = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+  @media (min-width: 750px) {
+    width: 70%;
+  }
   @media (min-width: 1000px) {
-    width: 50%;
+    width: 80%;
     padding: 1rem;
     background-color: #efefef;
   }
@@ -150,7 +160,7 @@ export const RelatedSection = styled.section`
     margin: 1rem auto;
   }
   @media (min-width: 1000px) {
-    width: 90%;
+    width: 80%;
     margin: 4rem auto;
     h3 {
       font-size: 1.8rem;

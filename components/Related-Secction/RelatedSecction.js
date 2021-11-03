@@ -2,7 +2,7 @@
 import PreviewItem from "../Preview-Item/PreviewItem";
 
 // Styled-Components
-import { ItemsContainer } from "./style";
+import { ItemsContainer } from "../Home-Sections/style";
 
 const RelatedSecction = ({ data }) => {
   return (

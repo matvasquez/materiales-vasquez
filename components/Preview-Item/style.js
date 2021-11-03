@@ -12,6 +12,13 @@ export const Item = styled.a`
   background-color: #efefef;
   box-shadow: 2px 2px 5px 1px #dcdcdc;
   cursor: pointer;
+  transition: 0.3s ease-in-out all;
+  &:hover {
+    box-shadow: 0.5rem 0.5rem 1rem 0.1rem #979797;
+  }
+  @media (min-width: 750px) {
+    grid-template-rows: 20rem 8rem;
+  }
   @media (min-width: 1000px) {
     grid-template-rows: 30rem 8rem;
   }

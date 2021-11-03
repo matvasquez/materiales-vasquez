@@ -13,6 +13,9 @@ export const Item = styled.div`
   background-color: #efefef;
   box-shadow: 2px 2px 5px 1px #dcdcdc;
   cursor: pointer;
+  @media (min-width: 750px) {
+    height: 10rem;
+  }
 `;
 
 export const ImageContainer = styled.div`
