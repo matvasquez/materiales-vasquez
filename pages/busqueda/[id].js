@@ -21,26 +21,18 @@ const Category = () => {
   const router = useRouter();
   const id = router.query.id;
 
-  // const [articulos, setArticulos] = useState([]);
   const [products, setProducts] = useState([]);
-
-  // useEffect(async () => {
-  //   // Solicita los datos iniciales
-  //   const response = await fetch(`/api/todos-los-articulos`);
-  //   const { data } = await response.json();
-
-  //   setArticulos(data);
-  //   data && console.log("Consulta");
-  // }, []);
 
   useEffect(() => {
     if (articulos.length > 0 && id) {
-      const data = articulos.filter(
-        (item) => item.category === id.replace(/-/g, " ")
+      const data = articulos.filter((item) =>
+        item.name.includes(id.toUpperCase())
       );
       setProducts(data.slice(0, 50));
     }
   }, [id, articulos]);
+
+  console.log("products: ", products);
 
   return (
     <>

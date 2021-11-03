@@ -19,7 +19,7 @@ import {
   LinkIcon,
 } from "./style";
 
-const MainMenuSections = ({ categorie, sub }) => {
+const MainMenuSections = ({ categorie, sub, isOpen }) => {
   const [openSubMenu, setOpenSubMenu] = useState(false);
 
   const handleOpenSubMenu = () => {
@@ -39,7 +39,7 @@ const MainMenuSections = ({ categorie, sub }) => {
         </>
       )}
       {sub.length > 0 && (
-        <ConatinerSubMenu show={openSubMenu}>
+        <ConatinerSubMenu show={openSubMenu} mainmenu={isOpen}>
           <CloseButton
             show={openSubMenu}
             type="button"

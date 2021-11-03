@@ -6,7 +6,7 @@ export const GlobalStyles = createGlobalStyle`
     --blue: #00144c;
     --red: #912126;
     --text: #00144c;
-    --yellow: #ffc947;
+    --yellow: #ffd46d;
     --white: #ffffff;
 
     --background: #ffffff;
@@ -45,6 +45,7 @@ export const GlobalStyles = createGlobalStyle`
     }
 
     body {
+      width: 100vw;
       font-family: "Roboto", sans-serif;
       font-size: 1.4rem;
       font-weight: 400;
@@ -53,6 +54,7 @@ export const GlobalStyles = createGlobalStyle`
 
       transition: ease-in-out 0.3s all;
       scrollbar-width: none;
+      overflow-x: hidden;
     }
 
     @media print {

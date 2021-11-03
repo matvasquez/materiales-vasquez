@@ -21,7 +21,10 @@ export const Title = styled.h1`
 `;
 
 export const SectionEmpty = styled.section`
-  width: 50vh;
+  width: 80%;
+  @media (min-width: 1000px) {
+    width: 50%;
+  }
 `;
 
 export const TextEmpty = styled.p`

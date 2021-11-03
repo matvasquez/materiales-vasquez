@@ -46,6 +46,7 @@ const MainMenu = ({ isOpen, handleOpen }) => {
                 key={categorie}
                 categorie={categorie}
                 sub={sub.sort()}
+                isOpen={isOpen}
               />
             );
           })}

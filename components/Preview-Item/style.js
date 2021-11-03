@@ -61,9 +61,37 @@ export const ItemText = styled.p`
   overflow: hidden;
 `;
 
+export const CategoryAndIconContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 export const ItemPrice = styled(ItemText)`
   font-size: 1.6rem;
   font-weight: 500;
+`;
+
+export const IconContainer = styled.button`
+  width: 1.6rem;
+  height: 1.6rem;
+  margin-left: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background: none;
+  outline: none;
+  cursor: pointer;
+  transition: 0.3s ease-in-out all;
+  @media (min-width: 1000px) {
+    opacity: 0.6;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
 `;
 
 export const Categoryes = styled.div`
@@ -75,7 +103,7 @@ export const Categoryes = styled.div`
 `;
 
 export const Categorie = styled(ItemText)`
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 500;
   &:nth-child(2) {
     margin-top: 0.5rem;

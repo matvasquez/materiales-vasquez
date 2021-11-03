@@ -17,8 +17,8 @@ import {
 // Components
 import { Loading } from "../Loaders/Loading";
 import { Consulting } from "../Loaders/Consulting";
-// import { HeartEmpty } from "../IconsSVG/HeartEmpty";
-// import { HeartFull } from "../IconsSVG/HeartFull";
+import { HeartEmpty } from "../IconsSVG/HeartEmpty";
+import { HeartFull } from "../IconsSVG/HeartFull";
 
 // Styled-Components
 import {
@@ -26,7 +26,9 @@ import {
   ImageContainer,
   ItemInfo,
   ItemText,
+  CategoryAndIconContainer,
   ItemPrice,
+  IconContainer,
   Categoryes,
   Categorie,
 } from "./style";
@@ -55,7 +57,6 @@ const PreviewItem = (props) => {
     setDeleteFavorite,
     setMyCart,
     setPricesToCart,
-    setOpenCart,
   } = props;
 
   // Hook que verifica si el producto esta entre los favoritos
@@ -67,8 +68,26 @@ const PreviewItem = (props) => {
   // Consulta el precio
   const [price] = useGetPrice(articulo_id);
 
-  // console.log("yesItIsMineLike: ", yesItIsMineLike);
-  // console.log("yesItIsMineCart: ", yesItIsMineCart);
+  // console.log("myCart: ", myCart);
+
+  // Envia al Carrito y a la lista de precios
+  // const handleSetCart = () => {
+  //   setMyCart({
+  //     articulo_id,
+  //     initialQuantity: 1,
+  //   });
+  //   setPricesToCart(price);
+  // };
+
+  // Envia a favoritos
+  const handleLike = () => {
+    setIitemsIliked({ articulo_id });
+  };
+
+  // Elimina de favoritos
+  const handleDeleteFavorite = () => {
+    setDeleteFavorite(articulo_id);
+  };
 
   return (
     <Link href={`/detalles/${articulo_id}`} passHref>
@@ -93,12 +112,17 @@ const PreviewItem = (props) => {
           ) : (
             <Consulting />
           )}
-          <Categoryes>
-            {category && <Categorie>{category.toLocaleLowerCase()}</Categorie>}
+          <CategoryAndIconContainer>
             {main_category && (
               <Categorie>{main_category.toLocaleLowerCase()}</Categorie>
             )}
-          </Categoryes>
+            <IconContainer
+              onClick={yesItIsMineLike ? handleDeleteFavorite : handleLike}
+              aria-label="Botón para agregar a favoritos"
+            >
+              {yesItIsMineLike ? <HeartFull /> : <HeartEmpty />}
+            </IconContainer>
+          </CategoryAndIconContainer>
         </ItemInfo>
       </Item>
     </Link>
@@ -110,8 +134,6 @@ const mapStateToProps = (state) => {
     myCart: state.myCart,
     articles: state.articles,
     itemsIliked: state.itemsIliked,
-    carIsEmpty: state.carIsEmpty,
-    carIsOpen: state.carIsOpen,
   };
 };
 
@@ -120,7 +142,6 @@ const mapDispatchToProps = {
   setPricesToCart,
   setIitemsIliked,
   setDeleteFavorite,
-  setOpenCart,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PreviewItem);

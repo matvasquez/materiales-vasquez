@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import debounce from "just-debounce-it";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 // Data
 import { articulos } from "../../database/articulos";
@@ -17,6 +18,7 @@ import {
   IconContainer,
   ResultsContainer,
   TitleMatch,
+  NavegateTo,
 } from "./style";
 
 const SearchBar = ({ user }) => {
@@ -47,19 +49,19 @@ const SearchBar = ({ user }) => {
     // );
     // controller.abort();
     const resultByName = articulos.filter((item) =>
-      item.name.includes(text.toUpperCase())
+      item.name.includes(text.trim().replace(/s$/g, "").toUpperCase())
     );
     setResultsByName(resultByName.slice(0, 6));
 
     const resultByCategorye = articulos.filter(
       (item) =>
         item.main_category !== null &&
-        item.main_category.includes(text.toUpperCase())
+        item.main_category.includes(text.trim().toUpperCase())
     );
     setResultsByCategorye(resultByCategorye.slice(0, 6));
 
     const resultByID = articulos.filter((item) =>
-      item.articulo_id.includes(text.toUpperCase())
+      item.articulo_id.includes(text.trim().toUpperCase())
     );
     setresultsByID(resultByID.slice(0, 6));
   }, 1500);
@@ -129,6 +131,9 @@ const SearchBar = ({ user }) => {
               ))}
             </>
           )}
+          <Link href={`/busqueda/${searchText.trim().replace(/s$/g, "")}`}>
+            <NavegateTo>Ver más sobre {searchText.trim()}</NavegateTo>
+          </Link>
         </ResultsContainer>
       )}
     </>

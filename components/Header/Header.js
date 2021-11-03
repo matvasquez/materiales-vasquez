@@ -18,9 +18,10 @@ import { HeaderStyled, SearchAndButtonContainer, LogoContainer } from "./style";
 
 const Header = ({ user }) => {
   const router = useRouter();
-  const id = router.query.id;
   const [menuIsOpen, setMenuIsOpen] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
+
+  // console.log("user: ", user);
 
   const handleOpen = () => {
     setMenuIsOpen(!menuIsOpen);
@@ -28,7 +29,7 @@ const Header = ({ user }) => {
 
   useEffect(() => {
     window.innerWidth < 1000 && setMenuIsOpen(false);
-  }, [id]);
+  }, [router.query]);
 
   useEffect(() => {
     if (router.pathname !== "/perfil" && user.email !== null) {

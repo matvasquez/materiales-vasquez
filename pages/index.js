@@ -42,6 +42,7 @@ export const getServerSideProps = async () => {
 };
 
 const HomePage = () => {
+  // const [articulos, setArticulos] = useState([]);
   const [SlidersItems, setSlidersItems] = useState([]);
   const [BestSellers, setBestSellers] = useState([]);
   const [LightingItems, setLightingItems] = useState([]);
@@ -49,8 +50,14 @@ const HomePage = () => {
   const [FerrItems, setFerrItems] = useState([]);
   const [VentilationItems, setVentilationItems] = useState([]);
 
+  // useEffect(async () => {
+  //   // Solicita los datos iniciales
+  //   const response = await fetch(`/api/todos-los-articulos`);
+  //   const { data } = await response.json();
+  // }, []);
+
   useEffect(async () => {
-    // Solicita los datos iniciales
+    // Solicita los sliders
     const response = await fetch(`/api/slider`);
     const { data } = await response.json();
 
@@ -85,6 +92,7 @@ const HomePage = () => {
   return (
     <MainStyled>
       {SlidersItems.length > 0 && <Slider sliderItems={SlidersItems} />}
+      {articulos.length === 0 && <p>Consultando...</p>}
 
       {BestSellers.length > 0 && (
         <Section>

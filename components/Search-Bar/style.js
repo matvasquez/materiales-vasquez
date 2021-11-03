@@ -94,3 +94,28 @@ export const TitleMatch = styled.h5`
     grid-column: 1 / span 3;
   }
 `;
+
+export const NavegateTo = styled.a`
+  margin: 0 auto;
+  padding: 1rem 4rem;
+  font-size: 1.6rem;
+  font-weight: 500;
+  text-transform: capitalize;
+  color: var(--blue);
+  background-color: var(--yellow);
+  border: none;
+  border-radius: 0.5rem;
+  outline: none;
+  opacity: 0.7;
+  cursor: pointer;
+  transition: 0.3s ease-in-out all;
+  &:hover {
+    opacity: 1;
+  }
+  @media (min-width: 750px) {
+    grid-column: 1 / span 2;
+  }
+  @media (min-width: 1000px) {
+    grid-column: 1 / span 3;
+  }
+`;

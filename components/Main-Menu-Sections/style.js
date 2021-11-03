@@ -14,6 +14,7 @@ export const ConatinerSubMenu = styled.div`
   position: absolute;
   top: 0;
   left: ${(props) => (props.show ? "0" : "200%")};
+  ${(props) => !props.mainmenu && "left: 200%"};
   ${(props) => props.show && `box-shadow: 0.5rem 0.5rem 1rem 0.5rem #434343;`}
   z-index: 1000;
   transition: 0.3s ease-in-out all;
