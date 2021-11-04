@@ -28,6 +28,7 @@ export const NavStyled = styled.nav`
     align-items: center;
     border-radius: 1rem;
     position: initial;
+    overflow-x: visible;
   }
 `;
 

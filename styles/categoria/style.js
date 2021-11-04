@@ -36,3 +36,22 @@ export const TextEmpty = styled.p`
     text-align: center;
   }
 `;
+
+export const LoadMoreButton = styled.button`
+  margin: 1rem auto;
+  padding: 1rem 4rem;
+  font-size: 1.6rem;
+  font-weight: 500;
+  text-transform: capitalize;
+  color: var(--blue);
+  background-color: var(--yellow);
+  border: none;
+  border-radius: 0.5rem;
+  outline: none;
+  opacity: 0.7;
+  cursor: pointer;
+  transition: 0.3s ease-in-out all;
+  &:hover {
+    opacity: 1;
+  }
+`;

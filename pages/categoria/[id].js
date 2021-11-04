@@ -15,23 +15,14 @@ import {
   Title,
   SectionEmpty,
   TextEmpty,
+  LoadMoreButton,
 } from "../../styles/categoria/style";
 
 const Category = () => {
   const router = useRouter();
   const id = router.query.id;
 
-  // const [articulos, setArticulos] = useState([]);
   const [products, setProducts] = useState([]);
-
-  // useEffect(async () => {
-  //   // Solicita los datos iniciales
-  //   const response = await fetch(`/api/todos-los-articulos`);
-  //   const { data } = await response.json();
-
-  //   setArticulos(data);
-  //   data && console.log("Consulta");
-  // }, []);
 
   useEffect(() => {
     if (articulos.length > 0 && id) {
@@ -41,6 +32,22 @@ const Category = () => {
       setProducts(data.slice(0, 50));
     }
   }, [id, articulos]);
+
+  const more = () => {
+    // console.log("Mas");
+    const data = articulos.filter(
+      (item) => item.category === id.replace(/-/g, " ")
+    );
+    // console.log("products.length + 1: ", products.length + 1);
+    // console.log("products.length + 50: ", products.length + 51);
+    let news = data.slice(products.length + 1, products.length + 51);
+    setProducts(products.concat(news));
+    // console.log("nuevos: ", news);
+  };
+
+  useEffect(() => {
+    // console.log("products: ", products);
+  }, [products]);
 
   return (
     <>
@@ -94,7 +101,12 @@ const Category = () => {
       <MainStyled>
         {id && <Title>{id.replace(/-/g, " ").toLowerCase()}</Title>}
         {products.length > 0 ? (
-          <CategorySection data={products} />
+          <>
+            <CategorySection data={products} />
+            <LoadMoreButton type="button" onClick={more}>
+              Cargar más productos 
+            </LoadMoreButton>
+          </>
         ) : (
           <SectionEmpty>
             <AddNewProducts />

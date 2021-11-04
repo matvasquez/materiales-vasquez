@@ -131,9 +131,11 @@ const SearchBar = ({ user }) => {
               ))}
             </>
           )}
-          <Link href={`/busqueda/${searchText.trim().replace(/s$/g, "")}`}>
-            <NavegateTo>Ver más sobre {searchText.trim()}</NavegateTo>
-          </Link>
+          {resultsByName.length > 0 && (
+            <Link href={`/busqueda/${searchText.trim().replace(/s$/g, "")}`}>
+              <NavegateTo>Ver más sobre {searchText.trim()}</NavegateTo>
+            </Link>
+          )}
         </ResultsContainer>
       )}
     </>

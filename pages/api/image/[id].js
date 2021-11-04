@@ -9,7 +9,7 @@ const cors = initMiddleware(
 );
 
 export default async function getImageOfAProduct(req, res) {
-  // http://localhost:3000/api/image/100053433
+  // http://localhost:3000/api/image/RR63D6WWX
 
   // Run cors
   await cors(req, res);
@@ -21,15 +21,9 @@ export default async function getImageOfAProduct(req, res) {
   }
   const claveart = req.query.id.replace(/space/g, " ").replace(/slash/gi, "/");
 
-  const query = `SELECT TOP 1 cast('' as xml).value(
-    'xs:base64Binary(sql:column("i.IMAGEN"))', 'varchar(max)'
-) AS image_url
-FROM ARTICULO AS a
-LEFT OUTER JOIN IMAGENES AS i
-ON a.CLAVEART = i.CAMPO1
-WHERE a.CLAVEART = '${claveart}' AND a.HABVTAS = ''  AND i.SELECTO = 'S' 
-GROUP BY a.CLAVEART, i.IMAGEN`;
-  // console.log("Stock :", query);
+  const query = `SELECT cast('' as xml).value(
+    'xs:base64Binary(sql:column("IMAGEN"))', 'varchar(max)'
+) AS image_url FROM IMAGENES WHERE CAMPO1 = '${claveart}' AND SELECTO = 'S'`;
 
   setTimeout(async () => {
     const result = await rest.executeQuery(query);

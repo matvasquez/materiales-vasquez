@@ -26,7 +26,7 @@ export default async function getPricekOfAProduct(req, res) {
                 FROM ARTICULO AS a
                 LEFT OUTER JOIN ARTLISTA AS l
                 ON a.CLAVEART = l.CLAVEART
-                WHERE a.CLAVEART = '${id}' AND a.HABVTAS = ''  
+                WHERE a.CLAVEART = '${id}'  
                 GROUP BY a.CLAVEART, l.PREC_IVA1`;
 
   setTimeout(async () => {

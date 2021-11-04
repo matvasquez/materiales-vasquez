@@ -1,4 +1,14 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const entrance = keyframes`
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 0.7;
+  }
+`;
 
 export const InputContainer = styled.div`
   ${(props) =>
@@ -106,8 +116,9 @@ export const NavegateTo = styled.a`
   border: none;
   border-radius: 0.5rem;
   outline: none;
-  opacity: 0.7;
+  opacity: 0;
   cursor: pointer;
+  animation: ${entrance} 1s ease-in-out 1s 1 normal forwards;
   transition: 0.3s ease-in-out all;
   &:hover {
     opacity: 1;

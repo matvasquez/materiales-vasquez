@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export function useGetStock(id) {
+export function useGetStock(id = "") {
   const [stock, setStock] = useState("");
 
   // Solicita el Stock

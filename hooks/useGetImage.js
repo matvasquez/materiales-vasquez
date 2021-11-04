@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export function useGetImage(id) {
+export function useGetImage(id = "") {
   const [image, setImage] = useState("");
   useEffect(async () => {
     if (id) {

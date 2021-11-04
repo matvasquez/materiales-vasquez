@@ -1,28 +1,20 @@
 import styled from "styled-components";
 
-export const MainStyled = styled.main`
-  width: 100%;
-  padding: 1rem;
-  margin: 1rem 0 4rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-`;
-
 export const SubDirectory = styled.div`
   width: 100%;
   margin: 1rem 0;
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  p {
+  a {
     font-size: 1rem;
+    color: var(--blue);
+    transition: 0.3s ease-in-out all;
   }
   @media (min-width: 1000px) {
     width: 80%;
     margin: 2rem auto;
-    p {
+    a {
       font-size: 1.2rem;
     }
   }

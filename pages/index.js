@@ -66,7 +66,10 @@ const HomePage = () => {
 
   useEffect(() => {
     if (articulos.length > 0) {
-      const items = articulos.filter((item) => item.best_seller);
+      // const items = articulos.filter((item) => item.best_seller);
+      const items = articulos.filter(
+        (item) => item.category === "LO MÁS VENDIDOS"
+      );
 
       const lightingArticles = articulos.filter(
         (item) => item.main_category === "ILUMINACION"
