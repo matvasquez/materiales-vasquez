@@ -3,7 +3,8 @@ import styled from "styled-components";
 export const FooterStyled = styled.footer`
   width: 100%;
   padding: 2rem 1rem;
-  background-color: var(--white);
+  background-color: var(--gray);
+  color: var(--background);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -39,6 +40,7 @@ export const LinkGroups = styled.div`
 export const GroupTitle = styled.h5`
   font-size: 1.6rem;
   font-weight: 500;
+  color: var(--light-blue);
 `;
 
 export const Li = styled.li`
@@ -47,8 +49,14 @@ export const Li = styled.li`
 
 export const Anchor = styled.a`
   padding: 0.5rem 0;
-  color: var(--text);
+  color: var(--background);
   cursor: pointer;
+  opacity: 0.8;
+  transition: 0.3s ease-in-out all;
+  &:hover {
+    color: var(--yellow);
+    opacity: 1;
+  }
 `;
 
 export const UlIcons = styled.ul`
@@ -62,23 +70,27 @@ export const UlIcons = styled.ul`
 `;
 
 export const AnchorIcon = styled.a`
-  width: 4rem;
-  height: 4rem;
+  width: 3rem;
+  height: 3rem;
   padding: 0.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--yellow);
+  background-color: var(--light-blue);
   border-radius: 50%;
   cursor: pointer;
-  transition: 0.3s ease-in-out all;
-  &:hover {
-    background-color: var(--blue);
-    transform: rotate(-15deg);
-  }
-  :hover svg {
+  svg {
     transition: 0.3s ease-in-out all;
-    fill: var(--yellow);
+    fill: var(--white);
+    opacity: 0.8;
+  }
+  &:hover {
+    background: none;
+    svg {
+      transition: 0.3s ease-in-out all;
+      fill: var(--light-blue);
+      opacity: 1;
+    }
   }
 `;
 
@@ -91,7 +103,13 @@ export const PaymentMethods = styled.section`
 `;
 
 export const PaymentMethodsImageContainer = styled.div`
+  width: 70%;
   margin: 1rem auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 1rem;
+  justify-items: center;
+  align-items: center;
   img {
     width: 100%;
     object-fit: contain;
@@ -100,12 +118,16 @@ export const PaymentMethodsImageContainer = styled.div`
     width: 40%;
     margin: 1rem 1rem auto 1rem;
   }
+  @media (min-width: 1000px) {
+    width: 20%;
+  }
 `;
 
 export const AllRightsReserved = styled.p`
   font-size: 1rem;
   font-weight: 300;
   text-align: center;
+  color: var(--background);
 `;
 
 // export const FiservText = styled.p`

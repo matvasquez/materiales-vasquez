@@ -1,36 +1,45 @@
 import styled from "styled-components";
 
-export const Item = styled.a`
+export const Item = styled.div`
   width: 100%;
   padding: 0.5rem;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 15rem 9rem;
-  grid-gap: 1rem;
+  grid-template-rows: 20rem 3rem;
+  grid-gap: 0.5rem;
   justify-items: center;
-  align-items: start;
+  align-items: center;
   background-color: #efefef;
   box-shadow: 2px 2px 5px 1px #dcdcdc;
-  cursor: pointer;
   transition: 0.3s ease-in-out all;
   &:hover {
     box-shadow: 0.5rem 0.5rem 1rem 0.1rem #979797;
   }
   @media (min-width: 750px) {
-    grid-template-rows: 20rem 8rem;
+    /* grid-template-rows: 20rem 3rem; */
   }
   @media (min-width: 1000px) {
-    grid-template-rows: 30rem 8rem;
+    grid-template-rows: 30rem 2rem;
   }
+`;
+
+export const ItemLink = styled.a`
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 3fr 1fr;
+  grid-gap: 0.5rem;
+  cursor: pointer;
 `;
 
 export const ImageContainer = styled.div`
   width: 100%;
-  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: #ffffff;
+  aspect-ratio: 1 / 1;
   border-radius: 0.5rem;
   overflow: hidden;
   img {
@@ -42,7 +51,6 @@ export const ImageContainer = styled.div`
 
 export const ItemInfo = styled.div`
   width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -54,7 +62,7 @@ export const ItemText = styled.p`
   font-size: 1.4rem;
   text-align: left;
   text-transform: capitalize;
-  color: var(--text);
+  color: var(--blue);
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
@@ -71,6 +79,7 @@ export const CategoryAndIconContainer = styled.div`
 export const ItemPrice = styled(ItemText)`
   font-size: 1.6rem;
   font-weight: 500;
+  margin-top: 0.4rem;
 `;
 
 export const IconContainer = styled.button`
@@ -85,12 +94,16 @@ export const IconContainer = styled.button`
   outline: none;
   cursor: pointer;
   transition: 0.3s ease-in-out all;
+  &:hover {
+    opacity: 1;
+    transform: rotate(-10deg);
+  }
+  @media (min-width: 750px) {
+    width: 1.8rem;
+    height: 1.8rem;
+  }
   @media (min-width: 1000px) {
     opacity: 0.6;
-
-    &:hover {
-      opacity: 1;
-    }
   }
 `;
 

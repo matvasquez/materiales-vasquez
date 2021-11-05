@@ -1,15 +1,27 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { connect } from "react-redux";
 import { useGetStock } from "../../hooks/useGetStock";
 import { useRouter } from "next/router";
 import { useGetImage } from "../../hooks/useGetImage";
 import { useGetPrice } from "../../hooks/useGetPrice";
+import { useMyItems } from "../../hooks/useMyItems";
+
+//Actions
+import {
+  setMyCart,
+  setPricesToCart,
+  setIitemsIliked,
+  setDeleteFavorite,
+} from "../../actions";
 
 // Components
 import { Loading } from "../../components/Loaders/Loading";
 import { Consulting } from "../../components/Loaders/Consulting";
 import RelatedSecction from "../../components/Related-Secction/RelatedSecction";
+import { HeartEmpty } from "../../components/IconsSVG/HeartEmpty";
+import { HeartFull } from "../../components/IconsSVG/HeartFull";
 
 // Data
 import { articulos } from "../../database/articulos";
@@ -27,6 +39,9 @@ import {
   InfoContainer,
   Description,
   Sku,
+  AddToCartButton,
+  Slide,
+  ButtonLike,
   RelatedSection,
 } from "../../styles/detalles/style";
 
@@ -41,7 +56,14 @@ const loader = ({ src, width, quality }) => {
   return `${src}?w=${width}&q=${quality || 75}`;
 };
 
-const ProductDetails = () => {
+const ProductDetails = ({
+  itemsIliked,
+  myCart,
+  setIitemsIliked,
+  setDeleteFavorite,
+  setMyCart,
+  setPricesToCart,
+}) => {
   const router = useRouter();
   const id = router.query.id;
   const [product, setProduct] = useState({});
@@ -49,6 +71,10 @@ const ProductDetails = () => {
   const [image_url] = useGetImage(id);
   const [stock] = useGetStock(id);
   const [price] = useGetPrice(id);
+  // Hook que verifica si el producto esta entre los favoritos
+  const [yesItIsMineLike] = useMyItems(id, itemsIliked);
+  // Hook que verifica si el producto esta en el carrito
+  const [yesItIsMineCart] = useMyItems(id, myCart);
   // Relacionados
   const [relatedByName, setRelatedByName] = useState([]);
   const [relatedByCategory, setRelatedByCategory] = useState([]);
@@ -86,6 +112,29 @@ const ProductDetails = () => {
       setRelatedByCategory(data.slice(0, 12));
     }
   }, [id, product, image_url]);
+
+  // console.log("myCart: ", myCart);
+
+  // Envia al Carrito y a la lista de precios
+  const handleSetCart = () => {
+    let articulo_id = product.articulo_id;
+    setMyCart({
+      articulo_id,
+      initialQuantity: 1,
+    });
+    setPricesToCart(price);
+  };
+
+  // Envia a favoritos
+  const handleLike = () => {
+    let articulo_id = product.articulo_id;
+    setIitemsIliked({ articulo_id });
+  };
+
+  // Elimina de favoritos
+  const handleDeleteFavorite = () => {
+    setDeleteFavorite(product.articulo_id);
+  };
 
   return (
     <MainStyled>
@@ -134,15 +183,37 @@ const ProductDetails = () => {
                 ) : (
                   <Consulting />
                 )}
+                <ButtonLike
+                  onClick={yesItIsMineLike ? handleDeleteFavorite : handleLike}
+                  aria-label="Botón para agregar a favoritos"
+                >
+                  {yesItIsMineLike ? <HeartFull /> : <HeartEmpty />}
+                </ButtonLike>
               </PriceContainer>
 
               {stock && (
-                <Stock>
-                  <span>{stock}</span> disponibles
-                </Stock>
+                <>
+                  {stock > 0 ? (
+                    <Stock>
+                      <span>{stock}</span> disponibles
+                    </Stock>
+                  ) : (
+                    <Stock>
+                      Por el momento no tenemos disponibles en línea, comunícate
+                      con nosotros
+                    </Stock>
+                  )}
+                </>
               )}
               <Description>{product.description.toLowerCase()}</Description>
               <Sku>SKU: {product.articulo_id}</Sku>
+              <AddToCartButton
+                type="button"
+                onClick={() => console.log("Añadir al carrito")}
+              >
+                Añadir al carrito
+                <Slide />
+              </AddToCartButton>
             </InfoContainer>
           </Product>
           {relatedByName.length > 0 && (
@@ -168,23 +239,18 @@ const ProductDetails = () => {
   );
 };
 
-export default ProductDetails;
+const mapStateToProps = (state) => {
+  return {
+    myCart: state.myCart,
+    itemsIliked: state.itemsIliked,
+  };
+};
 
-// const mapStateToProps = (state) => {
-//   return {
-//     myCart: state.myCart,
-//     articles: state.articles,
-//     itemsIliked: state.itemsIliked,
-//     carIsEmpty: state.carIsEmpty,
-//     carIsOpen: state.carIsOpen,
-//   };
-// };
+const mapDispatchToProps = {
+  setMyCart,
+  setPricesToCart,
+  setIitemsIliked,
+  setDeleteFavorite,
+};
 
-// const mapDispatchToProps = {
-//   setMyCart,
-//   setPricesToCart,
-//   setIitemsIliked,
-//   setDeleteFavorite,
-// };
-
-// export default connect(mapStateToProps, mapDispatchToProps)(ProductPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ProductDetails);

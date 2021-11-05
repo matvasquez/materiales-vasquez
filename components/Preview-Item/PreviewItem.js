@@ -11,7 +11,6 @@ import {
   setPricesToCart,
   setIitemsIliked,
   setDeleteFavorite,
-  setOpenCart,
 } from "../../actions";
 
 // Components
@@ -23,6 +22,7 @@ import { HeartFull } from "../IconsSVG/HeartFull";
 // Styled-Components
 import {
   Item,
+  ItemLink,
   ImageContainer,
   ItemInfo,
   ItemText,
@@ -90,42 +90,44 @@ const PreviewItem = (props) => {
   };
 
   return (
-    <Link href={`/detalles/${articulo_id}`} passHref>
-      <Item aria-label={`Ver detalles de ${name}`}>
-        <ImageContainer>
-          {image_url !== "" ? (
-            <Image
-              loader={loader}
-              src={`data:image/jpg;base64,${image_url}`}
-              width={300}
-              height={300}
-              alt={`Fotografía de ${name}`}
-            />
-          ) : (
-            <Loading />
-          )}
-        </ImageContainer>
-        <ItemInfo>
-          <ItemText>{name.toLocaleLowerCase()}</ItemText>
-          {price !== "" ? (
-            <ItemPrice>${formatter.format(price)}</ItemPrice>
-          ) : (
-            <Consulting />
-          )}
-          <CategoryAndIconContainer>
-            {main_category && (
-              <Categorie>{main_category.toLocaleLowerCase()}</Categorie>
+    <Item>
+      <Link href={`/detalles/${articulo_id}`} passHref>
+        <ItemLink aria-label={`Ver detalles de ${name}`}>
+          <ImageContainer>
+            {image_url !== "" ? (
+              <Image
+                loader={loader}
+                src={`data:image/jpg;base64,${image_url}`}
+                width={300}
+                height={300}
+                alt={`Fotografía de ${name}`}
+              />
+            ) : (
+              <Loading />
             )}
-            <IconContainer
-              onClick={yesItIsMineLike ? handleDeleteFavorite : handleLike}
-              aria-label="Botón para agregar a favoritos"
-            >
-              {yesItIsMineLike ? <HeartFull /> : <HeartEmpty />}
-            </IconContainer>
-          </CategoryAndIconContainer>
-        </ItemInfo>
-      </Item>
-    </Link>
+          </ImageContainer>
+          <ItemInfo>
+            <ItemText>{name.toLocaleLowerCase()}</ItemText>
+            {price !== "" ? (
+              <ItemPrice>${formatter.format(price)}</ItemPrice>
+            ) : (
+              <Consulting />
+            )}
+          </ItemInfo>
+        </ItemLink>
+      </Link>
+      <CategoryAndIconContainer>
+        {main_category && (
+          <Categorie>{main_category.toLocaleLowerCase()}</Categorie>
+        )}
+        <IconContainer
+          onClick={yesItIsMineLike ? handleDeleteFavorite : handleLike}
+          aria-label="Botón para agregar a favoritos"
+        >
+          {yesItIsMineLike ? <HeartFull /> : <HeartEmpty />}
+        </IconContainer>
+      </CategoryAndIconContainer>
+    </Item>
   );
 };
 

@@ -10,6 +10,7 @@ import { articulos } from "../database/articulos";
 // Components
 import Slider from "../components/Slider/Slider";
 import HomeSection from "../components/Home-Sections/index";
+import HomeFavorites from "../components/Home-Favorites/HomeFavorites";
 
 // Styles
 import { MainStyled, Section, TitleSection } from "../styles/Inicio/style";
@@ -97,9 +98,10 @@ const HomePage = () => {
       {SlidersItems.length > 0 && <Slider sliderItems={SlidersItems} />}
       {articulos.length === 0 && <p>Consultando...</p>}
 
+      <HomeFavorites />
       {BestSellers.length > 0 && (
         <Section>
-          <TitleSection>LO MÁS VENDIDO</TitleSection>
+          <TitleSection>PRODUCTOS MÁS VENDIDOS</TitleSection>
           <HomeSection data={BestSellers} />
         </Section>
       )}

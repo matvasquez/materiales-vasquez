@@ -1,4 +1,17 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const slide = keyframes`
+   0% {
+    left: -5rem;
+  }
+
+  20% {
+    left: 150%;
+  }
+  100% {
+    left: 150%;
+  }
+`;
 
 export const SubDirectory = styled.div`
   width: 100%;
@@ -50,6 +63,7 @@ export const ImageContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  aspect-ratio: 1 / 1;
   background-color: #ffffff;
   border-radius: 0.5rem;
   overflow: hidden;
@@ -116,6 +130,31 @@ export const Price = styled.p`
   }
 `;
 
+export const ButtonLike = styled.button`
+  width: 1.8rem;
+  height: 1.8rem;
+  margin-left: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background: none;
+  outline: none;
+  cursor: pointer;
+  transition: 0.3s ease-in-out all;
+  &:hover {
+    opacity: 1;
+    transform: rotate(-10deg);
+  }
+  @media (min-width: 750px) {
+    width: 2rem;
+    height: 2rem;
+  }
+  @media (min-width: 1000px) {
+    opacity: 0.6;
+  }
+`;
+
 export const Stock = styled.p`
   span {
     font-size: 1.6rem;
@@ -137,6 +176,47 @@ export const Description = styled.p`
 export const Sku = styled.p`
   margin: 1rem 0;
   font-weight: 500;
+`;
+
+export const AddToCartButton = styled.button`
+  width: 100%;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background: var(--yellow);
+  color: var(--blue);
+  font-size: 1.6rem;
+  font-weight: 700;
+  border-radius: 0.5rem;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  opacity: 0.8;
+  transition: 0.3s ease-in-out all;
+  &:hover {
+    opacity: 1;
+  }
+`;
+
+export const Slide = styled.div`
+  width: 4rem;
+  height: 8rem;
+  position: absolute;
+  top: -3rem;
+  left: 0;
+  transform: skew(327deg, 24deg);
+  background-image: linear-gradient(
+    to right,
+    #ffffff 0%,
+    #fceabb 51%,
+    #f8b500 100%
+  );
+  filter: blur(0.5rem);
+  opacity: 0.6;
+  animation: ${slide} 10s ease-in-out 0s infinite normal backwards;
 `;
 
 export const RelatedSection = styled.section`

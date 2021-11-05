@@ -26,7 +26,7 @@ const Category = () => {
   useEffect(() => {
     if (articulos.length > 0 && id) {
       const data = articulos.filter((item) =>
-        item.name.includes(id.toUpperCase())
+        item.description.includes(id.toUpperCase())
       );
       setProducts(data.slice(0, 50));
     }

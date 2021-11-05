@@ -115,7 +115,26 @@ const Footer = ({ carIsEmpty }) => {
         <GroupTitle>Métodos de pago</GroupTitle>
         <PaymentMethodsImageContainer>
           <img
-            src="https://www.jucri.com.mx/wp-content/uploads/2020/12/fda.png"
+            // src="https://www.jucri.com.mx/wp-content/uploads/2020/12/fda.png"
+            src="https://www2.ipg-online.com/connect/images/brands/VISA.png;jsessionid=E36E0FC31FBB44B5A914.dc?version=c410470&t=green&r=dc&k=MTcyLjI1LjMuNTo5MTQz"
+            width={249}
+            height={57}
+            alt="Imagen de Métodos de pago"
+          />
+          <img
+            src="https://www2.ipg-online.com/connect/images/brands/MASTERCARD.png;jsessionid=E36E0FC31FBB44B5A914.dc?version=c410470&t=green&r=dc&k=MTcyLjI1LjMuNTo5MTQz"
+            width={249}
+            height={57}
+            alt="Imagen de Métodos de pago"
+          />
+          <img
+            src="https://www2.ipg-online.com/connect/images/brands/CARNET.png;jsessionid=E36E0FC31FBB44B5A914.dc?version=c410470&t=green&r=dc&k=MTcyLjI1LjMuNTo5MTQz"
+            width={249}
+            height={57}
+            alt="Imagen de Métodos de pago"
+          />
+          <img
+            src="https://www2.ipg-online.com/connect/images/brands/MEXICOLOCAL.png;jsessionid=E36E0FC31FBB44B5A914.dc?version=c410470&t=green&r=dc&k=MTcyLjI1LjMuNTo5MTQz"
             width={249}
             height={57}
             alt="Imagen de Métodos de pago"

@@ -8,10 +8,10 @@ export const ItemsContainer = styled.div`
   grid-template-columns: 1fr 1fr;
   grid-gap: 1rem;
   @media (min-width: 750px) {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     grid-gap: 2rem;
   }
   @media (min-width: 1000px) {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(6, 1fr);
   }
 `;

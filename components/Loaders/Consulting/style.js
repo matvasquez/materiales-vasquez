@@ -25,4 +25,5 @@ export const Element = styled.div`
   height: 10rem;
   background-image: linear-gradient(to right, #accbee 0%, #e7f0fd 100%);
   animation: ${slide} 2s ease-in-out 0s infinite alternate-reverse forwards;
+  opacity: 0.5;
 `;

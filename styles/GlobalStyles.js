@@ -8,9 +8,10 @@ export const GlobalStyles = createGlobalStyle`
     --text: #00144c;
     --yellow: #ffd46d;
     --white: #ffffff;
+    --light-blue: #3c74b9;
 
     --background: #ffffff;
-    --gray: #434343;
+    --gray: #323232;
     }
 
     html {

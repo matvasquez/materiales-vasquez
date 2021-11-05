@@ -23,13 +23,21 @@ const Category = () => {
   const id = router.query.id;
 
   const [products, setProducts] = useState([]);
+  const [showButton, setShowButton] = useState(false);
 
   useEffect(() => {
     if (articulos.length > 0 && id) {
       const data = articulos.filter(
         (item) => item.category === id.replace(/-/g, " ")
       );
-      setProducts(data.slice(0, 50));
+      if (data) {
+        setProducts(data.slice(0, 24));
+        if (data.length >= 24) {
+          setShowButton(true);
+        } else {
+          setShowButton(false);
+        }
+      }
     }
   }, [id, articulos]);
 
@@ -38,10 +46,16 @@ const Category = () => {
     const data = articulos.filter(
       (item) => item.category === id.replace(/-/g, " ")
     );
-    // console.log("products.length + 1: ", products.length + 1);
-    // console.log("products.length + 50: ", products.length + 51);
-    let news = data.slice(products.length + 1, products.length + 51);
-    setProducts(products.concat(news));
+    if (data) {
+      let news = data.slice(products.length + 1, products.length + 25);
+      setProducts(products.concat(news));
+      if (news.length === 24) {
+        setShowButton(true);
+      } else {
+        setShowButton(false);
+      }
+    }
+
     // console.log("nuevos: ", news);
   };
 
@@ -103,9 +117,11 @@ const Category = () => {
         {products.length > 0 ? (
           <>
             <CategorySection data={products} />
-            <LoadMoreButton type="button" onClick={more}>
-              Cargar más productos 
-            </LoadMoreButton>
+            {showButton && (
+              <LoadMoreButton type="button" onClick={more}>
+                Cargar más productos 
+              </LoadMoreButton>
+            )}
           </>
         ) : (
           <SectionEmpty>

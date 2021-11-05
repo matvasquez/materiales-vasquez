@@ -1,4 +1,3 @@
-import { connect } from "react-redux";
 import {
   AuthAction,
   useAuthUser,
@@ -8,9 +7,17 @@ import {
 import firebase from "firebase";
 import Image from "next/image";
 
+// Components
+import Favorites from "../components/Favorites/Favorites";
+
 // Styles
 import { MainStyled } from "../styles/Inicio/style";
-import { ProfileData, ImageContainer } from "../styles/perfil/style";
+import {
+  ProfileData,
+  ImageContainer,
+  LogoutButton,
+  EmailText,
+} from "../styles/perfil/style";
 
 // Loader para componente Image
 const loader = ({ src, width, quality }) => {
@@ -23,8 +30,8 @@ const Perfil = () => {
   return (
     <MainStyled>
       <ProfileData>
-        {AuthUser.photoURL && (
-          <ImageContainer>
+        <ImageContainer>
+          {AuthUser.photoURL && (
             <Image
               loader={loader}
               src={AuthUser.photoURL}
@@ -32,14 +39,17 @@ const Perfil = () => {
               height={300}
               alt={`Fotografía de perfil de ${AuthUser.displayName}`}
             />
-          </ImageContainer>
-        )}
+          )}
+        </ImageContainer>
         <h1>{AuthUser.displayName ? AuthUser.displayName : "No registrado"}</h1>
-        <p>{AuthUser.email ? AuthUser.email : "No registrado"}</p>
-        <button type="button" onClick={() => firebase.auth().signOut()}>
-          Salir
-        </button>
+        <LogoutButton type="button" onClick={() => firebase.auth().signOut()}>
+          Cerrar sesión
+        </LogoutButton>
+        <EmailText>
+          {AuthUser.email ? AuthUser.email : "No registrado"}
+        </EmailText>
       </ProfileData>
+      <Favorites />
     </MainStyled>
   );
 };

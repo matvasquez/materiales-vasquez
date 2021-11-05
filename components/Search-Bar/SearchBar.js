@@ -49,7 +49,7 @@ const SearchBar = ({ user }) => {
     // );
     // controller.abort();
     const resultByName = articulos.filter((item) =>
-      item.name.includes(text.trim().replace(/s$/g, "").toUpperCase())
+      item.description.includes(text.trim().replace(/s$/g, "").toUpperCase())
     );
     setResultsByName(resultByName.slice(0, 6));
 
@@ -102,7 +102,7 @@ const SearchBar = ({ user }) => {
           onChange={(e) => setSearchText(e.target.value.toString())}
         />
         <IconContainer>
-          <MagnifierIcon width="1.3rem" />
+          <MagnifierIcon width="1.2rem" />
         </IconContainer>
       </InputContainer>
       {showResults && (

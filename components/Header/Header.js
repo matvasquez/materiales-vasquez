@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { connect } from "react-redux";
-
-//Actions
-import { setIitemsIliked } from "../../actions";
 
 // Components
 import MainMenu from "../Main-Menu/MainMenu";
 import { Logo } from "../IconsSVG/Logo";
 import { ButtonMenu } from "../ButtonMenu/ButtonMenu";
+import ButtonCart from "../ButtonCart/ButtonCart";
 import SearchBar from "../Search-Bar/SearchBar";
-import HeaderProfile from "../Header-Profile/HeaderProfile";
 
 // Stiled-Components
 import { HeaderStyled, SearchAndButtonContainer, LogoContainer } from "./style";
@@ -47,32 +43,16 @@ const Header = ({ user }) => {
           aria-label="Botón para abrir el menú lateral"
         />
         <SearchBar user={showProfile} />
-        {showProfile && <HeaderProfile {...user} />}
       </SearchAndButtonContainer>
       <Link href="/" passHref>
         <LogoContainer aria-label="Inicio" itemProp="logo">
           <Logo />
         </LogoContainer>
       </Link>
-      <div>{/* <button type="button">Carrito</button> */}</div>
+      <ButtonCart />
       <MainMenu isOpen={menuIsOpen} handleOpen={handleOpen} />
     </HeaderStyled>
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    myCart: state.myCart,
-    articles: state.articles,
-    itemsIliked: state.itemsIliked,
-    carIsEmpty: state.carIsEmpty,
-    carIsOpen: state.carIsOpen,
-    profile: state.profile,
-  };
-};
-
-const mapDispatchToProps = {
-  setIitemsIliked,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default Header;

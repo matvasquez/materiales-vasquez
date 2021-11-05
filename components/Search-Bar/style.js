@@ -41,7 +41,7 @@ export const IconContainer = styled.div`
 export const InputSearch = styled.input`
   width: 90%;
   height: 2rem;
-  padding: 0.2rem 1rem;
+  padding: 0.2rem 0 0.2rem 1rem;
   font-size: 1.4rem;
   color: var(--text);
   background: none;
@@ -51,7 +51,7 @@ export const InputSearch = styled.input`
   outline: none;
   transition: 0.3s ease-in-out all;
   ::placeholder {
-    color: var(--text);
+    color: var(--light-blue);
     font-size: 1.4rem;
     opacity: 0.8;
   }
@@ -88,7 +88,7 @@ export const ResultsContainer = styled.div`
   @media (min-width: 1000px) {
     width: 70vw;
     grid-template-columns: repeat(3, 1fr);
-    top: 9rem;
+    top: 6rem;
     left: calc(50% - 35vw);
   }
 `;
