@@ -5,7 +5,7 @@ export const Item = styled.div`
   padding: 0.5rem;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 20rem 3rem;
+  grid-template-rows: 9fr 1fr;
   grid-gap: 0.5rem;
   justify-items: center;
   align-items: center;

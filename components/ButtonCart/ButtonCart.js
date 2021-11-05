@@ -8,11 +8,11 @@ import { ShoppingBag } from "../IconsSVG/ShoppingBag";
 // Styled-Components
 import { ButtonStyled, Counter } from "./style";
 
-const ButtonCart = ({ itemsIliked }) => {
+const ButtonCart = ({ myCart }) => {
   return (
-    <Link href="/perfil" passHref>
+    <Link href="/carrito-de-compras" passHref>
       <ButtonStyled aria-label="Botón para ir al perfil del usuario">
-        {itemsIliked.length > 0 && <Counter>{itemsIliked.length}</Counter>}
+        {myCart.length > 0 && <Counter>{myCart.length}</Counter>}
         <ShoppingBag />
       </ButtonStyled>
     </Link>
@@ -21,7 +21,7 @@ const ButtonCart = ({ itemsIliked }) => {
 
 const mapStateToProps = (state) => {
   return {
-    itemsIliked: state.itemsIliked,
+    myCart: state.myCart,
   };
 };
 

@@ -97,16 +97,21 @@ export const InfoContainer = styled.div`
     width: 80%;
     padding: 1rem;
     background-color: #efefef;
+    border-radius: 0.5rem;
   }
 `;
 
 export const Title = styled.h1`
   margin: 1rem 0;
   font-size: 1.8rem;
-  font-weight: 500;
+  font-weight: 700;
+  color: var(--light-blue);
   text-transform: capitalize;
-  @media (min-width: 1000px) {
+  @media (min-width: 750px) {
     font-size: 2.2rem;
+  }
+  @media (min-width: 1000px) {
+    font-size: 2.5rem;
   }
 `;
 
@@ -115,10 +120,9 @@ export const PriceContainer = styled.div`
   min-height: 1.8rem;
   margin: 1rem 0;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   @media (min-width: 1000px) {
-    width: 50%;
   }
 `;
 
@@ -131,8 +135,8 @@ export const Price = styled.p`
 `;
 
 export const ButtonLike = styled.button`
-  width: 1.8rem;
-  height: 1.8rem;
+  width: 2rem;
+  height: 2rem;
   margin-left: auto;
   display: flex;
   justify-content: center;
@@ -144,11 +148,10 @@ export const ButtonLike = styled.button`
   transition: 0.3s ease-in-out all;
   &:hover {
     opacity: 1;
-    transform: rotate(-10deg);
   }
   @media (min-width: 750px) {
-    width: 2rem;
-    height: 2rem;
+    width: 2.4rem;
+    height: 2.4rem;
   }
   @media (min-width: 1000px) {
     opacity: 0.6;
@@ -167,6 +170,11 @@ export const Stock = styled.p`
   }
 `;
 
+export const NotAvailable = styled.p`
+  font-size: 1.2rem;
+  opacity: 0.6;
+`;
+
 export const Description = styled.p`
   margin: 1.5rem 0;
   font-weight: 400;
@@ -178,6 +186,65 @@ export const Sku = styled.p`
   font-weight: 500;
 `;
 
+export const ContainerSelector = styled.div`
+  width: 100%;
+  margin: 1rem auto;
+  border: 0.1rem solid var(--blue);
+  border-radius: 0.5rem;
+  display: grid;
+  grid-template-columns: 2fr 1fr 2fr;
+  justify-items: center;
+  align-items: center;
+  @media (min-width: 750px) {
+    width: 50%;
+    margin: 0.5rem 0 0.5rem auto;
+  }
+  @media (min-width: 1000px) {
+    width: 100%;
+    margin: 0.5rem auto;
+  }
+`;
+
+export const SelectorButtons = styled.button`
+  width: 100%;
+  padding: 0.5rem 3.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background: none;
+  color: var(--light-blue);
+  font-size: 1.4rem;
+  font-weight: 700;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  opacity: 0.8;
+  transition: 0.3s ease-in-out all;
+  &:hover {
+    opacity: 1;
+  }
+  @media (min-width: 1000px) {
+    padding: 0.2rem;
+  }
+`;
+
+export const SelectorDisplay = styled.p`
+  width: 100%;
+  padding: 0.5rem 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--blue);
+  font-size: 1.4rem;
+  font-weight: 700;
+  position: relative;
+  transition: 0.3s ease-in-out all;
+  @media (min-width: 1000px) {
+    padding: 0.2rem;
+  }
+`;
+
 export const AddToCartButton = styled.button`
   width: 100%;
   padding: 1rem;
@@ -187,7 +254,7 @@ export const AddToCartButton = styled.button`
   border: none;
   background: var(--yellow);
   color: var(--blue);
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   font-weight: 700;
   border-radius: 0.5rem;
   outline: none;
@@ -198,6 +265,83 @@ export const AddToCartButton = styled.button`
   transition: 0.3s ease-in-out all;
   &:hover {
     opacity: 1;
+  }
+  @media (min-width: 750px) {
+    width: 50%;
+    margin: 0.5rem 0 0.5rem auto;
+  }
+  @media (min-width: 1000px) {
+    width: 100%;
+    padding: 0.2rem;
+    margin: 0.5rem auto;
+  }
+`;
+
+export const ViewShoppingCart = styled.a`
+  width: 100%;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background: var(--light-blue);
+  color: var(--white);
+  font-size: 1.4rem;
+  font-weight: 700;
+  border-radius: 0.5rem;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  opacity: 0.7;
+  transition: 0.3s ease-in-out all;
+  &:hover {
+    opacity: 1;
+  }
+  @media (min-width: 750px) {
+    width: 50%;
+    margin: 0.5rem 0 0.5rem auto;
+  }
+  @media (min-width: 1000px) {
+    width: 100%;
+    padding: 0.2rem;
+    margin: 0.5rem auto;
+  }
+`;
+
+export const MessageContainer = styled.div`
+  width: 100%;
+  margin: 1rem auto;
+  border-radius: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @media (min-width: 750px) {
+    width: 50%;
+    margin: 0.5rem 0 0.5rem auto;
+  }
+  @media (min-width: 1000px) {
+    width: 100%;
+    margin: 0.5rem auto;
+  }
+`;
+
+export const MessageIconContainer = styled.div`
+  width: 2rem;
+  height: 2rem;
+  margin-right: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 0.1rem solid var(--blue);
+  border-radius: 50%;
+`;
+
+export const Message = styled.p`
+  font-size: 1.2rem;
+  text-align: center;
+  @media (min-width: 750px) {
+    font-size: 1rem;
   }
 `;
 
@@ -217,6 +361,45 @@ export const Slide = styled.div`
   filter: blur(0.5rem);
   opacity: 0.6;
   animation: ${slide} 10s ease-in-out 0s infinite normal backwards;
+`;
+
+export const LinkWhatsApp = styled.a`
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  color: var(--blue);
+  font-size: 1.4rem;
+  font-weight: 700;
+  border-radius: 0.5rem;
+  background: #25d366;
+  border: 0.1rem solid #25d366;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  opacity: 0.7;
+  transition: 0.3s ease-in-out all;
+  &:hover {
+    opacity: 1;
+  }
+  svg {
+    transition: 0.3s ease-in-out all;
+    fill: var(--blue);
+    margin-right: 1rem;
+  }
+  @media (min-width: 750px) {
+    width: 50%;
+    margin: 0.5rem 0 0.5rem auto;
+  }
+  @media (min-width: 1000px) {
+    width: 100%;
+    padding: 0.2rem;
+    margin: 0.5rem auto;
+  }
 `;
 
 export const RelatedSection = styled.section`

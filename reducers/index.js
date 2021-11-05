@@ -3,7 +3,6 @@ const reducer = (state, action) => {
     case "SET_CART":
       return {
         ...state,
-        carIsEmpty: true,
         myCart: [...state.myCart, action.payload],
       };
     case "SET_EMPTY_CART":

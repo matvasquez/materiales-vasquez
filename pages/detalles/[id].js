@@ -9,12 +9,7 @@ import { useGetPrice } from "../../hooks/useGetPrice";
 import { useMyItems } from "../../hooks/useMyItems";
 
 //Actions
-import {
-  setMyCart,
-  setPricesToCart,
-  setIitemsIliked,
-  setDeleteFavorite,
-} from "../../actions";
+import { setMyCart, setIitemsIliked, setDeleteFavorite } from "../../actions";
 
 // Components
 import { Loading } from "../../components/Loaders/Loading";
@@ -22,6 +17,8 @@ import { Consulting } from "../../components/Loaders/Consulting";
 import RelatedSecction from "../../components/Related-Secction/RelatedSecction";
 import { HeartEmpty } from "../../components/IconsSVG/HeartEmpty";
 import { HeartFull } from "../../components/IconsSVG/HeartFull";
+import { Whatsapp } from "../../components/IconsSVG/Whatsapp";
+import { ShoppingBag } from "../../components/IconsSVG/ShoppingBag";
 
 // Data
 import { articulos } from "../../database/articulos";
@@ -36,11 +33,20 @@ import {
   PriceContainer,
   Price,
   Stock,
+  NotAvailable,
   InfoContainer,
   Description,
   Sku,
+  ContainerSelector,
+  SelectorButtons,
+  SelectorDisplay,
   AddToCartButton,
+  ViewShoppingCart,
+  MessageContainer,
+  MessageIconContainer,
+  Message,
   Slide,
+  LinkWhatsApp,
   ButtonLike,
   RelatedSection,
 } from "../../styles/detalles/style";
@@ -71,6 +77,8 @@ const ProductDetails = ({
   const [image_url] = useGetImage(id);
   const [stock] = useGetStock(id);
   const [price] = useGetPrice(id);
+  //Url Actual
+  const [currentUrl, setCurrentUrl] = useState("");
   // Hook que verifica si el producto esta entre los favoritos
   const [yesItIsMineLike] = useMyItems(id, itemsIliked);
   // Hook que verifica si el producto esta en el carrito
@@ -78,9 +86,12 @@ const ProductDetails = ({
   // Relacionados
   const [relatedByName, setRelatedByName] = useState([]);
   const [relatedByCategory, setRelatedByCategory] = useState([]);
+  // Catidad seleccionada
+  const [initialQuantity, setInitialQuantity] = useState(1);
 
   useEffect(() => {
     id === undefined && setInfoReady(false);
+    setInitialQuantity(1);
   }, [id]);
 
   useEffect(() => {
@@ -113,16 +124,14 @@ const ProductDetails = ({
     }
   }, [id, product, image_url]);
 
-  // console.log("myCart: ", myCart);
-
   // Envia al Carrito y a la lista de precios
   const handleSetCart = () => {
-    let articulo_id = product.articulo_id;
     setMyCart({
-      articulo_id,
-      initialQuantity: 1,
+      articulo_id: product.articulo_id,
+      initialQuantity,
+      price,
     });
-    setPricesToCart(price);
+    // setPricesToCart(price);
   };
 
   // Envia a favoritos
@@ -135,6 +144,12 @@ const ProductDetails = ({
   const handleDeleteFavorite = () => {
     setDeleteFavorite(product.articulo_id);
   };
+
+  useEffect(() => {
+    if (window) {
+      setCurrentUrl(window.location);
+    }
+  }, [id]);
 
   return (
     <MainStyled>
@@ -191,29 +206,81 @@ const ProductDetails = ({
                 </ButtonLike>
               </PriceContainer>
 
-              {stock && (
-                <>
-                  {stock > 0 ? (
-                    <Stock>
-                      <span>{stock}</span> disponibles
-                    </Stock>
-                  ) : (
-                    <Stock>
-                      Por el momento no tenemos disponibles en línea, comunícate
-                      con nosotros
-                    </Stock>
-                  )}
-                </>
+              {stock > 0 && (
+                <Stock>
+                  <span>{stock}</span> disponibles
+                </Stock>
               )}
               <Description>{product.description.toLowerCase()}</Description>
               <Sku>SKU: {product.articulo_id}</Sku>
-              <AddToCartButton
-                type="button"
-                onClick={() => console.log("Añadir al carrito")}
-              >
-                Añadir al carrito
-                <Slide />
-              </AddToCartButton>
+              {stock > 0 && (
+                <>
+                  {!yesItIsMineCart && (
+                    <ContainerSelector>
+                      <SelectorButtons
+                        type="button"
+                        onClick={() => {
+                          if (initialQuantity > 1) {
+                            setInitialQuantity(initialQuantity - 1);
+                          }
+                        }}
+                      >
+                        -
+                      </SelectorButtons>
+                      <SelectorDisplay>{initialQuantity}</SelectorDisplay>
+                      <SelectorButtons
+                        type="button"
+                        onClick={() => {
+                          if (initialQuantity < stock) {
+                            setInitialQuantity(initialQuantity + 1);
+                          }
+                        }}
+                      >
+                        +
+                      </SelectorButtons>
+                    </ContainerSelector>
+                  )}
+                  {!yesItIsMineCart ? (
+                    <AddToCartButton
+                      type="button"
+                      onClick={() => {
+                        if (!yesItIsMineCart) {
+                          handleSetCart();
+                        }
+                      }}
+                    >
+                      Añadir al carrito
+                      <Slide />
+                    </AddToCartButton>
+                  ) : (
+                    <>
+                      <Link href="/carrito-de-compras">
+                        <ViewShoppingCart>Ver carrito</ViewShoppingCart>
+                      </Link>
+                      <MessageContainer>
+                        <MessageIconContainer>
+                          <ShoppingBag width="1.2rem" />
+                        </MessageIconContainer>
+                        <Message>
+                          Envío gratis en Xalapa si agregas desde $200*
+                        </Message>
+                      </MessageContainer>
+                    </>
+                  )}
+                </>
+              )}
+              {currentUrl !== "" && (
+                <LinkWhatsApp
+                  href={`https://api.whatsapp.com/send?phone=522288366283&text=Hola,%20quisiera%20obtener%20m%C3%A1s%20informaci%C3%B3n%20sobre%20este%20art%C3%ADculo:%20${currentUrl}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Enlace a Twitter"
+                  bg="#25d366"
+                >
+                  <Whatsapp width="2rem" />
+                  Pregunta por este artículo
+                </LinkWhatsApp>
+              )}
             </InfoContainer>
           </Product>
           {relatedByName.length > 0 && (
@@ -248,7 +315,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   setMyCart,
-  setPricesToCart,
   setIitemsIliked,
   setDeleteFavorite,
 };

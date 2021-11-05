@@ -32,8 +32,6 @@ const Category = () => {
     }
   }, [id, articulos]);
 
-  console.log("products: ", products);
-
   return (
     <>
       <NextSeo
