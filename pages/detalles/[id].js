@@ -274,7 +274,7 @@ const ProductDetails = ({
                   href={`https://api.whatsapp.com/send?phone=522288366283&text=Hola,%20quisiera%20obtener%20m%C3%A1s%20informaci%C3%B3n%20sobre%20este%20art%C3%ADculo:%20${currentUrl}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label="Enlace a Twitter"
+                  aria-label="Enlace a WhatsApp"
                   bg="#25d366"
                 >
                   <Whatsapp width="2rem" />

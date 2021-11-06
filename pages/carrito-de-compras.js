@@ -3,10 +3,11 @@ import { connect } from "react-redux";
 import Link from "next/link";
 
 // Data
-import { articulos } from "../database/articulos";
+// import { articulos } from "../database/articulos";
 
 // Components
 import ShoppingCartItem from "../components/ShoppingCart-Item/ShoppingCartItem";
+import { Whatsapp } from "../components/IconsSVG/Whatsapp";
 
 // Styled-Components
 import { MainStyled } from "../styles/Inicio/style";
@@ -20,6 +21,8 @@ import {
   DetailsSection,
   Details,
   Totals,
+  HelpSection,
+  LinkWhatsApp,
   Separator,
 } from "../styles/carrito-de-compras/style";
 
@@ -61,7 +64,7 @@ const ShoppingCart = ({ myCart }) => {
                   Envío gratis en Xalapa* o puedes recoger en tienda
                 </FreeShipping>
               )}
-              {/* <Link href="#">
+              {/* <Link href="/checkout">
                 <PaymentButton>Pagar</PaymentButton>
               </Link> */}
             </FirstSection>
@@ -86,7 +89,7 @@ const ShoppingCart = ({ myCart }) => {
               <p>Tu total</p>
               <Totals>${formatter.format(total)}</Totals>
             </Details>
-            <Link href="#">
+            <Link href="/checkout">
               <PaymentButton>Pagar</PaymentButton>
             </Link>
           </DetailsSection>
@@ -100,6 +103,18 @@ const ShoppingCart = ({ myCart }) => {
           </Link>
         </FirstSection>
       )}
+      <HelpSection>
+        <LinkWhatsApp
+          href={`https://api.whatsapp.com/send?phone=522288366283`}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Enlace a WhatsApp"
+          bg="#25d366"
+        >
+          <Whatsapp width="1.4rem" />
+          ¿Necesitas ayuda?
+        </LinkWhatsApp>
+      </HelpSection>
       <Footnotes>
         *Envío gratis dentro de Xalapa en compras mayores a $200 pesos MXN,
         aplican restricciones

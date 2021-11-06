@@ -97,8 +97,6 @@ const ShoppingCartItem = ({
     // Optiene el valor del select (la cantidad de prosuctos seleccionados)
     const selected = selectQ.current.value;
 
-    // console.log("selected: ", selected);
-    // console.log("myCart: ", myCart);
     let removeItemFromCart = myCart.filter(
       (item) => item.articulo_id !== articulo_id
     );
@@ -108,19 +106,9 @@ const ShoppingCartItem = ({
       initialQuantity: parseInt(selected),
       price,
     };
-    // console.log("removeItemFromCart: ", removeItemFromCart);
-    // console.log("thisItem: ", thisItem);
     let newCArt = [...removeItemFromCart, thisItem];
     setUpdateCart(newCArt);
-    // console.log("newCArt: ", newCArt);
   };
-  //   console.log("myCart: ", myCart);
-
-  // articulo_id,
-  // category,
-  // description,
-  // main_category,
-  // name
 
   return (
     <>
@@ -153,15 +141,12 @@ const ShoppingCartItem = ({
                   {quantityInInventory.length > 0 && (
                     <Select
                       name="newQuantity"
+                      defaultValue={initialQuantity}
                       ref={selectQ}
                       onChange={(e) => handleChange(e)}
                     >
                       {quantityInInventory.map((item) => (
-                        <option
-                          key={item}
-                          value={item}
-                          selected={item === initialQuantity ? true : false}
-                        >
+                        <option key={item} value={item}>
                           {item}
                         </option>
                       ))}

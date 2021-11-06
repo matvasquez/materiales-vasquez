@@ -10,12 +10,14 @@ import { ButtonStyled, Counter } from "./style";
 
 const ButtonCart = ({ myCart }) => {
   return (
-    <Link href="/carrito-de-compras" passHref>
-      <ButtonStyled aria-label="Botón para ir al perfil del usuario">
-        {myCart.length > 0 && <Counter>{myCart.length}</Counter>}
-        <ShoppingBag />
-      </ButtonStyled>
-    </Link>
+    <>
+      <Link href="/carrito-de-compras" passHref>
+        <ButtonStyled aria-label="Botón para ir al perfil del usuario">
+          {myCart.length > 0 && <Counter>{myCart.length}</Counter>}
+          <ShoppingBag />
+        </ButtonStyled>
+      </Link>
+    </>
   );
 };
 
