@@ -1,13 +1,20 @@
 import React, { useState, useRef, useEffect } from "react";
 import { connect } from "react-redux";
 import Link from "next/link";
+import debounce from "just-debounce-it";
 import { useShippingCost } from "../hooks/useShippingCost";
+import { sendEmail } from "../utils/sendEmail";
+
+// Actions
+import { setPurchasingData } from "../actions";
 
 // Data
 import { articulos } from "../database/articulos";
 
 //Components
 import CheckoutForm from "../components/Checkout-Form/CheckoutForm";
+import Alert from "../components/Alert";
+import PasarelaDePagos from "../components/Pasarela-de-pagos/PasarelaDePagos";
 
 // Styled-Components
 import { MainStyled } from "../styles/Inicio/style";
@@ -26,17 +33,21 @@ const formatter = new Intl.NumberFormat("en-US", {
 });
 
 const Checkout = ({ myCart }) => {
-  const [zipCode, setZipCode] = useState("");
-  const [subTotal, setSubTotal] = useState(0);
-  const paymentForm = useRef(null);
-
-  // Obtiene el costo de envío y las ciudades disponibles según el código postal
-  const [cost, deliveryCities] = useShippingCost(zipCode, subTotal);
-
+  const [addressCP, setAddressCP] = useState("");
   //Lista de precios
   const [listPrices, setListPrices] = useState([]);
-  // Total
+  // Total del costo sin envio
   const [total, setTotal] = useState(0);
+  //Referencia al formulario
+  const paymentForm = useRef(null);
+  const paymentGateway = useRef(null);
+  // Datos del formulario
+  const [formData, setFormData] = useState({});
+  // Obtiene el costo de envío y las ciudades disponibles según el código postal
+  const [cost, deliveryCities] = useShippingCost(addressCP, total);
+  // Estado del modal de alerta
+  const [modalOpen, setModalOpen] = useState(false);
+  const [showForm, setShowForm] = useState(true);
 
   useEffect(() => {
     if (myCart.length > 0) {
@@ -54,10 +65,12 @@ const Checkout = ({ myCart }) => {
     }
   }, [listPrices]);
 
+  useEffect(() => {
+    deliveryCities[0] === "contact" ? setModalOpen(true) : setModalOpen(false);
+  }, [deliveryCities]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("handleSubmit: ", e);
-    console.log("paymentForm.current: ", paymentForm.current);
 
     const newOrder = new FormData(paymentForm.current);
     const order = {
@@ -86,119 +99,161 @@ const Checkout = ({ myCart }) => {
       invoicePhoneNumber: newOrder.get("invoicePhoneNumber"),
       invoiceShippingEmail: newOrder.get("invoiceShippingEmail"),
 
-      subTotal: total,
-      shippingCost: cost,
-      total: total + cost,
+      subTotal: newOrder.get("subTotal"),
+      shippingCost: newOrder.get("shippingCost"),
+      total: newOrder.get("total"),
 
       products: myCart,
     };
 
-    console.log(order);
+    setFormData(order);
+    paymentGateway.current.click();
   };
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   setLoad(true);
+  useEffect(() => {
+    console.log("formData: ", formData);
+  }, [formData]);
 
-  //   // console.log("elementArr: ", e.data.elementArr);
-  //   const status = e.data.elementArr.filter(
-  //     (element) => element.name === "status"
-  //   );
+  const paymentGatewayResponse = (e) => {
+    e.preventDefault();
 
-  //   const code = e.data.elementArr.filter(
-  //     (element) => element.name === "approval_code"
-  //   );
+    console.log("elementArr: ", e.data.elementArr);
+    const status = e.data.elementArr.filter(
+      (element) => element.name === "status"
+    );
 
-  //   if (status[0].value === "APROBADO") {
-  //     const newOrder = new FormData(paymentForm.current);
-  //     const order = {
-  //       date: new Intl.DateTimeFormat("es-MX", {
-  //         dateStyle: "medium",
-  //         timeStyle: "short",
-  //       }).format(new Date()),
+    const code = e.data.elementArr.filter(
+      (element) => element.name === "approval_code"
+    );
 
-  //       orderNumber: e.data.elementArr[4].value,
-  //       approvalCode: e.data.elementArr[14].value,
-  //       purchaseAmount: e.data.elementArr[11].value,
-  //       terminatedCard: e.data.elementArr[27].value.slice(-4),
+    if (status[0].value === "APROBADO") {
+      let orderNumber = e.data.elementArr[4].value;
+      let approvalCode = e.data.elementArr[14].value;
+      let purchaseAmount = e.data.elementArr[11].value;
+      let terminatedCard = e.data.elementArr[27].value.slice(-4);
 
-  //       shippingName: newOrder.get("shippingName"),
-  //       shippingLastName: newOrder.get("shippingLastName"),
+      console.log(orderNumber, approvalCode, purchaseAmount, terminatedCard);
+      formData.orderNumber = e.data.elementArr[4].value;
+      formData.approvalCode = e.data.elementArr[14].valuevalCode;
+      formData.purchaseAmount = e.data.elementArr[11].value;
+      formData.terminatedCard = e.data.elementArr[27].value.slice(-4);
+      // setPurchasingData(order);
 
-  //       phoneNumber: newOrder.get("phoneNumber"),
-  //       shippingEmail: newOrder.get("shippingEmail"),
+      // sendEmail(order);
+    } else {
+      const failReason = e.data.elementArr.filter(
+        (element) => element.name === "fail_reason"
+      );
+      const chargetotal = e.data.elementArr.filter(
+        (element) => element.name === "chargetotal"
+      );
+      const orderFail = {
+        status: status[0].value,
+        failReason: failReason.length !== 0 ? failReason[0].value : "",
+        chargeTotal: chargetotal.length !== 0 ? chargetotal[0].value : "",
+        approval_code: code[0].value,
+      };
+      // setPurchasingData(orderFail);
+      console.log("orderFail: ", orderFail);
+    }
+    console.log("redirectURL: ", e.data.redirectURL);
+    // setTimeout(() => {
+    //   window.location.href = e.data.redirectURL;
+    // }, 500);
+  };
 
-  //       addressState: newOrder.get("addressState"),
-  //       addressCP: newOrder.get("addressCP"),
-  //       addressCity: newOrder.get("addressCity"),
-  //       addressStreet: newOrder.get("addressStreet"),
-  //       addressNumber: newOrder.get("addressNumber"),
-  //       addressReferences: newOrder.get("referencesText"),
+  // Código de pasarela de pagos
+  function forwardForm(responseObj, elementArr) {
+    var newForm = document.createElement("form");
+    newForm.setAttribute("method", "post");
+    newForm.setAttribute("action", "");
+    newForm.setAttribute("action", responseObj.redirectURL);
+    newForm.setAttribute("id", "newForm");
+    newForm.setAttribute("name", "newForm");
+    document.body.appendChild(newForm);
+    for (var i = 0; i < elementArr.length; i++) {
+      var element = elementArr[i];
+      var input = document.createElement("input");
+      input.setAttribute("type", "hidden");
+      input.setAttribute("name", element.name);
+      input.setAttribute("value", element.value);
+      // document.newForm.appendChild(input);
+      document.getElementById("newForm").appendChild(input);
+    }
+    // document.getElementById("newForm").submit();
+  }
 
-  //       requiredInvoice: newOrder.get("invoiceRequiredInput"),
-  //       invoiceRFC: newOrder.get("invoiceRFC"),
-  //       invoiceCompanyName: newOrder.get("invoiceCompanyName"),
-  //       cfdi: newOrder.get("cfdi"),
-  //       invoicePhoneNumber: newOrder.get("invoicePhoneNumber"),
-  //       invoiceShippingEmail: newOrder.get("invoiceShippingEmail"),
+  // Limita el numero de llamados a las funciones de
+  // enviar mail y cambiar de pagina
+  const handlePurchase = debounce(async (e, elementArr) => {
+    paymentGatewayResponse(e);
+    forwardForm(e.data, elementArr);
+  }, 3000);
 
-  //       subTotal: shoppingCartPrices.reduce(
-  //         (accumulator, currentValue) => accumulator + currentValue
-  //       ),
-  //       shippingCost: newOrder.get("shippingCost"),
-  //       total: newOrder.get("totalCost"),
+  const receiveMessage = (e) => {
+    if (
+      e.origin === "https://www2.ipg-online.com" ||
+      e.origin === "https://test.ipg-online.com"
+    ) {
+      let elementArr = e.data.elementArr;
+      handlePurchase(e, elementArr);
+    } else {
+      return;
+    }
+  };
 
-  //       products: myCart,
-  //     };
-
-  //     console.log(order);
-  //     setPurchasingData(order);
-
-  //     sendEmail(order);
-  //   } else {
-  //     const failReason = e.data.elementArr.filter(
-  //       (element) => element.name === "fail_reason"
-  //     );
-  //     const chargetotal = e.data.elementArr.filter(
-  //       (element) => element.name === "chargetotal"
-  //     );
-  //     const orderFail = {
-  //       status: status[0].value,
-  //       failReason: failReason.length !== 0 ? failReason[0].value : "",
-  //       chargeTotal: chargetotal.length !== 0 ? chargetotal[0].value : "",
-  //       approval_code: code[0].value,
-  //     };
-  //     setPurchasingData(orderFail);
-  //   }
-  //   setTimeout(() => {
-  //     window.location.href = e.data.redirectURL;
-  //   }, 500);
-  // };
+  useEffect(() => {
+    window.addEventListener("message", (e) => receiveMessage(e), false);
+    return () => {
+      window.removeEventListener("message", (e) => receiveMessage(e), false);
+    };
+  }, ["message"]);
 
   return (
-    <MainStyled>
-      <Title>Datos de compra</Title>
-      <CheckoutForm
-        cities={deliveryCities}
-        paymentForm={paymentForm}
-        handleSubmit={handleSubmit}
-      />
-      <Report>Los datos marcados con (*) son obligatorios</Report>
-      <DetailsSection>
-        <Details>
-          <p>Subtotal</p>
-          <p>${formatter.format(total)}</p>
-        </Details>
-        <Details>
-          <p>Envío</p>
-          {cost === 0 ? <p>GRATIS*</p> : <p>${formatter.format(cost)}</p>}
-        </Details>
-        <Details>
-          <p>Tu total</p>
-          <Totals>${formatter.format(total + cost)}</Totals>
-        </Details>
-      </DetailsSection>
-    </MainStyled>
+    <>
+      <MainStyled>
+        <Title>Datos de compra</Title>
+        <CheckoutForm
+          showForm={showForm}
+          addressCP={addressCP}
+          setAddressCP={setAddressCP}
+          cities={deliveryCities}
+          paymentForm={paymentForm}
+          handleSubmit={handleSubmit}
+          total={total}
+          cost={cost}
+        />
+        <Report>Los datos marcados con (*) son obligatorios</Report>
+        <DetailsSection>
+          <Details>
+            <p>Subtotal</p>
+            <p>${formatter.format(total)}</p>
+          </Details>
+          <Details>
+            <p>Envío</p>
+            {cost === 0 ? <p>GRATIS*</p> : <p>${formatter.format(cost)}</p>}
+          </Details>
+          <Details>
+            <p>Tu total</p>
+            <Totals>${formatter.format(total + cost)}</Totals>
+          </Details>
+        </DetailsSection>
+        <PasarelaDePagos
+          total={total + cost}
+          pay={deliveryCities[0] === "contact" ? false : true}
+          setShowForm={setShowForm}
+          paymentGateway={paymentGateway}
+        />
+      </MainStyled>
+      {modalOpen && (
+        <Alert
+          isOpen={modalOpen}
+          handleClose={setModalOpen}
+          cart={myCart}
+          zipCode={addressCP}
+        />
+      )}
+    </>
   );
 };
 

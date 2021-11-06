@@ -414,13 +414,16 @@ export const RelatedSection = styled.section`
     text-align: center;
     margin: 1rem auto;
   }
+  @media (min-width: 750px) {
+    h3 {
+      margin: 1rem;
+    }
+  }
   @media (min-width: 1000px) {
-    width: 80%;
     margin: 4rem auto;
     h3 {
       font-size: 1.8rem;
       text-align: left;
-      margin: 1rem 0;
     }
   }
 `;

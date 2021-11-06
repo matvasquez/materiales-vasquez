@@ -78,14 +78,15 @@ export const CloseButton = styled.button`
 export const AcceptButton = styled.a`
   width: 100%;
   padding: 0.5rem;
-  background-color: var(--yellow);
   color: var(--blue);
   font-size: 1.6rem;
-  font-weight: 700;
+  font-weight: 500;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  border-radius: 2rem;
+  border-radius: 0.5rem;
+  background: #25d366;
+  border: 0.1rem solid #25d366;
   outline: none;
   border: none;
   cursor: pointer;

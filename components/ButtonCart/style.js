@@ -19,7 +19,7 @@ export const ButtonStyled = styled.a`
     width: 3rem;
     height: 3rem;
   }
-  @media (min-width: 1200px) {
+  @media (min-width: 1000px) {
     grid-column: 3 / span 1;
     grid-row: 1 / span 1;
   }

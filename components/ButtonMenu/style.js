@@ -26,7 +26,7 @@ export const ButtonStyled = styled.button`
     width: 3rem;
     height: 3rem;
   }
-  @media (min-width: 1200px) {
+  @media (min-width: 1000px) {
     display: none;
   }
 `;

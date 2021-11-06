@@ -15,13 +15,7 @@ import { SuspensoryPoints } from "../../components/Loaders/SuspensoryPoints";
 // Styled-Components
 import { FormStyled, BuyButton, Iframe } from "./style";
 
-const PasarelaDePagos = ({
-  shippingCost,
-  subTotal,
-  pay,
-  setShowForm,
-  formReady,
-}) => {
+const PasarelaDePagos = ({ total, pay, setShowForm, paymentGateway }) => {
   const [load, setLoad] = useState(false);
   const [show, setShow] = useState(false);
   const [urlWebsite, setUrlWebsite] = useState("http://localhost:3000");
@@ -44,9 +38,9 @@ const PasarelaDePagos = ({
   // Se obtiene la cadena hexadecimal
   const convertStringToHex = () => {
     // Se concatenen los valores requeridos
-    const str = `${process.env.NEXT_PUBLIC_STORE_ID}${dateFormat}${
-      shippingCost + subTotal
-    }${484}${process.env.NEXT_PUBLIC_SHARED_SECRET}`;
+    const str = `${
+      process.env.NEXT_PUBLIC_STORE_ID
+    }${dateFormat}${total}${484}${process.env.NEXT_PUBLIC_SHARED_SECRET}`;
 
     // console.log("Concatenar los valores: ", str);
     const hex = Buffer.from(str, "utf8").toString("hex");
@@ -92,11 +86,7 @@ const PasarelaDePagos = ({
           value={process.env.NEXT_PUBLIC_STORE_ID}
         />
         <input type="hidden" name="currency" value="484" />
-        <input
-          type="hidden"
-          name="chargetotal"
-          value={shippingCost + subTotal}
-        />
+        <input type="hidden" name="chargetotal" value={total} />
         <input
           type="hidden"
           name="responseFailURL"
@@ -116,30 +106,33 @@ const PasarelaDePagos = ({
         <input
           type="hidden"
           name="buttonBackgroundHexColorCode"
-          value="#ffc947"
+          value="#3c74b9"
         />
-        <input type="hidden" name="buttonBorderHexColorCode" value="#ffc947" />
-        <input type="hidden" name="buttonHexColorCode" value="#00144c" />
-        <input type="hidden" name="buttonHoverHexColorCode" value="#00144c" />
+        <input type="hidden" name="buttonBorderHexColorCode" value="#3c74b9" />
+        <input type="hidden" name="buttonHexColorCode" value="#ffffff" />
+        <input type="hidden" name="buttonHoverHexColorCode" value="#3c74b9" />
         <input
           type="hidden"
           name="buttonHoverBackgroundHexColorCode"
-          value="#fcd783"
+          value="#ffffff"
         />
         <input
           type="hidden"
           name="buttonHoverBorderHexColorCode"
-          value="#fcd783"
+          value="#3c74b9"
         />
-        {!show && (
+        <BuyButton type="submit" ref={paymentGateway}>
+          {load ? <SuspensoryPoints /> : "Submit"}
+        </BuyButton>
+        {/* {!show && (
           <>
             {pay && (
-              <BuyButton type="submit" disabled={!formReady}>
-                {load ? <SuspensoryPoints /> : "Pagar"}
+              <BuyButton type="submit" ref={paymentGateway}>
+                {load ? <SuspensoryPoints /> : "Submit"}
               </BuyButton>
             )}
           </>
-        )}
+        )} */}
       </FormStyled>
     </>
   );

@@ -1,38 +1,32 @@
 import styled from "styled-components";
 
 export const FormStyled = styled.form`
-  width: 90%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   position: relative;
-  @media (min-width: 750px) {
-    background-color: var(--white);
-    border-radius: 1.5rem;
-  }
-  @media (min-width: 1200px) {
-    width: 80%;
-    border-radius: 0 0 1.5rem 1.5rem;
-  }
+  border-radius: 1rem;
 `;
 
 export const BuyButton = styled.button`
-  width: 100%;
+  display: none;
+  /* width: 100%;
   padding: 0.5rem;
-  margin-top: 1rem;
-  background-color: var(--yellow);
-  color: var(--blue);
-  font-size: 1.6rem;
-  font-weight: 700;
+  margin: 0.5rem 0;
   text-align: center;
-  border-radius: 2rem;
-  outline: none;
+  font-weight: 500;
+  color: var(--white);
+  background-color: var(--light-blue);
+  border-radius: 0.5rem;
   border: none;
+  outline: none;
   cursor: pointer;
-  &:disabled {
-    opacity: 0.5;
-    cursor: default;
+  opacity: 0.8;
+  transition: 0.3s ease-in-out all;
+  &:hover {
+    opacity: 1;
   }
 
   @media (min-width: 750px) {
@@ -43,11 +37,11 @@ export const BuyButton = styled.button`
     grid-column: 1 / span 2;
     grid-row: 5 / span 1;
     width: 50%;
-  }
+  } */
 `;
 
 export const Iframe = styled.iframe`
-  width: 90%;
+  width: 100%;
   ${(props) => (props.show ? `height: 36.5rem;` : `height: 0;`)}
   padding: 0;
   margin: 1.5rem auto;
@@ -60,11 +54,12 @@ export const Iframe = styled.iframe`
   border: none;
   outline: none;
   @media (min-width: 750px) {
+    width: 80%;
     ${(props) => (props.show ? `height: 30rem;` : `height: 0;`)}
     ${(props) => (props.show ? `display: flex;` : `display: none;`)}
   }
-  @media (min-width: 1200px) {
-    width: 80%;
+  @media (min-width: 1000px) {
+    width: 50%;
     margin: 0 auto;
     ${(props) => (props.show ? `height: 60rem;` : `height: 0;`)}
     ${(props) => (props.show ? `display: flex;` : `display: none;`)}

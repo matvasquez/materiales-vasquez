@@ -39,7 +39,7 @@ const Modal = ({
               href={`https://api.whatsapp.com/send?phone=522288366283&text=Hola,%20quiero%20comprar%20con%20env%C3%ADo%20a%20este%20c%C3%B3digo%20postal:%20*${zipCode}*,%20esta%20lista%20de%20productos:,%20${productsList}`}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Enlace a Twitter"
+              aria-label="Enlace a WhatsApp"
               bg="#25d366"
             >
               <Whatsapp width="2rem" /> Contactar por WhatsApp

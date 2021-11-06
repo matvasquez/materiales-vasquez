@@ -63,7 +63,7 @@ export const CloseButton = styled.button`
       line-height: 3rem;
     }
   }
-  @media (min-width: 1200px) {
+  @media (min-width: 1000px) {
     display: none;
   }
 `;

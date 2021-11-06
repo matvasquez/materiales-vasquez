@@ -15,12 +15,6 @@ export const Item = styled.div`
   &:hover {
     box-shadow: 0.5rem 0.5rem 1rem 0.1rem #979797;
   }
-  @media (min-width: 750px) {
-    /* grid-template-rows: 20rem 3rem; */
-  }
-  @media (min-width: 1000px) {
-    grid-template-rows: 30rem 2rem;
-  }
 `;
 
 export const ItemLink = styled.a`
@@ -31,10 +25,14 @@ export const ItemLink = styled.a`
   grid-template-rows: 3fr 1fr;
   grid-gap: 0.5rem;
   cursor: pointer;
+  @media (min-width: 1400px) {
+    grid-template-rows: 5fr 1fr;
+  }
 `;
 
 export const ImageContainer = styled.div`
   width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -51,6 +49,7 @@ export const ImageContainer = styled.div`
 
 export const ItemInfo = styled.div`
   width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -104,11 +103,15 @@ export const IconContainer = styled.button`
   }
   @media (min-width: 1000px) {
     opacity: 0.6;
+    width: 1.8rem;
+    height: 1.8rem;
+    margin: 0.5rem;
+    margin-left: auto;
   }
 `;
 
 export const Categoryes = styled.div`
-  width: 100%;
+  width: 90%;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
