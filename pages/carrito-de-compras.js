@@ -64,7 +64,7 @@ const ShoppingCart = ({ myCart }) => {
                   Envío gratis en Xalapa* o puedes recoger en tienda
                 </FreeShipping>
               )}
-              {/* <Link href="/checkout">
+              {/* <Link href="/realizar-pago">
                 <PaymentButton>Pagar</PaymentButton>
               </Link> */}
             </FirstSection>
@@ -89,7 +89,7 @@ const ShoppingCart = ({ myCart }) => {
               <p>Tu total</p>
               <Totals>${formatter.format(total)}</Totals>
             </Details>
-            <Link href="/checkout">
+            <Link href="/realizar-pago">
               <PaymentButton>Pagar</PaymentButton>
             </Link>
           </DetailsSection>
