@@ -49,8 +49,6 @@ const codes = {
 const PagoError = ({ purchasingData }) => {
   const [reason, setReason] = useState("");
 
-  console.log(purchasingData.approval_code);
-
   useEffect(() => {
     if (purchasingData.failReason === "") {
       let code = codes[purchasingData.approval_code] || "Error de sistema";

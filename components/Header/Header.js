@@ -8,6 +8,7 @@ import { Logo } from "../IconsSVG/Logo";
 import { ButtonMenu } from "../ButtonMenu/ButtonMenu";
 import ButtonCart from "../ButtonCart/ButtonCart";
 import SearchBar from "../Search-Bar/SearchBar";
+import HomeUser from "../Home-User/HomeUser";
 
 // Stiled-Components
 import { HeaderStyled, SearchAndButtonContainer, LogoContainer } from "./style";
@@ -16,8 +17,6 @@ const Header = ({ user }) => {
   const router = useRouter();
   const [menuIsOpen, setMenuIsOpen] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
-
-  // console.log("user: ", user);
 
   const handleOpen = () => {
     setMenuIsOpen(!menuIsOpen);
@@ -50,6 +49,7 @@ const Header = ({ user }) => {
         </LogoContainer>
       </Link>
       <ButtonCart />
+      <HomeUser user={user} />
       <MainMenu isOpen={menuIsOpen} handleOpen={handleOpen} />
     </HeaderStyled>
   );

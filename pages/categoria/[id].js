@@ -55,13 +55,7 @@ const Category = () => {
         setShowButton(false);
       }
     }
-
-    // console.log("nuevos: ", news);
   };
-
-  useEffect(() => {
-    // console.log("products: ", products);
-  }, [products]);
 
   return (
     <>

@@ -28,7 +28,7 @@ export const SuccessIcon = ({ width = "100%" }) => {
           gradientUnits="userSpaceOnUse"
         >
           <stop stopColor="var(--blue)" />
-          <stop offset="1" stopColor="#03328C" />
+          <stop offset="1" stopColor="var(--light-blue)" />
         </linearGradient>
       </defs>
     </svg>

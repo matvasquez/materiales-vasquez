@@ -10,7 +10,7 @@ import { articulos } from "../../database/articulos";
 import CategorySection from "../Category-Section/CategorySection";
 
 // Styled-Components
-import { ContainerFavorites, Title } from "./style";
+import { ContainerFavorites, Title, LinkProfile } from "./style";
 
 const HomeFavorites = ({ itemsIliked }) => {
   const [myFavorites, setmyFavorites] = useState([]);
@@ -34,7 +34,12 @@ const HomeFavorites = ({ itemsIliked }) => {
     return (
       <ContainerFavorites>
         <Title>PRODUCTOS QUE TE GUSTAN</Title>
-        <CategorySection data={myFavorites} />
+        <CategorySection data={myFavorites.slice(0, 3)} />
+        {myFavorites.length > 2 && (
+          <Link href="/perfil">
+            <LinkProfile>Ver todos</LinkProfile>
+          </Link>
+        )}
       </ContainerFavorites>
     );
   } else {

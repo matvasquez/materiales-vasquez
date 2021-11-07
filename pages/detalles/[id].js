@@ -128,6 +128,7 @@ const ProductDetails = ({
   const handleSetCart = () => {
     setMyCart({
       articulo_id: product.articulo_id,
+      name: product.name,
       initialQuantity,
       price,
     });

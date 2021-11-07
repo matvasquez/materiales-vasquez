@@ -8,9 +8,6 @@ import { sendEmail } from "../utils/sendEmail";
 // Actions
 import { setPurchasingData } from "../actions";
 
-// Data
-import { articulos } from "../database/articulos";
-
 //Components
 import CheckoutForm from "../components/Checkout-Form/CheckoutForm";
 import Alert from "../components/Alert";
@@ -32,7 +29,7 @@ const formatter = new Intl.NumberFormat("en-US", {
   maximumFractionDigits: 2,
 });
 
-const Checkout = ({ myCart }) => {
+const Checkout = ({ myCart, setPurchasingData }) => {
   const [addressCP, setAddressCP] = useState("");
   //Lista de precios
   const [listPrices, setListPrices] = useState([]);
@@ -43,6 +40,7 @@ const Checkout = ({ myCart }) => {
   const paymentGateway = useRef(null);
   // Datos del formulario
   const [formData, setFormData] = useState({});
+  const [paymentData, setPaymentData] = useState({});
   // Obtiene el costo de envío y las ciudades disponibles según el código postal
   const [cost, deliveryCities] = useShippingCost(addressCP, total);
   // Estado del modal de alerta
@@ -111,13 +109,17 @@ const Checkout = ({ myCart }) => {
   };
 
   useEffect(() => {
-    console.log("formData: ", formData);
-  }, [formData]);
+    if (paymentData.orderNumber) {
+      let order = { ...formData, ...paymentData };
+      console.log("listo: ");
+      sendEmail(order);
+      setPurchasingData(order);
+    }
+  }, [formData, paymentData]);
 
   const paymentGatewayResponse = (e) => {
     e.preventDefault();
 
-    console.log("elementArr: ", e.data.elementArr);
     const status = e.data.elementArr.filter(
       (element) => element.name === "status"
     );
@@ -127,19 +129,14 @@ const Checkout = ({ myCart }) => {
     );
 
     if (status[0].value === "APROBADO") {
-      let orderNumber = e.data.elementArr[4].value;
-      let approvalCode = e.data.elementArr[14].value;
-      let purchaseAmount = e.data.elementArr[11].value;
-      let terminatedCard = e.data.elementArr[27].value.slice(-4);
+      const orderSucces = {
+        orderNumber: e.data.elementArr[4].value,
+        approvalCode: e.data.elementArr[14].value,
+        purchaseAmount: e.data.elementArr[11].value,
+        terminatedCard: e.data.elementArr[27].value.slice(-4),
+      };
 
-      console.log(orderNumber, approvalCode, purchaseAmount, terminatedCard);
-      formData.orderNumber = e.data.elementArr[4].value;
-      formData.approvalCode = e.data.elementArr[14].valuevalCode;
-      formData.purchaseAmount = e.data.elementArr[11].value;
-      formData.terminatedCard = e.data.elementArr[27].value.slice(-4);
-      // setPurchasingData(order);
-
-      // sendEmail(order);
+      setPaymentData(orderSucces);
     } else {
       const failReason = e.data.elementArr.filter(
         (element) => element.name === "fail_reason"
@@ -153,13 +150,12 @@ const Checkout = ({ myCart }) => {
         chargeTotal: chargetotal.length !== 0 ? chargetotal[0].value : "",
         approval_code: code[0].value,
       };
-      // setPurchasingData(orderFail);
-      console.log("orderFail: ", orderFail);
+      setPurchasingData(orderFail);
     }
     console.log("redirectURL: ", e.data.redirectURL);
-    // setTimeout(() => {
-    //   window.location.href = e.data.redirectURL;
-    // }, 500);
+    setTimeout(() => {
+      window.location.href = e.data.redirectURL;
+    }, 800);
   };
 
   // Código de pasarela de pagos
@@ -263,14 +259,11 @@ const mapStateToProps = (state) => {
   };
 };
 
-// const mapDispatchToProps = {
-//   setMyCart,
-//   setPricesToCart,
-//   setIitemsIliked,
-//   setDeleteFavorite,
-// };
+const mapDispatchToProps = {
+  setPurchasingData,
+};
 
-export default connect(mapStateToProps, null)(Checkout);
+export default connect(mapStateToProps, mapDispatchToProps)(Checkout);
 
 // import React, { useState, useRef, useEffect } from "react";
 // import { connect } from "react-redux";

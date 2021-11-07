@@ -15,6 +15,7 @@ import {
   Title,
   SectionEmpty,
   TextEmpty,
+  LoadMoreButton,
 } from "../../../styles/categoria/style";
 
 const Category = () => {
@@ -22,15 +23,38 @@ const Category = () => {
   const cat = router.query.cat || "";
 
   const [products, setProducts] = useState([]);
+  const [showButton, setShowButton] = useState(false);
 
   useEffect(() => {
     if (articulos.length > 0 && cat) {
       const data = articulos.filter(
         (item) => item.main_category === cat.replace(/-/g, " ")
       );
-      setProducts(data.slice(0, 50));
+      if (data) {
+        setProducts(data.slice(0, 24));
+        if (data.length >= 24) {
+          setShowButton(true);
+        } else {
+          setShowButton(false);
+        }
+      }
     }
   }, [cat]);
+
+  const more = () => {
+    const data = articulos.filter(
+      (item) => item.main_category === cat.replace(/-/g, " ")
+    );
+    if (data) {
+      let news = data.slice(products.length + 1, products.length + 25);
+      setProducts(products.concat(news));
+      if (news.length === 24) {
+        setShowButton(true);
+      } else {
+        setShowButton(false);
+      }
+    }
+  };
 
   return (
     <>
@@ -84,7 +108,14 @@ const Category = () => {
       <MainStyled>
         {cat && <Title>{cat.replace(/-/g, " ").toLowerCase()}</Title>}
         {products.length > 0 ? (
-          <CategorySection data={products} />
+          <>
+            <CategorySection data={products} />
+            {showButton && (
+              <LoadMoreButton type="button" onClick={more}>
+                Cargar más productos 
+              </LoadMoreButton>
+            )}
+          </>
         ) : (
           <SectionEmpty>
             <AddNewProducts />

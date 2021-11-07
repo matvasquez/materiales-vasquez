@@ -38,7 +38,7 @@ export const SuccessContainer = styled.div`
   @media (min-width: 750px) {
     width: 90%;
   }
-  @media (min-width: 1200px) {
+  @media (min-width: 1000px) {
     width: 70%;
   }
   @media print {
@@ -68,7 +68,7 @@ export const SuccessIconContainer = styled.div`
     width: 15%;
   }
 
-  @media (min-width: 1200px) {
+  @media (min-width: 1000px) {
     width: 10%;
   }
   @media print {
@@ -117,7 +117,7 @@ export const PurchaseInfoContainer = styled.section`
   @media (min-width: 750px) {
     width: 90%;
   }
-  @media (min-width: 1200px) {
+  @media (min-width: 1000px) {
     width: 70%;
   }
   @media print {
@@ -132,6 +132,9 @@ export const TotalContainer = styled.div`
   text-align: center;
   background-color: var(--background);
   border-radius: 0;
+  h2 {
+    color: var(--light-blue);
+  }
   p {
     width: 100%;
     margin: 1rem 0;
@@ -151,10 +154,6 @@ export const ProductsContainer = styled.div`
   width: 100%;
   padding: 2rem 0;
   font-size: 1.2rem;
-  p:first-child {
-    width: 100%;
-    text-align: left;
-  }
 `;
 
 export const Products = styled.div`
@@ -186,7 +185,7 @@ export const InfoContainer = styled.section`
   @media (min-width: 750px) {
     width: 90%;
   }
-  @media (min-width: 1200px) {
+  @media (min-width: 1000px) {
     width: 70%;
   }
   @media print {
@@ -260,7 +259,7 @@ export const ButtonsInfoContainer = styled.section`
   @media (min-width: 750px) {
     width: 90%;
   }
-  @media (min-width: 1200px) {
+  @media (min-width: 1000px) {
     width: 70%;
   }
   @media print {

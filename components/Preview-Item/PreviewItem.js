@@ -55,8 +55,6 @@ const PreviewItem = (props) => {
     myCart,
     setIitemsIliked,
     setDeleteFavorite,
-    setMyCart,
-    setPricesToCart,
   } = props;
 
   // Hook que verifica si el producto esta entre los favoritos
@@ -67,17 +65,6 @@ const PreviewItem = (props) => {
   const [image_url] = useGetImage(articulo_id);
   // Consulta el precio
   const [price] = useGetPrice(articulo_id);
-
-  // console.log("myCart: ", myCart);
-
-  // Envia al Carrito y a la lista de precios
-  // const handleSetCart = () => {
-  //   setMyCart({
-  //     articulo_id,
-  //     initialQuantity: 1,
-  //   });
-  //   setPricesToCart(price);
-  // };
 
   // Envia a favoritos
   const handleLike = () => {

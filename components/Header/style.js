@@ -42,6 +42,3 @@ export const LogoContainer = styled.a`
     width: 5rem;
   }
 `;
-
-// Carrito
-// '\EA1F'

@@ -79,63 +79,63 @@ const CheckoutForm = ({
   // console.log("invoiceShippingEmail: ", invoiceShippingEmail);
   // console.log("cfdi: ", cfdi);
 
-  // useEffect(() => {
-  //   if (
-  //     shippingName.length > 3 &&
-  //     shippingLastName.length > 3 &&
-  //     phoneNumber.length === 10 &&
-  //     emailRegex.test(shippingEmail) &&
-  //     verifyEmail === shippingEmail
-  //   ) {
-  //     if (!pickUp) {
-  //       if (
-  //         addressState.length > 3 &&
-  //         addressCP.length > 4 &&
-  //         addressSubdivision.length > 3 &&
-  //         addressStreet.length > 3 &&
-  //         addressNumber !== "" &&
-  //         referencesText.length > 30
-  //       ) {
-  //         setActiveSubmit(true);
-  //       }
-  //     } else {
-  //       setActiveSubmit(true);
-  //     }
+  useEffect(() => {
+    if (
+      shippingName.length > 3 &&
+      shippingLastName.length > 3 &&
+      phoneNumber.length === 10 &&
+      emailRegex.test(shippingEmail) &&
+      verifyEmail === shippingEmail
+    ) {
+      if (!pickUp) {
+        if (
+          addressState.length > 3 &&
+          addressCP.length > 4 &&
+          addressSubdivision.length > 3 &&
+          addressStreet.length > 3 &&
+          addressNumber !== "" &&
+          referencesText.length > 30
+        ) {
+          setActiveSubmit(true);
+        }
+      } else {
+        setActiveSubmit(true);
+      }
 
-  //     if (invoiceRFC.length >= 1) {
-  //       if (
-  //         invoiceCompanyName.length > 3 &&
-  //         invoicePhoneNumber.length === 10 &&
-  //         emailRegex.test(invoiceShippingEmail) &&
-  //         cfdi !== "CFDI*"
-  //       ) {
-  //         setActiveSubmit(true);
-  //       } else {
-  //         setActiveSubmit(false);
-  //       }
-  //     }
-  //   } else {
-  //     setActiveSubmit(false);
-  //   }
-  // }, [
-  //   shippingName,
-  //   shippingLastName,
-  //   phoneNumber,
-  //   shippingEmail,
-  //   verifyEmail,
-  //   addressState,
-  //   addressCP,
-  //   addressCity,
-  //   addressSubdivision,
-  //   addressStreet,
-  //   addressNumber,
-  //   referencesText,
-  //   invoiceRFC,
-  //   invoiceCompanyName,
-  //   invoicePhoneNumber,
-  //   invoiceShippingEmail,
-  //   cfdi,
-  // ]);
+      if (invoiceRFC.length >= 1) {
+        if (
+          invoiceCompanyName.length > 3 &&
+          invoicePhoneNumber.length === 10 &&
+          emailRegex.test(invoiceShippingEmail) &&
+          cfdi !== "CFDI*"
+        ) {
+          setActiveSubmit(true);
+        } else {
+          setActiveSubmit(false);
+        }
+      }
+    } else {
+      setActiveSubmit(false);
+    }
+  }, [
+    shippingName,
+    shippingLastName,
+    phoneNumber,
+    shippingEmail,
+    verifyEmail,
+    addressState,
+    addressCP,
+    addressCity,
+    addressSubdivision,
+    addressStreet,
+    addressNumber,
+    referencesText,
+    invoiceRFC,
+    invoiceCompanyName,
+    invoicePhoneNumber,
+    invoiceShippingEmail,
+    cfdi,
+  ]);
 
   useEffect(() => {
     pickUp ? setAddressCP("pickUp") : setAddressCP("");

@@ -8,6 +8,7 @@ import { setPurchaseSuccess } from "../actions";
 import { Logo } from "../components/IconsSVG/Logo";
 import { SuccessIcon } from "../components/IconsSVG/SuccessIcon";
 import { CodeQR } from "../components/IconsSVG/CodeQR";
+import SuccesProducts from "../components/Succes-Products/SuccesProducts";
 
 // Styles
 import styles from "../styles/components/Main.module.css";
@@ -71,27 +72,7 @@ const Success = ({ purchasingData, setPurchaseSuccess }) => {
               {purchasingData.products && (
                 <>
                   {purchasingData.products.map((product) => (
-                    <Products key={product.articulo_id}>
-                      <p>
-                        {product.name} |{" "}
-                        <span>
-                          {product.initialQuantity}{" "}
-                          {product.initialQuantity > 1 ? "piezas" : "pieza"}
-                        </span>
-                      </p>
-                      <p>
-                        $
-                        {formatter.format(
-                          product.price * product.initialQuantity
-                        )}
-                      </p>
-                      <img
-                        src={`data:image/jpg;base64,${product.image_url}`}
-                        width={300}
-                        height={300}
-                        alt={`Fotografía de ${product.name}`}
-                      />
-                    </Products>
+                    <SuccesProducts key={product.articulo_id} {...product} />
                   ))}
                 </>
               )}

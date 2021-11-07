@@ -4,10 +4,6 @@ export const ProfileData = styled.section`
   width: 100%;
   padding: 1rem;
   margin: 1rem auto;
-  /* display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center; */
   display: grid;
   grid-template-columns: 1fr 3fr;
   grid-gap: 1rem;
@@ -20,8 +16,8 @@ export const ProfileData = styled.section`
 `;
 
 export const ImageContainer = styled.div`
-  width: 8rem;
-  height: 8rem;
+  width: 5rem;
+  height: 5rem;
   margin: 1rem;
   display: flex;
   justify-content: center;

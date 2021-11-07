@@ -10,6 +10,7 @@ import { articulos } from "../database/articulos";
 // Components
 import Slider from "../components/Slider/Slider";
 import HomeSection from "../components/Home-Sections/index";
+
 import HomeFavorites from "../components/Home-Favorites/HomeFavorites";
 
 // Styles
