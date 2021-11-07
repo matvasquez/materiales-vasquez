@@ -100,3 +100,44 @@ export const UlStyled = styled.ul`
     border-radius: 1rem;
   }
 `;
+
+export const AnchorStyled = styled.a`
+  width: 100%;
+  height: 100%;
+  padding: 1rem 0 1rem 1rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 2rem;
+  font-weight: 400;
+  text-transform: capitalize;
+  color: var(--blue);
+  background: none;
+  cursor: pointer;
+  transition: 0.3s ease-in-out all;
+  @media (min-width: 1000px) {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    white-space: nowrap;
+    font-size: 1.4rem;
+    justify-content: center;
+  }
+`;
+
+export const LiStyled = styled.li`
+  width: 100%;
+  height: 4rem;
+  margin: 1rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+  }
+  @media (min-width: 1000px) {
+    width: fit-content;
+    margin: 0.2rem 0;
+    position: absolute;
+    top: 1rem;
+    right: 2rem;
+  }
+`;

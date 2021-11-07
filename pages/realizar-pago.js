@@ -111,7 +111,6 @@ const Checkout = ({ myCart, setPurchasingData }) => {
   useEffect(() => {
     if (paymentData.orderNumber) {
       let order = { ...formData, ...paymentData };
-      console.log("listo: ");
       sendEmail(order);
       setPurchasingData(order);
     }
@@ -152,7 +151,6 @@ const Checkout = ({ myCart, setPurchasingData }) => {
       };
       setPurchasingData(orderFail);
     }
-    console.log("redirectURL: ", e.data.redirectURL);
     setTimeout(() => {
       window.location.href = e.data.redirectURL;
     }, 800);

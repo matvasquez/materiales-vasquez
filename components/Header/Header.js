@@ -50,7 +50,7 @@ const Header = ({ user }) => {
       </Link>
       <ButtonCart />
       <HomeUser user={user} />
-      <MainMenu isOpen={menuIsOpen} handleOpen={handleOpen} />
+      <MainMenu isOpen={menuIsOpen} handleOpen={handleOpen} user={user} />
     </HeaderStyled>
   );
 };

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import Link from "next/link";
-import fetch from "isomorphic-unfetch";
+// import fetch from "isomorphic-unfetch";
 
 // Data
 import { articulos } from "../../database/articulos";
@@ -10,20 +10,13 @@ import { articulos } from "../../database/articulos";
 import CategorySection from "../Category-Section/CategorySection";
 
 // Styled-Components
-import {
-  ContainerFavorites,
-  Title,
-  Navigation,
-  List,
-  ListOptions,
-  ListLink,
-} from "./style";
+import { ContainerFavorites, Title, ListLink } from "./style";
 
 const Favorites = ({ itemsIliked }) => {
   const [myFavorites, setmyFavorites] = useState([]);
   const [someArticles, setSomeArticles] = useState([]);
-  const [allCAtegories, setallCAtegories] = useState([]);
-  const [mainCategories, setMainCategories] = useState([]);
+  // const [allCAtegories, setallCAtegories] = useState([]);
+  // const [mainCategories, setMainCategories] = useState([]);
 
   useEffect(() => {
     if (articulos.length > 0) {
@@ -40,30 +33,30 @@ const Favorites = ({ itemsIliked }) => {
     }
   }, [itemsIliked, articulos]);
 
-  // Consulta las categorias
-  useEffect(async () => {
-    if (itemsIliked.length === 0) {
-      const response = await fetch(`/api/menu`);
-      const { data } = await response.json();
-      setallCAtegories(data);
-    }
-  }, [itemsIliked]);
+  // // Consulta las categorias
+  // useEffect(async () => {
+  //   if (itemsIliked.length === 0) {
+  //     const response = await fetch(`/api/menu`);
+  //     const { data } = await response.json();
+  //     setallCAtegories(data);
+  //   }
+  // }, [itemsIliked]);
 
-  // Filtra las categorias principales
-  useEffect(() => {
-    const cat = allCAtegories.map((item) => item.categorie);
+  // // Filtra las categorias principales
+  // useEffect(() => {
+  //   const cat = allCAtegories.map((item) => item.categorie);
 
-    let result = cat.filter((item, index) => {
-      return cat.indexOf(item) === index;
-    });
-    setMainCategories(result);
-  }, [allCAtegories]);
+  //   let result = cat.filter((item, index) => {
+  //     return cat.indexOf(item) === index;
+  //   });
+  //   setMainCategories(result);
+  // }, [allCAtegories]);
 
-  useEffect(async () => {
-    if (itemsIliked.length === 0) {
-      setSomeArticles(articulos.slice(0, 12));
-    }
-  }, [itemsIliked, articulos]);
+  // useEffect(async () => {
+  //   if (itemsIliked.length === 0) {
+  //     setSomeArticles(articulos.slice(0, 12));
+  //   }
+  // }, [itemsIliked, articulos]);
 
   return (
     <ContainerFavorites>
@@ -75,22 +68,9 @@ const Favorites = ({ itemsIliked }) => {
       ) : (
         <>
           <Title>Aún no seleccionas productos que te gusten</Title>
-          <Navigation>
-            {mainCategories.length > 0 && (
-              <>
-                <p>Puedes explorar las distintas categorías</p>
-                <List>
-                  {mainCategories.map((item) => (
-                    <ListOptions key={item}>
-                      <Link href={`/categoria/${item.replace(/ /g, "-")}`}>
-                        <ListLink>{item.toLocaleLowerCase()}</ListLink>
-                      </Link>
-                    </ListOptions>
-                  ))}
-                </List>
-              </>
-            )}
-          </Navigation>
+          <Link href={`/`}>
+            <ListLink>Ver productos</ListLink>
+          </Link>
           {someArticles.length > 0 && <CategorySection data={someArticles} />}
         </>
       )}

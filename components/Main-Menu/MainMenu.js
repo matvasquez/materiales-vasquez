@@ -1,13 +1,20 @@
 import React, { useEffect, useState } from "react";
 import fetch from "isomorphic-unfetch";
+import Link from "next/link";
 
 // Components
 import MainMenuSections from "../Main-Menu-Sections/MainMenuSections";
 
 // Styled-Components
-import { NavStyled, CloseButton, UlStyled } from "./style";
+import {
+  NavStyled,
+  CloseButton,
+  UlStyled,
+  LiStyled,
+  AnchorStyled,
+} from "./style";
 
-const MainMenu = ({ isOpen, handleOpen }) => {
+const MainMenu = ({ isOpen, handleOpen, user }) => {
   const [allCAtegories, setallCAtegories] = useState([]);
   const [mainCategories, setMainCategories] = useState([]);
 
@@ -36,7 +43,14 @@ const MainMenu = ({ isOpen, handleOpen }) => {
         aria-label="Botón cerrar menú"
       ></CloseButton>
       {mainCategories.length > 0 && (
-        <UlStyled rows={mainCategories.length + 1}>
+        <UlStyled rows={mainCategories.length + 2}>
+          <LiStyled>
+            <Link href={user.email ? "/perfil" : "/auth"}>
+              <AnchorStyled>
+                {user.email ? "Ver mi perfil" : "Inicia sesión"}
+              </AnchorStyled>
+            </Link>
+          </LiStyled>
           {mainCategories.map((categorie) => {
             let sub = allCAtegories.filter(
               (item) => item.categorie === categorie

@@ -39,7 +39,8 @@ const formatter = new Intl.NumberFormat("en-US", {
 });
 
 const Success = ({ purchasingData, setPurchaseSuccess }) => {
-  setPurchaseSuccess();
+  // setPurchaseSuccess();
+  console.log("purchasingData: ", purchasingData);
 
   return (
     <main className={styles.MainHome}>
@@ -131,7 +132,7 @@ const Success = ({ purchasingData, setPurchaseSuccess }) => {
           </InfoContainer>
         </>
       )}
-      <ButtonsInfoContainer>
+      {/* <ButtonsInfoContainer>
         <PrintButton type="button" onClick={() => window.print()}>
           Imprimir
         </PrintButton>
@@ -139,7 +140,7 @@ const Success = ({ purchasingData, setPurchaseSuccess }) => {
           Igualmente enviamos tu recibo al correo{" "}
           <span>{purchasingData.shippingEmail}</span>
         </p>
-      </ButtonsInfoContainer>
+      </ButtonsInfoContainer> */}
     </main>
   );
 };
