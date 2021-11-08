@@ -1,6 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
-import { useRouter } from "next/router";
 import Link from "next/link";
 
 // Components
@@ -23,11 +21,9 @@ import {
   AllRightsReserved,
 } from "./style";
 
-const Footer = ({ carIsEmpty }) => {
-  const { pathname } = useRouter();
-
+const Footer = () => {
   return (
-    <FooterStyled carIsEmpty={pathname != "/realizar-pago" && carIsEmpty}>
+    <FooterStyled>
       <LinksSyled>
         <LinkGroups>
           <GroupTitle>Servicio al cliente</GroupTitle>
@@ -149,10 +145,4 @@ const Footer = ({ carIsEmpty }) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    carIsEmpty: state.carIsEmpty,
-  };
-};
-
-export default connect(mapStateToProps, null)(Footer);
+export default Footer;

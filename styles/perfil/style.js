@@ -33,6 +33,13 @@ export const ImageContainer = styled.div`
   }
 `;
 
+export const Unnamed = styled.p`
+  font-size: 4rem;
+  text-align: center;
+  color: var(--white);
+  opacity: 0.5;
+`;
+
 export const LogoutButton = styled.button`
   padding: 0.2rem;
   background-color: var(--red);

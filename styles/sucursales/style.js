@@ -1,36 +1,130 @@
 import styled from "styled-components";
 
-export const MainStiled = styled.main`
+export const Title = styled.h1`
+  margin: 1rem auto;
+  font-size: 2rem;
+  text-align: center;
+  color: var(--light-blue);
+`;
+
+export const Conatiner = styled.section`
   width: 100%;
   padding: 1rem;
-  margin-top: 4.5rem;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-items: center;
   @media (min-width: 750px) {
-    margin-top: 10rem;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 2rem;
-    justify-items: center;
-    align-items: center;
-  }
-  @media (min-width: 1000px) and (orientation: portrait) {
-    width: 95%;
-    min-height: 60vh;
-    margin: 10rem auto;
-  }
-  @media (min-width: 1000px) and (orientation: landscape) {
     width: 80%;
-    min-height: 40vh;
-    margin: 5rem auto;
-    grid-gap: 2.5rem;
+    margin: 1rem auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 2rem 4rem;
   }
-  @media (min-width: 1200px) {
-    width: 90%;
-    padding: 2rem 1rem;
-    margin-top: 20rem;
-    grid-gap: 3rem;
+  @media (min-width: 1000px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+`;
+export const Branch = styled.div`
+  width: 100%;
+  margin: 1rem auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 2px 2px 5px 1px #dcdcdc;
+  transition: 0.3s ease-in-out all;
+`;
+
+export const ImageContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  /* @media (min-width: 750px) {
+    img {
+      object-fit: cover;
+    }
+  } */
+`;
+
+export const Name = styled.h3`
+  margin: 1rem auto;
+  font-size: 1.6rem;
+  text-align: center;
+  color: var(--light-blue);
+`;
+
+export const HoursContainer = styled.div`
+  width: 100%;
+  padding: 0.5rem;
+  margin: 1rem auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  span {
+    font-size: 1.5;
+    font-weight: 700;
+  }
+`;
+
+export const ContactContainer = styled(HoursContainer)``;
+
+export const Address = styled.p`
+  margin: 0.5rem auto;
+  text-align: center;
+`;
+
+export const PhoneContainer = styled.div`
+  width: 100%;
+  margin: 1rem auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  a {
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: var(--light-blue);
+    cursor: pointer;
+  }
+`;
+
+export const ExtensionsContainer = styled.div`
+  width: 50%;
+  margin-left: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const Email = styled.p`
+  width: 100%;
+  margin: 1rem auto;
+  text-align: center;
+`;
+
+export const LinkToMap = styled.a`
+  width: 100%;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  text-align: center;
+  font-weight: 500;
+  color: var(--white);
+  background-color: var(--light-blue);
+  border-radius: 0.5rem;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: 0.3s ease-in-out all;
+  &:hover {
+    opacity: 1;
   }
 `;

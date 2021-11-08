@@ -15,6 +15,7 @@ import { MainStyled } from "../styles/Inicio/style";
 import {
   ProfileData,
   ImageContainer,
+  Unnamed,
   LogoutButton,
   EmailText,
 } from "../styles/perfil/style";
@@ -31,7 +32,7 @@ const Perfil = () => {
     <MainStyled>
       <ProfileData>
         <ImageContainer>
-          {AuthUser.photoURL && (
+          {AuthUser.photoURL ? (
             <Image
               loader={loader}
               src={AuthUser.photoURL}
@@ -39,6 +40,8 @@ const Perfil = () => {
               height={300}
               alt={`Fotografía de perfil de ${AuthUser.displayName}`}
             />
+          ) : (
+            <Unnamed>{AuthUser.displayName.slice(0, 1)}</Unnamed>
           )}
         </ImageContainer>
         <h1>{AuthUser.displayName ? AuthUser.displayName : "No registrado"}</h1>

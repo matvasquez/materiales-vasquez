@@ -1,87 +1,36 @@
 import React from "react";
 import { NextSeo, LocalBusinessJsonLd } from "next-seo";
+import Image from "next/image";
+import Link from "next/link";
 
 // Components
 
 // Styled-Components
-import { MainStiled } from "../styles/sucursales/style";
+import { MainStyled } from "../styles/Inicio/style";
+import {
+  Title,
+  Conatiner,
+  Branch,
+  ImageContainer,
+  Name,
+  HoursContainer,
+  ContactContainer,
+  Address,
+  PhoneContainer,
+  ExtensionsContainer,
+  Email,
+  LinkToMap,
+} from "../styles/sucursales/style";
 
-// Data-Test
-const branches = [
-  {
-    branch: "Lázaro Cárdenas",
-    address:
-      "Av. Lázaro Cárdenas N.274 Col. Encinal c.p 91180 Xalapa, Veracruz, México.",
-    photo:
-      "https://res.cloudinary.com/duibtuerj/image/upload/v1630682519/brand/tiendas/L%C3%A1zaro-C%C3%A1rdenas.jpg",
-    phone: "2288401919",
-    extent: ["838", "839"],
-    email: "ventas.sucursal@grupovasquez.com.mx",
-    hours: ["8:00", "19:30", "15:00"], // Apertura - Cierre - Cierre Sabados
-    location: "https://goo.gl/maps/CS4JgsBKMByXvEHt5",
-  },
-  {
-    branch: "Home Center",
-    address:
-      "Av. Lázaro Cárdenas N.13 Col. Badillo c.p 91180 Xalapa, Veracruz, México.",
-    photo:
-      "https://res.cloudinary.com/duibtuerj/image/upload/v1634687366/brand/tiendas/homcenter1_gibctf.jpg",
-    phone: "2288401919",
-    extent: ["855"],
-    email: "caja.homecenter@grupovasquez.com.mx",
-    hours: ["9:00", "20:00", "18:00"], // Apertura - Cierre - Cierre Sabados
-    location: "https://goo.gl/maps/DmzzzyJgNedggcHWA",
-  },
-  {
-    branch: "Banderilla",
-    address:
-      "Boulevard Xalapa-Banderilla k.m 5. Col. Centro c.p 91300 Banderilla, Veracruz. México.",
-    photo:
-      "https://res.cloudinary.com/duibtuerj/image/upload/v1630682646/brand/tiendas/Banderilla.jpg",
-    phone: "2288401919",
-    extent: ["853"],
-    email: "ferreteria_banderilla@grupovasquez.com.mx",
-    hours: ["8:00", "19:00", "15:00"], // Apertura - Cierre - Cierre Sabados
-    location: "https://goo.gl/maps/dUS5r4sraKLZQsA49",
-  },
-  {
-    branch: "Margarita Olivo",
-    address:
-      "Margarita Olivo N.15 Col. Rafael Lucio c.p 91110 Xalapa, Veracruz, México.",
-    photo:
-      "https://res.cloudinary.com/duibtuerj/image/upload/v1630682681/brand/tiendas/Margarita-Olivo.jpg",
-    phone: "2288401919",
-    extent: ["828"],
-    email: "ventas3@grupovasquez.com.mx",
-    hours: ["8:00", "19:00", "15:00"], // Apertura - Cierre - Cierre Sabados
-    location: "https://goo.gl/maps/fmwY4dVusMrRGycV6",
-  },
-  {
-    branch: "Castillo",
-    address: "Carretera Xalapa - El Castillo N.2615 Xalapa, Veracruz, México.",
-    photo:
-      "https://res.cloudinary.com/duibtuerj/image/upload/v1634687364/brand/tiendas/CASTILLO_wvricm.jpg",
-    phone: "2288401919",
-    extent: ["893"],
-    email: "ventas.castillo@grupovasquez.com.mx",
-    hours: ["8:00", "19:00", "15:00"], // Apertura - Cierre - Cierre Sabados
-    location: "https://goo.gl/maps/Xx6unGF2MXpz4Rnb7",
-  },
-  {
-    branch: "Revolución",
-    address:
-      "Av. Atenas Veracruzana N.1906 Col. Revolución CP.91100 Xalapa, Veracruz, México.",
-    photo:
-      "https://res.cloudinary.com/duibtuerj/image/upload/v1634687368/brand/tiendas/REVOLUCION_ldsxcf.jpg",
-    phone: "2288401919",
-    extent: ["863"],
-    email: "ventas.revolucion@grupovasquez.com.mx",
-    hours: ["8:00", "19:00", "15:00"], // Apertura - Cierre - Cierre Sabados
-    location: "https://goo.gl/maps/UDum4sLi7jyuTm7W7",
-  },
-];
+// Data
+import { branches } from "../database/sucursales";
 
-const Sucursales = () => {
+// Loader para componente Image
+const loader = ({ src, width, quality }) => {
+  return `${src}?w=${width}&q=${quality || 75}`;
+};
+
+const Branches = () => {
   return (
     <>
       <NextSeo
@@ -122,11 +71,65 @@ const Sucursales = () => {
           addressCountry: "MX",
         }}
       />
-      <MainStiled>
-        <h1>Sucursales</h1>
-      </MainStiled>
+      <MainStyled>
+        <Title>Tenemos una sucursal cerca de ti</Title>
+        {branches && (
+          <Conatiner>
+            {branches.map(
+              ({
+                branch,
+                address,
+                photo,
+                phone,
+                extent,
+                email,
+                hours,
+                location,
+              }) => (
+                <Branch key={address}>
+                  <ImageContainer>
+                    <img src={photo} alt={`Fotografía de sucursal ${branch}`} />
+                  </ImageContainer>
+                  <Name>{branch}</Name>
+                  <HoursContainer>
+                    <h4>Horario</h4>
+                    <p>
+                      Lunes - Viernes: <span>{hours[0]}</span> -{" "}
+                      <span>{hours[1]}</span>
+                    </p>
+                    <p>
+                      Sábado: <span>{hours[0]}</span> - <span>{hours[2]}</span>
+                    </p>
+                    <p>Domingo: Cerrado</p>
+                  </HoursContainer>
+                  <ContactContainer>
+                    <Address>{address}</Address>
+                    <PhoneContainer>
+                      <a href={`tel:+52${phone}`}>{phone}</a>
+                      <ExtensionsContainer>
+                        <p>Extensión:</p>
+                        {extent.map((ext) => (
+                          <p key={ext}>{ext}</p>
+                        ))}
+                      </ExtensionsContainer>
+                    </PhoneContainer>
+                    <Email>{email}</Email>
+                    <LinkToMap
+                      href={location}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Ver en Mapa
+                    </LinkToMap>
+                  </ContactContainer>
+                </Branch>
+              )
+            )}
+          </Conatiner>
+        )}
+      </MainStyled>
     </>
   );
 };
 
-export default Sucursales;
+export default Branches;

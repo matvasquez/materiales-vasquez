@@ -93,7 +93,7 @@ export const CloseButton = styled.button`
   top: 2rem;
   left: 2rem;
   &:after {
-    content: "\\2192";
+    content: "\\2190";
 
     font-size: 2rem;
     color: var(--blue);

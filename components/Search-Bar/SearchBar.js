@@ -19,6 +19,7 @@ import {
   ResultsContainer,
   TitleMatch,
   NavegateTo,
+  TitleEmty,
 } from "./style";
 
 const SearchBar = ({ user }) => {
@@ -29,6 +30,7 @@ const SearchBar = ({ user }) => {
   const [resultsByCategorye, setResultsByCategorye] = useState([]);
   const [resultsByID, setresultsByID] = useState([]);
   const [showResults, setshowResults] = useState(false);
+  const [noResults, setNoResults] = useState(false);
 
   // Reinicia los valores
   const reset = () => {
@@ -82,7 +84,13 @@ const SearchBar = ({ user }) => {
       resultsByCategorye.length === 0 &&
       resultsByID.length === 0
     ) {
-      setshowResults(false);
+      setNoResults(false);
+      if (searchText !== "") {
+        setNoResults(true);
+        setshowResults(true);
+      } else {
+        setshowResults(false);
+      }
     } else {
       setshowResults(true);
     }
@@ -107,6 +115,9 @@ const SearchBar = ({ user }) => {
       </InputContainer>
       {showResults && (
         <ResultsContainer>
+          {noResults && (
+            <TitleEmty>No hay nada que coincida con tu búsqueda</TitleEmty>
+          )}
           {resultsByName.length > 0 && (
             <>
               <TitleMatch>Coincidencias por nombre</TitleMatch>

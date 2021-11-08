@@ -29,6 +29,7 @@ export const MainTitle = styled.h1`
   width: 100%;
   padding: 1rem;
   font-size: 2rem;
+  color: var(--light-blue);
   @media (min-width: 1200px) {
     grid-column: 1 / span 2;
     grid-row: 1 / span 1;

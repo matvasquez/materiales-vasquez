@@ -66,7 +66,7 @@ export const InputSearch = styled.input`
 export const ResultsContainer = styled.div`
   width: 100vw;
   height: fit-content;
-  min-height: 20rem;
+  min-height: 10rem;
   padding: 2rem 0.5rem 4rem;
   display: flex;
   flex-direction: column;
@@ -90,6 +90,18 @@ export const ResultsContainer = styled.div`
     grid-template-columns: repeat(3, 1fr);
     top: 6rem;
     left: calc(50% - 35vw);
+  }
+`;
+
+export const TitleEmty = styled.p`
+  font-size: 1.6rem;
+  margin: auto;
+  text-align: center;
+  @media (min-width: 750px) {
+    grid-column: 1 / span 2;
+  }
+  @media (min-width: 1000px) {
+    grid-column: 1 / span 3;
   }
 `;
 

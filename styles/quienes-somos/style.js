@@ -28,6 +28,7 @@ export const MainTitle = styled.h1`
   width: 100%;
   margin: 1rem auto;
   font-size: 2rem;
+  color: var(--light-blue);
   @media (min-width: 1200px) {
     width: 90%;
   }
@@ -40,6 +41,7 @@ export const ImageContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: flex-end;
+  aspect-ratio: 16 / 9;
   border-radius: 1rem;
   overflow: hidden;
   img {

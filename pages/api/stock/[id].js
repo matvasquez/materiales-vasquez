@@ -19,18 +19,11 @@ export default async function getStockOfAProduct(req, res) {
       .status(500)
       .json({ message: "Lo sentimos, sólo aceptamos solicitudes GET" });
   }
+  const id = req.query.id.replace(/space/g, " ").replace(/slash/gi, "/");
+
   const query = `SELECT SUM(s.EXISTE) - SUM(s.U_SURTIR) AS stock
-  FROM ARTICULO AS a
-  LEFT OUTER JOIN ARTLISTA AS l
-      ON a.CLAVEART = l.CLAVEART
-  LEFT OUTER JOIN ART_ALM AS s
-      ON a.CLAVEART = s.CLAVEART
-  WHERE a.CLAVEART = '${req.query.id
-    .replace(/space/g, " ")
-    .replace(
-      /slash/gi,
-      "/"
-    )}' AND a.HABVTAS = '' AND l.NO_LISTAP = '001' AND s.CVEALM IN ('0020','0007','0018','0014','0015','0002','0008','0023','0017','0028','0027', '0021')`;
+  FROM ART_ALM AS s
+  WHERE S.CLAVEART = '${id}' AND s.CVEALM IN ('0020','0007','0018','0014','0015','0002','0008','0023','0017','0028','0027', '0021')`;
   // console.log("Stock :", query);
 
   setTimeout(async () => {

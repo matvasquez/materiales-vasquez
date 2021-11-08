@@ -23,6 +23,7 @@ export const MainStiled = styled.main`
 export const MainTitle = styled.h1`
   width: 100%;
   font-size: 2rem;
+  color: var(--light-blue);
 `;
 
 export const Paragraph = styled.p`
