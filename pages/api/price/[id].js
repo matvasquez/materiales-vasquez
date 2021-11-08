@@ -22,12 +22,7 @@ export default async function getPricekOfAProduct(req, res) {
 
   const id = req.query.id.replace(/space/g, " ").replace(/slash/gi, "/");
 
-  const query = `SELECT TOP 1 RTRIM(a.CLAVEART) AS articulo_id, l.PREC_IVA1 AS price
-                FROM ARTICULO AS a
-                LEFT OUTER JOIN ARTLISTA AS l
-                ON a.CLAVEART = l.CLAVEART
-                WHERE a.CLAVEART = '${id}'  
-                GROUP BY a.CLAVEART, l.PREC_IVA1`;
+  const query = `SELECT TOP 1 PREC_IVA1 AS price FROM ARTLISTA WHERE CLAVEART = '${id}' AND NO_LISTAP = '001'`;
 
   setTimeout(async () => {
     const result = await rest.executeQuery(query);

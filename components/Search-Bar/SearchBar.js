@@ -131,7 +131,7 @@ const SearchBar = ({ user }) => {
               ))}
             </>
           )}
-          {resultsByName.length > 0 && (
+          {resultsByName.length > 5 && (
             <Link href={`/busqueda/${searchText.trim().replace(/s$/g, "")}`}>
               <NavegateTo>Ver más sobre {searchText.trim()}</NavegateTo>
             </Link>
