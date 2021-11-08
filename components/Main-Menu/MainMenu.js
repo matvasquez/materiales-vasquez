@@ -20,7 +20,7 @@ const MainMenu = ({ isOpen, handleOpen, user }) => {
 
   // Consulta las categorias
   useEffect(async () => {
-    const response = await fetch(`/api/menu`);
+    const response = await fetch(`/api/categories/all-categories`);
     const { data } = await response.json();
     setallCAtegories(data);
   }, []);

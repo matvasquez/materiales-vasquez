@@ -22,27 +22,6 @@ import { MainStyled, Section, TitleSection } from "../styles/Inicio/style";
 // g2.DESC_GIR2 = 'PUERTAS Y VENTANAS'
 // g2.DESC_GIR2 = 'VENTILACION Y CALEFACCIÓN'
 
-export const getServerSideProps = async () => {
-  const { endpoint, key } = config;
-
-  const client = new CosmosClient({ endpoint, key });
-  const databaseID = client.database("articulos");
-  // const containerID = databaseID.container("articulos_mv");
-  const slidersID = databaseID.container("sliders");
-
-  if (endpoint) {
-    const { resources: sliders } = await slidersID.items
-      .query(`SELECT * FROM c`)
-      .fetchAll();
-
-    return {
-      props: {
-        SlidersItems: sliders,
-      },
-    };
-  }
-};
-
 const HomePage = () => {
   // const [articulos, setArticulos] = useState([]);
   const [SlidersItems, setSlidersItems] = useState([]);
