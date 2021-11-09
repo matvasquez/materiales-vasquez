@@ -14,6 +14,7 @@ import { SliderStyled, SliderItem } from "./style";
 SwiperCore.use([Autoplay]);
 
 const Slider = ({ sliderItems }) => {
+  console.log("sliderItems: ", sliderItems);
   return (
     <SliderStyled>
       <Swiper
@@ -28,7 +29,7 @@ const Slider = ({ sliderItems }) => {
         {sliderItems &&
           sliderItems.map(({ articulo_id, image, link, text }) => (
             <SwiperSlide key={articulo_id}>
-              <SliderItem>
+              <SliderItem href={link}>
                 <img src={`data:image/jpg;base64,${image}`} alt={text} />
               </SliderItem>
             </SwiperSlide>

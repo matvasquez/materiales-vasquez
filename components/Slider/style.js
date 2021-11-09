@@ -4,7 +4,7 @@ export const SliderStyled = styled.section`
   width: 100%;
 `;
 
-export const SliderItem = styled.div`
+export const SliderItem = styled.a`
   width: 100%;
   aspect-ratio: 29 / 9;
   display: flex;
