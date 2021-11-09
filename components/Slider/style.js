@@ -6,7 +6,7 @@ export const SliderStyled = styled.section`
 
 export const SliderItem = styled.div`
   width: 100%;
-  aspect-ratio: 21 / 9;
+  aspect-ratio: 29 / 9;
   display: flex;
   justify-content: center;
   align-items: center;
