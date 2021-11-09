@@ -95,7 +95,7 @@ export const sendEmail = (order) => {
                                       <a href="https://www.materialesvasquezhnos.com.mx/">
                                           <img
                                             style="width: 120px; margin: 0"
-                                            src="https://www.materialesvasquezhnos.com.mx/wp-content/uploads/2020/09/Logo_Home_Center-02.png"
+                                            src="https://res.cloudinary.com/duibtuerj/image/upload/v1630083340/brand/meta-image_rcclee.jpg"
                                             alt="Logotipo de Materiales Vasquez Hermanos"
                                           />
                                       </a>
@@ -576,7 +576,7 @@ export const sendEmail = (order) => {
                                       <a href="https://www.materialesvasquezhnos.com.mx/">
                                           <img
                                             style="width: 120px; margin: 0"
-                                            src="https://www.materialesvasquezhnos.com.mx/wp-content/uploads/2020/09/Logo_Home_Center-02.png"
+                                            src="https://res.cloudinary.com/duibtuerj/image/upload/v1630083340/brand/meta-image_rcclee.jpg"
                                             alt="Logotipo de Materiales Vasquez Hermanos"
                                           />
                                       </a>
