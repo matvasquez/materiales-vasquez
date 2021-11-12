@@ -152,6 +152,16 @@ const ProductDetails = ({
     }
   }, [id]);
 
+  {
+    /* <Image
+  loader={loader}
+  src={`data:image/jpg;base64,${image_url}`}
+  width={300}
+  height={300}
+  alt={`Fotografía de ${product.name}`}
+/> */
+  }
+
   return (
     <MainStyled>
       {infoReady && product ? (
@@ -181,11 +191,8 @@ const ProductDetails = ({
           <Product>
             <ImageContainer>
               {image_url ? (
-                <Image
-                  loader={loader}
+                <img
                   src={`data:image/jpg;base64,${image_url}`}
-                  width={300}
-                  height={300}
                   alt={`Fotografía de ${product.name}`}
                 />
               ) : (
