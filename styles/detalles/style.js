@@ -78,7 +78,7 @@ export const ImageContainer = styled.div`
     border-radius: 1rem;
   }
   @media (min-width: 1000px) {
-    width: 100%;
+    /* width: 100%; */
     /* min-height: 40vh; */
   }
 `;
