@@ -31,12 +31,6 @@ const HomePage = () => {
   const [FerrItems, setFerrItems] = useState([]);
   const [VentilationItems, setVentilationItems] = useState([]);
 
-  // useEffect(async () => {
-  //   // Solicita los datos iniciales
-  //   const response = await fetch(`/api/todos-los-articulos`);
-  //   const { data } = await response.json();
-  // }, []);
-
   useEffect(async () => {
     // Solicita los sliders
     const response = await fetch(`/api/slider`);

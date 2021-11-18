@@ -14,7 +14,6 @@ import { SliderStyled, SliderItem } from "./style";
 SwiperCore.use([Autoplay]);
 
 const Slider = ({ sliderItems }) => {
-  console.log("sliderItems: ", sliderItems);
   return (
     <SliderStyled>
       <Swiper
