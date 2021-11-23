@@ -1,7 +1,6 @@
 import SwiperCore, { Autoplay } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
-import Link from "next/link";
 
 // Import Swiper styles
 import "../../node_modules/swiper/swiper-bundle.min.css";
@@ -34,18 +33,16 @@ const Slider = ({ sliderItems }) => {
         {sliderItems &&
           sliderItems.map(({ articulo_id, image, link, text }) => (
             <SwiperSlide key={articulo_id}>
-              <Link href={link}>
-                <SliderItem area-aria-label={text}>
-                  <Image
-                    loader={loader}
-                    src={`data:image/jpg;base64,${image}`}
-                    alt={text}
-                    layout="fill"
-                    objectFit="cover"
-                    blurDataURL
-                  />
-                </SliderItem>
-              </Link>
+              <SliderItem href={link} area-aria-label={text}>
+                <Image
+                  loader={loader}
+                  src={`data:image/jpg;base64,${image}`}
+                  alt={text}
+                  layout="fill"
+                  objectFit="cover"
+                  blurDataURL
+                />
+              </SliderItem>
             </SwiperSlide>
           ))}
       </Swiper>
