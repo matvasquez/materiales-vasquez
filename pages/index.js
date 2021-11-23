@@ -24,20 +24,20 @@ import { MainStyled, Section, TitleSection } from "../styles/Inicio/style";
 
 const HomePage = () => {
   // const [articulos, setArticulos] = useState([]);
-  const [SlidersItems, setSlidersItems] = useState([]);
+  // const [SlidersItems, setSlidersItems] = useState([]);
   const [BestSellers, setBestSellers] = useState([]);
   const [LightingItems, setLightingItems] = useState([]);
   const [DoorsItems, setDoorsItems] = useState([]);
   const [FerrItems, setFerrItems] = useState([]);
   const [VentilationItems, setVentilationItems] = useState([]);
 
-  useEffect(async () => {
-    // Solicita los sliders
-    const response = await fetch(`/api/slider`);
-    const { data } = await response.json();
+  // useEffect(async () => {
+  //   // Solicita los sliders
+  //   const response = await fetch(`/api/slider`);
+  //   const { data } = await response.json();
 
-    setSlidersItems(data);
-  }, []);
+  //   setSlidersItems(data);
+  // }, []);
 
   useEffect(() => {
     if (articulos.length > 0) {
@@ -69,7 +69,8 @@ const HomePage = () => {
 
   return (
     <MainStyled>
-      {SlidersItems.length > 0 && <Slider sliderItems={SlidersItems} />}
+      {/* {SlidersItems.length > 0 && <Slider sliderItems={SlidersItems} />} */}
+      <Slider />
       {articulos.length === 0 && <p>Consultando...</p>}
 
       <HomeFavorites />

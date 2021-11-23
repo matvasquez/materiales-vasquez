@@ -10,8 +10,26 @@ export const SliderItem = styled.a`
   display: flex;
   justify-content: center;
   align-items: center;
-  img {
+  position: relative;
+  /* img {
     width: 100%;
     object-fit: cover;
-  }
+  } */
 `;
+
+// export const ImageContainer = styled.div`
+//   width: 100%;
+//   height: 100%;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   background-color: #ffffff;
+//   aspect-ratio: 1 / 1;
+//   border-radius: 0.5rem;
+//   overflow: hidden;
+//   img {
+//     width: 100%;
+//     opacity: 0.3;
+//     object-fit: contain;
+//   }
+// `;

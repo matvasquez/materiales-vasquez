@@ -62,7 +62,7 @@ const PreviewItem = (props) => {
   // Hook que verifica si el producto esta en el carrito
   const [yesItIsMineCart] = useMyItems(articulo_id, myCart);
   // Consulta la imagen
-  const [image_url] = useGetImage(articulo_id);
+  // const [image_url] = useGetImage(articulo_id);
   // Consulta el precio
   const [price] = useGetPrice(articulo_id);
 
@@ -81,17 +81,15 @@ const PreviewItem = (props) => {
       <Link href={`/detalles/${articulo_id}`} passHref>
         <ItemLink aria-label={`Ver detalles de ${name}`}>
           <ImageContainer>
-            {image_url !== "" ? (
-              <Image
-                loader={loader}
-                src={`data:image/jpg;base64,${image_url}`}
-                width={300}
-                height={300}
-                alt={`Fotografía de ${name}`}
-              />
-            ) : (
-              <Loading />
-            )}
+            <Image
+              loader={loader}
+              src="https://res.cloudinary.com/duibtuerj/image/upload/v1630083340/brand/meta-image_rcclee.jpg"
+              alt={`Imagen de producto no disponible`}
+              width="200"
+              height="200"
+              placeholder="blur"
+              blurDataURL
+            />
           </ImageContainer>
           <ItemInfo>
             <ItemText>{name.toLocaleLowerCase()}</ItemText>

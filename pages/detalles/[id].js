@@ -74,7 +74,8 @@ const ProductDetails = ({
   const id = router.query.id;
   const [product, setProduct] = useState({});
   const [infoReady, setInfoReady] = useState(false);
-  const [image_url] = useGetImage(id);
+  // const [image_url] = useGetImage(id);
+  const image_url = "";
   const [stock] = useGetStock(id);
   const [price] = useGetPrice(id);
   //Url Actual
@@ -190,14 +191,15 @@ const ProductDetails = ({
           </SubDirectory>
           <Product>
             <ImageContainer>
-              {image_url ? (
-                <img
-                  src={`data:image/jpg;base64,${image_url}`}
-                  alt={`Fotografía de ${product.name}`}
-                />
-              ) : (
-                <Loading />
-              )}
+              <Image
+                loader={loader}
+                src="https://res.cloudinary.com/duibtuerj/image/upload/v1630083340/brand/meta-image_rcclee.jpg"
+                alt={`Imagen de producto no disponible`}
+                width="200"
+                height="200"
+                placeholder="blur"
+                blurDataURL
+              />
             </ImageContainer>
             <InfoContainer>
               <PriceContainer>

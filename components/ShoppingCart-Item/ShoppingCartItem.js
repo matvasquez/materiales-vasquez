@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { useGetImage } from "../../hooks/useGetImage";
 import { useGetPrice } from "../../hooks/useGetPrice";
 import { useGetStock } from "../../hooks/useGetStock";
@@ -110,21 +109,32 @@ const ShoppingCartItem = ({
     setUpdateCart(newCArt);
   };
 
+  // <ImageContainer>
+  //   {image_url !== "" ? (
+  //     <Image
+  //       loader={loader}
+  //       src={`data:image/jpg;base64,${image_url}`}
+  //       width={300}
+  //       height={300}
+  //       alt={`Fotografía de ${name}`}
+  //     />
+  //   ) : (
+  //     <Loading />
+  //   )}
+  // </ImageContainer>
   return (
     <>
       <Item>
         <ImageContainer>
-          {image_url !== "" ? (
-            <Image
-              loader={loader}
-              src={`data:image/jpg;base64,${image_url}`}
-              width={300}
-              height={300}
-              alt={`Fotografía de ${name}`}
-            />
-          ) : (
-            <Loading />
-          )}
+          <Image
+            loader={loader}
+            src="https://res.cloudinary.com/duibtuerj/image/upload/v1630083340/brand/meta-image_rcclee.jpg"
+            alt={`Imagen de producto no disponible`}
+            width="200"
+            height="200"
+            placeholder="blur"
+            blurDataURL
+          />
         </ImageContainer>
         {item.name && <Name>{item.name}</Name>}
         <PriceAndQuantit>

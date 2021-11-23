@@ -42,7 +42,7 @@ export const ImageContainer = styled.div`
   overflow: hidden;
   img {
     width: 100%;
-    height: 100%;
+    opacity: 0.3;
     object-fit: contain;
   }
 `;

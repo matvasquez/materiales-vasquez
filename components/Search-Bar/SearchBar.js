@@ -71,6 +71,7 @@ const SearchBar = ({ user }) => {
   // Detectar cambios en el input de texto
   useEffect(() => {
     if (searchText !== "" && searchText.length > 3) {
+      setNoResults(false);
       searchProduct(searchText);
     } else if (searchText === "") {
       reset();

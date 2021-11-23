@@ -69,7 +69,7 @@ export const ImageContainer = styled.div`
   overflow: hidden;
   img {
     width: 100%;
-    /* height: 100%; */
+    opacity: 0.7;
     object-fit: contain;
   }
   @media (min-width: 750px) {

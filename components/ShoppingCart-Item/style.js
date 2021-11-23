@@ -26,6 +26,8 @@ export const ImageContainer = styled.div`
   border-radius: 0.5rem;
   overflow: hidden;
   img {
+    width: 100%;
+    opacity: 0.3;
     object-fit: contain;
   }
 `;
