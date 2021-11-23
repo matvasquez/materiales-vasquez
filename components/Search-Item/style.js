@@ -30,7 +30,6 @@ export const ImageContainer = styled.div`
   overflow: hidden;
   img {
     width: 100%;
-    opacity: 0.3;
     object-fit: contain;
   }
 `;
