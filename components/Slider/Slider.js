@@ -1,11 +1,7 @@
-import React, { useState, useEffect } from "react";
 import SwiperCore, { Autoplay } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
 import Link from "next/link";
-
-// Data
-import { sliders } from "../../database/slider";
 
 // Import Swiper styles
 import "../../node_modules/swiper/swiper-bundle.min.css";
@@ -23,8 +19,7 @@ const loader = ({ src, width, quality }) => {
 // install Swiper modules
 SwiperCore.use([Autoplay]);
 
-const Slider = () => {
-  const sliderItems = sliders;
+const Slider = ({ sliderItems }) => {
   return (
     <SliderStyled>
       <Swiper
@@ -43,11 +38,10 @@ const Slider = () => {
                 <SliderItem area-aria-label={text}>
                   <Image
                     loader={loader}
-                    src={image}
+                    src={`data:image/jpg;base64,${image}`}
                     alt={text}
                     layout="fill"
                     objectFit="cover"
-                    placeholder="blur"
                     blurDataURL
                   />
                 </SliderItem>

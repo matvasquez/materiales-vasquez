@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
-// import fetch from "isomorphic-unfetch";
+import fetch from "isomorphic-unfetch";
 import Link from "next/link";
-
-// Data
-import { categories } from "../../database/categories";
 
 // Components
 import MainMenuSections from "../Main-Menu-Sections/MainMenuSections";
@@ -19,24 +16,24 @@ import {
 
 const MainMenu = ({ isOpen, handleOpen, user }) => {
   const [allCAtegories, setallCAtegories] = useState([]);
-  const [mainCategories, setMainCategories] = useState(categories);
+  const [mainCategories, setMainCategories] = useState([]);
 
   // Consulta las categorias
-  // useEffect(async () => {
-  //   const response = await fetch(`/api/categories/all-categories`);
-  //   const { data } = await response.json();
-  //   setallCAtegories(data);
-  // }, []);
+  useEffect(async () => {
+    const response = await fetch(`/api/categories/all-categories`);
+    const { data } = await response.json();
+    setallCAtegories(data);
+  }, []);
 
   // Filtra las categorias principales
-  // useEffect(() => {
-  //   const cat = allCAtegories.map((item) => item.categorie);
+  useEffect(() => {
+    const cat = allCAtegories.map((item) => item.categorie);
 
-  //   let result = cat.filter((item, index) => {
-  //     return cat.indexOf(item) === index;
-  //   });
-  //   setMainCategories(result);
-  // }, [allCAtegories]);
+    let result = cat.filter((item, index) => {
+      return cat.indexOf(item) === index;
+    });
+    setMainCategories(result);
+  }, [allCAtegories]);
 
   return (
     <NavStyled open={isOpen} id="Main-Menu">
