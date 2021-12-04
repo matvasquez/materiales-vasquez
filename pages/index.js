@@ -113,34 +113,34 @@ const HomePage = ({
         }}
       />
       <MainStyled>
-        {SlidersItems.length > 0 && <Slider sliderItems={SlidersItems} />}
+        {SlidersItems && <Slider sliderItems={SlidersItems} />}
 
         <HomeFavorites />
-        {BestSellers.length > 0 && (
+        {BestSellers && (
           <Section>
             <TitleSection>PRODUCTOS MÁS VENDIDOS</TitleSection>
             <HomeSection data={BestSellers} />
           </Section>
         )}
-        {LightingItems.length > 0 && (
+        {LightingItems && (
           <Section>
             <TitleSection>ILUMINACIÓN</TitleSection>
             <HomeSection data={LightingItems} />
           </Section>
         )}
-        {FerrItems.length > 0 && (
+        {FerrItems && (
           <Section>
             <TitleSection>FERRETERIA</TitleSection>
             <HomeSection data={FerrItems} />
           </Section>
         )}
-        {DoorsItems.length > 0 && (
+        {DoorsItems && (
           <Section>
             <TitleSection>PUERTAS Y VENTANAS</TitleSection>
             <HomeSection data={DoorsItems} />
           </Section>
         )}
-        {VentilationItems.length > 0 && (
+        {VentilationItems && (
           <Section>
             <TitleSection>VENTILACIÓN Y CALEFACCIÓN</TitleSection>
             <HomeSection data={VentilationItems} />
