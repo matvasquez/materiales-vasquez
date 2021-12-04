@@ -113,34 +113,34 @@ const HomePage = ({
         }}
       />
       <MainStyled>
-        {SlidersItems && <Slider sliderItems={SlidersItems} />}
+        {SlidersItems.length > 0 && <Slider sliderItems={SlidersItems} />}
 
         <HomeFavorites />
-        {BestSellers && (
+        {BestSellers.length > 0 && (
           <Section>
             <TitleSection>PRODUCTOS MÁS VENDIDOS</TitleSection>
             <HomeSection data={BestSellers} />
           </Section>
         )}
-        {LightingItems && (
+        {LightingItems.length > 0 && (
           <Section>
             <TitleSection>ILUMINACIÓN</TitleSection>
             <HomeSection data={LightingItems} />
           </Section>
         )}
-        {FerrItems && (
+        {FerrItems.length > 0 && (
           <Section>
             <TitleSection>FERRETERIA</TitleSection>
             <HomeSection data={FerrItems} />
           </Section>
         )}
-        {DoorsItems && (
+        {DoorsItems.length > 0 && (
           <Section>
             <TitleSection>PUERTAS Y VENTANAS</TitleSection>
             <HomeSection data={DoorsItems} />
           </Section>
         )}
-        {VentilationItems && (
+        {VentilationItems.length > 0 && (
           <Section>
             <TitleSection>VENTILACIÓN Y CALEFACCIÓN</TitleSection>
             <HomeSection data={VentilationItems} />
@@ -169,29 +169,29 @@ export const getStaticProps = async () => {
   );
   const { data: LightingItems } = await getLighting.json();
 
-  const getHardware = await Fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/FERRETERIA?first=1&last=12`
-  );
-  const { data: FerrItems } = await getHardware.json();
+  // const getHardware = await Fetch(
+  //   `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/FERRETERIA?first=1&last=12`
+  // );
+  // const { data: FerrItems } = await getHardware.json();
 
-  const getDoorsAndWindows = await Fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/PUERTAS-Y-VENTANAS?first=1&last=12`
-  );
-  const { data: DoorsItems } = await getDoorsAndWindows.json();
+  // const getDoorsAndWindows = await Fetch(
+  //   `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/PUERTAS-Y-VENTANAS?first=1&last=12`
+  // );
+  // const { data: DoorsItems } = await getDoorsAndWindows.json();
 
-  const getVentilationAndHeating = await Fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/VENTILACION-Y-CALEFACCIOacentoN?first=1&last=12`
-  );
-  const { data: VentilationItems } = await getVentilationAndHeating.json();
+  // const getVentilationAndHeating = await Fetch(
+  //   `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/VENTILACION-Y-CALEFACCIOacentoN?first=1&last=12`
+  // );
+  // const { data: VentilationItems } = await getVentilationAndHeating.json();
 
   return {
     props: {
       SlidersItems,
       BestSellers,
       LightingItems,
-      FerrItems,
-      DoorsItems,
-      VentilationItems,
+      FerrItems: [],
+      DoorsItems: [],
+      VentilationItems: [],
     },
     revalidate: 10,
   };
