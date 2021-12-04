@@ -19,6 +19,9 @@ export default async function getProductsByCategorie(req, res) {
       .json({ message: "Lo sentimos, sólo aceptamos solicitudes GET" });
   }
 
+  // g.CLAVEGIR = Línea
+  // g2.DESC_GIR2 = Sub Línea
+
   const categorie = req.query.id
     .replace(/-/gi, " ")
     .replace(/aacento/g, "á")
@@ -64,10 +67,10 @@ export default async function getProductsByCategorie(req, res) {
 
     result &&
       res.status(200).json({
-        name: "Products by Category",
+        name: `Products by Category ${categorie}`,
         method: req.method,
         total: result.data[0].length,
         data: result.data[0],
       });
-  }, 800);
+  }, 900);
 }

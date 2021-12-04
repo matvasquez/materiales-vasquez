@@ -20,7 +20,7 @@ export default async function getMainCategories(req, res) {
   // let resultMenu = [];
   setTimeout(async () => {
     const result = await rest.executeQuery(
-      `SELECT RTRIM(DESGIR) AS name, RTRIM(CLAVEGIR) AS category_id FROM ARTGIRO WHERE CO1 = '1'`
+      `SELECT RTRIM(CLAVEGIR) AS category_id, RTRIM(DESGIR) AS name FROM ARTGIRO WHERE CO1 = '1'`
     );
 
     if (result) {

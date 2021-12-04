@@ -21,26 +21,27 @@ import { MainStyled, Section, TitleSection } from "../styles/Inicio/style";
 // g2.DESC_GIR2 = 'VENTILACION Y CALEFACCIÓN'
 
 const HomePage = ({
+  SlidersItems,
   BestSellers,
   LightingItems,
   FerrItems,
   DoorsItems,
   VentilationItems,
 }) => {
-  const [SlidersItems, setSlidersItems] = useState([]);
+  // const [SlidersItems, setSlidersItems] = useState([]);
   // const [BestSellers, setBestSellers] = useState([]);
   // const [LightingItems, setLightingItems] = useState([]);
   // const [DoorsItems, setDoorsItems] = useState([]);
   // const [FerrItems, setFerrItems] = useState([]);
   // const [VentilationItems, setVentilationItems] = useState([]);
 
-  useEffect(async () => {
-    // Solicita los sliders
-    const response = await fetch(`/api/slider`);
-    const { data } = await response.json();
+  // useEffect(async () => {
+  //   // Solicita los sliders
+  //   const response = await fetch(`/api/slider`);
+  //   const { data } = await response.json();
 
-    setSlidersItems(data);
-  }, []);
+  //   setSlidersItems(data);
+  // }, []);
 
   // useEffect(() => {
   //   if (articulos.length > 0) {
@@ -71,47 +72,93 @@ const HomePage = ({
   // }, [articulos]);
 
   return (
-    <MainStyled>
-      {SlidersItems.length > 0 && <Slider sliderItems={SlidersItems} />}
+    <>
+      <NextSeo
+        title="Home Center | Materiales Vasquez Hermanos"
+        description="Amplia gama de productos para obra negra, ferretería, muebles, y artículos para el hogar"
+        canonical="https://www.materialesvasquezhnos.com.mx/"
+        openGraph={{
+          url: `https://www.materialesvasquezhnos.com.mx/`,
+          title: "Home Center | Materiales Vasquez Hermanos",
+          description:
+            "Amplia gama de productos para obra negra, ferretería, muebles, y artículos para el hogar",
+          images: [
+            {
+              url: "https://res.cloudinary.com/duibtuerj/image/upload/v1630083340/brand/meta-image_rcclee.jpg",
+              width: 200,
+              height: 200,
+              alt: "Logotipo de Materiales Vasquez Hermanos",
+            },
+          ],
+          site_name: "Materiales Vasquez Hermanos",
+        }}
+        twitter={{
+          handle: "@MaterialesVH",
+          site: "@MaterialesVH",
+          cardType: "summary",
+        }}
+      />
+      <LocalBusinessJsonLd
+        type="HomeGoodsStore"
+        name="Materiales Vasquez Hermanos"
+        description="Amplia gama de productos para obra negra, ferretería, muebles, y artículos para el hogar"
+        url="https://www.materialesvasquezhnos.com.mx/"
+        telephone="+522288401919"
+        address={{
+          streetAddress: "Lázaro Cárdenas 274",
+          addressLocality: "Xalapa",
+          addressRegion: "MEX",
+          postalCode: "91180",
+          addressCountry: "MX",
+        }}
+      />
+      <MainStyled>
+        {SlidersItems.length > 0 && <Slider sliderItems={SlidersItems} />}
 
-      <HomeFavorites />
-      {BestSellers.length > 0 && (
-        <Section>
-          <TitleSection>PRODUCTOS MÁS VENDIDOS</TitleSection>
-          <HomeSection data={BestSellers} />
-        </Section>
-      )}
-      {LightingItems.length > 0 && (
-        <Section>
-          <TitleSection>ILUMINACIÓN</TitleSection>
-          <HomeSection data={LightingItems} />
-        </Section>
-      )}
-      {FerrItems.length > 0 && (
-        <Section>
-          <TitleSection>FERRETERIA</TitleSection>
-          <HomeSection data={FerrItems} />
-        </Section>
-      )}
-      {DoorsItems.length > 0 && (
-        <Section>
-          <TitleSection>PUERTAS Y VENTANAS</TitleSection>
-          <HomeSection data={DoorsItems} />
-        </Section>
-      )}
-      {VentilationItems.length > 0 && (
-        <Section>
-          <TitleSection>VENTILACIÓN Y CALEFACCIÓN</TitleSection>
-          <HomeSection data={VentilationItems} />
-        </Section>
-      )}
-    </MainStyled>
+        <HomeFavorites />
+        {BestSellers.length > 0 && (
+          <Section>
+            <TitleSection>PRODUCTOS MÁS VENDIDOS</TitleSection>
+            <HomeSection data={BestSellers} />
+          </Section>
+        )}
+        {LightingItems.length > 0 && (
+          <Section>
+            <TitleSection>ILUMINACIÓN</TitleSection>
+            <HomeSection data={LightingItems} />
+          </Section>
+        )}
+        {FerrItems.length > 0 && (
+          <Section>
+            <TitleSection>FERRETERIA</TitleSection>
+            <HomeSection data={FerrItems} />
+          </Section>
+        )}
+        {DoorsItems.length > 0 && (
+          <Section>
+            <TitleSection>PUERTAS Y VENTANAS</TitleSection>
+            <HomeSection data={DoorsItems} />
+          </Section>
+        )}
+        {VentilationItems.length > 0 && (
+          <Section>
+            <TitleSection>VENTILACIÓN Y CALEFACCIÓN</TitleSection>
+            <HomeSection data={VentilationItems} />
+          </Section>
+        )}
+      </MainStyled>
+    </>
   );
 };
 
 export default HomePage;
 
 export const getStaticProps = async () => {
+  const getSlidersItems = await Fetch(
+    `${process.env.NEXT_PUBLIC_URL}/api/slider`
+  );
+  const { data: SlidersItems } = await getSlidersItems.json();
+
   const getBestSellers = await Fetch(
     `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/LO-MAacentoS-VENDIDOS?first=1&last=12`
   );
@@ -139,6 +186,7 @@ export const getStaticProps = async () => {
 
   return {
     props: {
+      SlidersItems,
       BestSellers,
       LightingItems,
       FerrItems,

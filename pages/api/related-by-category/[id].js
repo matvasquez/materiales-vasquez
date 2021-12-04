@@ -36,10 +36,6 @@ export default async function getProductsByCategorie(req, res) {
     .replace(/Uacento/g, "Ú")
     .replace(/enne/gi, "Ñ");
 
-  console.log(categorie);
-  console.log(req.query.first);
-  console.log(req.query.last);
-
   const queryByCategorie = `SELECT *
   FROM (
       SELECT ROW_NUMBER () OVER(ORDER BY a.FECHA_ALTA DESC) AS row_id, RTRIM(a.CLAVEART) AS articulo_id, RTRIM(a.DESC_BREVE) AS name, RTRIM(a.DESCRIBEAR) AS description, RTRIM(l.PREC_IVA1) AS price, RTRIM(g.DESGIR) AS category, RTRIM(g2.DESC_GIR2) AS main_category, RTRIM(m.DESC_MARCA) AS brand, cast('' as xml).value(

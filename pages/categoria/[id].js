@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
+import Fetch from "isomorphic-unfetch";
 import { useRouter } from "next/router";
 import { NextSeo, LocalBusinessJsonLd } from "next-seo";
 
 // Data
-import { articulos } from "../../database/articulos";
+// import { articulos } from "../../database/articulos";
 
 // Components
 import CategorySection from "../../components/Category-Section/CategorySection";
@@ -18,63 +19,65 @@ import {
   LoadMoreButton,
 } from "../../styles/categoria/style";
 
-const Category = () => {
+const Category = ({ products }) => {
   const router = useRouter();
   const id = router.query.id;
 
-  const [products, setProducts] = useState([]);
+  // const [products, setProducts] = useState([]);
   const [showButton, setShowButton] = useState(false);
 
-  useEffect(() => {
-    if (articulos.length > 0 && id) {
-      const data = articulos.filter(
-        (item) => item.category === id.replace(/-/g, " ")
-      );
-      if (data) {
-        setProducts(data.slice(0, 24));
-        if (data.length >= 24) {
-          setShowButton(true);
-        } else {
-          setShowButton(false);
-        }
-      }
-    }
-  }, [id, articulos]);
+  // useEffect(() => {
+  //   if (articulos.length > 0 && id) {
+  //     const data = articulos.filter(
+  //       (item) => item.category === id.replace(/-/g, " ")
+  //     );
+  //     if (data) {
+  //       setProducts(data.slice(0, 24));
+  //       if (data.length >= 24) {
+  //         setShowButton(true);
+  //       } else {
+  //         setShowButton(false);
+  //       }
+  //     }
+  //   }
+  // }, [id, articulos]);
 
-  const more = () => {
-    // console.log("Mas");
-    const data = articulos.filter(
-      (item) => item.category === id.replace(/-/g, " ")
-    );
-    if (data) {
-      let news = data.slice(products.length + 1, products.length + 25);
-      setProducts(products.concat(news));
-      if (news.length === 24) {
-        setShowButton(true);
-      } else {
-        setShowButton(false);
-      }
-    }
-  };
+  // const more = () => {
+  //   // console.log("Mas");
+  //   const data = articulos.filter(
+  //     (item) => item.category === id.replace(/-/g, " ")
+  //   );
+  //   if (data) {
+  //     let news = data.slice(products.length + 1, products.length + 25);
+  //     setProducts(products.concat(news));
+  //     if (news.length === 24) {
+  //       setShowButton(true);
+  //     } else {
+  //       setShowButton(false);
+  //     }
+  //   }
+  // };
+
+  if (router.isFallback) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
       <NextSeo
-        title={`${
-          id ? id.replace(/-/g, " ") : "Categoría"
-        } | Materiales Vasquez Hermanos`}
-        description={`Amplia gama de productos ${
-          id && `de nuestra categoría ${id.replace(/-/g, " ")}`
-        }`}
+        title={`${id.replace(/-/g, " ")} | Materiales Vasquez Hermanos`}
+        description={`Amplia gama de productos de nuestra categoría ${id.replace(
+          /-/g,
+          " "
+        )}`}
         canonical="https://www.materialesvasquezhnos.com.mx/"
         openGraph={{
           url: `https://www.materialesvasquezhnos.com.mx/`,
-          title: `Categoría ${
-            id && id.replace(/-/g, " ")
-          } | Materiales Vasquez Hermanos`,
-          description: `Amplia gama de productos ${
-            id && `de nuestra categoría ${id.replace(/-/g, " ")}`
-          }`,
+          title: `${id.replace(/-/g, " ")} | Materiales Vasquez Hermanos`,
+          description: `Amplia gama de productos de nuestra categoría ${id.replace(
+            /-/g,
+            " "
+          )}`,
           images: [
             {
               url: "https://res.cloudinary.com/duibtuerj/image/upload/v1630083340/brand/meta-image_rcclee.jpg",
@@ -111,11 +114,11 @@ const Category = () => {
         {products.length > 0 ? (
           <>
             <CategorySection data={products} />
-            {showButton && (
+            {/* {showButton && (
               <LoadMoreButton type="button" onClick={more}>
                 Cargar más productos 
               </LoadMoreButton>
-            )}
+            )} */}
           </>
         ) : (
           <SectionEmpty>
@@ -129,3 +132,34 @@ const Category = () => {
 };
 
 export default Category;
+
+export const getStaticPaths = async () => {
+  const getPaths = await Fetch(
+    `${process.env.NEXT_PUBLIC_URL}/api/categories/main-menu`
+  );
+  const { data } = await getPaths.json();
+
+  // Obtener las rutas que queremos pre-renderizar
+  const paths = data.map((category) => ({
+    params: { id: category.name },
+  }));
+
+  return { paths, fallback: true };
+};
+
+export const getStaticProps = async ({ params }) => {
+  const getProducts = await Fetch(
+    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/${params.id.replace(
+      /Ñ/gi,
+      "enne"
+    )}?first=1&last=24`
+  );
+  const { data: products } = await getProducts.json();
+
+  return {
+    props: {
+      products,
+    },
+    revalidate: 10,
+  };
+};
