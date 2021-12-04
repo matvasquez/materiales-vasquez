@@ -21,37 +21,13 @@ const Cosmos = () => {
   const [loading, setLoading] = useState(true);
 
   const getData = async () => {
-    const getBestSellers = await Fetch(
-      `/api/related-by-category/LO-MAacentoS-VENDIDOS?first=1&last=12`
-    );
-    const { data: BestSellers } = await getBestSellers.json();
+    const getDataApi = await Fetch(`/api/home`);
+    const { slider, bests, lighting, ferr, doors, ventilation, status } =
+      await getDataApi.json();
 
-    console.log("BestSellers: ", BestSellers[0]);
+    console.log(slider, bests, lighting, ferr, doors, ventilation, status);
 
-    const getLighting = await Fetch(
-      `/api/related-by-subcategory/ILUMINACION?first=1&last=12`
-    );
-    const { data: LightingItems } = await getLighting.json();
-    console.log("LightingItems: ", LightingItems[0]);
-
-    const getHardware = await Fetch(
-      `/api/related-by-category/FERRETERIA?first=1&last=12`
-    );
-    const { data: FerrItems } = await getHardware.json();
-    console.log("FerrItems: ", FerrItems[0]);
-
-    const getDoorsAndWindows = await Fetch(
-      `/api/related-by-subcategory/PUERTAS-Y-VENTANAS?first=1&last=12`
-    );
-    const { data: DoorsItems } = await getDoorsAndWindows.json();
-    console.log("DoorsItems: ", DoorsItems[0]);
-
-    const getVentilationAndHeating = await Fetch(
-      `/api/related-by-subcategory/VENTILACION-Y-CALEFACCIÓN?first=1&last=12`
-    );
-    const { data: VentilationItems } = await getVentilationAndHeating.json();
-    console.log("VentilationItems: ", VentilationItems[0]);
-    if (VentilationItems) {
+    if (status) {
       setLoading(false);
     }
   };

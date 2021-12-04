@@ -162,12 +162,12 @@ export const getStaticProps = async ({ params }) => {
     .replace(/Ú/g, "Uacento")
     .replace(/Ñ/g, "enne");
 
-  const getProducts = await Fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/${categorie}?first=1&last=18`
-  );
+  const url = `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/${categorie}?first=1&last=10`;
+
+  const getProducts = await Fetch(url);
   const { data: products } = await getProducts.json();
 
-  console.log("====================================");
+  console.log(url);
   console.log(params);
   console.log(products.length);
   console.log("====================================");
