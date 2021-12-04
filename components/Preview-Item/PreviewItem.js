@@ -48,10 +48,10 @@ const PreviewItem = (props) => {
   const {
     articulo_id,
     name,
-    // price,
+    price,
     category,
     main_category,
-    // image_url,
+    image_url,
 
     itemsIliked,
     myCart,
@@ -64,9 +64,9 @@ const PreviewItem = (props) => {
   // Hook que verifica si el producto esta en el carrito
   const [yesItIsMineCart] = useMyItems(articulo_id, myCart);
   // Consulta la imagen
-  const [image_url] = useGetImage(articulo_id);
+  // const [image_url] = useGetImage(articulo_id);
   // Consulta el precio
-  const [price] = useGetPrice(articulo_id);
+  // const [price] = useGetPrice(articulo_id);
 
   // Envia a favoritos
   const handleLike = () => {
