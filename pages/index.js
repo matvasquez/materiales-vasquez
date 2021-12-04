@@ -169,29 +169,29 @@ export const getStaticProps = async () => {
   );
   const { data: LightingItems } = await getLighting.json();
 
-  // const getHardware = await Fetch(
-  //   `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/FERRETERIA?first=1&last=12`
-  // );
-  // const { data: FerrItems } = await getHardware.json();
+  const getHardware = await Fetch(
+    `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/FERRETERIA?first=1&last=12`
+  );
+  const { data: FerrItems } = await getHardware.json();
 
-  // const getDoorsAndWindows = await Fetch(
-  //   `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/PUERTAS-Y-VENTANAS?first=1&last=12`
-  // );
-  // const { data: DoorsItems } = await getDoorsAndWindows.json();
+  const getDoorsAndWindows = await Fetch(
+    `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/PUERTAS-Y-VENTANAS?first=1&last=12`
+  );
+  const { data: DoorsItems } = await getDoorsAndWindows.json();
 
-  // const getVentilationAndHeating = await Fetch(
-  //   `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/VENTILACION-Y-CALEFACCIOacentoN?first=1&last=12`
-  // );
-  // const { data: VentilationItems } = await getVentilationAndHeating.json();
+  const getVentilationAndHeating = await Fetch(
+    `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/VENTILACION-Y-CALEFACCIOacentoN?first=1&last=12`
+  );
+  const { data: VentilationItems } = await getVentilationAndHeating.json();
 
   return {
     props: {
       SlidersItems,
       BestSellers,
       LightingItems,
-      FerrItems: [],
-      DoorsItems: [],
-      VentilationItems: [],
+      FerrItems,
+      DoorsItems,
+      VentilationItems,
     },
     revalidate: 10,
   };
