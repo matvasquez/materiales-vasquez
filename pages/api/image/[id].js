@@ -23,7 +23,7 @@ export default async function getImageOfAProduct(req, res) {
 
   const query = `SELECT cast('' as xml).value(
     'xs:base64Binary(sql:column("IMAGEN"))', 'varchar(max)'
-) AS image_url FROM IMAGENES WHERE CAMPO1 = '${claveart}' AND SELECTO = 'S'`;
+  ) AS image_url FROM ARTICULO_IMG WHERE CLAVEART = '${claveart}' AND SELECTO = 'S'`;
 
   setTimeout(async () => {
     const result = await rest.executeQuery(query);

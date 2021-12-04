@@ -48,8 +48,10 @@ const PreviewItem = (props) => {
   const {
     articulo_id,
     name,
+    // price,
     category,
     main_category,
+    // image_url,
 
     itemsIliked,
     myCart,

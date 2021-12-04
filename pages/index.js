@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-const CosmosClient = require("@azure/cosmos").CosmosClient;
-import config from "../lib/config-cosmos";
+import Fetch from "isomorphic-unfetch";
 import { NextSeo, LocalBusinessJsonLd } from "next-seo";
-import fetch from "isomorphic-unfetch";
 
 // Data
 import { articulos } from "../database/articulos";
@@ -22,20 +20,21 @@ import { MainStyled, Section, TitleSection } from "../styles/Inicio/style";
 // g2.DESC_GIR2 = 'PUERTAS Y VENTANAS'
 // g2.DESC_GIR2 = 'VENTILACION Y CALEFACCIÓN'
 
+// {
+// BestSellers,
+// LightingItems,
+// FerrItems,
+// DoorsItems,
+// VentilationItems,
+// }
+
 const HomePage = () => {
-  // const [articulos, setArticulos] = useState([]);
   const [SlidersItems, setSlidersItems] = useState([]);
   const [BestSellers, setBestSellers] = useState([]);
   const [LightingItems, setLightingItems] = useState([]);
   const [DoorsItems, setDoorsItems] = useState([]);
   const [FerrItems, setFerrItems] = useState([]);
   const [VentilationItems, setVentilationItems] = useState([]);
-
-  // useEffect(async () => {
-  //   // Solicita los datos iniciales
-  //   const response = await fetch(`/api/todos-los-articulos`);
-  //   const { data } = await response.json();
-  // }, []);
 
   useEffect(async () => {
     // Solicita los sliders
@@ -114,3 +113,41 @@ const HomePage = () => {
 };
 
 export default HomePage;
+
+// export const getStaticProps = async () => {
+//   const getBestSellers = await Fetch(
+//     `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/LO-MAacentoS-VENDIDOS?first=1&last=12`
+//   );
+//   const { data: BestSellers } = await getBestSellers.json();
+
+//   const getLighting = await Fetch(
+//     `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/ILUMINACION?first=1&last=12`
+//   );
+//   const { data: LightingItems } = await getLighting.json();
+
+//   const getHardware = await Fetch(
+//     `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/FERRETERIA?first=1&last=12`
+//   );
+//   const { data: FerrItems } = await getHardware.json();
+
+//   const getDoorsAndWindows = await Fetch(
+//     `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/PUERTAS-Y-VENTANAS?first=1&last=12`
+//   );
+//   const { data: DoorsItems } = await getDoorsAndWindows.json();
+
+//   const getVentilationAndHeating = await Fetch(
+//     `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/VENTILACION-Y-CALEFACCIÓN?first=1&last=12`
+//   );
+//   const { data: VentilationItems } = await getVentilationAndHeating.json();
+
+//   return {
+//     props: {
+//       BestSellers,
+//       LightingItems,
+//       FerrItems,
+//       DoorsItems,
+//       VentilationItems,
+//     },
+//     revalidate: 10,
+//   };
+// };
