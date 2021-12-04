@@ -4,21 +4,7 @@ import Link from "next/link";
 import Fetch from "isomorphic-unfetch";
 
 // Styled-Components
-import {
-  MainStyled,
-  ItemsContainer,
-  Item,
-  ItemLink,
-  ImageContainer,
-  ItemInfo,
-  ItemText,
-  CategoryAndIconContainer,
-  ItemPrice,
-  IconContainer,
-  Categoryes,
-  Categorie,
-} from "../styles/cosmos/style";
-import { Loading } from "../components/Loaders/Loading";
+import { MainStyled } from "../styles/cosmos/style";
 
 // Loader para componente Image
 const loader = ({ src, width, quality }) => {
@@ -65,6 +51,9 @@ const Cosmos = () => {
     );
     const { data: VentilationItems } = await getVentilationAndHeating.json();
     console.log("VentilationItems: ", VentilationItems[0]);
+    if (VentilationItems) {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -72,8 +61,8 @@ const Cosmos = () => {
   }, []);
   return (
     <MainStyled>
-      <h1>From Cosmos DB</h1>
-      {loading && <h3>Solicitando datos...</h3>}
+      <h1>Materiales Vasquez</h1>
+      {loading ? <h3>Solicitando datos...</h3> : <h3>Listo!</h3>}
     </MainStyled>
   );
 };

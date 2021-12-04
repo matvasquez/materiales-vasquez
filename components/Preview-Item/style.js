@@ -39,12 +39,8 @@ export const ImageContainer = styled.div`
   background-color: #ffffff;
   aspect-ratio: 1 / 1;
   border-radius: 0.5rem;
+  position: relative;
   overflow: hidden;
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
 `;
 
 export const ItemInfo = styled.div`

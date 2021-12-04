@@ -83,13 +83,14 @@ const PreviewItem = (props) => {
       <Link href={`/detalles/${articulo_id}`} passHref>
         <ItemLink aria-label={`Ver detalles de ${name}`}>
           <ImageContainer>
-            {image_url !== "" ? (
+            {image_url ? (
               <Image
                 loader={loader}
                 src={`data:image/jpg;base64,${image_url}`}
-                width={300}
-                height={300}
-                alt={`Fotografía de ${name}`}
+                alt={`Imagen de producto no disponible`}
+                layout="fill"
+                objectFit="contain"
+                blurDataURL
               />
             ) : (
               <Loading />

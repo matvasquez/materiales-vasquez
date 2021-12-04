@@ -81,7 +81,7 @@ const Branches = () => {
                 address,
                 photo,
                 phone,
-                extent,
+                option,
                 email,
                 hours,
                 location,
@@ -107,10 +107,8 @@ const Branches = () => {
                     <PhoneContainer>
                       <a href={`tel:+52${phone}`}>{phone}</a>
                       <ExtensionsContainer>
-                        <p>Extensión:</p>
-                        {extent.map((ext) => (
-                          <p key={ext}>{ext}</p>
-                        ))}
+                        <p>Opción:</p>
+                        <p>{option}</p>
                       </ExtensionsContainer>
                     </PhoneContainer>
                     <Email>{email}</Email>

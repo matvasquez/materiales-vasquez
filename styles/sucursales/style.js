@@ -97,11 +97,14 @@ export const PhoneContainer = styled.div`
 `;
 
 export const ExtensionsContainer = styled.div`
-  width: 50%;
   margin-left: auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  p:last-child {
+    margin-left: 0.5rem;
+    color: var(--light-blue);
+  }
 `;
 
 export const Email = styled.p`

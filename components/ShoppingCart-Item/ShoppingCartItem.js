@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { useGetImage } from "../../hooks/useGetImage";
 import { useGetPrice } from "../../hooks/useGetPrice";
 import { useGetStock } from "../../hooks/useGetStock";

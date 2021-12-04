@@ -184,9 +184,10 @@ const ProductDetails = ({
                 <Image
                   loader={loader}
                   src={`data:image/jpg;base64,${image_url}`}
-                  width={300}
-                  height={300}
-                  alt={`Fotografía de ${product.name}`}
+                  alt={`Imagen de producto no disponible`}
+                  layout="fill"
+                  objectFit="contain"
+                  blurDataURL
                 />
               ) : (
                 <Loading />

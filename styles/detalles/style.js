@@ -66,20 +66,14 @@ export const ImageContainer = styled.div`
   aspect-ratio: 1 / 1;
   background-color: #ffffff;
   border-radius: 0.5rem;
+  position: relative;
   overflow: hidden;
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
   @media (min-width: 750px) {
     width: 70%;
     min-height: 30vh;
     border-radius: 1rem;
   }
   @media (min-width: 1000px) {
-    width: 100%;
-    min-height: 40vh;
   }
 `;
 

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
 import SwiperCore, { Autoplay } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
+import Image from "next/image";
 
 // Import Swiper styles
 import "../../node_modules/swiper/swiper-bundle.min.css";
@@ -9,6 +9,11 @@ import "../../node_modules/swiper/swiper-bundle.min.css";
 
 // Stiled-Components
 import { SliderStyled, SliderItem } from "./style";
+
+// Loader para componente Image
+const loader = ({ src, width, quality }) => {
+  return `${src}?w=${width}&q=${quality || 75}`;
+};
 
 // install Swiper modules
 SwiperCore.use([Autoplay]);
@@ -28,8 +33,15 @@ const Slider = ({ sliderItems }) => {
         {sliderItems &&
           sliderItems.map(({ articulo_id, image, link, text }) => (
             <SwiperSlide key={articulo_id}>
-              <SliderItem>
-                <img src={`data:image/jpg;base64,${image}`} alt={text} />
+              <SliderItem href={link} area-aria-label={text}>
+                <Image
+                  loader={loader}
+                  src={`data:image/jpg;base64,${image}`}
+                  alt={text}
+                  layout="fill"
+                  objectFit="cover"
+                  blurDataURL
+                />
               </SliderItem>
             </SwiperSlide>
           ))}

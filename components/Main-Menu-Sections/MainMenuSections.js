@@ -48,7 +48,10 @@ const MainMenuSections = ({ categorie, sub, isOpen }) => {
             }}
           />
           <CatName show={openSubMenu}>{sub[0].categorie}</CatName>
-          <UlStyled show={openSubMenu} columns={Math.floor(sub.length / 10)}>
+          <UlStyled
+            show={openSubMenu}
+            columns={Math.floor(sub.length / 10) - 1}
+          >
             {sub.map(({ id, categorie, subcategorie }) => (
               <SubLiStyled key={id}>
                 <Link

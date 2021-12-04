@@ -3,7 +3,7 @@ import Fetch from "isomorphic-unfetch";
 import { NextSeo, LocalBusinessJsonLd } from "next-seo";
 
 // Data
-import { articulos } from "../database/articulos";
+// import { articulos } from "../database/articulos";
 
 // Components
 import Slider from "../components/Slider/Slider";
@@ -73,7 +73,6 @@ const HomePage = ({
   return (
     <MainStyled>
       {SlidersItems.length > 0 && <Slider sliderItems={SlidersItems} />}
-      {articulos.length === 0 && <p>Consultando...</p>}
 
       <HomeFavorites />
       {BestSellers.length > 0 && (

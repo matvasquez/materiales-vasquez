@@ -24,10 +24,8 @@ export const ImageContainer = styled.div`
   background-color: #ffffff;
   aspect-ratio: 1 / 1;
   border-radius: 0.5rem;
+  position: relative;
   overflow: hidden;
-  img {
-    object-fit: contain;
-  }
 `;
 
 export const Name = styled.a`
