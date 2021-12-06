@@ -79,7 +79,7 @@ const ProductDetails = ({
   if (router.isFallback) {
     return (
       <MainStyled>
-        <Title>Consultando...</Title>
+        <Title>Consultando</Title>
         <Seeing>
           <Loading />
         </Seeing>
@@ -144,9 +144,9 @@ const ProductDetails = ({
     }
   }, [articles]);
 
-  console.log("====================================");
-  console.log(relatedByName);
-  console.log("====================================");
+  // console.log("====================================");
+  // console.log(relatedByName);
+  // console.log("====================================");
 
   // useEffect(() => {
   //   // Solicita articulos relacionados por categoria
@@ -186,7 +186,6 @@ const ProductDetails = ({
   }, [product]);
 
   if (product) {
-    console.log("====================================");
     console.log(product.articulo_id);
     console.log("====================================");
 
