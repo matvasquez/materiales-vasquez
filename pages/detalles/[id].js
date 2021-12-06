@@ -322,3 +322,34 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductDetails);
+
+// export const getStaticPaths = async () => {
+//   const getPaths = await Fetch(
+//     `${process.env.NEXT_PUBLIC_URL}/api/categories/main-menu`
+//   );
+//   const { data } = await getPaths.json();
+
+//   // Obtener las rutas que queremos pre-renderizar
+//   const paths = data.map((category) => ({
+//     params: { id: category.name },
+//   }));
+
+//   return { paths, fallback: true };
+// };
+
+// export const getStaticProps = async ({ params }) => {
+//   const getProducts = await Fetch(
+//     `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/${params.id.replace(
+//       /Ñ/gi,
+//       "enne"
+//     )}?first=1&last=24`
+//   );
+//   const { data: products } = await getProducts.json();
+
+//   return {
+//     props: {
+//       products,
+//     },
+//     revalidate: 10,
+//   };
+// };

@@ -167,11 +167,6 @@ export const getStaticProps = async ({ params }) => {
   const getProducts = await Fetch(url);
   const { data: products } = await getProducts.json();
 
-  console.log(url);
-  console.log(params);
-  console.log(products.length);
-  console.log("====================================");
-
   return {
     props: {
       products,

@@ -156,11 +156,6 @@ export const getStaticProps = async ({ params }) => {
   );
   const { data: products } = await getProducts.json();
 
-  console.log("====================================");
-  console.log(params);
-  console.log(products.length);
-  console.log("====================================");
-
   return {
     props: {
       products,
