@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import Fetch from "isomorphic-unfetch";
 import { connect } from "react-redux";
 import { useGetStock } from "../../hooks/useGetStock";
 import { useRouter } from "next/router";
+import { useGetProductos } from "../../hooks/useGetProductos";
 import { useGetImage } from "../../hooks/useGetImage";
 import { useGetPrice } from "../../hooks/useGetPrice";
 import { useMyItems } from "../../hooks/useMyItems";
@@ -49,6 +51,7 @@ import {
   LinkWhatsApp,
   ButtonLike,
   RelatedSection,
+  Seeing,
 } from "../../styles/detalles/style";
 
 // Formatear precio
@@ -63,6 +66,8 @@ const loader = ({ src, width, quality }) => {
 };
 
 const ProductDetails = ({
+  product,
+
   itemsIliked,
   myCart,
   setIitemsIliked,
@@ -71,18 +76,29 @@ const ProductDetails = ({
   setPricesToCart,
 }) => {
   const router = useRouter();
+  if (router.isFallback) {
+    return (
+      <MainStyled>
+        <Title>Consultando...</Title>
+        <Seeing>
+          <Loading />
+        </Seeing>
+      </MainStyled>
+    );
+  }
   const id = router.query.id;
-  const [product, setProduct] = useState({});
+  // const [product, setProduct] = useState({});
   const [infoReady, setInfoReady] = useState(false);
-  const [image_url] = useGetImage(id);
+  // const [image_url] = useGetImage(id);
   const [stock] = useGetStock(id);
-  const [price] = useGetPrice(id);
+  // const [price] = useGetPrice(id);
+  const [articles] = useGetProductos();
   //Url Actual
   const [currentUrl, setCurrentUrl] = useState("");
   // Hook que verifica si el producto esta entre los favoritos
-  const [yesItIsMineLike] = useMyItems(id, itemsIliked);
+  const [yesItIsMineLike] = useMyItems(product.articulo_id, itemsIliked);
   // Hook que verifica si el producto esta en el carrito
-  const [yesItIsMineCart] = useMyItems(id, myCart);
+  const [yesItIsMineCart] = useMyItems(product.articulo_id, myCart);
   // Relacionados
   const [relatedByName, setRelatedByName] = useState([]);
   const [relatedByCategory, setRelatedByCategory] = useState([]);
@@ -90,39 +106,56 @@ const ProductDetails = ({
   const [initialQuantity, setInitialQuantity] = useState(1);
 
   useEffect(() => {
-    id === undefined && setInfoReady(false);
     setInitialQuantity(1);
-  }, [id]);
+  }, [product]);
 
-  useEffect(() => {
-    if (articulos.length > 0 && id) {
-      const data = articulos.filter((item) => item.articulo_id === id);
-      if (data) {
-        setProduct(data[0]);
-        setInfoReady(true);
-      }
-    }
-  }, [id]);
+  // useEffect(() => {
+  //   if (articulos.length > 0 && id) {
+  //     const data = articulos.filter((item) => item.articulo_id === id);
+  //     if (data) {
+  //       setProduct(data[0]);
+  //       setInfoReady(true);
+  //     }
+  //   }
+  // }, [id]);
+
+  // useEffect(() => {
+  //   // Solicita articulos relacionados por nombre
+  //   if (product) {
+  //     const name = product.name.split(" ")[0];
+  //     const data = articulos.filter(
+  //       (item) => item.name.includes(name) && item.name !== product.name
+  //     );
+  //     setRelatedByName(data.slice(0, 12));
+  //   }
+  // }, [product]);
 
   useEffect(() => {
     // Solicita articulos relacionados por nombre
-    if (image_url && product) {
+    if (articles.length > 0) {
       const name = product.name.split(" ")[0];
-      const data = articulos.filter(
-        (item) => item.name.includes(name) && item.name !== product.name
+      console.log(name);
+
+      const data = articles.filter(
+        (item) =>
+          item.description.includes(name) && item.description !== product.name
       );
       setRelatedByName(data.slice(0, 12));
     }
-  }, [id, product, image_url]);
+  }, [articles]);
 
-  useEffect(() => {
-    // Solicita articulos relacionados por categoria
-    if (image_url && product) {
-      const category = product.category;
-      const data = articulos.filter((item) => item.category === category);
-      setRelatedByCategory(data.slice(0, 12));
-    }
-  }, [id, product, image_url]);
+  console.log("====================================");
+  console.log(relatedByName);
+  console.log("====================================");
+
+  // useEffect(() => {
+  //   // Solicita articulos relacionados por categoria
+  //   if (image_url && product) {
+  //     const category = product.category;
+  //     const data = articulos.filter((item) => item.category === category);
+  //     setRelatedByCategory(data.slice(0, 12));
+  //   }
+  // }, [product]);
 
   // Envia al Carrito y a la lista de precios
   const handleSetCart = () => {
@@ -150,162 +183,159 @@ const ProductDetails = ({
     if (window) {
       setCurrentUrl(window.location);
     }
-  }, [id]);
+  }, [product]);
 
-  return (
-    <MainStyled>
-      {infoReady && product ? (
-        <>
-          <Title>{product.name.toLowerCase()}</Title>
-          <SubDirectory>
-            <Link href={`/categoria/${product.category.replace(/ /gi, "-")}`}>
-              <a>
-                /categoria/{product.category.replace(/ /gi, "-").toLowerCase()}
-              </a>
+  if (product) {
+    console.log("====================================");
+    console.log(product.articulo_id);
+    console.log("====================================");
+
+    const {
+      articulo_id,
+      brand,
+      category,
+      description,
+      image_url,
+      main_category,
+      name,
+      price,
+    } = product;
+
+    return (
+      <MainStyled>
+        <Title>{name.toLowerCase()}</Title>
+        <SubDirectory>
+          <Link href={`/categoria/${category.replace(/ /gi, "-")}`}>
+            <a>
+              /categoria/
+              {category.replace(/ /gi, "-").toLowerCase()}
+            </a>
+          </Link>
+          {main_category && (
+            <Link
+              href={`/categoria/${category.replace(
+                / /gi,
+                "-"
+              )}/${main_category.replace(/ /gi, "-")}`}
+            >
+              <a>{`/${main_category.replace(/ /gi, "-").toLowerCase()}`}</a>
             </Link>
-            {product.main_category && (
-              <Link
-                href={`/categoria/${product.category.replace(
-                  / /gi,
-                  "-"
-                )}/${product.main_category.replace(/ /gi, "-")}`}
+          )}
+        </SubDirectory>
+        <Product>
+          <ImageContainer>
+            <Image
+              loader={loader}
+              src={`data:image/jpg;base64,${image_url}`}
+              alt={`Imagen de ${name}`}
+              layout="fill"
+              objectFit="contain"
+              blurDataURL
+            />
+          </ImageContainer>
+          <InfoContainer>
+            <PriceContainer>
+              <Price>${formatter.format(price)} </Price>
+              <ButtonLike
+                onClick={yesItIsMineLike ? handleDeleteFavorite : handleLike}
+                aria-label="Botón para agregar a favoritos"
               >
-                <a>
-                  {`/${product.main_category
-                    .replace(/ /gi, "-")
-                    .toLowerCase()}`}
-                </a>
-              </Link>
-            )}
-          </SubDirectory>
-          <Product>
-            <ImageContainer>
-              {image_url ? (
-                <Image
-                  loader={loader}
-                  src={`data:image/jpg;base64,${image_url}`}
-                  alt={`Imagen de producto no disponible`}
-                  layout="fill"
-                  objectFit="contain"
-                  blurDataURL
-                />
-              ) : (
-                <Loading />
-              )}
-            </ImageContainer>
-            <InfoContainer>
-              <PriceContainer>
-                {price ? (
-                  <Price>${formatter.format(price)} </Price>
-                ) : (
-                  <Consulting />
-                )}
-                <ButtonLike
-                  onClick={yesItIsMineLike ? handleDeleteFavorite : handleLike}
-                  aria-label="Botón para agregar a favoritos"
-                >
-                  {yesItIsMineLike ? <HeartFull /> : <HeartEmpty />}
-                </ButtonLike>
-              </PriceContainer>
+                {yesItIsMineLike ? <HeartFull /> : <HeartEmpty />}
+              </ButtonLike>
+            </PriceContainer>
 
-              {stock > 0 && (
-                <Stock>
-                  <span>{stock}</span> disponibles
-                </Stock>
-              )}
-              <Description>{product.description.toLowerCase()}</Description>
-              <Sku>SKU: {product.articulo_id}</Sku>
-              {stock > 0 && (
-                <>
-                  {!yesItIsMineCart && (
-                    <ContainerSelector>
-                      <SelectorButtons
-                        type="button"
-                        onClick={() => {
-                          if (initialQuantity > 1) {
-                            setInitialQuantity(initialQuantity - 1);
-                          }
-                        }}
-                      >
-                        -
-                      </SelectorButtons>
-                      <SelectorDisplay>{initialQuantity}</SelectorDisplay>
-                      <SelectorButtons
-                        type="button"
-                        onClick={() => {
-                          if (initialQuantity < stock) {
-                            setInitialQuantity(initialQuantity + 1);
-                          }
-                        }}
-                      >
-                        +
-                      </SelectorButtons>
-                    </ContainerSelector>
-                  )}
-                  {!yesItIsMineCart ? (
-                    <AddToCartButton
+            {stock > 0 && (
+              <Stock>
+                <span>{stock}</span> disponibles
+              </Stock>
+            )}
+            <Description>{description.toLowerCase()}</Description>
+            <Sku>SKU: {articulo_id}</Sku>
+            {stock > 0 && (
+              <>
+                {!yesItIsMineCart && (
+                  <ContainerSelector>
+                    <SelectorButtons
                       type="button"
                       onClick={() => {
-                        if (!yesItIsMineCart) {
-                          handleSetCart();
+                        if (initialQuantity > 1) {
+                          setInitialQuantity(initialQuantity - 1);
                         }
                       }}
                     >
-                      Añadir al carrito
-                      <Slide />
-                    </AddToCartButton>
-                  ) : (
-                    <>
-                      <Link href="/carrito-de-compras">
-                        <ViewShoppingCart>Ver carrito</ViewShoppingCart>
-                      </Link>
-                      <MessageContainer>
-                        <MessageIconContainer>
-                          <ShoppingBag width="1.2rem" />
-                        </MessageIconContainer>
-                        <Message>
-                          Envío gratis en Xalapa si agregas desde $200*
-                        </Message>
-                      </MessageContainer>
-                    </>
-                  )}
-                </>
-              )}
-              {currentUrl !== "" && (
-                <LinkWhatsApp
-                  href={`https://api.whatsapp.com/send?phone=522288366283&text=Hola,%20quisiera%20obtener%20m%C3%A1s%20informaci%C3%B3n%20sobre%20este%20art%C3%ADculo:%20${currentUrl}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Enlace a WhatsApp"
-                  bg="#25d366"
-                >
-                  <Whatsapp width="2rem" />
-                  Pregunta por este artículo
-                </LinkWhatsApp>
-              )}
-            </InfoContainer>
-          </Product>
-          {relatedByName.length > 0 && (
-            <RelatedSection>
-              <h3>Relacionados</h3>
-              <RelatedSecction data={relatedByName} />
-            </RelatedSection>
-          )}
-          {relatedByCategory.length > 0 && (
-            <RelatedSection>
-              <h3>Puede que te interese</h3>
-              <RelatedSecction data={relatedByCategory} />
-            </RelatedSection>
-          )}
-        </>
-      ) : (
-        <>
-          <h1>{id}</h1>
-          <p>No hay nada con ese ID</p>
-        </>
-      )}
-    </MainStyled>
-  );
+                      -
+                    </SelectorButtons>
+                    <SelectorDisplay>{initialQuantity}</SelectorDisplay>
+                    <SelectorButtons
+                      type="button"
+                      onClick={() => {
+                        if (initialQuantity < stock) {
+                          setInitialQuantity(initialQuantity + 1);
+                        }
+                      }}
+                    >
+                      +
+                    </SelectorButtons>
+                  </ContainerSelector>
+                )}
+                {!yesItIsMineCart ? (
+                  <AddToCartButton
+                    type="button"
+                    onClick={() => {
+                      if (!yesItIsMineCart) {
+                        handleSetCart();
+                      }
+                    }}
+                  >
+                    Añadir al carrito
+                    <Slide />
+                  </AddToCartButton>
+                ) : (
+                  <>
+                    <Link href="/carrito-de-compras">
+                      <ViewShoppingCart>Ver carrito</ViewShoppingCart>
+                    </Link>
+                    <MessageContainer>
+                      <MessageIconContainer>
+                        <ShoppingBag width="1.2rem" />
+                      </MessageIconContainer>
+                      <Message>
+                        Envío gratis en Xalapa si agregas desde $200*
+                      </Message>
+                    </MessageContainer>
+                  </>
+                )}
+              </>
+            )}
+            {currentUrl !== "" && (
+              <LinkWhatsApp
+                href={`https://api.whatsapp.com/send?phone=522288366283&text=Hola,%20quisiera%20obtener%20m%C3%A1s%20informaci%C3%B3n%20sobre%20este%20art%C3%ADculo:%20${currentUrl}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Enlace a WhatsApp"
+                bg="#25d366"
+              >
+                <Whatsapp width="2rem" />
+                Pregunta por este artículo
+              </LinkWhatsApp>
+            )}
+          </InfoContainer>
+        </Product>
+        {/* {relatedByName.length > 0 && (
+          <RelatedSection>
+            <h3>Relacionados</h3>
+            <RelatedSecction data={relatedByName} />
+          </RelatedSection>
+        )}
+        {relatedByCategory.length > 0 && (
+          <RelatedSection>
+            <h3>Puede que te interese</h3>
+            <RelatedSecction data={relatedByCategory} />
+          </RelatedSection>
+        )} */}
+      </MainStyled>
+    );
+  }
 };
 
 const mapStateToProps = (state) => {
@@ -323,33 +353,32 @@ const mapDispatchToProps = {
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductDetails);
 
-// export const getStaticPaths = async () => {
-//   const getPaths = await Fetch(
-//     `${process.env.NEXT_PUBLIC_URL}/api/categories/main-menu`
-//   );
-//   const { data } = await getPaths.json();
+export const getStaticPaths = async () => {
+  const getPaths = await Fetch(
+    `${process.env.NEXT_PUBLIC_URL}/api/todos-los-articulos`
+  );
+  const { data } = await getPaths.json();
 
-//   // Obtener las rutas que queremos pre-renderizar
-//   const paths = data.map((category) => ({
-//     params: { id: category.name },
-//   }));
+  // Obtener las rutas que queremos pre-renderizar
+  const paths = data.map(({ articulo_id }) => ({
+    params: { id: articulo_id },
+  }));
 
-//   return { paths, fallback: true };
-// };
+  return { paths, fallback: true };
+};
 
-// export const getStaticProps = async ({ params }) => {
-//   const getProducts = await Fetch(
-//     `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/${params.id.replace(
-//       /Ñ/gi,
-//       "enne"
-//     )}?first=1&last=24`
-//   );
-//   const { data: products } = await getProducts.json();
+export const getStaticProps = async ({ params }) => {
+  const getProduct = await Fetch(
+    `${process.env.NEXT_PUBLIC_URL}/api/detalles//${params.id
+      .replace(/ /g, "space")
+      .replace(/\//gi, "slash")}`
+  );
+  const { data } = await getProduct.json();
 
-//   return {
-//     props: {
-//       products,
-//     },
-//     revalidate: 10,
-//   };
-// };
+  return {
+    props: {
+      product: data[0],
+    },
+    revalidate: 10,
+  };
+};

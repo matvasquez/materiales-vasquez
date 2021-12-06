@@ -421,3 +421,27 @@ export const RelatedSection = styled.section`
     }
   }
 `;
+
+export const Seeing = styled.section`
+  width: 20rem;
+  height: 20rem;
+  margin: 4rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  h2 {
+    margin: 2rem 0;
+    text-align: center;
+  }
+
+  & > :first-child {
+    max-width: initial;
+    max-height: initial;
+  }
+  @media (min-width: 750px) {
+    width: 40rem;
+    height: 40rem;
+  }
+`;
