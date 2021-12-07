@@ -119,7 +119,7 @@ const ProductDetails = ({
   //     }
   //   }
   // }, [id]);
-  console.log("product: ", product);
+  // console.log("product: ", product);
 
   // useEffect(() => {
   //   // Solicita articulos relacionados por nombre
