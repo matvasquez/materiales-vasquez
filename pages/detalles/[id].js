@@ -66,7 +66,7 @@ const loader = ({ src, width, quality }) => {
 };
 
 const ProductDetails = ({
-  // product,
+  product,
 
   itemsIliked,
   myCart,
@@ -76,18 +76,18 @@ const ProductDetails = ({
   setPricesToCart,
 }) => {
   const router = useRouter();
-  // if (router.isFallback) {
-  //   return (
-  //     <MainStyled>
-  //       <Title>Consultando</Title>
-  //       <Seeing>
-  //         <Loading />
-  //       </Seeing>
-  //     </MainStyled>
-  //   );
-  // }
+  if (router.isFallback) {
+    return (
+      <MainStyled>
+        <Title>Consultando</Title>
+        <Seeing>
+          <Loading />
+        </Seeing>
+      </MainStyled>
+    );
+  }
   const id = router.query.id;
-  const [product, setProduct] = useState({});
+  // const [product, setProduct] = useState({});
   const [infoReady, setInfoReady] = useState(false);
   // const [image_url] = useGetImage(id);
   const [stock] = useGetStock(id);
@@ -109,16 +109,16 @@ const ProductDetails = ({
     setInitialQuantity(1);
   }, [product]);
 
-  useEffect(() => {
-    if (articulos.length > 0 && id) {
-      const data = articulos.filter((item) => item.articulo_id === id);
-      console.log(data);
-      if (data) {
-        setProduct(data[0]);
-        setInfoReady(true);
-      }
-    }
-  }, [id]);
+  // useEffect(() => {
+  //   if (articulos.length > 0 && id) {
+  //     const data = articulos.filter((item) => item.articulo_id === id);
+  //     console.log(data);
+  //     if (data) {
+  //       setProduct(data[0]);
+  //       setInfoReady(true);
+  //     }
+  //   }
+  // }, [id]);
   console.log("product: ", product);
 
   // useEffect(() => {
@@ -134,7 +134,7 @@ const ProductDetails = ({
 
   useEffect(() => {
     // Solicita articulos relacionados por nombre
-    if (articles.length > 0) {
+    if (product && articles.length > 0) {
       const name = product.name.split(" ")[0];
       console.log("name: ", name);
 
@@ -144,10 +144,10 @@ const ProductDetails = ({
       );
       setRelatedByName(data.slice(0, 12));
     }
-  }, [product]);
+  }, [product, articles]);
 
   // console.log("====================================");
-  // console.log(relatedByName);
+  // console.log("relatedByName: ", relatedByName);
   // console.log("====================================");
 
   // useEffect(() => {
@@ -187,9 +187,9 @@ const ProductDetails = ({
     }
   }, [product]);
 
-  if (product.hasOwnProperty("name")) {
-    console.log(product.articulo_id);
-    console.log("====================================");
+  if (product) {
+    // console.log(product.articulo_id);
+    // console.log("====================================");
 
     const {
       articulo_id,
@@ -322,13 +322,13 @@ const ProductDetails = ({
             )}
           </InfoContainer>
         </Product>
-        {/* {relatedByName.length > 0 && (
+        {relatedByName.length > 0 && (
           <RelatedSection>
             <h3>Relacionados</h3>
             <RelatedSecction data={relatedByName} />
           </RelatedSection>
         )}
-        {relatedByCategory.length > 0 && (
+        {/* {relatedByCategory.length > 0 && (
           <RelatedSection>
             <h3>Puede que te interese</h3>
             <RelatedSecction data={relatedByCategory} />
@@ -363,32 +363,36 @@ const mapDispatchToProps = {
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductDetails);
 
-// export const getStaticPaths = async () => {
-//   const getPaths = await Fetch(
-//     `${process.env.NEXT_PUBLIC_URL}/api/todos-los-articulos`
-//   );
-//   const { data } = await getPaths.json();
+export const getStaticPaths = async () => {
+  const getPaths = await Fetch(
+    `${process.env.NEXT_PUBLIC_URL}/api/todos-los-articulos`
+  );
+  const { data } = await getPaths.json();
 
-//   // Obtener las rutas que queremos pre-renderizar
-//   const paths = data.map(({ articulo_id }) => ({
-//     params: { id: articulo_id },
-//   }));
+  // Obtener las rutas que queremos pre-renderizar
+  const paths = data.map(({ articulo_id }) => ({
+    params: { id: articulo_id },
+  }));
 
-//   return { paths, fallback: true };
-// };
+  return { paths, fallback: true };
+};
 
-// export const getStaticProps = async ({ params }) => {
-//   const getProduct = await Fetch(
-//     `${process.env.NEXT_PUBLIC_URL}/api/detalles//${params.id
-//       .replace(/ /g, "space")
-//       .replace(/\//gi, "slash")}`
-//   );
-//   const { data } = await getProduct.json();
+export const getStaticProps = async ({ params }) => {
+  const getProduct = await Fetch(
+    `${process.env.NEXT_PUBLIC_URL}/api/detalles//${params.id
+      .replace(/ /g, "space")
+      .replace(/\//gi, "slash")}`
+  );
+  const { data } = await getProduct.json();
 
-//   return {
-//     props: {
-//       product: data[0],
-//     },
-//     revalidate: 10,
-//   };
-// };
+  // console.log("====================================");
+  // console.log(params);
+  // console.log("====================================");
+
+  return {
+    props: {
+      product: data[0],
+    },
+    revalidate: 10,
+  };
+};
