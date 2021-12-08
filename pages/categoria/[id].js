@@ -67,7 +67,7 @@ const Category = ({ initialProducts }) => {
         )}`}
         canonical="https://www.materialesvasquezhnos.com.mx/"
         openGraph={{
-          url: `https://www.materialesvasquezhnos.com.mx/`,
+          url: `https://www.materialesvasquezhnos.com.mx`,
           title: `${id.replace(/-/g, " ")} | Materiales Vasquez Hermanos`,
           description: `Amplia gama de productos de nuestra categoría ${id.replace(
             /-/g,

@@ -12,6 +12,7 @@ import { Consulting } from "../Loaders/Consulting";
 import {
   Item,
   ImageContainer,
+  IconContainer,
   ItemInfo,
   ItemText,
   ItemPrice,
@@ -33,16 +34,6 @@ const SearchItem = ({ articulo_id, main_category, name }) => {
   const [image_url] = useGetImage(articulo_id);
   const [price] = useGetPrice(articulo_id);
 
-  // <Image
-  //   loader={loader}
-  //   src="https://res.cloudinary.com/duibtuerj/image/upload/v1630083340/brand/meta-image_rcclee.jpg"
-  //   alt={`Imagen de producto no disponible`}
-  //   width="200"
-  //   height="200"
-  //   placeholder="blur"
-  //   blurDataURL
-  // />;
-
   return (
     <Link href={`/detalles/${articulo_id}`} passHref>
       <Item aria-label={`Ver detalles de ${name}`}>
@@ -57,7 +48,9 @@ const SearchItem = ({ articulo_id, main_category, name }) => {
               blurDataURL
             />
           ) : (
-            <Loading />
+            <IconContainer>
+              <Loading />
+            </IconContainer>
           )}
         </ImageContainer>
         <ItemInfo>

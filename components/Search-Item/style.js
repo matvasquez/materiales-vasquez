@@ -34,6 +34,18 @@ export const ImageContainer = styled.div`
   }
 `;
 
+export const IconContainer = styled.div`
+  width: 7rem;
+  height: 7rem;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+  overflow: hidden;
+`;
+
 export const ItemInfo = styled.div`
   width: 100%;
   height: 100%;
