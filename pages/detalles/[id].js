@@ -6,8 +6,8 @@ import { connect } from "react-redux";
 import { useGetStock } from "../../hooks/useGetStock";
 import { useRouter } from "next/router";
 import { useGetProductos } from "../../hooks/useGetProductos";
-import { useGetImage } from "../../hooks/useGetImage";
-import { useGetPrice } from "../../hooks/useGetPrice";
+// import { useGetImage } from "../../hooks/useGetImage";
+// import { useGetPrice } from "../../hooks/useGetPrice";
 import { useMyItems } from "../../hooks/useMyItems";
 
 //Actions
@@ -23,7 +23,7 @@ import { Whatsapp } from "../../components/IconsSVG/Whatsapp";
 import { ShoppingBag } from "../../components/IconsSVG/ShoppingBag";
 
 // Data
-import { articulos } from "../../database/articulos";
+// import { articulos } from "../../database/articulos";
 
 // Styled-Components
 import { MainStyled } from "../../styles/Inicio/style";
@@ -146,18 +146,14 @@ const ProductDetails = ({
     }
   }, [product, articles]);
 
-  // console.log("====================================");
-  // console.log("relatedByName: ", relatedByName);
-  // console.log("====================================");
-
-  // useEffect(() => {
-  //   // Solicita articulos relacionados por categoria
-  //   if (image_url && product) {
-  //     const category = product.category;
-  //     const data = articulos.filter((item) => item.category === category);
-  //     setRelatedByCategory(data.slice(0, 12));
-  //   }
-  // }, [product]);
+  useEffect(() => {
+    // Solicita articulos relacionados por categoria
+    if (product && articles.length > 0) {
+      const category = product.category;
+      const data = articles.filter((item) => item.category === category);
+      setRelatedByCategory(data.slice(0, 12));
+    }
+  }, [product, articles]);
 
   // Envia al Carrito y a la lista de precios
   const handleSetCart = () => {
@@ -328,12 +324,12 @@ const ProductDetails = ({
             <RelatedSecction data={relatedByName} />
           </RelatedSection>
         )}
-        {/* {relatedByCategory.length > 0 && (
+        {relatedByCategory.length > 0 && (
           <RelatedSection>
             <h3>Puede que te interese</h3>
             <RelatedSecction data={relatedByCategory} />
           </RelatedSection>
-        )} */}
+        )}
       </MainStyled>
     );
   } else {

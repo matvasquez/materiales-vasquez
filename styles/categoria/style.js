@@ -2,12 +2,15 @@ import styled from "styled-components";
 
 export const MainStyled = styled.main`
   width: 100%;
-  padding: 1rem;
+  padding: 1rem 0;
   margin: 1rem 0 4rem;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  @media (min-width: 375px) {
+    padding: 1rem;
+  }
 `;
 
 export const Title = styled.h1`

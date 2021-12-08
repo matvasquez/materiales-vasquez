@@ -9,6 +9,7 @@ import { NextSeo, LocalBusinessJsonLd } from "next-seo";
 // Components
 import CategorySection from "../../../components/Category-Section/CategorySection";
 import { AddNewProducts } from "../../../components/IconsSVG/AddNewProducts";
+import { SuspensoryPoints } from "../../../components/Loaders/SuspensoryPoints";
 
 // Styles
 import {
@@ -19,51 +20,50 @@ import {
   LoadMoreButton,
 } from "../../../styles/categoria/style";
 
-const Category = ({ products = [] }) => {
+const Category = ({ initialProducts }) => {
   const router = useRouter();
   const cat = router.query.cat || "";
 
-  // const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState([]);
   const [showButton, setShowButton] = useState(false);
+  const [loadingProducts, setLoadingProducts] = useState(false);
 
-  // useEffect(() => {
-  //   if (articulos.length > 0 && cat) {
-  //     const data = articulos.filter(
-  //       (item) => item.main_category === cat.replace(/-/g, " ")
-  //     );
-  //     if (data) {
-  //       setProducts(data.slice(0, 24));
-  //       if (data.length >= 24) {
-  //         setShowButton(true);
-  //       } else {
-  //         setShowButton(false);
-  //       }
-  //     }
-  //   }
-  // }, [cat]);
+  useEffect(() => {
+    setProducts(initialProducts);
+  }, [initialProducts]);
 
-  // const more = () => {
-  //   const data = articulos.filter(
-  //     (item) => item.main_category === cat.replace(/-/g, " ")
-  //   );
-  //   if (data) {
-  //     let news = data.slice(products.length + 1, products.length + 25);
-  //     setProducts(products.concat(news));
-  //     if (news.length === 24) {
-  //       setShowButton(true);
-  //     } else {
-  //       setShowButton(false);
-  //     }
-  //   }
-  // };
+  useEffect(() => {
+    products.length > 23 ? setShowButton(true) : setShowButton(false);
+  }, [products]);
 
-  // ---------------------
-  // {showButton && (
-  // <LoadMoreButton type="button" onClick={more}>
-  //  Cargar más productos
-  // </LoadMoreButton>
-  // )}
-  // ---------------------
+  const more = async () => {
+    setLoadingProducts(true);
+    const categorie = cat
+      .replace(/á/g, "aacento")
+      .replace(/é/g, "eacento")
+      .replace(/í/g, "iacento")
+      .replace(/ó/g, "oacento")
+      .replace(/ú/g, "uacento")
+      .replace(/Á/g, "Aacento")
+      .replace(/É/g, "Eacento")
+      .replace(/Í/g, "Iacento")
+      .replace(/Ó/g, "Oacento")
+      .replace(/Ú/g, "Uacento")
+      .replace(/Ñ/g, "enne");
+
+    const getProducts = await Fetch(
+      `/api/related-by-subcategory/${categorie}?first=${
+        products.length + 1
+      }&last=${products.length + 24}`
+    );
+    const { data: news } = await getProducts.json();
+
+    if (news.length > 0) {
+      setProducts(products.concat(news));
+      setLoadingProducts(false);
+      news.length < 24 ? setShowButton(false) : setShowButton(true);
+    }
+  };
 
   return (
     <>
@@ -117,7 +117,18 @@ const Category = ({ products = [] }) => {
       <MainStyled>
         {cat && <Title>{cat.replace(/-/g, " ").toLowerCase()}</Title>}
         {products.length > 0 ? (
-          <CategorySection data={products} />
+          <>
+            <CategorySection data={products} />
+            {showButton && (
+              <LoadMoreButton type="button" onClick={more}>
+                {loadingProducts ? (
+                  <SuspensoryPoints />
+                ) : (
+                  `Cargar más productos`
+                )}
+              </LoadMoreButton>
+            )}
+          </>
         ) : (
           <SectionEmpty>
             <AddNewProducts />
@@ -162,14 +173,14 @@ export const getStaticProps = async ({ params }) => {
     .replace(/Ú/g, "Uacento")
     .replace(/Ñ/g, "enne");
 
-  const url = `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/${categorie}?first=1&last=10`;
+  const url = `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/${categorie}?first=1&last=24`;
 
   const getProducts = await Fetch(url);
-  const { data: products } = await getProducts.json();
+  const { data: initialProducts } = await getProducts.json();
 
   return {
     props: {
-      products,
+      initialProducts,
     },
     revalidate: 10,
   };

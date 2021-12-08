@@ -80,7 +80,7 @@ const RelatedItem = (props) => {
   return (
     <Item>
       <Link href={`/detalles/${articulo_id}`} passHref>
-        <ItemLink aria-label={`Ver detalles de ${"name"}`}>
+        <ItemLink aria-label={`Ver detalles de ${name}`}>
           <ImageContainer>
             {image_url ? (
               <Image
@@ -96,7 +96,7 @@ const RelatedItem = (props) => {
             )}
           </ImageContainer>
           <ItemInfo>
-            <ItemText>{"NAME".toLocaleLowerCase()}</ItemText>
+            <ItemText>{name.toLocaleLowerCase()}</ItemText>
             {price !== "" ? (
               <ItemPrice>${formatter.format(price)}</ItemPrice>
             ) : (

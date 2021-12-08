@@ -9,6 +9,7 @@ import { NextSeo, LocalBusinessJsonLd } from "next-seo";
 // Components
 import CategorySection from "../../components/Category-Section/CategorySection";
 import { AddNewProducts } from "../../components/IconsSVG/AddNewProducts";
+import { SuspensoryPoints } from "../../components/Loaders/SuspensoryPoints";
 
 // Styles
 import {
@@ -19,44 +20,38 @@ import {
   LoadMoreButton,
 } from "../../styles/categoria/style";
 
-const Category = ({ products }) => {
+const Category = ({ initialProducts }) => {
   const router = useRouter();
   const id = router.query.id;
 
-  // const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState([]);
   const [showButton, setShowButton] = useState(false);
+  const [loadingProducts, setLoadingProducts] = useState(false);
 
-  // useEffect(() => {
-  //   if (articulos.length > 0 && id) {
-  //     const data = articulos.filter(
-  //       (item) => item.category === id.replace(/-/g, " ")
-  //     );
-  //     if (data) {
-  //       setProducts(data.slice(0, 24));
-  //       if (data.length >= 24) {
-  //         setShowButton(true);
-  //       } else {
-  //         setShowButton(false);
-  //       }
-  //     }
-  //   }
-  // }, [id, articulos]);
+  useEffect(() => {
+    setProducts(initialProducts);
+  }, [initialProducts]);
 
-  // const more = () => {
-  //   // console.log("Mas");
-  //   const data = articulos.filter(
-  //     (item) => item.category === id.replace(/-/g, " ")
-  //   );
-  //   if (data) {
-  //     let news = data.slice(products.length + 1, products.length + 25);
-  //     setProducts(products.concat(news));
-  //     if (news.length === 24) {
-  //       setShowButton(true);
-  //     } else {
-  //       setShowButton(false);
-  //     }
-  //   }
-  // };
+  useEffect(() => {
+    products.length > 23 ? setShowButton(true) : setShowButton(false);
+  }, [products]);
+
+  const more = async () => {
+    setLoadingProducts(true);
+    const getProducts = await Fetch(
+      `/api/related-by-category/${id.replace(/Ñ/gi, "enne")}?first=${
+        products.length + 1
+      }&last=${products.length + 24}`
+    );
+    const { data: news } = await getProducts.json();
+    console.log("news: ", news.length);
+
+    if (news.length > 0) {
+      setProducts(products.concat(news));
+      setLoadingProducts(false);
+      news.length < 24 ? setShowButton(false) : setShowButton(true);
+    }
+  };
 
   if (router.isFallback) {
     return <div>Loading...</div>;
@@ -114,11 +109,15 @@ const Category = ({ products }) => {
         {products.length > 0 ? (
           <>
             <CategorySection data={products} />
-            {/* {showButton && (
+            {showButton && (
               <LoadMoreButton type="button" onClick={more}>
-                Cargar más productos 
+                {loadingProducts ? (
+                  <SuspensoryPoints />
+                ) : (
+                  `Cargar más productos`
+                )}
               </LoadMoreButton>
-            )} */}
+            )}
           </>
         ) : (
           <SectionEmpty>
@@ -154,11 +153,11 @@ export const getStaticProps = async ({ params }) => {
       "enne"
     )}?first=1&last=24`
   );
-  const { data: products } = await getProducts.json();
+  const { data: initialProducts } = await getProducts.json();
 
   return {
     props: {
-      products,
+      initialProducts,
     },
     revalidate: 10,
   };
