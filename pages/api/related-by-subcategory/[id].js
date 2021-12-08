@@ -72,5 +72,5 @@ export default async function getProductsByCategorie(req, res) {
         total: result.data[0].length,
         data: result.data[0],
       });
-  }, 900);
+  }, 1000);
 }

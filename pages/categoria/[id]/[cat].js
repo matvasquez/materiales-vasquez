@@ -33,7 +33,7 @@ const Category = ({ initialProducts }) => {
   }, [initialProducts]);
 
   useEffect(() => {
-    products.length > 23 ? setShowButton(true) : setShowButton(false);
+    products.length > 17 ? setShowButton(true) : setShowButton(false);
   }, [products]);
 
   const more = async () => {
@@ -54,14 +54,14 @@ const Category = ({ initialProducts }) => {
     const getProducts = await Fetch(
       `/api/related-by-subcategory/${categorie}?first=${
         products.length + 1
-      }&last=${products.length + 24}`
+      }&last=${products.length + 18}`
     );
     const { data: news } = await getProducts.json();
 
     if (news.length > 0) {
       setProducts(products.concat(news));
       setLoadingProducts(false);
-      news.length < 24 ? setShowButton(false) : setShowButton(true);
+      news.length < 18 ? setShowButton(false) : setShowButton(true);
     }
   };
 
@@ -173,7 +173,7 @@ export const getStaticProps = async ({ params }) => {
     .replace(/Ú/g, "Uacento")
     .replace(/Ñ/g, "enne");
 
-  const url = `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/${categorie}?first=1&last=24`;
+  const url = `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/${categorie}?first=1&last=18`;
 
   const getProducts = await Fetch(url);
   const { data: initialProducts } = await getProducts.json();
