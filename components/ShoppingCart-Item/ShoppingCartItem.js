@@ -4,9 +4,10 @@ import { useGetImage } from "../../hooks/useGetImage";
 import { useGetPrice } from "../../hooks/useGetPrice";
 import { useGetStock } from "../../hooks/useGetStock";
 import { connect } from "react-redux";
+import { useGetProductos } from "../../hooks/useGetProductos";
 
 // Data
-import { articulos } from "../../database/articulos";
+// import { articulos } from "../../database/articulos";
 
 //Actions
 import { setMyCart, setRemovedFromCart, setUpdateCart } from "../../actions";
@@ -47,6 +48,7 @@ const ShoppingCartItem = ({
   setRemovedFromCart,
   setUpdateCart,
 }) => {
+  const [articles] = useGetProductos();
   const [item, setItem] = useState({});
   // Consulta la imagen
   const [image_url] = useGetImage(articulo_id);
@@ -60,8 +62,8 @@ const ShoppingCartItem = ({
   const selectQ = useRef(null);
 
   useEffect(() => {
-    if (articulos.length > 0) {
-      const data = articulos.filter(
+    if (articles.length > 0) {
+      const data = articles.filter(
         (item) => item.articulo_id === articulo_id
       )[0];
 
@@ -69,7 +71,7 @@ const ShoppingCartItem = ({
         setItem(data);
       }
     }
-  }, [articulo_id, articulos]);
+  }, [articulo_id, articles]);
 
   // Crea las opciones de cantidad que se puede seleccionar
   // de acuero al inventario real en tienda

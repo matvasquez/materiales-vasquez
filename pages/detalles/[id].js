@@ -136,7 +136,7 @@ const ProductDetails = ({
     // Solicita articulos relacionados por nombre
     if (product && articles.length > 0) {
       const name = product.name.split(" ")[0];
-      console.log("name: ", name);
+      // console.log("name: ", name);
 
       const data = articles.filter(
         (item) =>
@@ -361,7 +361,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(ProductDetails);
 
 export const getStaticPaths = async () => {
   const getPaths = await Fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/todos-los-articulos`
+    `${process.env.NEXT_PUBLIC_URL}/api/articulos-id`
   );
   const { data } = await getPaths.json();
 
@@ -380,10 +380,6 @@ export const getStaticProps = async ({ params }) => {
       .replace(/\//gi, "slash")}`
   );
   const { data } = await getProduct.json();
-
-  // console.log("====================================");
-  // console.log(params);
-  // console.log("====================================");
 
   return {
     props: {

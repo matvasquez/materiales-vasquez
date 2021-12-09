@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import debounce from "just-debounce-it";
 import { useRouter } from "next/router";
+import { useGetProductos } from "../../hooks/useGetProductos";
 import Link from "next/link";
 
 // Data
-import { articulos } from "../../database/articulos";
+// import { articulos } from "../../database/articulos";
 
 //Components
 import { MagnifierIcon } from "../IconsSVG/MagnifierIcon";
-import { Seeking } from "../Loaders/Seeking";
+// import { Seeking } from "../Loaders/Seeking";
 import SearchItem from "../Search-Item/SearchItem";
 
 // Styled-Components
@@ -31,6 +32,7 @@ const SearchBar = ({ user }) => {
   const [resultsByID, setresultsByID] = useState([]);
   const [showResults, setshowResults] = useState(false);
   const [noResults, setNoResults] = useState(false);
+  const [articles] = useGetProductos();
 
   // Reinicia los valores
   const reset = () => {
@@ -50,19 +52,19 @@ const SearchBar = ({ user }) => {
     //   { signal }
     // );
     // controller.abort();
-    const resultByName = articulos.filter((item) =>
+    const resultByName = articles.filter((item) =>
       item.description.includes(text.trim().replace(/s$/g, "").toUpperCase())
     );
     setResultsByName(resultByName.slice(0, 6));
 
-    const resultByCategorye = articulos.filter(
+    const resultByCategorye = articles.filter(
       (item) =>
         item.main_category !== null &&
         item.main_category.includes(text.trim().toUpperCase())
     );
     setResultsByCategorye(resultByCategorye.slice(0, 6));
 
-    const resultByID = articulos.filter((item) =>
+    const resultByID = articles.filter((item) =>
       item.articulo_id.includes(text.trim().toUpperCase())
     );
     setresultsByID(resultByID.slice(0, 6));

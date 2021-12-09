@@ -1,7 +1,7 @@
 import React from "react";
 
 //Components
-import PreviewItem from "../Preview-Item/PreviewItem";
+import FavoritesItem from "../Favorites-Item/FavoritesItem";
 
 // Styled-Components
 import { ListFavorites, Title, FavoritesContainer } from "./style";
@@ -13,7 +13,7 @@ const FavoritesList = ({ itemsIliked }) => {
       <FavoritesContainer>
         {itemsIliked &&
           itemsIliked.map((article, i) => (
-            <PreviewItem
+            <FavoritesItem
               key={article.articulo_id}
               {...article}
               isRelated={true}

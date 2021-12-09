@@ -1,37 +1,39 @@
 import { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import Link from "next/link";
+import { useGetProductos } from "../../hooks/useGetProductos";
 // import fetch from "isomorphic-unfetch";
 
 // Data
-import { articulos } from "../../database/articulos";
+// import { articulos } from "../../database/articulos";
 
 // Components
 import CategorySection from "../Category-Section/CategorySection";
+import FavoritesItem from "../Favorites-Item/FavoritesItem";
 
 // Styled-Components
 import { ContainerFavorites, Title, ListLink } from "./style";
+import { ItemsContainer } from "../Home-Sections/style";
 
 const Favorites = ({ itemsIliked }) => {
   const [myFavorites, setmyFavorites] = useState([]);
   const [someArticles, setSomeArticles] = useState([]);
+  const [articles] = useGetProductos();
   // const [allCAtegories, setallCAtegories] = useState([]);
   // const [mainCategories, setMainCategories] = useState([]);
 
   useEffect(() => {
-    if (articulos.length > 0) {
+    if (articles.length > 0) {
       const data = itemsIliked.map(
         (article) =>
-          articulos.filter(
-            (item) => item.articulo_id === article.articulo_id
-          )[0]
+          articles.filter((item) => item.articulo_id === article.articulo_id)[0]
       );
 
       if (data) {
         setmyFavorites(data);
       }
     }
-  }, [itemsIliked, articulos]);
+  }, [itemsIliked, articles]);
 
   // // Consulta las categorias
   // useEffect(async () => {
@@ -63,7 +65,11 @@ const Favorites = ({ itemsIliked }) => {
       {itemsIliked.length > 0 ? (
         <>
           <Title>Productos que te gustaron</Title>
-          <CategorySection data={myFavorites} />
+          <ItemsContainer>
+            {myFavorites.map((item) => (
+              <FavoritesItem key={item.articulo_id + item.price} {...item} />
+            ))}
+          </ItemsContainer>
         </>
       ) : (
         <>
