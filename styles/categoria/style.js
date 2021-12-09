@@ -25,6 +25,7 @@ export const Title = styled.h1`
 
 export const SectionEmpty = styled.section`
   width: 80%;
+  min-height: 40vh;
   @media (min-width: 1000px) {
     width: 50%;
   }

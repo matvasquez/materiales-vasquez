@@ -7,7 +7,7 @@ import { useGetProductos } from "../../hooks/useGetProductos";
 // import { articulos } from "../../database/articulos";
 
 // Components
-import CategorySection from "../Category-Section/CategorySection";
+// import CategorySection from "../Category-Section/CategorySection";
 import FavoritesItem from "../Favorites-Item/FavoritesItem";
 
 // Styled-Components

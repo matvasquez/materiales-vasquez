@@ -51,7 +51,9 @@ import {
   LinkWhatsApp,
   ButtonLike,
   RelatedSection,
+  SectionEmpty,
   Seeing,
+  Inter,
 } from "../../styles/detalles/style";
 
 // Formatear precio
@@ -80,9 +82,14 @@ const ProductDetails = ({
     return (
       <MainStyled>
         <Title>Consultando</Title>
-        <Seeing>
-          <Loading />
-        </Seeing>
+        <SectionEmpty>
+          <Seeing>
+            <Inter />
+          </Seeing>
+          <Seeing>
+            <Inter />
+          </Seeing>
+        </SectionEmpty>
       </MainStyled>
     );
   }

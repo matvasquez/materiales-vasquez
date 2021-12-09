@@ -1,13 +1,16 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import { useGetProductos } from "../../hooks/useGetProductos";
 import { NextSeo, LocalBusinessJsonLd } from "next-seo";
 
 // Data
-import { articulos } from "../../database/articulos";
+// import { articulos } from "../../database/articulos";
 
 // Components
-import CategorySection from "../../components/Category-Section/CategorySection";
+// import CategorySection from "../../components/Category-Section/CategorySection";
+import FavoritesItem from "../../components/Favorites-Item/FavoritesItem";
 import { AddNewProducts } from "../../components/IconsSVG/AddNewProducts";
+import { SuspensoryPoints } from "../../components/Loaders/SuspensoryPoints";
 
 // Styles
 import {
@@ -16,21 +19,23 @@ import {
   SectionEmpty,
   TextEmpty,
 } from "../../styles/categoria/style";
+import { ItemsContainer } from "../../components/Home-Sections/style";
 
 const Category = () => {
   const router = useRouter();
   const id = router.query.id;
+  const [articles] = useGetProductos();
 
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    if (articulos.length > 0 && id) {
-      const data = articulos.filter((item) =>
+    if (articles.length > 0 && id) {
+      const data = articles.filter((item) =>
         item.description.includes(id.toUpperCase())
       );
-      setProducts(data.slice(0, 50));
+      setProducts(data.slice(0, 42));
     }
-  }, [id, articulos]);
+  }, [id, articles]);
 
   return (
     <>
@@ -84,11 +89,14 @@ const Category = () => {
       <MainStyled>
         {id && <Title>{id.replace(/-/g, " ").toLowerCase()}</Title>}
         {products.length > 0 ? (
-          <CategorySection data={products} />
+          <ItemsContainer>
+            {products.map((article, i) => (
+              <FavoritesItem key={article.articulo_id} {...article} />
+            ))}
+          </ItemsContainer>
         ) : (
           <SectionEmpty>
-            <AddNewProducts />
-            <TextEmpty>Pronto tendremos productos aquí</TextEmpty>
+            <SuspensoryPoints />
           </SectionEmpty>
         )}
       </MainStyled>

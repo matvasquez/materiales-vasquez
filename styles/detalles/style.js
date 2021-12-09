@@ -13,6 +13,49 @@ const slide = keyframes`
   }
 `;
 
+const vibrate = keyframes`
+0% {
+  transform: translate(0);
+}
+
+20% {
+  transform: translate(-0.3rem, 0.3rem);
+}
+
+40% {
+  transform: translate(-0.3rem, -0.3rem);
+}
+
+60% {
+  transform: translate(0.3rem, 0.3rem);
+}
+
+80% {
+  transform: translate(0.3rem, -0.3rem);
+}
+
+100% {
+  transform: translate(0);
+}
+`;
+
+const backgroundColor = keyframes`
+0% {
+  background: var(--light-blue);
+}
+33% { 
+  background: #3cb8b9;
+}
+66%{
+  background: #513cb9;
+
+}
+100%{
+  background: var(--light-blue);
+
+}
+`;
+
 export const SubDirectory = styled.div`
   width: 100%;
   margin: 1rem 0;
@@ -422,26 +465,50 @@ export const RelatedSection = styled.section`
   }
 `;
 
-export const Seeing = styled.section`
-  width: 20rem;
-  height: 20rem;
-  margin: 4rem 0;
+export const SectionEmpty = styled.section`
+  width: 100%;
+  min-height: 40vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.7;
+  @media (min-width: 1000px) {
+    width: 60%;
+    flex-direction: row;
+  }
+`;
+
+export const Seeing = styled.div`
+  width: 30rem;
+  height: 30rem;
+  margin: 0.5rem 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 
-  h2 {
-    margin: 2rem 0;
-    text-align: center;
-  }
+  background: var(--light-blue);
+  border-radius: 2rem;
+  animation: ${backgroundColor} 4s ease-in-out 0s infinite normal forwards;
 
-  & > :first-child {
-    max-width: initial;
-    max-height: initial;
+  @media (min-width: 1000px) {
+    width: 35rem;
+    height: 35rem;
+    margin: 0 2rem;
+    border-radius: 4rem;
   }
-  @media (min-width: 750px) {
-    width: 40rem;
-    height: 40rem;
+`;
+
+export const Inter = styled.div`
+  width: 75%;
+  height: 75%;
+
+  background: var(--background);
+  border-radius: 1rem;
+
+  animation: ${vibrate} 2s ease-in-out 0s infinite normal forwards;
+  @media (min-width: 1000px) {
+    border-radius: 2rem;
   }
 `;
