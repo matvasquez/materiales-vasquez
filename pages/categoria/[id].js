@@ -44,7 +44,6 @@ const Category = ({ initialProducts }) => {
       }&last=${products.length + 24}`
     );
     const { data: news } = await getProducts.json();
-    console.log("news: ", news.length);
 
     if (news.length > 0) {
       setProducts(products.concat(news));

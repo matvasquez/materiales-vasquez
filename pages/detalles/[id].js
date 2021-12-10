@@ -9,6 +9,7 @@ import { useGetProductos } from "../../hooks/useGetProductos";
 // import { useGetImage } from "../../hooks/useGetImage";
 // import { useGetPrice } from "../../hooks/useGetPrice";
 import { useMyItems } from "../../hooks/useMyItems";
+import { NextSeo, ProductJsonLd } from "next-seo";
 
 //Actions
 import { setMyCart, setIitemsIliked, setDeleteFavorite } from "../../actions";
@@ -168,7 +169,7 @@ const ProductDetails = ({
       articulo_id: product.articulo_id,
       name: product.name,
       initialQuantity,
-      price,
+      price: product.price,
     });
     // setPricesToCart(price);
   };
@@ -206,148 +207,174 @@ const ProductDetails = ({
     } = product;
 
     return (
-      <MainStyled>
-        <Title>{name.toLowerCase()}</Title>
-        <SubDirectory>
-          <Link href={`/categoria/${category.replace(/ /gi, "-")}`}>
-            <a>
-              /categoria/
-              {category.replace(/ /gi, "-").toLowerCase()}
-            </a>
-          </Link>
-          {main_category && (
-            <Link
-              href={`/categoria/${category.replace(
-                / /gi,
-                "-"
-              )}/${main_category.replace(/ /gi, "-")}`}
-            >
-              <a>{`/${main_category.replace(/ /gi, "-").toLowerCase()}`}</a>
-            </Link>
-          )}
-        </SubDirectory>
-        <Product>
-          <ImageContainer>
-            <Image
-              loader={loader}
-              src={`data:image/jpg;base64,${image_url}`}
-              alt={`Imagen de ${name}`}
-              layout="fill"
-              objectFit="contain"
-              blurDataURL
-            />
-          </ImageContainer>
-          <InfoContainer>
-            <PriceContainer>
-              <Price>${formatter.format(price)} </Price>
-              <ButtonLike
-                onClick={yesItIsMineLike ? handleDeleteFavorite : handleLike}
-                aria-label="Botón para agregar a favoritos"
-              >
-                {yesItIsMineLike ? <HeartFull /> : <HeartEmpty />}
-              </ButtonLike>
-            </PriceContainer>
+      <>
+        <NextSeo
+          title={`${name} | Materiales Vasquez Hermanos`}
+          description={description}
+          canonical={`https://www.materialesvasquezhnos.com.mx/detalles/${articulo_id}`}
+          openGraph={{
+            url: `https://www.materialesvasquezhnos.com.mx/detalles/${articulo_id}`,
+            title: ` ${name} | Materiales Vasquez Hermanos`,
+            description: description,
+            images: [
+              {
+                url: "https://res.cloudinary.com/duibtuerj/image/upload/v1630083340/brand/meta-image_rcclee.jpg",
+                width: 200,
+                height: 200,
+                alt: "Logotipo de Materiales Vasquez Hermanos",
+              },
+            ],
+            site_name: "Materiales Vasquez Hermanos",
+          }}
+          twitter={{
+            handle: "@MaterialesVH",
+            site: "@MaterialesVH",
+            cardType: "summary",
+          }}
+        />
 
-            {stock > 0 && (
-              <Stock>
-                <span>{stock}</span> disponibles
-              </Stock>
-            )}
-            <Description>{description.toLowerCase()}</Description>
-            <Sku>SKU: {articulo_id}</Sku>
-            {stock > 0 && (
-              <>
-                {!yesItIsMineCart && (
-                  <ContainerSelector>
-                    <SelectorButtons
-                      type="button"
-                      onClick={() => {
-                        if (initialQuantity > 1) {
-                          setInitialQuantity(initialQuantity - 1);
-                        }
-                      }}
-                    >
-                      -
-                    </SelectorButtons>
-                    <SelectorDisplay>{initialQuantity}</SelectorDisplay>
-                    <SelectorButtons
-                      type="button"
-                      onClick={() => {
-                        if (initialQuantity < stock) {
-                          setInitialQuantity(initialQuantity + 1);
-                        }
-                      }}
-                    >
-                      +
-                    </SelectorButtons>
-                  </ContainerSelector>
-                )}
-                {!yesItIsMineCart ? (
-                  <AddToCartButton
-                    type="button"
-                    onClick={() => {
-                      if (!yesItIsMineCart) {
-                        handleSetCart();
-                      }
-                    }}
-                  >
-                    Añadir al carrito
-                    <Slide />
-                  </AddToCartButton>
-                ) : (
-                  <>
-                    <Link href="/carrito-de-compras">
-                      <ViewShoppingCart>Ver carrito</ViewShoppingCart>
-                    </Link>
-                    <MessageContainer>
-                      <MessageIconContainer>
-                        <ShoppingBag width="1.2rem" />
-                      </MessageIconContainer>
-                      <Message>
-                        Envío gratis en Xalapa si agregas desde $200*
-                      </Message>
-                    </MessageContainer>
-                  </>
-                )}
-              </>
-            )}
-            {currentUrl !== "" && (
-              <LinkWhatsApp
-                href={`https://api.whatsapp.com/send?phone=522288366283&text=Hola,%20quisiera%20obtener%20m%C3%A1s%20informaci%C3%B3n%20sobre%20este%20art%C3%ADculo:%20${currentUrl}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Enlace a WhatsApp"
-                bg="#25d366"
+        <ProductJsonLd
+          productName={name}
+          description={description}
+          brand={brand}
+          offers={[{ price: price, priceCurrency: "MXN" }]}
+        />
+        <MainStyled>
+          <Title>{name.toLowerCase()}</Title>
+          <SubDirectory>
+            <Link href={`/categoria/${category.replace(/ /gi, "-")}`}>
+              <a>
+                /categoria/
+                {category.replace(/ /gi, "-").toLowerCase()}
+              </a>
+            </Link>
+            {main_category && (
+              <Link
+                href={`/categoria/${category.replace(
+                  / /gi,
+                  "-"
+                )}/${main_category.replace(/ /gi, "-")}`}
               >
-                <Whatsapp width="2rem" />
-                Pregunta por este artículo
-              </LinkWhatsApp>
+                <a>{`/${main_category.replace(/ /gi, "-").toLowerCase()}`}</a>
+              </Link>
             )}
-          </InfoContainer>
-        </Product>
-        {relatedByName.length > 0 && (
-          <RelatedSection>
-            <h3>Relacionados</h3>
-            <RelatedSecction data={relatedByName} />
-          </RelatedSection>
-        )}
-        {relatedByCategory.length > 0 && (
-          <RelatedSection>
-            <h3>Puede que te interese</h3>
-            <RelatedSecction data={relatedByCategory} />
-          </RelatedSection>
-        )}
-      </MainStyled>
+          </SubDirectory>
+          <Product>
+            <ImageContainer>
+              <Image
+                loader={loader}
+                src={`data:image/jpg;base64,${image_url}`}
+                alt={`Imagen de ${name}`}
+                layout="fill"
+                objectFit="contain"
+                blurDataURL
+              />
+            </ImageContainer>
+            <InfoContainer>
+              <PriceContainer>
+                <Price>${formatter.format(price)} </Price>
+                <ButtonLike
+                  onClick={yesItIsMineLike ? handleDeleteFavorite : handleLike}
+                  aria-label="Botón para agregar a favoritos"
+                >
+                  {yesItIsMineLike ? <HeartFull /> : <HeartEmpty />}
+                </ButtonLike>
+              </PriceContainer>
+
+              {stock > 0 && (
+                <Stock>
+                  <span>{stock}</span> disponibles
+                </Stock>
+              )}
+              <Description>{description.toLowerCase()}</Description>
+              <Sku>SKU: {articulo_id}</Sku>
+              {stock > 0 && (
+                <>
+                  {!yesItIsMineCart && (
+                    <ContainerSelector>
+                      <SelectorButtons
+                        type="button"
+                        onClick={() => {
+                          if (initialQuantity > 1) {
+                            setInitialQuantity(initialQuantity - 1);
+                          }
+                        }}
+                      >
+                        -
+                      </SelectorButtons>
+                      <SelectorDisplay>{initialQuantity}</SelectorDisplay>
+                      <SelectorButtons
+                        type="button"
+                        onClick={() => {
+                          if (initialQuantity < stock) {
+                            setInitialQuantity(initialQuantity + 1);
+                          }
+                        }}
+                      >
+                        +
+                      </SelectorButtons>
+                    </ContainerSelector>
+                  )}
+                  {!yesItIsMineCart ? (
+                    <AddToCartButton
+                      type="button"
+                      onClick={() => {
+                        if (!yesItIsMineCart) {
+                          handleSetCart();
+                        }
+                      }}
+                    >
+                      Añadir al carrito
+                      <Slide />
+                    </AddToCartButton>
+                  ) : (
+                    <>
+                      <Link href="/carrito-de-compras">
+                        <ViewShoppingCart>Ver carrito</ViewShoppingCart>
+                      </Link>
+                      <MessageContainer>
+                        <MessageIconContainer>
+                          <ShoppingBag width="1.2rem" />
+                        </MessageIconContainer>
+                        <Message>
+                          Envío gratis en Xalapa si agregas desde $200*
+                        </Message>
+                      </MessageContainer>
+                    </>
+                  )}
+                </>
+              )}
+              {currentUrl !== "" && (
+                <LinkWhatsApp
+                  href={`https://api.whatsapp.com/send?phone=522288366283&text=Hola,%20quisiera%20obtener%20m%C3%A1s%20informaci%C3%B3n%20sobre%20este%20art%C3%ADculo:%20${currentUrl}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Enlace a WhatsApp"
+                  bg="#25d366"
+                >
+                  <Whatsapp width="2rem" />
+                  Pregunta por este artículo
+                </LinkWhatsApp>
+              )}
+            </InfoContainer>
+          </Product>
+          {relatedByName.length > 0 && (
+            <RelatedSection>
+              <h3>Relacionados</h3>
+              <RelatedSecction data={relatedByName} />
+            </RelatedSection>
+          )}
+          {relatedByCategory.length > 0 && (
+            <RelatedSection>
+              <h3>Puede que te interese</h3>
+              <RelatedSecction data={relatedByCategory} />
+            </RelatedSection>
+          )}
+        </MainStyled>
+      </>
     );
   } else {
-    return (
-      <MainStyled>
-        <Title>Consultando</Title>
-        <Seeing>
-          <Loading />
-        </Seeing>
-      </MainStyled>
-    );
+    return null;
   }
 };
 
