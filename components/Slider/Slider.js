@@ -33,11 +33,11 @@ const Slider = ({ sliderItems }) => {
         {sliderItems &&
           sliderItems.map(({ articulo_id, image, link, text }) => (
             <SwiperSlide key={articulo_id}>
-              <SliderItem href={link} area-aria-label={text}>
+              <SliderItem href={link} area-aria-label={articulo_id}>
                 <Image
                   loader={loader}
-                  src={`data:image/jpg;base64,${image}`}
-                  alt={text}
+                  src={image}
+                  alt={articulo_id}
                   layout="fill"
                   objectFit="cover"
                   blurDataURL
