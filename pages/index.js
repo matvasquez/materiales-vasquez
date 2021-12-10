@@ -21,19 +21,19 @@ import { MainStyled, Section, TitleSection } from "../styles/Inicio/style";
 // g2.DESC_GIR2 = 'VENTILACION Y CALEFACCIÓN'
 
 const HomePage = ({
-  SlidersItems,
-  BestSellers,
-  LightingItems,
-  FerrItems,
-  DoorsItems,
-  VentilationItems,
+  slidersItems,
+  bestSellers,
+  lightingItems,
+  ferrItems,
+  doorsItems,
+  ventilationItems,
 }) => {
-  // const [SlidersItems, setSlidersItems] = useState([]);
-  // const [BestSellers, setBestSellers] = useState([]);
-  // const [LightingItems, setLightingItems] = useState([]);
-  // const [DoorsItems, setDoorsItems] = useState([]);
-  // const [FerrItems, setFerrItems] = useState([]);
-  // const [VentilationItems, setVentilationItems] = useState([]);
+  // const [slidersItems, setSlidersItems] = useState([]);
+  // const [bestSellers, setBestSellers] = useState([]);
+  // const [lightingItems, setLightingItems] = useState([]);
+  // const [doorsItems, setDoorsItems] = useState([]);
+  // const [ferrItems, setFerrItems] = useState([]);
+  // const [ventilationItems, setVentilationItems] = useState([]);
 
   // useEffect(async () => {
   //   // Solicita los sliders
@@ -113,37 +113,37 @@ const HomePage = ({
         }}
       />
       <MainStyled>
-        {SlidersItems.length > 0 && <Slider sliderItems={SlidersItems} />}
+        {slidersItems.length > 0 && <Slider sliderItems={slidersItems} />}
 
         <HomeFavorites />
-        {BestSellers.length > 0 && (
+        {bestSellers.length > 0 && (
           <Section>
             <TitleSection>PRODUCTOS MÁS VENDIDOS</TitleSection>
-            <HomeSection data={BestSellers} />
+            <HomeSection data={bestSellers} />
           </Section>
         )}
-        {LightingItems.length > 0 && (
+        {lightingItems.length > 0 && (
           <Section>
             <TitleSection>ILUMINACIÓN</TitleSection>
-            <HomeSection data={LightingItems} />
+            <HomeSection data={lightingItems} />
           </Section>
         )}
-        {FerrItems.length > 0 && (
+        {ferrItems.length > 0 && (
           <Section>
             <TitleSection>FERRETERIA</TitleSection>
-            <HomeSection data={FerrItems} />
+            <HomeSection data={ferrItems} />
           </Section>
         )}
-        {DoorsItems.length > 0 && (
+        {doorsItems.length > 0 && (
           <Section>
             <TitleSection>PUERTAS Y VENTANAS</TitleSection>
-            <HomeSection data={DoorsItems} />
+            <HomeSection data={doorsItems} />
           </Section>
         )}
-        {VentilationItems.length > 0 && (
+        {ventilationItems.length > 0 && (
           <Section>
             <TitleSection>VENTILACIÓN Y CALEFACCIÓN</TitleSection>
-            <HomeSection data={VentilationItems} />
+            <HomeSection data={ventilationItems} />
           </Section>
         )}
       </MainStyled>
@@ -157,41 +157,43 @@ export const getStaticProps = async () => {
   const getSlidersItems = await Fetch(
     `${process.env.NEXT_PUBLIC_URL}/api/slider`
   );
-  const { data: SlidersItems } = await getSlidersItems.json();
+  const { data: slidersItems } = await getSlidersItems.json();
+
+  console.log("slidersItems: ", slidersItems);
 
   const getBestSellers = await Fetch(
     `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/LO-MAacentoS-VENDIDOS?first=1&last=12`
   );
-  const { data: BestSellers } = await getBestSellers.json();
+  const { data: bestSellers } = await getBestSellers.json();
 
   const getLighting = await Fetch(
     `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/ILUMINACION?first=1&last=12`
   );
-  const { data: LightingItems } = await getLighting.json();
+  const { data: lightingItems } = await getLighting.json();
 
   const getHardware = await Fetch(
     `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/FERRETERIA?first=1&last=12`
   );
-  const { data: FerrItems } = await getHardware.json();
+  const { data: ferrItems } = await getHardware.json();
 
   const getDoorsAndWindows = await Fetch(
     `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/PUERTAS-Y-VENTANAS?first=1&last=12`
   );
-  const { data: DoorsItems } = await getDoorsAndWindows.json();
+  const { data: doorsItems } = await getDoorsAndWindows.json();
 
   const getVentilationAndHeating = await Fetch(
     `${process.env.NEXT_PUBLIC_URL}/api/related-by-subcategory/VENTILACION-Y-CALEFACCIOacentoN?first=1&last=12`
   );
-  const { data: VentilationItems } = await getVentilationAndHeating.json();
+  const { data: ventilationItems } = await getVentilationAndHeating.json();
 
   return {
     props: {
-      SlidersItems,
-      BestSellers,
-      LightingItems,
-      FerrItems,
-      DoorsItems,
-      VentilationItems,
+      slidersItems,
+      bestSellers,
+      lightingItems,
+      ferrItems,
+      doorsItems,
+      ventilationItems,
     },
     revalidate: 10,
   };

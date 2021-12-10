@@ -210,12 +210,12 @@ const ProductDetails = ({
       <>
         <NextSeo
           title={`${name} | Materiales Vasquez Hermanos`}
-          description={description}
+          description={description.slice(0, 156)}
           canonical={`https://www.materialesvasquezhnos.com.mx/detalles/${articulo_id}`}
           openGraph={{
             url: `https://www.materialesvasquezhnos.com.mx/detalles/${articulo_id}`,
             title: ` ${name} | Materiales Vasquez Hermanos`,
-            description: description,
+            description: description.slice(0, 156),
             images: [
               {
                 url: "https://res.cloudinary.com/duibtuerj/image/upload/v1630083340/brand/meta-image_rcclee.jpg",
@@ -235,7 +235,7 @@ const ProductDetails = ({
 
         <ProductJsonLd
           productName={name}
-          description={description}
+          description={description.slice(0, 156)}
           brand={brand}
           offers={[{ price: price, priceCurrency: "MXN" }]}
         />

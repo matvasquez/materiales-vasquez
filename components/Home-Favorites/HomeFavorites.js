@@ -34,13 +34,15 @@ const HomeFavorites = ({ itemsIliked }) => {
   if (itemsIliked.length > 0) {
     return (
       <ContainerFavorites>
-        <Title>PRODUCTOS QUE TE GUSTAN</Title>
         {myFavorites.length > 0 && (
-          <ItemsContainer>
-            {myFavorites.slice(0, 3).map((article, i) => (
-              <FavoritesItem key={article.articulo_id} {...article} />
-            ))}
-          </ItemsContainer>
+          <>
+            <Title>PRODUCTOS QUE TE GUSTAN</Title>
+            <ItemsContainer>
+              {myFavorites.slice(0, 3).map((article, i) => (
+                <FavoritesItem key={article.articulo_id} {...article} />
+              ))}
+            </ItemsContainer>
+          </>
         )}
         {myFavorites.length > 2 && (
           <Link href="/perfil">

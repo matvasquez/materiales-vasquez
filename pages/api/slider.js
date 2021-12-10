@@ -19,9 +19,7 @@ export default async function getSlidersData(req, res) {
 
   setTimeout(async () => {
     const result =
-      await rest.executeQuery(`SELECT RTRIM(a.CLAVEART) AS articulo_id, RTRIM(a.DESCRIBEAR) AS text, RTRIM(a.URL) AS link, cast('' as xml).value(
-        'xs:base64Binary(sql:column("i.IMAGEN"))', 'varchar(max)'
-    ) AS image
+      await rest.executeQuery(`SELECT RTRIM(a.CLAVEART) AS articulo_id, RTRIM(a.DESCRIBEAR) AS image
     FROM ARTICULO AS a
     LEFT OUTER JOIN ARTICULO_IMG AS i
         ON a.CLAVEART = i.CLAVEART
@@ -36,3 +34,12 @@ export default async function getSlidersData(req, res) {
       });
   }, 800);
 }
+
+// SELECT RTRIM(a.CLAVEART) AS articulo_id, RTRIM(a.DESCRIBEAR) AS text, RTRIM(a.URL) AS link, cast('' as xml).value(
+//   'xs:base64Binary(sql:column("i.IMAGEN"))', 'varchar(max)'
+// ) AS image
+// FROM ARTICULO AS a
+// LEFT OUTER JOIN ARTICULO_IMG AS i
+//   ON a.CLAVEART = i.CLAVEART
+// WHERE a.CLAVEART IN ('SLIDER1', 'SLIDER2', 'SLIDER3', 'SLIDER4') AND i.IMAGEN IS NOT NULL
+// ORDER BY a.FECHA_ALTA DESC
