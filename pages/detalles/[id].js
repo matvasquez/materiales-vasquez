@@ -409,7 +409,7 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async ({ params }) => {
   const getProduct = await Fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/detalles//${params.id
+    `${process.env.NEXT_PUBLIC_URL}/api/detalles/${params.id
       .replace(/ /g, "space")
       .replace(/\//gi, "slash")}`
   );

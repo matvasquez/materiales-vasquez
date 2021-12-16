@@ -113,34 +113,34 @@ const HomePage = ({
         }}
       />
       <MainStyled>
-        {slidersItems.length > 0 && <Slider sliderItems={slidersItems} />}
+        {slidersItems && <Slider sliderItems={slidersItems} />}
 
         <HomeFavorites />
-        {bestSellers.length > 0 && (
+        {bestSellers && (
           <Section>
             <TitleSection>PRODUCTOS MÁS VENDIDOS</TitleSection>
             <HomeSection data={bestSellers} />
           </Section>
         )}
-        {lightingItems.length > 0 && (
+        {lightingItems && (
           <Section>
             <TitleSection>ILUMINACIÓN</TitleSection>
             <HomeSection data={lightingItems} />
           </Section>
         )}
-        {ferrItems.length > 0 && (
+        {ferrItems && (
           <Section>
             <TitleSection>FERRETERIA</TitleSection>
             <HomeSection data={ferrItems} />
           </Section>
         )}
-        {doorsItems.length > 0 && (
+        {doorsItems && (
           <Section>
             <TitleSection>PUERTAS Y VENTANAS</TitleSection>
             <HomeSection data={doorsItems} />
           </Section>
         )}
-        {ventilationItems.length > 0 && (
+        {ventilationItems && (
           <Section>
             <TitleSection>VENTILACIÓN Y CALEFACCIÓN</TitleSection>
             <HomeSection data={ventilationItems} />
@@ -158,8 +158,6 @@ export const getStaticProps = async () => {
     `${process.env.NEXT_PUBLIC_URL}/api/slider`
   );
   const { data: slidersItems } = await getSlidersItems.json();
-
-  console.log("slidersItems: ", slidersItems);
 
   const getBestSellers = await Fetch(
     `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/LO-MAacentoS-VENDIDOS?first=1&last=12`

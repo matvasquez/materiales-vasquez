@@ -19,6 +19,9 @@ const loader = ({ src, width, quality }) => {
 SwiperCore.use([Autoplay]);
 
 const Slider = ({ sliderItems }) => {
+  console.log("====================================");
+  console.log("Slider: ", sliderItems);
+  console.log("====================================");
   return (
     <SliderStyled>
       <Swiper
@@ -30,21 +33,20 @@ const Slider = ({ sliderItems }) => {
         }}
         loop={true}
       >
-        {sliderItems &&
-          sliderItems.map(({ articulo_id, image, link, text }) => (
-            <SwiperSlide key={articulo_id}>
-              <SliderItem href={link} area-aria-label={articulo_id}>
-                <Image
-                  loader={loader}
-                  src={image}
-                  alt={articulo_id}
-                  layout="fill"
-                  objectFit="cover"
-                  blurDataURL
-                />
-              </SliderItem>
-            </SwiperSlide>
-          ))}
+        {sliderItems.map(({ articulo_id, image, link }) => (
+          <SwiperSlide key={articulo_id}>
+            <SliderItem href={link} area-aria-label={articulo_id}>
+              <Image
+                loader={loader}
+                src={image}
+                alt={articulo_id}
+                layout="fill"
+                objectFit="cover"
+                blurDataURL
+              />
+            </SliderItem>
+          </SwiperSlide>
+        ))}
       </Swiper>
     </SliderStyled>
   );
