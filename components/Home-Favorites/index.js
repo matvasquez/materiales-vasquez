@@ -1,20 +1,16 @@
 import { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import Link from "next/link";
-import { useGetProductos } from "../../hooks/useGetProductos";
-
-// Data
-// import { articulos } from "../../database/articulos";
+import { useGetProductos } from "@/hooks/useGetProductos";
 
 // Components
-// import CategorySection from "../Category-Section/CategorySection";
-import FavoritesItem from "../Favorites-Item/FavoritesItem";
+import FavoritesItem from "@/components/Favorites-Item";
 
-// Styled-Components
-import { ContainerFavorites, Title, LinkProfile } from "./style";
-import { ItemsContainer } from "../Home-Sections/style";
+// CSS
+import styles from "@/styles/components/HomeFavorites.module.css";
 
 const HomeFavorites = ({ itemsIliked }) => {
+  const { containerFavorites, title, itemsContainer, linkProfile } = styles;
   const [myFavorites, setmyFavorites] = useState([]);
   const [articles] = useGetProductos();
 
@@ -33,23 +29,23 @@ const HomeFavorites = ({ itemsIliked }) => {
 
   if (itemsIliked.length > 0) {
     return (
-      <ContainerFavorites>
+      <section className={containerFavorites}>
         {myFavorites.length > 0 && (
           <>
-            <Title>PRODUCTOS QUE TE GUSTAN</Title>
-            <ItemsContainer>
+            <h3 className={title}>PRODUCTOS QUE TE GUSTAN</h3>
+            <div className={itemsContainer}>
               {myFavorites.slice(0, 3).map((article, i) => (
                 <FavoritesItem key={article.articulo_id} {...article} />
               ))}
-            </ItemsContainer>
+            </div>
           </>
         )}
         {myFavorites.length > 2 && (
           <Link href="/perfil">
-            <LinkProfile>Ver todos</LinkProfile>
+            <a className={linkProfile}>Ver todos</a>
           </Link>
         )}
-      </ContainerFavorites>
+      </section>
     );
   } else {
     return null;

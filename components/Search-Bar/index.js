@@ -12,18 +12,19 @@ import { MagnifierIcon } from "../IconsSVG/MagnifierIcon";
 // import { Seeking } from "../Loaders/Seeking";
 import SearchItem from "../Search-Item/SearchItem";
 
-// Styled-Components
-import {
-  InputContainer,
-  InputSearch,
-  IconContainer,
-  ResultsContainer,
-  TitleMatch,
-  NavegateTo,
-  TitleEmty,
-} from "./style";
+// CSS
+import styles from "@/styles/components/SearchBar.module.css";
 
-const SearchBar = ({ user }) => {
+const SearchBar = () => {
+  const {
+    inputContainer,
+    inputSearch,
+    iconContainer,
+    resultsContainer,
+    titleEmty,
+    titleMatch,
+    navegateTo,
+  } = styles;
   const router = useRouter();
   const id = router.query.id;
   const [searchText, setSearchText] = useState("");
@@ -105,25 +106,28 @@ const SearchBar = ({ user }) => {
 
   return (
     <>
-      <InputContainer columns={user}>
-        <InputSearch
+      <div className={inputContainer}>
+        <input
           type="text"
           placeholder="Buscar producto..."
+          className={inputSearch}
           value={searchText}
           onChange={(e) => setSearchText(e.target.value.toString())}
         />
-        <IconContainer>
+        <div className={iconContainer}>
           <MagnifierIcon width="1.2rem" />
-        </IconContainer>
-      </InputContainer>
+        </div>
+      </div>
       {showResults && (
-        <ResultsContainer>
+        <div className={resultsContainer}>
           {noResults && (
-            <TitleEmty>No hay nada que coincida con tu búsqueda</TitleEmty>
+            <p className={titleEmty}>
+              No hay nada que coincida con tu búsqueda
+            </p>
           )}
           {resultsByName.length > 0 && (
             <>
-              <TitleMatch>Coincidencias por nombre</TitleMatch>
+              <h5 className={titleMatch}>Coincidencias por nombre</h5>
               {resultsByName.map((item) => (
                 <SearchItem key={item.articulo_id} {...item} />
               ))}
@@ -131,7 +135,7 @@ const SearchBar = ({ user }) => {
           )}
           {resultsByCategorye.length > 0 && (
             <>
-              <TitleMatch>Coincidencias por categoría</TitleMatch>
+              <h5 className={titleMatch}>Coincidencias por categoría</h5>
               {resultsByCategorye.map((item) => (
                 <SearchItem key={item.articulo_id} {...item} />
               ))}
@@ -139,7 +143,7 @@ const SearchBar = ({ user }) => {
           )}
           {resultsByID.length > 0 && (
             <>
-              <TitleMatch>Coincidencias por ID</TitleMatch>
+              <h5 className={titleMatch}>Coincidencias por ID</h5>
               {resultsByID.map((item) => (
                 <SearchItem key={item.articulo_id} {...item} />
               ))}
@@ -147,10 +151,10 @@ const SearchBar = ({ user }) => {
           )}
           {resultsByName.length > 5 && (
             <Link href={`/busqueda/${searchText.trim().replace(/s$/g, "")}`}>
-              <NavegateTo>Ver más sobre {searchText.trim()}</NavegateTo>
+              <a className={navegateTo}>Ver más sobre {searchText.trim()}</a>
             </Link>
           )}
-        </ResultsContainer>
+        </div>
       )}
     </>
   );

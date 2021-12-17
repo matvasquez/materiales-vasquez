@@ -1,75 +1,39 @@
-import React, { useState, useEffect } from "react";
-import Fetch from "isomorphic-unfetch";
+import { useState, useEffect } from "react";
 import { NextSeo, LocalBusinessJsonLd } from "next-seo";
+import Fetch from "isomorphic-unfetch";
 
-// Data
-// import { articulos } from "../database/articulos";
+//Components
+import Slider from "@/components/Slider";
+import HomeSection from "@/components/Home-Sections";
+import HomeFavorites from "@/components/Home-Favorites";
 
-// Components
-import Slider from "../components/Slider/Slider";
-import HomeSection from "../components/Home-Sections/index";
-
-import HomeFavorites from "../components/Home-Favorites/HomeFavorites";
-
-// Styles
-import { MainStyled, Section, TitleSection } from "../styles/Inicio/style";
-
-// g.DESGIR = 'LO MÁS VENDIDOS'
-// g2.DESC_GIR2 = 'ILUMINACION'
-// g.DESGIR = 'FERRETERIA'
-// g2.DESC_GIR2 = 'PUERTAS Y VENTANAS'
-// g2.DESC_GIR2 = 'VENTILACION Y CALEFACCIÓN'
+// CSS
+import {
+  homeMain,
+  productSection,
+  titleSection,
+} from "@/styles/pages/HomePage.module.css";
 
 const HomePage = ({
-  slidersItems,
   bestSellers,
   lightingItems,
   ferrItems,
   doorsItems,
   ventilationItems,
 }) => {
-  // const [slidersItems, setSlidersItems] = useState([]);
-  // const [bestSellers, setBestSellers] = useState([]);
-  // const [lightingItems, setLightingItems] = useState([]);
-  // const [doorsItems, setDoorsItems] = useState([]);
-  // const [ferrItems, setFerrItems] = useState([]);
-  // const [ventilationItems, setVentilationItems] = useState([]);
+  const [slidersItems, setSlidersItems] = useState([]);
 
-  // useEffect(async () => {
-  //   // Solicita los sliders
-  //   const response = await fetch(`/api/slider`);
-  //   const { data } = await response.json();
+  // Solicita los sliders
+  const getData = async () => {
+    const response = await fetch(`/api/slider`);
+    const { data } = await response.json();
 
-  //   setSlidersItems(data);
-  // }, []);
+    setSlidersItems(data);
+  };
 
-  // useEffect(() => {
-  //   if (articulos.length > 0) {
-  //     // const items = articulos.filter((item) => item.best_seller);
-  //     const items = articulos.filter(
-  //       (item) => item.category === "LO MÁS VENDIDOS"
-  //     );
-
-  //     const lightingArticles = articulos.filter(
-  //       (item) => item.main_category === "ILUMINACION"
-  //     );
-  //     const ferr = articulos.filter((item) => item.category === "FERRETERIA");
-
-  //     const doorsItems = articulos.filter(
-  //       (item) => item.main_category === "PUERTAS Y VENTANAS"
-  //     );
-
-  //     const ventilationItems = articulos.filter(
-  //       (item) => item.main_category === "VENTILACION Y CALEFACCIÓN"
-  //     );
-
-  //     setBestSellers(items);
-  //     setLightingItems(lightingArticles);
-  //     setDoorsItems(doorsItems);
-  //     setFerrItems(ferr);
-  //     setVentilationItems(ventilationItems);
-  //   }
-  // }, [articulos]);
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <>
@@ -112,41 +76,46 @@ const HomePage = ({
           addressCountry: "MX",
         }}
       />
-      <MainStyled>
-        {slidersItems && <Slider sliderItems={slidersItems} />}
+      <main className={homeMain}>
+        {slidersItems.length > 0 && <Slider sliderItems={slidersItems} />}
 
         <HomeFavorites />
+
         {bestSellers && (
-          <Section>
-            <TitleSection>PRODUCTOS MÁS VENDIDOS</TitleSection>
+          <section className={productSection}>
+            <h2 className={titleSection}>PRODUCTOS MÁS VENDIDOS</h2>
             <HomeSection data={bestSellers} />
-          </Section>
+          </section>
         )}
+
         {lightingItems && (
-          <Section>
-            <TitleSection>ILUMINACIÓN</TitleSection>
+          <section className={productSection}>
+            <h2 className={titleSection}>ILUMINACIÓN</h2>
             <HomeSection data={lightingItems} />
-          </Section>
+          </section>
         )}
+
         {ferrItems && (
-          <Section>
-            <TitleSection>FERRETERIA</TitleSection>
+          <section className={productSection}>
+            <h2 className={titleSection}>FERRETERIA</h2>
             <HomeSection data={ferrItems} />
-          </Section>
+          </section>
         )}
+
         {doorsItems && (
-          <Section>
-            <TitleSection>PUERTAS Y VENTANAS</TitleSection>
+          <section className={productSection}>
+            <h2 className={titleSection}>PUERTAS Y VENTANAS</h2>
             <HomeSection data={doorsItems} />
-          </Section>
+          </section>
         )}
+
         {ventilationItems && (
-          <Section>
-            <TitleSection>VENTILACIÓN Y CALEFACCIÓN</TitleSection>
+          <section className={productSection}>
+            <h2 className={titleSection}>VENTILACIÓN Y CALEFACCIÓN</h2>
             <HomeSection data={ventilationItems} />
-          </Section>
+          </section>
         )}
-      </MainStyled>
+      </main>
     </>
   );
 };
@@ -154,10 +123,10 @@ const HomePage = ({
 export default HomePage;
 
 export const getStaticProps = async () => {
-  const getSlidersItems = await Fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/slider`
-  );
-  const { data: slidersItems } = await getSlidersItems.json();
+  // const getSlidersItems = await Fetch(
+  //   `${process.env.NEXT_PUBLIC_URL}/api/slider`
+  // );
+  // const { data: slidersItems } = await getSlidersItems.json();
 
   const getBestSellers = await Fetch(
     `${process.env.NEXT_PUBLIC_URL}/api/related-by-category/LO-MAacentoS-VENDIDOS?first=1&last=12`
@@ -186,7 +155,7 @@ export const getStaticProps = async () => {
 
   return {
     props: {
-      slidersItems,
+      // slidersItems,
       bestSellers,
       lightingItems,
       ferrItems,

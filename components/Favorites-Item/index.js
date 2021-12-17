@@ -1,37 +1,20 @@
 import Image from "next/image";
 import Link from "next/link";
 import { connect } from "react-redux";
-import { useGetImage } from "../../hooks/useGetImage";
-// import { useGetPrice } from "../../hooks/useGetPrice";
-import { useMyItems } from "../../hooks/useMyItems";
+import { useGetImage } from "@/hooks/useGetImage";
+import { useMyItems } from "@/hooks/useMyItems";
 
 //Actions
-import {
-  setMyCart,
-  setPricesToCart,
-  setIitemsIliked,
-  setDeleteFavorite,
-} from "../../actions";
+import { setIitemsIliked, setDeleteFavorite } from "@/actions/index";
 
 // Components
-import { Loading } from "../Loaders/Loading";
-import { Consulting } from "../Loaders/Consulting";
-import { HeartEmpty } from "../IconsSVG/HeartEmpty";
-import { HeartFull } from "../IconsSVG/HeartFull";
+import { Loading } from "@/components/Loaders/Loading";
+import { Consulting } from "@/components/Loaders/Consulting";
+import { HeartEmpty } from "@/components/IconsSVG/HeartEmpty";
+import { HeartFull } from "@/components/IconsSVG/HeartFull";
 
-// Styled-Components
-import {
-  Item,
-  ItemLink,
-  ImageContainer,
-  ItemInfo,
-  ItemText,
-  CategoryAndIconContainer,
-  ItemPrice,
-  IconContainer,
-  Categoryes,
-  Categorie,
-} from "./style";
+// CSS
+import styles from "@/styles/components/FavoritesItem.module.css";
 
 // Loader para componente Image
 const loader = ({ src, width, quality }) => {
@@ -46,6 +29,18 @@ const formatter = new Intl.NumberFormat("en-US", {
 
 const FavoritesItem = (props) => {
   const {
+    item,
+    itemLink,
+    imageContainer,
+    itemInfo,
+    itemTitle,
+    itemPrice,
+    lastSection,
+    categorie,
+    iconContainer,
+  } = styles;
+
+  const {
     articulo_id,
     name,
     price,
@@ -53,20 +48,14 @@ const FavoritesItem = (props) => {
     main_category,
 
     itemsIliked,
-    myCart,
     setIitemsIliked,
     setDeleteFavorite,
   } = props;
 
   // Hook que verifica si el producto esta entre los favoritos
   const [yesItIsMineLike] = useMyItems(articulo_id, itemsIliked);
-  // Hook que verifica si el producto esta en el carrito
-  // const [yesItIsMineCart] = useMyItems(articulo_id, myCart);
   // Consulta la imagen
   const [image_url] = useGetImage(articulo_id);
-  // Consulta el precio
-  // const [price] = useGetPrice(articulo_id);
-
   // Envia a favoritos
   const handleLike = () => {
     setIitemsIliked({ articulo_id });
@@ -78,10 +67,10 @@ const FavoritesItem = (props) => {
   };
 
   return (
-    <Item>
+    <div className={item}>
       <Link href={`/detalles/${articulo_id}`} passHref>
-        <ItemLink aria-label={`Ver detalles de ${name}`}>
-          <ImageContainer>
+        <a aria-label={`Ver detalles de ${name}`} className={itemLink}>
+          <div className={imageContainer}>
             {image_url ? (
               <Image
                 loader={loader}
@@ -94,43 +83,41 @@ const FavoritesItem = (props) => {
             ) : (
               <Loading />
             )}
-          </ImageContainer>
-          <ItemInfo>
-            <ItemText>{name.toLocaleLowerCase()}</ItemText>
+          </div>
+          <div className={itemInfo}>
+            <p className={itemTitle}>{name.toLocaleLowerCase()}</p>
             {price !== "" ? (
-              <ItemPrice>${formatter.format(price)}</ItemPrice>
+              <p className={itemPrice}>${formatter.format(price)}</p>
             ) : (
               <Consulting />
             )}
-          </ItemInfo>
-        </ItemLink>
+          </div>
+        </a>
       </Link>
-      <CategoryAndIconContainer>
+      <div className={lastSection}>
         {main_category && (
-          <Categorie>{main_category.toLocaleLowerCase()}</Categorie>
+          <p className={categorie}>{main_category.toLocaleLowerCase()}</p>
         )}
-        <IconContainer
+        <button
+          type="button"
           onClick={yesItIsMineLike ? handleDeleteFavorite : handleLike}
           aria-label="Botón para agregar a favoritos"
+          className={iconContainer}
         >
           {yesItIsMineLike ? <HeartFull /> : <HeartEmpty />}
-        </IconContainer>
-      </CategoryAndIconContainer>
-    </Item>
+        </button>
+      </div>
+    </div>
   );
 };
 
 const mapStateToProps = (state) => {
   return {
-    myCart: state.myCart,
-    articles: state.articles,
     itemsIliked: state.itemsIliked,
   };
 };
 
 const mapDispatchToProps = {
-  setMyCart,
-  setPricesToCart,
   setIitemsIliked,
   setDeleteFavorite,
 };

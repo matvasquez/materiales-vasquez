@@ -1,7 +1,7 @@
 import React from "react";
 
 //Components
-import FavoritesItem from "../Favorites-Item/FavoritesItem";
+import FavoritesItem from "@/components/Favorites-Item";
 
 // Styled-Components
 import { ListFavorites, Title, FavoritesContainer } from "./style";

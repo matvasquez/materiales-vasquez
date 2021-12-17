@@ -1,6 +1,4 @@
-import styled from "styled-components";
-
-export const ContainerFavorites = styled.section`
+.containerFavorites {
   width: 100%;
   margin-top: 5rem;
   display: flex;
@@ -8,24 +6,37 @@ export const ContainerFavorites = styled.section`
   justify-content: flex-start;
   align-items: center;
   position: relative;
-`;
+}
 
-export const Title = styled.h3`
+.title {
   font-size: 1.6rem;
   font-weight: 700;
   color: var(--light-blue);
-  @media (min-width: 1000px) {
-    font-size: 2rem;
-  }
-`;
+}
 
-export const LinkProfile = styled.a`
+.itemsContainer {
+  width: 100%;
+  padding: 1rem;
+  margin: 1rem auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.linkProfile {
   padding: 0.5rem;
   margin-left: auto;
   font-size: 1.4rem;
   font-weight: 700;
   color: var(--light-blue);
-  @media (min-width: 750px) {
+}
+
+@media (min-width: 750px) {
+  .itemsContainer {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .linkProfile {
     padding: 0.5rem 3rem;
     height: 2rem;
     line-height: 1rem;
@@ -36,4 +47,14 @@ export const LinkProfile = styled.a`
     bottom: 1rem;
     right: 1rem;
   }
-`;
+}
+
+@media (min-width: 1000px) {
+  .title {
+    font-size: 2rem;
+  }
+
+  .itemsContainer {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}

@@ -1,16 +1,12 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { useGetProductos } from "../../hooks/useGetProductos";
+import { useGetProductos } from "@/hooks/useGetProductos";
 import { NextSeo, LocalBusinessJsonLd } from "next-seo";
 
-// Data
-// import { articulos } from "../../database/articulos";
-
 // Components
-// import CategorySection from "../../components/Category-Section/CategorySection";
-import FavoritesItem from "../../components/Favorites-Item/FavoritesItem";
-import { AddNewProducts } from "../../components/IconsSVG/AddNewProducts";
-import { SuspensoryPoints } from "../../components/Loaders/SuspensoryPoints";
+import FavoritesItem from "@/components/Favorites-Item";
+import { AddNewProducts } from "@/components/IconsSVG/AddNewProducts";
+import { SuspensoryPoints } from "@/components/Loaders/SuspensoryPoints";
 
 // Styles
 import {

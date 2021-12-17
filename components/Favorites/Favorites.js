@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import Link from "next/link";
-import { useGetProductos } from "../../hooks/useGetProductos";
+import { useGetProductos } from "@/hooks/useGetProductos";
 // import fetch from "isomorphic-unfetch";
 
 // Data
@@ -9,7 +9,7 @@ import { useGetProductos } from "../../hooks/useGetProductos";
 
 // Components
 import CategorySection from "../Category-Section/CategorySection";
-import FavoritesItem from "../Favorites-Item/FavoritesItem";
+import FavoritesItem from "@/components/Favorites-Item";
 
 // Styled-Components
 import { ContainerFavorites, Title, ListLink } from "./style";

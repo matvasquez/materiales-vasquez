@@ -12,17 +12,11 @@ import * as ga from "../lib/ga";
 
 import { loadState, saveState } from "../utils/saveLocalStorage";
 
-import { ThemeProvider } from "styled-components";
-import { GlobalStyles, theme } from "../styles/GlobalStyles";
 import Layout from "../components/Layout/index";
+import "../styles/globalStyles.css";
 
 import initAuth from "../initAuth";
-import {
-  AuthAction,
-  useAuthUser,
-  withAuthUser,
-  withAuthUserTokenSSR,
-} from "next-firebase-auth";
+import { useAuthUser, withAuthUser } from "next-firebase-auth";
 initAuth();
 
 const MyApp = ({ Component, pageProps }) => {
@@ -88,12 +82,9 @@ const MyApp = ({ Component, pageProps }) => {
             content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=5"
           />
         </Head>
-        <GlobalStyles />
-        <ThemeProvider theme={theme}>
-          <Layout user={AuthUser}>
-            <Component {...pageProps} />
-          </Layout>
-        </ThemeProvider>
+        <Layout user={AuthUser}>
+          <Component {...pageProps} />
+        </Layout>
       </Provider>
     </>
   );

@@ -6,110 +6,117 @@ import { Instagram } from "../IconsSVG/Instagram";
 import { Whatsapp } from "../IconsSVG/Whatsapp";
 import { Facebook } from "../IconsSVG/Facebook";
 
-// Stiled-Components
-import {
-  FooterStyled,
-  LinksSyled,
-  LinkGroups,
-  GroupTitle,
-  Li,
-  Anchor,
-  UlIcons,
-  AnchorIcon,
-  PaymentMethods,
-  PaymentMethodsImageContainer,
-  AllRightsReserved,
-} from "./style";
+// CSS
+import styles from "@/styles/components/Footer.module.css";
 
 const Footer = () => {
+  const {
+    footer,
+    linksSyled,
+    linkGroups,
+    groupTitle,
+    groupLi,
+    groupLink,
+    listIcons,
+    linkIcon,
+    paymentMethods,
+    paymentMethodsImageContainer,
+    allRightsReserved,
+  } = styles;
+
   return (
-    <FooterStyled>
-      <LinksSyled>
-        <LinkGroups>
-          <GroupTitle>Servicio al cliente</GroupTitle>
+    <footer className={footer}>
+      <section className={linksSyled}>
+        <div className={linkGroups}>
+          <h5 className={groupTitle}>Servicio al cliente</h5>
           <ul>
-            <Li>
+            <li className={groupLi}>
               <Link href="/sucursales" passHref>
-                <Anchor>Sucursales y horarios</Anchor>
+                <a className={groupLink}>Sucursales y horarios</a>
               </Link>
-            </Li>
+            </li>
           </ul>
-        </LinkGroups>
+        </div>
 
         {/* Second Group */}
-        <LinkGroups>
-          <GroupTitle>Más información</GroupTitle>
+        <div className={linkGroups}>
+          <h5 className={groupTitle}>Más información</h5>
           <ul>
-            <Li>
+            <li className={groupLi}>
               <Link href="/aviso-de-privacidad" passHref>
-                <Anchor>Aviso de privacidad</Anchor>
+                <a className={groupLink}>Aviso de privacidad</a>
               </Link>
-            </Li>
-            <Li>
+            </li>
+            <li>
               <Link href="/cancelaciones-devoluciones" passHref>
-                <Anchor>Política de cancelaciones y devoluciones</Anchor>
+                <a className={groupLink}>
+                  Política de cancelaciones y devoluciones
+                </a>
               </Link>
-            </Li>
+            </li>
           </ul>
-        </LinkGroups>
+        </div>
 
         {/* Third Group */}
-        <LinkGroups>
-          <GroupTitle>Acerca de nosotros</GroupTitle>
+        <div className={linkGroups}>
+          <h5 className={groupTitle}>Acerca de nosotros</h5>
           <ul>
-            <Li>
+            <li className={groupLi}>
               <Link href="/quienes-somos" passHref>
-                <Anchor>¿Quiénes somos?</Anchor>
+                <a className={groupLink}>¿Quiénes somos?</a>
               </Link>
-            </Li>
-            <Li>
+            </li>
+            <li>
               <Link href="/unete-a-nuestro-equipo" passHref>
-                <Anchor>Únete a nuestro equipo</Anchor>
+                <a className={groupLink}>Únete a nuestro equipo</a>
               </Link>
-            </Li>
+            </li>
           </ul>
-        </LinkGroups>
+        </div>
 
         {/* Fourth Group */}
-        <LinkGroups>
-          <GroupTitle>Redes sociales</GroupTitle>
-          <UlIcons>
+        <div className={linkGroups}>
+          <h5 className={groupTitle}>Redes sociales</h5>
+          <ul className={listIcons}>
             <li>
-              <AnchorIcon
+              <a
+                className={linkIcon}
                 href="https://www.instagram.com/materialesvasquezhermanos/"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Enlace a Instagram"
               >
                 <Instagram width="90%" />
-              </AnchorIcon>
+              </a>
             </li>
             <li>
-              <AnchorIcon
+              <a
+                className={linkIcon}
                 href="https://api.whatsapp.com/send?phone=522288366283"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Enlace a Twitter"
               >
                 <Whatsapp width="90%" />
-              </AnchorIcon>
+              </a>
             </li>
             <li>
-              <AnchorIcon
+              <a
+                className={linkIcon}
                 href="https://www.facebook.com/materialesvasquezhnos"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Enlace a Facebook"
               >
                 <Facebook width="90%" />
-              </AnchorIcon>
+              </a>
             </li>
-          </UlIcons>
-        </LinkGroups>
-      </LinksSyled>
-      <PaymentMethods>
-        <GroupTitle>Métodos de pago</GroupTitle>
-        <PaymentMethodsImageContainer>
+          </ul>
+        </div>
+      </section>
+      <section className={paymentMethods}>
+        <h5 className={groupTitle}>Métodos de pago</h5>
+        <div className={paymentMethodsImageContainer}>
           <img
             // src="https://www.jucri.com.mx/wp-content/uploads/2020/12/fda.png"
             src="https://www2.ipg-online.com/connect/images/brands/VISA.png;jsessionid=E36E0FC31FBB44B5A914.dc?version=c410470&t=green&r=dc&k=MTcyLjI1LjMuNTo5MTQz"
@@ -135,13 +142,13 @@ const Footer = () => {
             height={57}
             alt="Imagen de Métodos de pago"
           />
-        </PaymentMethodsImageContainer>
-      </PaymentMethods>
-      <AllRightsReserved>
+        </div>
+      </section>
+      <p className={allRightsReserved}>
         Materiales Vasquez Hermanos S.A. de C.V. © 2020. Todos los derechos
         reservados.
-      </AllRightsReserved>
-    </FooterStyled>
+      </p>
+    </footer>
   );
 };
 

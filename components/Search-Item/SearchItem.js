@@ -8,16 +8,8 @@ import { useGetPrice } from "../../hooks/useGetPrice";
 import { Loading } from "../Loaders/Loading";
 import { Consulting } from "../Loaders/Consulting";
 
-// Styled Componenst
-import {
-  Item,
-  ImageContainer,
-  IconContainer,
-  ItemInfo,
-  ItemText,
-  ItemPrice,
-  ItemCategory,
-} from "./style";
+// CSS
+import styles from "@/styles/components/SearchItem.module.css";
 
 // Loader para componente Image
 const loader = ({ src, width, quality }) => {
@@ -31,13 +23,22 @@ const formatter = new Intl.NumberFormat("en-US", {
 });
 
 const SearchItem = ({ articulo_id, main_category, name }) => {
+  const {
+    item,
+    imageContainer,
+    iconContainer,
+    itemInfo,
+    itemText,
+    itemPrice,
+    itemCategory,
+  } = styles;
   const [image_url] = useGetImage(articulo_id);
   const [price] = useGetPrice(articulo_id);
 
   return (
     <Link href={`/detalles/${articulo_id}`} passHref>
-      <Item aria-label={`Ver detalles de ${name}`}>
-        <ImageContainer>
+      <a aria-label={`Ver detalles de ${name}`} className={item}>
+        <div className={imageContainer}>
           {image_url ? (
             <Image
               loader={loader}
@@ -48,23 +49,23 @@ const SearchItem = ({ articulo_id, main_category, name }) => {
               blurDataURL
             />
           ) : (
-            <IconContainer>
+            <div className={iconContainer}>
               <Loading />
-            </IconContainer>
+            </div>
           )}
-        </ImageContainer>
-        <ItemInfo>
-          {name && <ItemText>{name.toLocaleLowerCase()}</ItemText>}
+        </div>
+        <div className={itemInfo}>
+          {name && <p className={itemText}>{name.toLocaleLowerCase()}</p>}
           {price !== "" ? (
-            <ItemPrice>${formatter.format(price)}</ItemPrice>
+            <p className={itemPrice}>${formatter.format(price)}</p>
           ) : (
             <Consulting />
           )}
           {main_category && (
-            <ItemCategory>{main_category.toLocaleLowerCase()}</ItemCategory>
+            <p className={itemCategory}>{main_category.toLocaleLowerCase()}</p>
           )}
-        </ItemInfo>
-      </Item>
+        </div>
+      </a>
     </Link>
   );
 };
