@@ -3,7 +3,7 @@ import { NextSeo, LocalBusinessJsonLd } from "next-seo";
 import Fetch from "isomorphic-unfetch";
 
 //Components
-import Slider from "@/components/Slider";
+import Slider from "@/components/Slider/Slider";
 import HomeSection from "@/components/Home-Sections";
 import HomeFavorites from "@/components/Home-Favorites";
 
