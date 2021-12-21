@@ -19,7 +19,9 @@ export default async function getSlidersData(req, res) {
 
   setTimeout(async () => {
     const result =
-      await rest.executeQuery(`SELECT RTRIM(a.CLAVEART) AS articulo_id, RTRIM(a.DESCRIBEAR) AS image
+      await rest.executeQuery(`SELECT RTRIM(a.CLAVEART) AS articulo_id, RTRIM(a.DESCRIBEAR) AS text, RTRIM(a.URL) AS link, cast('' as xml).value(
+        'xs:base64Binary(sql:column("i.IMAGEN"))', 'varchar(max)'
+    ) AS image
     FROM ARTICULO AS a
     LEFT OUTER JOIN ARTICULO_IMG AS i
         ON a.CLAVEART = i.CLAVEART

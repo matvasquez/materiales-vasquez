@@ -39,7 +39,7 @@ const Slider = ({ sliderItems }) => {
               >
                 <Image
                   loader={loader}
-                  src={image}
+                  src={`data:image/jpg;base64,${image}`}
                   alt={articulo_id}
                   layout="fill"
                   objectFit="cover"
