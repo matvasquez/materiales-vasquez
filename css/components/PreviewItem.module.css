@@ -4,12 +4,16 @@
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 9fr 1fr;
-  gap: 0.5rem;
+  grid-gap: 0.5rem;
   place-items: center;
   -webkit-box-align: center;
   background-color: rgb(239, 239, 239);
   box-shadow: rgb(220 220 220) 2px 2px 5px 1px;
   transition: all 0.3s ease-in-out 0s;
+}
+
+.item:hover {
+  box-shadow: 0.5rem 0.5rem 1rem 0.1rem #979797;
 }
 
 .itemLink {

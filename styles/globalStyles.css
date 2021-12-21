@@ -32,6 +32,7 @@ li,
 ol {
   list-style: none;
 }
+
 body {
   width: 100vw;
   font-family: "Roboto", sans-serif;
@@ -42,6 +43,15 @@ body {
 
   transition: ease-in-out 0.3s all;
   scrollbar-width: none;
+}
+
+body > :first-child {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 100vw;
+  grid-template-rows: auto 1fr auto;
+  overflow-x: hidden;
+  position: relative;
 }
 
 @media print {

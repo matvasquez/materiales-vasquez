@@ -1,6 +1,6 @@
-import { rest } from "../../../../lib/connection";
+import { rest } from "@/lib/connection";
 import Cors from "cors";
-import initMiddleware from "../../../../lib/init-middleware";
+import initMiddleware from "@/lib/init-middleware";
 
 const cors = initMiddleware(
   Cors({

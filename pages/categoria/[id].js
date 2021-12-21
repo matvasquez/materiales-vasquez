@@ -3,9 +3,6 @@ import Fetch from "isomorphic-unfetch";
 import { useRouter } from "next/router";
 import { NextSeo, LocalBusinessJsonLd } from "next-seo";
 
-// Data
-// import { articulos } from "../../database/articulos";
-
 // Components
 import CategorySection from "../../components/Category-Section/CategorySection";
 import { AddNewProducts } from "../../components/IconsSVG/AddNewProducts";
